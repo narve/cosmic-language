@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cosmic Language Specification</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="symbols.js" defer></script>
+</head>
+<body>
+
+<header>
+  <small>Draft · design phase · 2026-11-16</small>
+  <h1>Cosmic Language Specification</h1>
+  <p>The exact rules for the message format: carrier, chunks, tokens and syntax. For a walkthrough with examples, see the <a href="tutorial.html">tutorial</a>. For earlier projects, see <a href="previous-work.html">previous work</a>.</p>
+</header>
+
+<nav aria-label="Contents">
+  <ol>
+    <li><a href="#scope">Scope and principles</a></li>
+    <li><a href="#layers">Layer model</a></li>
+    <li><a href="#carrier">L0 Carrier</a></li>
+    <li><a href="#ecc">L1 Error correction</a></li>
+    <li><a href="#chunks">L2 Chunks</a></li>
+    <li><a href="#tokens">L3 Tokens</a></li>
+    <li><a href="#syntax">L4 Syntax</a></li>
+    <li><a href="#values">Values and canonical forms</a></li>
+    <li><a href="#symbols">Symbol registry</a></li>
+    <li><a href="#validation">Validation rules</a></li>
+    <li><a href="#open">Open questions</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<section id="scope">
+  <h2>1. Scope and principles</h2>
+  <p>The message is meant to be decoded by a receiver who shares no conventions with us, only counting and physics. The words <strong>must</strong> and <strong>must not</strong> are used in their normative sense.</p>
+  <ol>
+    <li>Every convention is either easy to spot (a period, primes) or taught by examples before it is used.</li>
+    <li>A new symbol is introduced by its first appearance, followed by many true examples and contrasting examples. After that it can be used freely.</li>
+    <li>Every statement in the message must evaluate to true. The build fails otherwise. In addition, nothing false is written: no relation in the message is applied to arguments for which it does not hold (see §8.2).</li>
+    <li>Concrete concepts come before abstractions.</li>
+    <li>Clarity takes priority over compactness. This applies to message size and also to the vocabulary: a minimal, non-redundant set of symbols is not a goal. For example, <code>−</code> is included even though <code>(− <var>u</var> <var>v</var>)</code> could be written <code>(+ <var>u</var> (neg <var>v</var>))</code>, because subtraction is familiar and easy to show by example.</li>
+    <li>The format starts simple and is extended in stages by the message itself.</li>
+  </ol>
+</section>
+
+<section id="layers">
+  <h2>2. Layer model</h2>
+  <table>
+    <thead><tr><th>Layer</th><th>Name</th><th>Responsibility</th></tr></thead>
+    <tbody>
+      <tr><td>L4</td><td>Syntax and content</td><td>Lessons written as s-expressions</td></tr>
+      <tr><td>L3</td><td>Tokens</td><td>Type + value</td></tr>
+      <tr><td>L2</td><td>Chunks</td><td>Fixed-size chunks of <var>C</var> bits (currently 8), each an unsigned integer</td></tr>
+      <tr><td>L1</td><td>Error correction</td><td>A plug-in that is independent of the other layers</td></tr>
+      <tr><td>L0</td><td>Carrier</td><td>Bits; beacon, calibration, terminator</td></tr>
+    </tbody>
+  </table>
+  <p>Each layer depends only on the layer directly below it. L1 can be replaced without changing L2–L4.</p>
+</section>
+
+<section id="carrier">
+  <h2>3. L0 Carrier</h2>
+  <h3>3.1 Bits</h3>
+  <p>The carrier delivers a sequence of bits. Both <code>0</code> and <code>1</code> <strong>must</strong> be active signals (for example two frequencies, or Manchester coding). On-off keying <strong>must not</strong> be used. Silence is outside the format: the message starts when the signal starts and ends when it stops.</p>
+  <aside>
+    <p><strong>Manchester coding.</strong> Each bit is sent as a <em>transition</em> in the middle of its time slot rather than as a level: <code>0</code> = high→low, <code>1</code> = low→high (the opposite convention also exists). Every bit therefore contains a change in the signal, which gives three properties:</p>
+    <ul>
+      <li>A <code>0</code> is never the same as silence.</li>
+      <li>The receiver can recover the bit rate (clock) from the signal itself, even during long runs of the same bit.</li>
+      <li>The signal has no DC component (it is high as often as it is low).</li>
+    </ul>
+    <p>The cost is twice the bandwidth. It is used in, among other things, classic 10 Mbit Ethernet.</p>
+    <pre><code><i>bits  </i>  0    1    1    0
+<i>signal</i>  ‾|_  _|‾  _|‾  ‾|_</code></pre>
+  </aside>
+  <h3>3.2 Structure</h3>
+  <pre><code>message = beacon calibration lessons terminator</code></pre>
+  <dl>
+    <dt>Beacon</dt>
+    <dd>The primes 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 and 31, each written in unary as that many <code>1</code>s, separated by a single <code>0</code>. There is no pause and no sync token after it.</dd>
+    <dt>Calibration</dt>
+    <dd>The same primes as number tokens (§6). This links unary to binary and fixes the token phase.</dd>
+    <dt>Lessons</dt>
+    <dd>A sequence of sentences (§7).</dd>
+    <dt>Terminator</dt>
+    <dd>The beacon, repeated.</dd>
+  </dl>
+  <p>Example, the start of the beacon:</p>
+  <pre><code>11 0 111 0 11111 0 1111111 0 11111111111 0 …</code></pre>
+  <p>(The spaces are only for readability and are not part of the bitstream.)</p>
+</section>
+
+<section id="ecc">
+  <h2>4. L1 Error correction</h2>
+  <p>Error correction is a separate layer with the interface <code>encode(bits) → bits</code> and <code>decode(bits) → {bits, reliability}</code>.</p>
+  <ul>
+    <li>Codes <strong>must</strong> be <em>systematic</em>: the data bits are sent unchanged, and the check bits come in separate blocks. That way the message can be read while the code is ignored.</li>
+    <li>Planned implementations: <code>none</code>, extended Hamming (SECDED), three copies with permutation/interleaving, and later Reed–Solomon taught in the language itself.</li>
+  </ul>
+</section>
+
+<section id="chunks">
+  <h2>5. L2 Chunks</h2>
+  <p>A <dfn>chunk</dfn> is <var>C</var> bits that form an unsigned integer, MSB-first. <var>C</var> is a single constant in the format. It may change, but for now:</p>
+  <pre><code>C = 8          <i>a chunk is 0–255</i></code></pre>
+  <p>There is no continuation bit and no length field: every chunk is simply a number. Values that do not fit in one chunk are written as expressions (§8).</p>
+  <p>Examples:</p>
+  <pre><code><i>5   </i> 00000101
+<i>255 </i> 11111111</code></pre>
+  <p>The largest prime that fits in one chunk is <strong>251</strong> (<code>11111011</code>). The numbers above it are composite: 252 = 2²·3²·7, 253 = 11·23, 254 = 2·127, 255 = 3·5·17. There are 54 primes from 2 to 251.</p>
+  <p>A chunk of 8 bits also holds every atomic number: 118 elements are known, and 2<sup><var>C</var></sup> must stay above about 120 so that a planned element type can use the atomic number itself as its value. This is one reason not to make <var>C</var> smaller than 8.</p>
+</section>
+
+<section id="tokens">
+  <h2>6. L3 Tokens</h2>
+  <p>A token is a <dfn>type</dfn> chunk followed by a <dfn>value</dfn>. Each type decides the shape of its value. In Phase A every value is exactly one chunk, so a token is always 2 chunks = 16 bits.</p>
+  <pre><code>token = type value</code></pre>
+  <table>
+    <thead><tr><th>Type</th><th>Name</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td><code>0</code></td><td>Number</td><td>One chunk: a natural number 0–255</td></tr>
+      <tr><td><code>1</code></td><td>Structure</td><td>One chunk: <code>0</code> = OPEN, <code>1</code> = CLOSE. Values <code>2–255</code> are reserved for later structural tokens.</td></tr>
+      <tr><td><code>2</code></td><td>Symbol: operators and relations</td><td>One chunk: a symbol id (§9). Other symbol categories get their own types (§6.2).</td></tr>
+      <tr><td><code>3</code></td><td>Symbol: constants</td><td>One chunk: a constant id (§9.2)</td></tr>
+      <tr><td><code>4</code></td><td>Symbol: variables</td><td>One chunk: a variable id (§9.3)</td></tr>
+      <tr><td><code>5</code></td><td>Symbol: particles</td><td>One chunk: a particle id (§9.4)</td></tr>
+      <tr><td><code>6</code></td><td>Symbol: elements</td><td>One chunk: the atomic number (the number of protons)</td></tr>
+      <tr><td><code>7</code></td><td>Symbol: dimensions</td><td>One chunk: a dimension id (§9.6)</td></tr>
+      <tr><td><code>8</code></td><td>Symbol: physical constants</td><td>One chunk: a physical constant id (§9.7)</td></tr>
+      <tr><td><code>9</code></td><td>Symbol: molecules</td><td>One chunk: a molecule id (§9.8)</td></tr>
+      <tr><td><code>10–255</code></td><td>Reserved</td><td>Introduced later as lessons, starting with further symbol categories (§6.2). A later type may have a value of several chunks, e.g. a length chunk followed by that many chunks.</td></tr>
+    </tbody>
+  </table>
+  <h3>6.1 Structure versus symbol</h3>
+  <p>The split between types 1 and 2 follows one criterion: <strong>can the token be an argument or have a value?</strong></p>
+  <dl>
+    <dt>Structure (type 1)</dt>
+    <dd>Tokens that concern the form and transport of the message, never its content, and can never be values. Currently <code>(</code> and <code>)</code>. Later candidates: padding, sync markers, end of message. The set is small and grows only by deliberate design. The tree can be built from structure tokens alone, without knowing any symbol.</dd>
+    <dt>Symbol (type 2 and up)</dt>
+    <dd>Everything that has a meaning and can be passed, compared or defined, e.g. <code>+</code> in <code>((inv +) 2)</code>. The set is open. This includes <em>special forms</em> that bind variables or control evaluation (<code>DEF</code>, <code>λ</code>, <code>∀</code>, <code>quote</code>); their behaviour is taught by examples like any other symbol.</dd>
+  </dl>
+  <p>Brackets are preferred over a length prefix (as in CBOR) because the receiver does not have to count to find the end of a group, and a <code>)</code> gives a point to resynchronize after an error.</p>
+  <h3>6.2 Symbol categories</h3>
+  <p>Symbols are divided into categories, each with its own type and its own id space of 2<sup><var>C</var></sup> values. Type 2 holds operators and relations; further categories take types 3, 4, … in order of introduction. Planned categories, each introduced as a type in the lesson where it first appears:</p>
+  <ul>
+    <li><strong>Variables</strong> (type 4; <var>u</var>, <var>v</var>, <var>w</var>): bound by <code>∀</code>, <code>∃</code> and <code>λ</code>; the same id in two sentences is unrelated. The names avoid <var>x</var> (easily confused with <code>×</code>) and letters used by constants (<var>c</var>, <var>e</var>, <var>h</var>, <var>k</var>, <var>G</var>).</li>
+    <li><strong>Constants</strong> (type 3): fixed values that are never applied and never stand in operator position. The first are <data value="true">true</data> and <data value="false">false</data>; then the domains <code>ℕ</code>, <code>ℚ</code>, <code>ℝ</code> and <code>ℂ</code>, the imaginary unit <code>i</code>, and <code>e</code> and <code>π</code>.</li>
+    <li><strong>Particles</strong> (type 5): proton, electron, neutron, later others. Identified by measured properties (§8.3).</li>
+    <li><strong>Elements</strong> (type 6): the value of the token is the atomic number, so the token itself states the number of protons.</li>
+    <li><strong>Dimensions</strong> (type 7): <code>M</code>, <code>L</code>, <code>T</code> and <code>Q</code> (mass, length, time, charge).</li>
+    <li><strong>Molecules</strong> (type 9): defined by their atoms (<code>atoms</code>, a list of elements) and their bonds (<code>bonds</code>).</li>
+    <li><strong>Physical constants</strong> (type 8): <code>c</code>, <code>ħ</code>, <code>G</code>, the Planck units derived from them, <code>ke</code> (from Coulomb's law), and named physical things such as <code>hydrogen-line</code>. Each constant of nature is introduced through the law it appears in.</li>
+  </ul>
+  <p>A category gets its own type only when its members <em>behave</em> differently (binding, evaluation, units), not merely because they belong to a different topic.</p>
+  <h3>6.3 Encoding</h3>
+  <p>Types are numbered in order of first appearance, like symbol ids: numbers appear in calibration (type 0), then the first sentence <code>(= 3 3)</code> shows a bracket (type 1) before a symbol (type 2).</p>
+  <p>The type comes first because it decides how the value is read, and so that an unknown type is noticed before its value. Examples:</p>
+  <pre><code><i>number 3   </i> 00000000 00000011
+<i>symbol =   </i> 00000010 00000001
+<i>OPEN  (    </i> 00000001 00000000
+<i>CLOSE )    </i> 00000001 00000001</code></pre>
+</section>
+
+<section id="syntax">
+  <h2>7. L4 Syntax</h2>
+  <p>Sentences are s-expressions (Lisp style):</p>
+  <pre><code>sentence   = expression
+expression = number | symbol | OPEN expression* CLOSE</code></pre>
+  <ul>
+    <li>A <dfn>sentence</dfn> is an outermost expression. In lessons it is always a group.</li>
+    <li>The first element of a group is the operator, and the rest are arguments. The number of arguments is shown by the brackets. No separate arity field is used.</li>
+    <li>There are no separators, lesson-start tokens or <code>NEW</code> markers (for now).</li>
+    <li>Brackets <strong>must</strong> be balanced in every sentence.</li>
+    <li><strong>Quantifiers</strong> bind exactly one variable to an explicit domain: <code>(∀ <var>variable</var> <var>domain</var> <var>statement</var>)</code> and <code>(∃ <var>variable</var> <var>domain</var> <var>statement</var>)</code>. Several variables need nested quantifiers. The domain is never implicit.</li>
+    <li><strong>Introducing a symbol by a characterization.</strong> Besides being shown by examples, a new symbol may be introduced by one or more sentences that state its meaning in terms of symbols already introduced, e.g. <code>abs</code> by its defining property, or <code>(= e (exp 1))</code>. These sentences <strong>must</strong> determine the symbol uniquely. Examples follow, as for any other symbol.</li>
+    <li><strong>Every sentence is closed:</strong> each variable is bound by a quantifier in the same sentence. A variable in one sentence is unrelated to the same variable in another.</li>
+    <li>The operator position can hold an expression (higher-order), for example <code>((inv +) 2)</code>.</li>
+    <li><strong>One symbol = one meaning.</strong> The number of arguments is decided per symbol and shown by examples in its lesson. A symbol <strong>must not</strong> change meaning with the number of arguments (so negation is <code>neg</code>, not a one-argument <code>−</code>).</li>
+    <li>Associative operations take two or more arguments, e.g. <code>(+ 1 2 3)</code>. Their result does not depend on grouping, so the lesson can show it directly: <code>(= (+ 1 2 3) (+ (+ 1 2) 3) (+ 1 (+ 2 3)))</code>.</li>
+    <li>Non-associative operations (<code>−</code>, <code>÷</code>) take exactly two arguments, for now. <em>Justification:</em> <code>(− 10 3 2)</code> could mean (10 − 3) − 2 = 5 or 10 − (3 − 2) = 9. Choosing one is a convention with no basis in the mathematics, so the receiver would have to guess it. With two arguments, nested brackets always state the grouping explicitly. A variadic form can be introduced later as a definition, once the language can express it.</li>
+    <li>Relations take two or more arguments when the meaning is unambiguous. They are read as a chain: the relation holds between every argument and the next one.
+      <ul>
+        <li><code>(= a b c)</code>: all are equal.</li>
+        <li><code>(&lt; a b c)</code>: strictly increasing, a &lt; b and b &lt; c. <code>(&gt; a b c)</code>: strictly decreasing. Since <code>&lt;</code> and <code>&gt;</code> are transitive, the chain also gives a &lt; c, so there is only one sensible reading.</li>
+      </ul>
+    </li>
+    <li><code>≤</code> and <code>≥</code> are chains like <code>&lt;</code> and <code>&gt;</code>. They are redundant (<code>(≤ <var>a</var> <var>b</var>)</code> means <code>(<data value="or">or</data> (&lt; <var>a</var> <var>b</var>) (= <var>a</var> <var>b</var>))</code>) but kept for readability. <code>&lt;</code>, <code>&gt;</code>, <code>≤</code> and <code>≥</code> are only applied to real values.</li>
+    <li><code>^</code> takes exactly two arguments, for the same reason as <code>−</code> and <code>÷</code>: <code>(^ (^ 2 3) 2)</code> is 64 and <code>(^ 2 (^ 3 2))</code> is 512. The exponent is a natural number.</li>
+    <li><strong>Lists</strong>: <code>(list <var>a</var> <var>b</var> …)</code> is an ordered list of values, possibly empty (<code>(list)</code>) and possibly containing lists. Two lists are equal when they have the same items in the same order. Items are numbered from 1: <code>(item <var>L</var> 1)</code> is the first and <code>(item <var>L</var> (length <var>L</var>))</code> the last.</li>
+    <li><strong>Sequences</strong>: <code>(sequence <var>variable</var> <var>values</var> <var>rule</var>)</code> has the same form as the quantifiers. Over a list of values it gives a list; over <code>ℕ</code> it gives an infinite sequence whose first item is the rule's value for 0. <code>item</code> works on both.</li>
+    <li><strong>apply</strong>: <code>(apply <var>op</var> <var>L</var>)</code> gives the items of <var>L</var> to <var>op</var> as its arguments, so <code>(apply + (list 1 2 3))</code> is <code>(+ 1 2 3)</code>. For an infinite sequence, <code>(apply + <var>S</var>)</code> is the limit of the sums of the first items, taken in order; it is only used where that limit exists. There is no separate <code>sum</code> or <code>product</code>.</li>
+    <li><code>≠</code> takes exactly two arguments. <em>Justification:</em> <code>(≠ 1 2 1)</code> has three plausible readings that disagree. "All different" (false), "not all equal" (true), and "each differs from the next" as a chain (true). <code>≠</code> is not transitive, so the chain reading does not give "all different" as it does for <code>&lt;</code>. Rather than make the receiver guess, <code>≠</code> is kept to two arguments. "All different" can be defined later if needed.</li>
+  </ul>
+  <p>Example: <code>(= (+ 2 3) 5)</code> becomes 9 tokens:</p>
+  <pre><code><i>(  </i> 00000001 00000000
+<i>=  </i> 00000010 00000001
+<i>(  </i> 00000001 00000000
+<i>+  </i> 00000010 00000111
+<i>2  </i> 00000000 00000010
+<i>3  </i> 00000000 00000011
+<i>)  </i> 00000001 00000001
+<i>5  </i> 00000000 00000101
+<i>)  </i> 00000001 00000001</code></pre>
+</section>
+
+<section id="values">
+  <h2>8. Values and canonical forms</h2>
+  <p>Number tokens are always natural numbers. Other values are written as expressions that cannot be simplified further (<dfn>canonical forms</dfn>):</p>
+  <table>
+    <thead><tr><th>Value</th><th>Canonical form</th></tr></thead>
+    <tbody>
+      <tr><td>−2</td><td><code>(neg 2)</code></td></tr>
+      <tr><td>0</td><td><code>0</code> (never <code>(neg 0)</code>)</td></tr>
+      <tr><td>256</td><td><code>(big 1 0)</code></td></tr>
+      <tr><td>1/3</td><td><code>(÷ 1 3)</code></td></tr>
+      <tr><td>−1/3</td><td><code>(neg (÷ 1 3))</code></td></tr>
+      <tr><td>1 + 2i</td><td><code>(+ 1 (× 2 i))</code></td></tr>
+      <tr><td>−i</td><td><code>(neg i)</code></td></tr>
+    </tbody>
+  </table>
+  <p>A complex number with rational parts and a non-zero imaginary part is written <code>(+ <var>r</var> <var>s</var>)</code>, or just <var>s</var> when the real part <var>r</var> is 0. <var>r</var> is a canonical rational. The imaginary part <var>s</var> is <code>i</code>, <code>(neg i)</code>, <code>(× <var>b</var> i)</code> or <code>(neg (× <var>b</var> i))</code>, where <var>b</var> is a positive canonical rational other than 1.</p>
+  <p>Irrational numbers have no canonical form. They are named by constants (<code>e</code>, <code>π</code>) or described by statements, e.g. the positive square root of 2 by <code>(∃ <var>u</var> ℝ (<data value="and">and</data> (&gt; <var>u</var> 0) (= (× <var>u</var> <var>u</var>) 2)))</code>.</p>
+  <p>A rational number that is not an integer has the canonical form <code>(÷ p q)</code> or <code>(neg (÷ p q))</code>, where <var>p</var> ≥ 1, <var>q</var> ≥ 2, and <var>p</var> and <var>q</var> have no common factor. <var>p</var> and <var>q</var> are natural numbers, written with <code>big</code> if needed. Division by zero <strong>must not</strong> appear in the message (see §8.2 for expressions with variables).</p>
+  <h3>8.1 Large numbers: <code>big</code></h3>
+  <p>A natural number larger than 2<sup><var>C</var></sup> − 1 is written <code>(big d<sub>n</sub> … d<sub>1</sub> d<sub>0</sub>)</code>: positional notation in base 2<sup><var>C</var></sup>, <strong>most significant digit first</strong>. Each digit is an ordinary number token. The leading digit <strong>must not</strong> be 0, and <code>big</code> <strong>must not</strong> be used for values that fit in one number token.</p>
+  <pre><code><span data-comment>= 1·256 + 0 = 256</span>
+(big 1 0)
+<span data-comment>= 2·256² + 0·256 + 5 = 131077</span>
+(big 2 0 5)</code></pre>
+  <p>Put the value chunks of the digits side by side and the bits form the number in binary. <code>big</code> is taught as a lesson after <code>+</code> and <code>×</code>, e.g. <code>(= (big 1 0) (+ 255 1))</code>.</p>
+  <p><em>Reason for most significant first:</em> later number forms that are refined digit by digit (π, measured constants) must have the most significant part first. <code>big</code> follows the same direction, so the message has one convention.</p>
+  <p>The evaluator normalizes both sides of a statement before comparing them.</p>
+  <h3 id="truth">8.2 Truth values</h3>
+  <p>Relations (<code>=</code>, <code>≠</code>, <code>&lt;</code>, <code>&gt;</code>) and the logical operations (<data value="not">not</data>, <data value="and">and</data>, <data value="or">or</data>) have a truth value, <data value="true">true</data> or <data value="false">false</data>. A sentence asserts that its value is <data value="true">true</data>. Between truth values, <code>=</code> means "equivalent".</p>
+  <p><strong>No false relations.</strong> No <em>closed</em> relation in the message (one without variables) is applied to arguments for which it does not hold: <code>(= 2 3)</code> never appears, not even inside another expression. <data value="false">false</data> appears only as a constant or as the value of an expression built with <data value="not">not</data>, <data value="and">and</data>, <data value="or">or</data> or <data value="implies">implies</data>, e.g. <code>(= (<data value="not">not</data> (= 2 2)) <data value="false">false</data>)</code>. Relations that contain bound variables are open statements and are exempt, e.g. <code>(&lt; <var>u</var> 2)</code> in <code>(∀ <var>u</var> ℚ (<data value="implies">implies</data> (&lt; <var>u</var> 2) (&lt; <var>u</var> 3)))</code>. Likewise, division by zero must not occur in a closed expression; inside a quantifier it must be guarded, e.g. by <code>(<data value="implies">implies</data> (≠ <var>u</var> 0) …)</code>. The rule may be relaxed once the message can quote a statement and evaluate it (an <code>eval</code> or <code>quote</code> mechanism).</p>
+  <h3 id="world">8.3 Statements about the physical world</h3>
+  <p>Statements about particles, atoms and other physical things cannot be proved from the message. They are either <em>definitions</em> (e.g. <code>(= (count proton hydrogen) 1)</code>, which follows from the element token's value) or <em>measurements</em>.</p>
+  <ul>
+    <li><strong>Measurements are marked</strong> with <code>observed</code>: <code>(observed <var>S</var>)</code> asserts that <var>S</var> holds according to measurement. Its truth value is that of <var>S</var>; the marker tells the receiver, and the validator, that <var>S</var> is empirical.</li>
+    <li><strong>Measured values are written as ranges</strong> with <code>&lt;</code> and rational bounds, never with <code>=</code>. The bounds <strong>must</strong> contain the reference value together with its uncertainty. An exact <code>=</code> is only used where the measured fact is exact, e.g. a charge of 0 or opposite charges.</li>
+    <li><strong>Physical quantities</strong> such as <code>(mass proton)</code> are not numbers until units exist. Only ratios of quantities of the same kind, comparisons between them, and comparison with 0 are used.</li>
+    <li><strong>Bounds are generated</strong> by the build from reference data (CODATA, nuclide tables), never typed by hand.</li>
+    <li><strong>Dimensions.</strong> Every quantity has a dimension, given by <code>dim</code>: a product of powers of <code>M</code>, <code>L</code> and <code>T</code>, or 1 for a plain number. <code>×</code>, <code>÷</code> and <code>^</code> apply to quantities and dimensions with their usual meaning. Quantities are only compared, added or subtracted when they have the same dimension; the ratio of two such quantities is a plain number.</li>
+    <li><strong>Isotopes</strong> are written <code>(isotope <var>element</var> <var>n</var>)</code>: the element with <var>n</var> neutrons. An element token on its own stands for the element regardless of its neutrons, so neutron counts are only stated for isotopes.</li>
+    <li><strong>Molecules</strong> are described by <code>(atoms <var>m</var>)</code>, a list of elements, and <code>(bonds <var>m</var>)</code>, a list of bonds. Each bond is <code>(list <var>i</var> <var>j</var> <var>n</var>)</code>: atoms at positions <var>i</var> and <var>j</var> share <var>n</var> electron pairs. These are definitions of the molecule tokens, not measurements.</li>
+    <li><strong><code>count</code></strong> always means "how many of <var>x</var> are in <var>y</var>": items in a list, particles in an atom or isotope, atoms in a molecule, and particles in a molecule through its atoms.</li>
+    <li><strong>Forces</strong> have their own functions (<code>gravity</code>, <code>electric</code>), each introduced by its law. A positive electric force pushes apart, a negative one pulls together; <code>gravity</code> gives the strength of the attraction.</li>
+    <li><strong>Laws are stated in their idealized form</strong> and restricted by their domain, e.g. Newton's law of gravitation for <code>bodies</code> (slow, weakly gravitating bodies).</li>
+    <li><strong>Units:</strong> the message uses Planck units. <code>planck-length</code>, <code>planck-time</code> and <code>planck-mass</code> are defined from <code>c</code>, <code>ħ</code> and <code>G</code>, and the hydrogen 21 cm line is the observational anchor. The transmission itself is never used as a unit or anchor.</li>
+  </ul>
+</section>
+
+<section id="symbols">
+  <h2>9. Symbol registry</h2>
+  <p>Each symbol has a <dfn>symbol id</dfn>, the number that is sent in the value chunk, and a <dfn>symbol name</dfn>, a human-readable label used only in this documentation and in the tooling. Names are never transmitted; the receiver only ever sees ids.</p>
+  <p>The ids are provisional and assigned in order of first appearance in the message, separately for each type, so the order of the rows is also the order of introduction.</p>
+  <h3>9.1 Operators and relations (type 2)</h3>
+  <p>In the arity column, "2+" means two or more arguments.</p>
+  <table>
+    <thead><tr><th>Id</th><th>Name</th><th>Arity</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>=</code></td><td>2+</td><td>all equal</td></tr>
+      <tr><td>2</td><td><code>≠</code></td><td>2</td><td>not equal</td></tr>
+      <tr><td>3</td><td><code>&lt;</code></td><td>2+</td><td>less than (strictly increasing)</td></tr>
+      <tr><td>4</td><td><code>&gt;</code></td><td>2+</td><td>greater than (strictly decreasing)</td></tr>
+      <tr><td>5</td><td><code>≤</code></td><td>2+</td><td>less than or equal (non-decreasing)</td></tr>
+      <tr><td>6</td><td><code>≥</code></td><td>2+</td><td>greater than or equal (non-increasing)</td></tr>
+      <tr><td>7</td><td><code>+</code></td><td>2+</td><td>addition (sum of all)</td></tr>
+      <tr><td>8</td><td><code>×</code></td><td>2+</td><td>multiplication (product of all)</td></tr>
+      <tr><td>9</td><td><code>big</code></td><td>2+</td><td>positional notation, base 2<sup><var>C</var></sup></td></tr>
+      <tr><td>10</td><td><code>−</code></td><td>2</td><td>subtraction</td></tr>
+      <tr><td>11</td><td><code>neg</code></td><td>1</td><td>negation (additive inverse)</td></tr>
+      <tr><td>12</td><td><code>÷</code></td><td>2</td><td>division</td></tr>
+      <tr><td>13</td><td><code><data value="not">not</data></code></td><td>1</td><td>logical negation</td></tr>
+      <tr><td>14</td><td><code><data value="and">and</data></code></td><td>2+</td><td>all are true</td></tr>
+      <tr><td>15</td><td><code><data value="or">or</data></code></td><td>2+</td><td>at least one is true</td></tr>
+      <tr><td>16</td><td><code>∀</code></td><td>3</td><td>for all: variable, domain, statement</td></tr>
+      <tr><td>17</td><td><code>∃</code></td><td>3</td><td>there exists: variable, domain, statement</td></tr>
+      <tr><td>18</td><td><code><data value="implies">implies</data></code></td><td>2</td><td>if the first is true, so is the second</td></tr>
+      <tr><td>19</td><td><code>list</code></td><td>0+</td><td>a list of the arguments, in order</td></tr>
+      <tr><td>20</td><td><code>length</code></td><td>1</td><td>number of items in a list</td></tr>
+      <tr><td>21</td><td><code>item</code></td><td>2</td><td>the item at a position in a list, counted from 1</td></tr>
+      <tr><td>22</td><td><code>count</code></td><td>2</td><td>how many of one thing are in another: items in a list, particles in an atom, atoms in a molecule</td></tr>
+      <tr><td>23</td><td><code>^</code></td><td>2</td><td>power with a natural-number exponent</td></tr>
+      <tr><td>24</td><td><code>abs</code></td><td>1</td><td>absolute value</td></tr>
+      <tr><td>25</td><td><code>exp</code></td><td>1</td><td>exponential function</td></tr>
+      <tr><td>26</td><td><code>apply</code></td><td>2</td><td>apply an operation to the items of a list or sequence as its arguments</td></tr>
+      <tr><td>27</td><td><code>sequence</code></td><td>3</td><td>variable, values (ℕ or a list), rule: the list or infinite sequence of the rule's values</td></tr>
+      <tr><td>28</td><td><code>observed</code></td><td>1</td><td>the statement is a measurement (§8.3)</td></tr>
+      <tr><td>29</td><td><code>mass</code></td><td>1</td><td>mass of a particle or atom (a quantity)</td></tr>
+      <tr><td>30</td><td><code>charge</code></td><td>1</td><td>electric charge (a quantity)</td></tr>
+      <tr><td>31</td><td><code>isotope</code></td><td>2</td><td>an element with a given number of neutrons</td></tr>
+      <tr><td>32</td><td><code>stable</code></td><td>1+</td><td>all are stable isotopes (observed property)</td></tr>
+      <tr><td>33</td><td><code>level</code></td><td>2</td><td>energy of the <var>n</var>th state of an atom (a quantity)</td></tr>
+      <tr><td>34</td><td><code>states</code></td><td>2</td><td>number of electron states at the <var>n</var>th level of an atom</td></tr>
+      <tr><td>35</td><td><code>noble</code></td><td>1+</td><td>all are noble gases (observed property)</td></tr>
+      <tr><td>36</td><td><code>atoms</code></td><td>1</td><td>the atoms of a molecule, as a list of elements</td></tr>
+      <tr><td>37</td><td><code>bonds</code></td><td>1</td><td>the bonds of a molecule, as a list of (position, position, shared pairs)</td></tr>
+      <tr><td>38</td><td><code>dim</code></td><td>1</td><td>the dimension of a quantity</td></tr>
+      <tr><td>39</td><td><code>speed</code></td><td>1</td><td>speed (a quantity)</td></tr>
+      <tr><td>40</td><td><code>wavelength</code></td><td>1</td><td>wavelength of a photon (a quantity)</td></tr>
+      <tr><td>41</td><td><code>frequency</code></td><td>1</td><td>frequency of a photon (a quantity)</td></tr>
+      <tr><td>42</td><td><code>energy</code></td><td>1</td><td>energy (a quantity)</td></tr>
+      <tr><td>43</td><td><code>emitted</code></td><td>3</td><td>the photon an atom emits falling from one level to another</td></tr>
+      <tr><td>44</td><td><code>gravity</code></td><td>2</td><td>the force of gravity between two bodies (a quantity)</td></tr>
+      <tr><td>45</td><td><code>distance</code></td><td>2</td><td>the distance between two bodies (a quantity)</td></tr>
+      <tr><td>46</td><td><code>electric</code></td><td>2</td><td>the electric force between two bodies (a quantity)</td></tr>
+    </tbody>
+  </table>
+  <h3>9.2 Constants (type 3)</h3>
+  <table>
+    <thead><tr><th>Id</th><th>Name</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code><data value="true">true</data></code></td><td>truth value: true</td></tr>
+      <tr><td>2</td><td><code><data value="false">false</data></code></td><td>truth value: false</td></tr>
+      <tr><td>3</td><td><code>ℕ</code></td><td>domain: the natural numbers</td></tr>
+      <tr><td>4</td><td><code>ℚ</code></td><td>domain: the rational numbers</td></tr>
+      <tr><td>5</td><td><code>ℝ</code></td><td>domain: the real numbers</td></tr>
+      <tr><td>6</td><td><code>i</code></td><td>the imaginary unit, <code>(= (× i i) (neg 1))</code></td></tr>
+      <tr><td>7</td><td><code>ℂ</code></td><td>domain: the complex numbers</td></tr>
+      <tr><td>8</td><td><code>e</code></td><td><code>(exp 1)</code></td></tr>
+      <tr><td>9</td><td><code>π</code></td><td>the number in (0, 4) with <code>(= (exp (× i π)) (neg 1))</code></td></tr>
+      <tr><td>10</td><td><code>elements</code></td><td>domain: the chemical elements</td></tr>
+      <tr><td>11</td><td><code>photons</code></td><td>domain: all individual photons</td></tr>
+      <tr><td>12</td><td><code>bodies</code></td><td>domain: bodies with mass, moving slowly in weak gravity</td></tr>
+    </tbody>
+  </table>
+  <h3>9.3 Variables (type 4)</h3>
+  <table>
+    <thead><tr><th>Id</th><th>Name</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><var>u</var></td></tr>
+      <tr><td>2</td><td><var>v</var></td></tr>
+      <tr><td>3</td><td><var>w</var></td></tr>
+    </tbody>
+  </table>
+  <h3>9.4 Particles (type 5)</h3>
+  <table>
+    <thead><tr><th>Id</th><th>Name</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>proton</code></td></tr>
+      <tr><td>2</td><td><code>electron</code></td></tr>
+      <tr><td>3</td><td><code>neutron</code></td></tr>
+      <tr><td>4</td><td><code>photon</code></td></tr>
+    </tbody>
+  </table>
+  <h3>9.5 Elements (type 6)</h3>
+  <p>The value is the atomic number: 1 = <code>hydrogen</code>, 2 = <code>helium</code>, 6 = <code>carbon</code>, 7 = <code>nitrogen</code>, 8 = <code>oxygen</code>, 10 = <code>neon</code>, 18 = <code>argon</code>, 36 = <code>krypton</code>, 54 = <code>xenon</code>, 86 = <code>radon</code>, and so on up to 118. Names are the usual English element names.</p>
+  <h3>9.6 Dimensions (type 7)</h3>
+  <table>
+    <thead><tr><th>Id</th><th>Name</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>M</code></td><td>mass</td></tr>
+      <tr><td>2</td><td><code>L</code></td><td>length</td></tr>
+      <tr><td>3</td><td><code>T</code></td><td>time</td></tr>
+      <tr><td>4</td><td><code>Q</code></td><td>charge</td></tr>
+    </tbody>
+  </table>
+  <h3>9.7 Physical constants (type 8)</h3>
+  <table>
+    <thead><tr><th>Id</th><th>Name</th><th>Introduced through</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>c</code></td><td>the speed of every photon; wavelength × frequency</td></tr>
+      <tr><td>2</td><td><code>ħ</code></td><td>a photon's energy = ħ × 2π × frequency</td></tr>
+      <tr><td>3</td><td><code>G</code></td><td>Newton's law of gravitation</td></tr>
+      <tr><td>4</td><td><code>ke</code></td><td>Coulomb's law of the electric force</td></tr>
+      <tr><td>5</td><td><code>planck-length</code></td><td>planck-length² = ħG / c³</td></tr>
+      <tr><td>6</td><td><code>planck-time</code></td><td>planck-time² = ħG / c⁵</td></tr>
+      <tr><td>7</td><td><code>planck-mass</code></td><td>planck-mass² = ħc / G</td></tr>
+      <tr><td>8</td><td><code>hydrogen-line</code></td><td>the photon of hydrogen's 21 cm line, identified by its energy and period</td></tr>
+    </tbody>
+  </table>
+  <h3>9.8 Molecules (type 9)</h3>
+  <table>
+    <thead><tr><th>Id</th><th>Name</th><th>Atoms</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>water</code></td><td>H₂O</td></tr>
+      <tr><td>2</td><td><code>methane</code></td><td>CH₄</td></tr>
+      <tr><td>3</td><td><code>ammonia</code></td><td>NH₃</td></tr>
+      <tr><td>4</td><td><code>carbon-dioxide</code></td><td>CO₂</td></tr>
+      <tr><td>5</td><td><code>adenine</code></td><td>C₅H₅N₅</td></tr>
+      <tr><td>6</td><td><code>thymine</code></td><td>C₅H₆N₂O₂</td></tr>
+      <tr><td>7</td><td><code>guanine</code></td><td>C₅H₅N₅O</td></tr>
+      <tr><td>8</td><td><code>cytosine</code></td><td>C₄H₅N₃O</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="validation">
+  <h2>10. Validation rules</h2>
+  <p>The build fails if any of these rules are broken:</p>
+  <dl>
+    <dt>Bootstrap order</dt>
+    <dd>No symbol is used before its introducing lesson, and every symbol has at least <var>k</var> examples when it is introduced.</dd>
+    <dt>Truth</dt>
+    <dd>Every closed statement evaluates to true after normalization.</dd>
+    <dt>No false relations</dt>
+    <dd>No closed relation is applied to arguments for which it does not hold, not even inside another expression. No closed expression divides by zero (§8.2).</dd>
+    <dt>Measurements</dt>
+    <dd>Every <code>observed</code> statement holds for the reference data (CODATA, nuclide tables), and its bounds contain the reference uncertainty. No measured value is written with <code>=</code> unless the fact is exact.</dd>
+    <dt>Brackets</dt>
+    <dd>Every sentence is balanced.</dd>
+    <dt>Period</dt>
+    <dd>Autocorrelation of the raw stream finds the chunk and token period, also with added noise.</dd>
+    <dt>Noise</dt>
+    <dd>For each L1 scheme, the decoded token stream is identical under the specified error rates.</dd>
+  </dl>
+</section>
+
+<section id="open">
+  <h2>11. Open questions</h2>
+  <ul>
+    <li>How to verify that a characterization determines a symbol uniquely (e.g. <code>exp</code> by its product rule and bound). This needs proofs, like quantified statements.</li>
+    <li>How quantified statements are checked: they cannot be evaluated by trying every number (deferred; Lean 4 is one candidate).</li>
+    <li>Whether the message needs questions or unknowns ("solve for ?"), and where. Not needed yet.</li>
+    <li>When and how false statements may be written. Probably only after an <code>eval</code>/<code>quote</code> mechanism exists, so a statement can be mentioned without being asserted.</li>
+    <li>Self-synchronization after burst errors (currently left to L1).</li>
+    <li>Final error-correction strategy: three copies, or a code taught by the message itself.</li>
+    <li>Assigning symbol ids: consecutive, or spread out for distance.</li>
+    <li>The chunk size <var>C</var> (currently 8).</li>
+    <li><strong>Is a single beacon at the start enough?</strong> A long message is likely to be sent repeatedly. A receiver may tune in mid-way and get the end of one repetition followed by the start of the next. It then has to find the boundary, and it may need the basics before it can make sense of what it got first. Directions to consider:
+      <ul>
+        <li>Repeating the beacon (or a short form of it) at regular intervals, not only at the start and end.</li>
+        <li>Position markers: structural tokens (type 1) that give the position in the message, so pieces from different repetitions can be put together.</li>
+        <li>Repeating or spreading out the basics (calibration, counting, the first lessons), so a receiver who starts late still meets them early.</li>
+        <li>Making the boundary between repetitions unmistakable (terminator followed directly by the beacon).</li>
+      </ul>
+      Related to self-synchronization after burst errors and to L1.</li>
+    <li>Whether calibration should list all 54 primes up to 251, the largest prime in one chunk, instead of stopping at 31.</li>
+    <li>The type field is large for what it carries (256 possible types, about 3 used), and the structure type has only two values. Decided direction: keep the uniform 16-bit token (it helps the receiver find type and value chunks) and let type 1 grow into a family of structural and transport tokens (padding, sync, end of message) when they are needed.</li>
+  </ul>
+</section>
+
+</main>
+
+<footer>cosmic-language · specification · draft</footer>
+</body>
+</html>
