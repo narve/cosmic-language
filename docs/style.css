@@ -1,0 +1,237 @@
+/* Classless stylesheet for the cosmic-language docs. Inspired by dv8.no. */
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap");
+
+:root {
+  color-scheme: dark light;
+  --bg: #07090d;
+  --bg-card: rgba(18, 24, 33, 0.72);
+  --line: rgba(120, 200, 230, 0.12);
+  --line-strong: rgba(120, 200, 230, 0.32);
+  --text: #d6dde6;
+  --muted: #7d8a99;
+  --accent: #6fd6e8;
+  --accent-2: #b59cff;
+  --grid: rgba(111, 214, 232, 0.045);
+  --glow: rgba(111, 214, 232, 0.08);
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f3f5f8;
+    --bg-card: rgba(255, 255, 255, 0.78);
+    --line: rgba(20, 70, 100, 0.12);
+    --line-strong: rgba(20, 110, 140, 0.35);
+    --text: #18202b;
+    --muted: #5b6776;
+    --accent: #0b7f95;
+    --accent-2: #6a4fd1;
+    --grid: rgba(11, 127, 149, 0.06);
+    --glow: rgba(11, 127, 149, 0.07);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--bg); }
+
+body {
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 4rem 1rem 3rem;
+  color: var(--text);
+  font: 400 16px/1.6 "Space Grotesk", system-ui, sans-serif;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, var(--glow), transparent 70%),
+    linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 40px 40px,
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 40px 40px,
+    var(--bg);
+  background-attachment: fixed;
+}
+
+/* Header */
+body > header { margin-bottom: 3rem; }
+body > header p { max-width: 36rem; margin: 0; color: var(--muted); }
+body > header small {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+body > header small::before {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  margin-right: 0.6em;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  vertical-align: 0.08em;
+  animation: pulse 3s ease-in-out infinite;
+}
+@keyframes pulse { 50% { opacity: 0.35; } }
+@media (prefers-reduced-motion: reduce) { body > header small::before { animation: none; } }
+
+/* Headings */
+h1 {
+  margin: 0.6rem 0 0.8rem;
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 3.5rem 0 1.25rem;
+  font-weight: 400;
+  text-wrap: balance;
+}
+h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line-strong), transparent);
+}
+h3 { margin: 2rem 0 0.5rem; font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
+h4 { margin: 1.5rem 0 0.4rem; font-size: 1rem; font-weight: 600; color: var(--accent); }
+
+p, ul, ol, dl { max-width: 42rem; }
+li + li { margin-top: 0.25rem; }
+strong { font-weight: 600; }
+em { color: var(--accent-2); font-style: normal; }
+
+a { color: var(--accent); text-underline-offset: 0.2em; }
+a:hover { color: var(--accent-2); }
+a:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+
+/* Table of contents */
+nav ol {
+  columns: 2 14rem;
+  padding: 1rem 1rem 1rem 2.5rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg-card);
+  max-width: none;
+}
+nav a { color: var(--text); text-decoration: none; }
+nav a:hover { color: var(--accent); }
+
+/* Code and bits */
+code, samp, kbd, pre { font-family: var(--mono); font-size: 0.88em; }
+code { color: var(--accent); }
+pre {
+  overflow-x: auto;
+  margin: 1rem 0 1.5rem;
+  padding: 1rem 1.25rem;
+  line-height: 1.5;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--accent);
+  border-radius: 6px;
+  backdrop-filter: blur(6px);
+}
+pre code { color: var(--text); }
+/* Symbol names. Markup: <data value="not">not</data>.
+   By default the word itself is shown. Set --use-logical-symbols to 1 to show
+   logic symbols instead (toggled by symbols.js). Targets current browsers only. */
+:root { --use-logical-symbols: 0; }
+@property --symbol-font-size { syntax: "<length>"; inherits: true; initial-value: 16px; }
+:root, code, pre { --symbol-font-size: 1em; }
+data[value="true"]  { --logical-name: "⊤"; }
+data[value="false"] { --logical-name: "⊥"; }
+data[value="not"]   { --logical-name: "¬"; }
+data[value="and"]   { --logical-name: "∧"; }
+data[value="or"]    { --logical-name: "∨"; }
+data[value="implies"] { --logical-name: "⇒"; }
+@container style(--use-logical-symbols: 1) {
+  data:is([value="true"], [value="false"], [value="not"], [value="and"], [value="or"], [value="implies"]) {
+    font-size: 0;
+    visibility: hidden;
+  }
+  data:is([value="true"], [value="false"], [value="not"], [value="and"], [value="or"], [value="implies"])::before {
+    content: var(--logical-name) / attr(value);
+    font-size: var(--symbol-font-size);
+    visibility: visible;
+  }
+}
+
+/* Toggle button added by symbols.js */
+button[data-toggle] {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right, 0px));
+  bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+  padding: 0.3rem 0.65rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s, border-color 0.2s, color 0.2s;
+}
+button[data-toggle]:hover, button[data-toggle]:focus-visible { opacity: 1; border-color: var(--line-strong); color: var(--text); }
+button[data-toggle]:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+button[data-toggle][aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
+
+/* Variables: italic everywhere; in code also coloured, so they stand out from symbols such as × */
+var { font-style: italic; }
+code var, pre var { color: var(--accent-2); }
+
+[data-bit="continuation"] {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.25em;
+}
+pre i { color: var(--muted); font-style: normal; }    /* annotations */
+/* Comments in examples: <span data-comment>text</span>, shown with a marker before it.
+   Change the marker or the look here, e.g. --comment-marker: "// "; */
+:root { --comment-marker: "; "; }
+[data-comment] { color: var(--muted); font-style: italic; }
+[data-comment]::before { content: var(--comment-marker); }
+
+figure { margin: 1.5rem 0; }
+figcaption { font-size: 0.85rem; color: var(--muted); }
+
+/* Tables */
+table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 1rem 0 1.5rem;
+  font-size: 0.92rem;
+}
+th, td { padding: 0.5rem 0.9rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+th { font-family: var(--mono); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+/* Asides and quotes */
+aside, blockquote {
+  max-width: 42rem;
+  margin: 1.5rem 0;
+  padding: 0.9rem 1.25rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--bg-card);
+}
+aside > :first-child, blockquote > :first-child { margin-top: 0; }
+aside > :last-child, blockquote > :last-child { margin-bottom: 0; }
+
+dt { font-weight: 600; }
+dd { margin: 0 0 0.75rem 1.25rem; color: var(--muted); }
+
+hr { border: 0; height: 1px; margin: 3rem 0; background: var(--line); }
+
+body > footer {
+  margin-top: 4rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
