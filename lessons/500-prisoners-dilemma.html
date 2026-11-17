@@ -20,7 +20,7 @@
 (&gt; (× 2 (payoff cooperate cooperate)) (+ (payoff defect cooperate) (payoff cooperate defect)))</code></pre>
 
   <h4>Strategies</h4>
-  <p>New: the domain <code>histories</code>, the function <code>move</code>, and six strategies. A history is a list of the rounds played so far, each round a list of two moves: one's own, then the other's. <code>(move <var>s</var> <var>h</var>)</code> is a list to pick the next move from: a single move for a fixed choice, repeated moves for a chance.</p>
+  <p>New: the domain <code>histories</code>, the function <code>move</code>, and eight strategies. A history is a list of the rounds played so far, each round a list of two moves: one's own, then the other's. <code>(move <var>s</var> <var>h</var>)</code> is a list to pick the next move from: a single move for a fixed choice, repeated moves for a chance.</p>
   <pre><code><span data-comment>; always-cooperate and always-defect ignore the history</span>
 (∀ <var>u</var> histories (= (move always-cooperate <var>u</var>) (list cooperate)))
 (∀ <var>u</var> histories (= (move always-defect <var>u</var>) (list defect)))
@@ -28,6 +28,10 @@
 (= (move tit-for-tat (list)) (list cooperate))
 (∀ <var>u</var> histories (<data value="implies">implies</data> (&gt; (length <var>u</var>) 0)
   (= (move tit-for-tat <var>u</var>) (list (item (item <var>u</var> (length <var>u</var>)) 2)))))
+<span data-comment>; suspicious-tit-for-tat: the same rule, but it defects first</span>
+(= (move suspicious-tit-for-tat (list)) (list defect))
+(∀ <var>u</var> histories (<data value="implies">implies</data> (&gt; (length <var>u</var>) 0)
+  (= (move suspicious-tit-for-tat <var>u</var>) (list (item (item <var>u</var> (length <var>u</var>)) 2)))))
 <span data-comment>; grim: cooperate as long as the other has never defected</span>
 (∀ <var>u</var> histories (<data value="implies">implies</data> (= (count defect (sequence <var>v</var> <var>u</var> (item <var>v</var> 2))) 0)
   (= (move grim <var>u</var>) (list cooperate))))
@@ -46,13 +50,18 @@
 (∀ <var>u</var> histories (<data value="implies">implies</data> (<data value="and">and</data> (&gt; (length <var>u</var>) 0) (= (item (item <var>u</var> (length <var>u</var>)) 2) cooperate))
   (= (move generous-tit-for-tat <var>u</var>) (list cooperate))))
 (∀ <var>u</var> histories (<data value="implies">implies</data> (<data value="and">and</data> (&gt; (length <var>u</var>) 0) (= (item (item <var>u</var> (length <var>u</var>)) 2) defect))
-  (= (move generous-tit-for-tat <var>u</var>) (list cooperate defect defect))))</code></pre>
+  (= (move generous-tit-for-tat <var>u</var>) (list cooperate defect defect))))
+<span data-comment>; random: whatever has happened, it picks one of the two moves by chance</span>
+(∀ <var>u</var> histories (= (move random <var>u</var>) (list cooperate defect)))</code></pre>
 
   <h4>The same strategies with <code>if</code></h4>
   <p><data value="implies">implies</data> states that something holds where a condition holds; <code>if</code> picks a value. Two sentences with opposite conditions, like those above, say the same as one sentence with <code>if</code>. So the strategies are defined twice, on purpose: each form helps the receiver read the other.</p>
   <pre><code><span data-comment>; tit-for-tat: cooperate first, then do what the other did last</span>
 (∀ <var>u</var> histories (= (move tit-for-tat <var>u</var>)
   (if (= (length <var>u</var>) 0) (list cooperate) (list (item (item <var>u</var> (length <var>u</var>)) 2)))))
+<span data-comment>; suspicious-tit-for-tat: defect first, then do what the other did last</span>
+(∀ <var>u</var> histories (= (move suspicious-tit-for-tat <var>u</var>)
+  (if (= (length <var>u</var>) 0) (list defect) (list (item (item <var>u</var> (length <var>u</var>)) 2)))))
 <span data-comment>; grim: cooperate as long as the other has never defected</span>
 (∀ <var>u</var> histories (= (move grim <var>u</var>)
   (if (= (count defect (sequence <var>v</var> <var>u</var> (item <var>v</var> 2))) 0) (list cooperate) (list defect))))
@@ -63,8 +72,8 @@
       (if (= (item (item <var>u</var> (length <var>u</var>)) 1) (item (item <var>u</var> (length <var>u</var>)) 2)) (list cooperate) (list defect)))))</code></pre>
 
   <h4>Playing a game</h4>
-  <p>New: <code>tournament</code>, the list of the five strategies that always make a fixed choice, and the functions <code>rounds</code> (the history after a number of rounds) and <code>score</code>. First the rules: each round, each player takes its strategy's move given the rounds so far, seen from its own side, which is the same game with the players swapped.</p>
-  <pre><code>(= tournament (list always-cooperate always-defect tit-for-tat grim pavlov))
+  <p>New: <code>tournament</code>, the list of the six strategies that always make a fixed choice, and the functions <code>rounds</code> (the history after a number of rounds) and <code>score</code>. First the rules: each round, each player takes its strategy's move given the rounds so far, seen from its own side, which is the same game with the players swapped.</p>
+  <pre><code>(= tournament (list always-cooperate always-defect tit-for-tat suspicious-tit-for-tat grim pavlov))
 (∀ <var>u</var> tournament (∀ <var>v</var> tournament (= (rounds <var>u</var> <var>v</var> 0) (list))))
 (∀ <var>u</var> tournament (∀ <var>v</var> tournament (∀ <var>w</var> ℕ (= (length (rounds <var>u</var> <var>v</var> <var>w</var>)) <var>w</var>))))
 <span data-comment>; earlier rounds stay as they were</span>
@@ -92,6 +101,15 @@
 <span data-comment>; against itself, it never needs to forgive: it always cooperates</span>
 (= (move generous-tit-for-tat (list (list cooperate cooperate))) (list cooperate))</code></pre>
   <p>Forgiving costs a little against a player who always defects, but it lets two forgiving players recover from a mistake.</p>
+  <p>Random pays no attention to the game at all: each move is cooperate or defect with a chance of one half. Against such a player, defecting pays more whatever happens, because nothing one does changes what it does next. Cooperation only pays with a player who answers.</p>
+  <pre><code><span data-comment>; random cooperates with a chance of one half, at the start and after any history</span>
+(= (chance cooperate (move random (list))) (÷ 1 2))
+(= (chance cooperate (move random (list (list defect defect)))) (÷ 1 2))
+
+<span data-comment>; against random, cooperating gets 3 or 0: a mean of 3/2 per round</span>
+(= (mean (sequence <var>u</var> (move random (list)) (payoff cooperate <var>u</var>))) (÷ 3 2))
+<span data-comment>; against random, defecting gets 5 or 1: a mean of 3 per round</span>
+(= (mean (sequence <var>u</var> (move random (list)) (payoff defect <var>u</var>))) 3)</code></pre>
 
   <h4>Results over 10 rounds</h4>
   <pre><code><span data-comment>; two that cooperate get 30 each; two that defect get 10 each</span>
@@ -101,29 +119,38 @@
 <span data-comment>; always-cooperate is exploited in every round: 0 against 50</span>
 (= (score always-cooperate always-defect 10) 0)  (= (score always-defect always-cooperate 10) 50)
 <span data-comment>; pavlov is exploited every second round: 5 against 30</span>
-(= (score pavlov always-defect 10) 5)  (= (score always-defect pavlov 10) 30)</code></pre>
-  <p>A tournament: each strategy plays all five, itself included. Defecting never loses a single game, yet it ends up last. The strategies that cooperate first but cannot be exploited for long come out on top:</p>
+(= (score pavlov always-defect 10) 5)  (= (score always-defect pavlov 10) 30)
+<span data-comment>; tit-for-tat against its suspicious twin: the first defection echoes back and forth, 25 each instead of 30</span>
+(= (score tit-for-tat suspicious-tit-for-tat 10) 25)  (= (score suspicious-tit-for-tat tit-for-tat 10) 25)
+<span data-comment>; grim never forgives that first defection: 13 each</span>
+(= (score grim suspicious-tit-for-tat 10) 13)  (= (score suspicious-tit-for-tat grim 10) 13)</code></pre>
+  <p>A tournament: each strategy plays all six, itself included. Always-defect never loses a single game, yet it ends up second to last. Last of all is the strategy that follows the same rule as tit-for-tat but opens with a defection. Tit-for-tat, which opens in peace, is first:</p>
   <pre><code><span data-comment>; the total of each strategy over its five games</span>
-(= (apply + (sequence <var>u</var> tournament (score tit-for-tat <var>u</var> 10))) 129)
-(= (apply + (sequence <var>u</var> tournament (score grim <var>u</var> 10))) 129)
-(= (apply + (sequence <var>u</var> tournament (score pavlov <var>u</var> 10))) 125)
-(= (apply + (sequence <var>u</var> tournament (score always-cooperate <var>u</var> 10))) 120)
-(= (apply + (sequence <var>u</var> tournament (score always-defect <var>u</var> 10))) 118)</code></pre>
+(= (apply + (sequence <var>u</var> tournament (score tit-for-tat <var>u</var> 10))) 154)
+(= (apply + (sequence <var>u</var> tournament (score always-cooperate <var>u</var> 10))) 147)
+(= (apply + (sequence <var>u</var> tournament (score pavlov <var>u</var> 10))) 143)
+(= (apply + (sequence <var>u</var> tournament (score grim <var>u</var> 10))) 142)
+(= (apply + (sequence <var>u</var> tournament (score always-defect <var>u</var> 10))) 128)
+(= (apply + (sequence <var>u</var> tournament (score suspicious-tit-for-tat <var>u</var> 10))) 113)</code></pre>
 
   <h4>Peace wins</h4>
-  <p>The message ends with what the tournament shows. Two players who keep the peace each get three times what two players at war get. The strategy that only ever defects, and so never loses a single game, ends with the lowest total. And no strategy ends with more than tit-for-tat, which starts in peace, answers in kind and forgives at once. That is the last statement of the message.</p>
+  <p>The message ends with what the tournament shows. Two players who keep the peace each get three times what two players at war get. The two strategies that defect first end with the lowest totals, and the four that never defect first all end above them. And tit-for-tat, which opens in peace, answers in kind and forgives as soon as the other returns to peace, ends with more than every other strategy. That is the last statement of the message.</p>
   <pre><code><span data-comment>; two at peace get more, each, than two at war: 30 against 10</span>
 (&gt; (score tit-for-tat tit-for-tat 10) (score always-defect always-defect 10))
 
-<span data-comment>; always-defect ends with the lowest total: every strategy gets at least as much</span>
-(∀ <var>u</var> tournament
-  (≥ (apply + (sequence <var>v</var> tournament (score <var>u</var> <var>v</var> 10)))
-     (apply + (sequence <var>v</var> tournament (score always-defect <var>v</var> 10)))))
+<span data-comment>; the whole ranking, from last to first: the two that defect first are at the bottom</span>
+(&lt; (apply + (sequence <var>v</var> tournament (score suspicious-tit-for-tat <var>v</var> 10)))
+   (apply + (sequence <var>v</var> tournament (score always-defect <var>v</var> 10)))
+   (apply + (sequence <var>v</var> tournament (score grim <var>v</var> 10)))
+   (apply + (sequence <var>v</var> tournament (score pavlov <var>v</var> 10)))
+   (apply + (sequence <var>v</var> tournament (score always-cooperate <var>v</var> 10)))
+   (apply + (sequence <var>v</var> tournament (score tit-for-tat <var>v</var> 10))))
 
-<span data-comment>; and no strategy ends with more than tit-for-tat</span>
+<span data-comment>; tit-for-tat ends with more than every other strategy</span>
 (∀ <var>u</var> tournament
-  (≥ (apply + (sequence <var>v</var> tournament (score tit-for-tat <var>v</var> 10)))
-     (apply + (sequence <var>v</var> tournament (score <var>u</var> <var>v</var> 10)))))</code></pre>
+  (<data value="implies">implies</data> (≠ <var>u</var> tit-for-tat)
+    (&gt; (apply + (sequence <var>v</var> tournament (score tit-for-tat <var>v</var> 10)))
+       (apply + (sequence <var>v</var> tournament (score <var>u</var> <var>v</var> 10))))))</code></pre>
 </article>
 </body>
 </html>
