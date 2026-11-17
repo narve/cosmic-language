@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Charge and the electric force · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson">
+  <h3>charge and the electric force</h3>
+  <p>New: the dimension <code>Q</code> (charge), the function <code>electric</code> (the electric force between two bodies) and the constant <code>ke</code>. The lesson on particles compared charges; now they get a dimension and a law. A positive force pushes apart, a negative one pulls together.</p>
+  <pre><code>(= (dim (charge proton)) Q)
+(observed (∀ <var>u</var> bodies (∀ <var>v</var> bodies
+  (= (electric <var>u</var> <var>v</var>) (÷ (× ke (charge <var>u</var>) (charge <var>v</var>)) (^ (distance <var>u</var> <var>v</var>) 2))))))
+(= (dim ke) (÷ (× M (^ L 3)) (× (^ T 2) (^ Q 2))))</code></pre>
+  <p>Because the law is written out, the next number does not depend on how charge is measured. It is the fine-structure constant, which sets the strength of the electric force:</p>
+  <pre><code><span data-comment>between 1/138 and 1/137</span>
+(observed (&lt; (÷ 1 138) (÷ (× ke (^ (charge proton) 2)) (× ħ c)) (÷ 1 137)))
+<span data-comment>between a proton and an electron, the electric force is about 2.3 × 10³⁹ times the force of gravity</span>
+(observed (&lt; (^ 2 130) (÷ (abs (electric proton electron)) (gravity proton electron)) (^ 2 131)))</code></pre>
+</article>
+</body>
+</html>

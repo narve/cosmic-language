@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bits and the beacon · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="part">
+  <h2>Bits and the beacon</h2>
+  <p>The message is a sequence of bits. Both <code>0</code> and <code>1</code> are active signals (for example two different frequencies), so a <code>0</code> can never be confused with silence. The message starts when the signal starts.</p>
+  <p>The first thing the receiver meets is the <dfn>beacon</dfn>: the prime numbers written as runs of <code>1</code>s, separated by a single <code>0</code>. In this message, 1 counts as a prime, so the beacon starts with a single <code>1</code>: the smallest possible count.</p>
+  <h4>Example</h4>
+  <pre data-illustration><code>1 0 11 0 111 0 11111 0 1111111 0 11111111111 0 1111111111111 0 …
+<i>1   2    3     5       7         11            13</i></code></pre>
+  <p>Nature doesn't produce prime numbers in a row, so the beacon says that <em>this is artificial</em>. It also teaches the receiver the first convention: a run of <code>1</code>s means a count.</p>
+</article>
+</body>
+</html>

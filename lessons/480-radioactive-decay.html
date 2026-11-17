@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Radioactive decay · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson">
+  <h3>radioactive decay</h3>
+  <p>New: the domain <code>durations</code> and the functions <code>lifetime</code>, <code>survival</code> (the chance that something has not yet decayed after a given duration) and <code>half-life</code>. The example is the free neutron: on its own, it turns into a proton, an electron and one more very light particle without charge.</p>
+  <pre><code><span data-comment>the charge before equals the charge after</span>
+(observed (= (charge neutron) (+ (charge proton) (charge electron))))
+<span data-comment>the neutron is heavier than a proton and an electron together, so it has mass to spare</span>
+(observed (&gt; (mass neutron) (+ (mass proton) (mass electron))))
+<span data-comment>its mean lifetime: about 880 seconds, or about 1.6 × 10⁴⁶ Planck times</span>
+(observed (&lt; (^ 2 153) (÷ (lifetime neutron) planck-time) (^ 2 154)))
+(= (dim (lifetime neutron)) T)</code></pre>
+  <p>The half-life is the duration after which the chance of survival is one half. That is exactly the chance of <data value="true">true</data> when picking from <data value="true">true</data> and <data value="false">false</data>:</p>
+  <pre><code>(= (survival neutron (half-life neutron)) (÷ 1 2))
+(= (÷ 1 2) (chance <data value="true">true</data> (list <data value="true">true</data> <data value="false">false</data>)))</code></pre>
+  <p>A neutron has no memory: its chance of decaying does not depend on how long it has existed. So each half-life is a new, independent pick, and the chances multiply:</p>
+  <pre><code><span data-comment>surviving u and then v is the same as surviving u + v</span>
+(observed (∀ <var>u</var> durations (∀ <var>v</var> durations
+  (= (survival neutron (+ <var>u</var> <var>v</var>)) (× (survival neutron <var>u</var>) (survival neutron <var>v</var>))))))
+<span data-comment>surviving u half-lives is u picks of true in a row</span>
+(observed (∀ <var>u</var> ℕ (= (survival neutron (× <var>u</var> (half-life neutron)))
+                   (^ (chance <data value="true">true</data> (list <data value="true">true</data> <data value="false">false</data>)) <var>u</var>))))</code></pre>
+  <p>The first law is the product rule that defined <code>exp</code>. So <code>exp</code> gives the chance for any duration:</p>
+  <pre><code>(observed (∀ <var>u</var> durations (= (survival neutron <var>u</var>) (exp (neg (÷ <var>u</var> (lifetime neutron)))))))</code></pre>
+  <p>These laws give the chance for a single neutron. In a real sample of many neutrons, the part that survives is close to this chance, but the message makes no claim about any particular sample.</p>
+  <p>Some isotopes decay in the same way, unlike the stable ones among the isotopes: hydrogen with two neutrons, and carbon with eight. Carbon's half-life is between 256 and 512 times that of hydrogen:</p>
+  <pre><code>(observed (&lt; (^ 2 8) (÷ (half-life (isotope carbon 8)) (half-life (isotope hydrogen 2))) (^ 2 9)))</code></pre>
+</article>
+</body>
+</html>

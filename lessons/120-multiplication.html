@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multiplication · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson">
+  <h3>multiplication</h3>
+  <p>New symbol: <code>×</code>.</p>
+  <pre><code>(= (× 2 3) 6) (= (× 3 2) 6) (= (× 0 5) 0) (= (× 1 9) 9)
+<span data-comment>nesting two levels deep</span>
+(= (× 2 (+ 1 2)) 6)
+<span data-comment>× multiplies any number of factors</span>
+(= (× 2 3 4) 24) (= (× 2 2 2 2) 16) (= (× 5 1 1) 5)
+<span data-comment>grouping does not matter</span>
+(= (× 2 3 4) (× (× 2 3) 4) (× 2 (× 3 4)))
+(= (× 15 15) 225) (= (× 15 17) 255) (&gt; (× 16 16) 255)</code></pre>
+  <p>The last example is a product that is larger than any single number token. The next lesson shows how to write it.</p>
+</article>
+</body>
+</html>

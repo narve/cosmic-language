@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tokens: what kind of thing? · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="part">
+  <h2>Tokens: what kind of thing?</h2>
+  <p>A <dfn>token</dfn> is two numbers in a row. The first says <em>what kind of thing</em> this is (the type), and the second is the thing itself (the value).</p>
+  <table>
+    <thead><tr><th>Type</th><th>Meaning</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>0</td><td>number</td><td>the number itself</td></tr>
+      <tr><td>1</td><td>structure</td><td>0 = open bracket, 1 = close bracket</td></tr>
+      <tr><td>2</td><td>symbol</td><td>which symbol (=, +, …)</td></tr>
+    </tbody>
+  </table>
+  <h4>Example</h4>
+  <pre data-illustration><code><i>type             value</i>
+00000000 00000011   <i>number 3</i>
+00000010 00000001   <i>symbol no. 1 (=)</i>
+00000001 00000000   <i>structure: (</i>
+00000001 00000001   <i>structure: )</i></code></pre>
+  <p>In the first part of the message nearly every type chunk is <code>00000000</code>, <code>00000001</code> or <code>00000010</code>. That makes the 16-bit period between tokens easy to spot. More types are introduced later, as lessons in the message itself.</p>
+  <p>From here on the tutorial writes tokens in short form: <code>3</code> is a number, <code>=</code> is a symbol, and <code>(</code> <code>)</code> are brackets.</p>
+</article>
+</body>
+</html>

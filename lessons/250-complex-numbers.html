@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Complex numbers · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson">
+  <h3>complex numbers</h3>
+  <p>New: the domain <code>ℂ</code> (complex numbers) and the absolute value <code>abs</code>. Every complex number is a real part plus a multiple of <code>i</code>, and the familiar laws still hold:</p>
+  <pre><code>(∃ <var>u</var> ℂ (= (× <var>u</var> <var>u</var>) (neg 1)))
+(∀ <var>u</var> ℂ (∃ <var>v</var> ℝ (∃ <var>w</var> ℝ (= <var>u</var> (+ <var>v</var> (× <var>w</var> i))))))
+(= (× (+ 1 i) (+ 1 i)) (× 2 i))  (= (× (+ 1 i) (− 1 i)) 2)  (= (+ (+ 1 i) (− 1 i)) 2)
+(∀ <var>u</var> ℂ (∀ <var>v</var> ℂ (= (× <var>u</var> <var>v</var>) (× <var>v</var> <var>u</var>))))  (∀ <var>u</var> ℂ (= (+ <var>u</var> 0) <var>u</var>))</code></pre>
+  <p><code>&lt;</code>, <code>&gt;</code>, <code>≤</code> and <code>≥</code> are never used with complex numbers that are not real. Instead, <code>abs</code> measures the distance from 0.</p>
+  <p><code>abs</code> is introduced in a new way: by a sentence that states what it means in terms of known symbols, followed by examples. The absolute value is never negative, and its square is the sum of the squares of the two parts:</p>
+  <pre><code><span data-comment>never negative</span>
+(∀ <var>u</var> ℂ (≥ (abs <var>u</var>) 0))
+<span data-comment>its square is the sum of the squares of the two parts</span>
+(∀ <var>u</var> ℝ (∀ <var>v</var> ℝ (= (^ (abs (+ <var>u</var> (× <var>v</var> i))) 2) (+ (^ <var>u</var> 2) (^ <var>v</var> 2)))))
+(= (abs 3) 3)  (= (abs (neg 3)) 3)  (= (abs 0) 0)  (= (abs i) 1)
+(= (abs (+ 3 (× 4 i))) 5)
+(∀ <var>u</var> ℂ (= (abs (× <var>u</var> <var>u</var>)) (× (abs <var>u</var>) (abs <var>u</var>))))</code></pre>
+</article>
+</body>
+</html>

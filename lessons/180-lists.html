@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lists · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson">
+  <h3>lists</h3>
+  <p>New: <code>list</code>, <code>length</code>, <code>item</code> and <code>count</code>. A list is several values in a fixed order, written <code>(list 4 7 9)</code>. The items are counted from 1.</p>
+  <pre><code>(= (list 4 7 9) (list 4 7 9))
+<span data-comment>order matters</span>
+(≠ (list 1 2) (list 2 1))
+(= (length (list 4 7 9)) 3)  (= (length (list 5)) 1)  (= (length (list)) 0)
+(= (item (list 4 7 9) 1) 4)  (= (item (list 4 7 9) 2) 7)  (= (item (list 4 7 9) 3) 9)
+<span data-comment>lists can contain lists</span>
+(= (length (list (list 1 2) (list 3))) 2)
+(= (item (list (list 1 2) (list 3)) 2) (list 3))</code></pre>
+  <p><code>count</code> tells how many times a value occurs:</p>
+  <pre><code>(= (count 3 (list 3 1 3)) 2)  (= (count 1 (list 3 1 3)) 1)  (= (count 5 (list 3 1 3)) 0)
+(= (count 7 (list 7 7 7 7)) 4)</code></pre>
+  <p>And the general laws:</p>
+  <pre><code>(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (length (list <var>u</var> <var>v</var>)) 2)))
+(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (item (list <var>u</var> <var>v</var>) 1) <var>u</var>)))
+<span data-comment>the last item</span>
+(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (item (list <var>u</var> <var>v</var>) (length (list <var>u</var> <var>v</var>))) <var>v</var>)))</code></pre>
+  <p>The primes of the beacon, as a list:</p>
+  <pre><code>(= (length (list 1 2 3 5 7 11 13 17 19 23 29 31)) 12)</code></pre>
+</article>
+</body>
+</html>

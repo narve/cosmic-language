@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Light and c · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson">
+  <h3>light and c</h3>
+  <p>New: the particle <code>photon</code>, the domain <code>photons</code> (all individual photons), the functions <code>speed</code>, <code>wavelength</code> and <code>frequency</code>, and the constant <code>c</code>, a new type for physical constants.</p>
+  <pre><code>(observed (= (mass photon) 0))  (observed (= (charge photon) 0))
+<span data-comment>every photon has the same speed: c</span>
+(observed (∀ <var>u</var> photons (= (speed <var>u</var>) c)))
+(= (dim c) (÷ L T))
+<span data-comment>wavelength × frequency is the speed</span>
+(observed (∀ <var>u</var> photons (= (× (wavelength <var>u</var>) (frequency <var>u</var>)) c)))
+(∀ <var>u</var> photons (= (dim (frequency <var>u</var>)) (÷ 1 T)))</code></pre>
+</article>
+</body>
+</html>

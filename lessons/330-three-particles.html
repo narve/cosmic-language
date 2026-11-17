@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Three particles · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson">
+  <h3>three particles</h3>
+  <p>New: the particles <code>proton</code>, <code>electron</code> and <code>neutron</code> (a new type), the functions <code>mass</code> and <code>charge</code>, and the marker <code>observed</code>. Only ratios of masses are given, never a mass on its own, because a mass on its own needs a unit.</p>
+  <pre><code><span data-comment>between 1836 and 1837</span>
+(observed (&lt; (big 7 44) (÷ (mass proton) (mass electron)) (big 7 45)))
+<span data-comment>between 1838 and 1839</span>
+(observed (&lt; (big 7 46) (÷ (mass neutron) (mass electron)) (big 7 47)))
+<span data-comment>the neutron is slightly heavier</span>
+(observed (&lt; 1 (÷ (mass neutron) (mass proton)) (÷ 101 100)))
+<span data-comment>opposite charges</span>
+(observed (= (charge proton) (neg (charge electron))))
+(observed (≠ (charge electron) 0))  (observed (= (charge neutron) 0))</code></pre>
+  <p>Three particles, two of them about 1836 and 1839 times heavier than the third, with charges that are opposite and zero. A receiver who knows physics will recognize them.</p>
+</article>
+</body>
+</html>

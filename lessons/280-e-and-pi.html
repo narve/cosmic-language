@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>E and π · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson">
+  <h3>e and π</h3>
+  <p>New constants: <code>e</code> and <code>π</code>. Both are introduced by a sentence that pins them down exactly.</p>
+  <pre><code>(= e (exp 1))
+(&lt; 2 e 3)
+(∀ <var>u</var> ℕ (= (exp <var>u</var>) (^ e <var>u</var>)))</code></pre>
+  <p>π is the only number between 0 and 4 for which <code>exp</code> of <code>i</code> times that number is <code>(neg 1)</code>:</p>
+  <pre><code>(<data value="and">and</data> (&lt; 0 π 4) (= (exp (× i π)) (neg 1)))
+<span data-comment>Euler's identity</span>
+(= (+ (exp (× i π)) 1) 0)
+(= (exp (× 2 i π)) 1)  (= (exp (× i (÷ π 2))) i)
+(&lt; 3 π 4)</code></pre>
+</article>
+</body>
+</html>

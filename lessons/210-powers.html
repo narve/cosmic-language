@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Powers · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson">
+  <h3>powers</h3>
+  <p>New symbol: <code>^</code>, raising to a natural-number power. Like <code>−</code> and <code>÷</code> it takes exactly two arguments, and the lesson shows why: grouping matters.</p>
+  <pre><code>(= (^ 2 3) (× 2 2 2) 8)  (= (^ 3 2) 9)  (= (^ 5 1) 5)  (= (^ 0 5) 0)  (= (^ 5 0) 1)
+<span data-comment>the first number that needs two digits</span>
+(= (^ 2 8) (big 1 0))
+(= (^ (^ 2 3) 2) 64)  (= (^ 2 (^ 3 2)) (big 2 0))  (≠ (^ (^ 2 3) 2) (^ 2 (^ 3 2)))
+(∀ <var>u</var> ℝ (= (^ <var>u</var> 2) (× <var>u</var> <var>u</var>)))
+(∀ <var>u</var> ℝ (∀ <var>v</var> ℕ (= (^ <var>u</var> (+ <var>v</var> 1)) (× <var>u</var> (^ <var>u</var> <var>v</var>)))))
+(∀ <var>u</var> ℝ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (= (^ <var>u</var> (+ <var>v</var> <var>w</var>)) (× (^ <var>u</var> <var>v</var>) (^ <var>u</var> <var>w</var>))))))</code></pre>
+</article>
+</body>
+</html>

@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cosmic Language Specification</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="symbols.js" defer></script>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/views.js" defer></script>
 </head>
 <body>
 
@@ -80,7 +80,7 @@
   <pre><code>message = beacon calibration lessons terminator</code></pre>
   <dl>
     <dt>Beacon</dt>
-    <dd>The primes 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 and 31, each written in unary as that many <code>1</code>s, separated by a single <code>0</code>. There is no pause and no sync token after it.</dd>
+    <dd>The primes 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 and 31, each written in unary as that many <code>1</code>s, separated by a single <code>0</code>. In the message, 1 counts as a prime: the beacon starts with the smallest possible count, a single <code>1</code>. The beacon is 172 bits long. There is no pause and no sync token after it.</dd>
     <dt>Calibration</dt>
     <dd>The same primes as number tokens (§6). This links unary to binary and fixes the token phase.</dd>
     <dt>Lessons</dt>
@@ -89,7 +89,7 @@
     <dd>The beacon, repeated.</dd>
   </dl>
   <p>Example, the start of the beacon:</p>
-  <pre><code>11 0 111 0 11111 0 1111111 0 11111111111 0 …</code></pre>
+  <pre><code>1 0 11 0 111 0 11111 0 1111111 0 11111111111 0 …</code></pre>
   <p>(The spaces are only for readability and are not part of the bitstream.)</p>
 </section>
 
@@ -110,7 +110,7 @@
   <p>Examples:</p>
   <pre><code><i>5   </i> 00000101
 <i>255 </i> 11111111</code></pre>
-  <p>The largest prime that fits in one chunk is <strong>251</strong> (<code>11111011</code>). The numbers above it are composite: 252 = 2²·3²·7, 253 = 11·23, 254 = 2·127, 255 = 3·5·17. There are 54 primes from 2 to 251.</p>
+  <p>The largest prime that fits in one chunk is <strong>251</strong> (<code>11111011</code>). The numbers above it are composite: 252 = 2²·3²·7, 253 = 11·23, 254 = 2·127, 255 = 3·5·17. There are 54 primes from 2 to 251, or 55 if 1 is counted as a prime, as it is in the beacon and the calibration.</p>
   <p>A chunk of 8 bits also holds every atomic number: 118 elements are known, and 2<sup><var>C</var></sup> must stay above about 120 so that a planned element type can use the atomic number itself as its value. This is one reason not to make <var>C</var> smaller than 8.</p>
 </section>
 
@@ -261,156 +261,172 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
   <h2>9. Symbol registry</h2>
   <p>Each symbol has a <dfn>symbol id</dfn>, the number that is sent in the value chunk, and a <dfn>symbol name</dfn>, a human-readable label used only in this documentation and in the tooling. Names are never transmitted; the receiver only ever sees ids.</p>
   <p>The ids are provisional and assigned in order of first appearance in the message, separately for each type, so the order of the rows is also the order of introduction.</p>
+  <p>A <dfn>sign</dfn> is the conventional written form of a symbol, such as ¬ for <code>not</code> or H for <code>hydrogen</code>, used in the documentation's symbols view. Like names, signs are documentation only, and no two symbols share a name or a sign. A symbol without a sign is shown by its name.</p>
   <h3>9.1 Operators and relations (type 2)</h3>
   <p>In the arity column, "2+" means two or more arguments.</p>
-  <table>
-    <thead><tr><th>Id</th><th>Name</th><th>Arity</th><th>Meaning</th></tr></thead>
+  <table data-type="2">
+    <thead><tr><th>Id</th><th>Name</th><th>Sign</th><th>Arity</th><th>Meaning</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td><code>=</code></td><td>2+</td><td>all equal</td></tr>
-      <tr><td>2</td><td><code>≠</code></td><td>2</td><td>not equal</td></tr>
-      <tr><td>3</td><td><code>&lt;</code></td><td>2+</td><td>less than (strictly increasing)</td></tr>
-      <tr><td>4</td><td><code>&gt;</code></td><td>2+</td><td>greater than (strictly decreasing)</td></tr>
-      <tr><td>5</td><td><code>≤</code></td><td>2+</td><td>less than or equal (non-decreasing)</td></tr>
-      <tr><td>6</td><td><code>≥</code></td><td>2+</td><td>greater than or equal (non-increasing)</td></tr>
-      <tr><td>7</td><td><code>+</code></td><td>2+</td><td>addition (sum of all)</td></tr>
-      <tr><td>8</td><td><code>×</code></td><td>2+</td><td>multiplication (product of all)</td></tr>
-      <tr><td>9</td><td><code>big</code></td><td>2+</td><td>positional notation, base 2<sup><var>C</var></sup></td></tr>
-      <tr><td>10</td><td><code>−</code></td><td>2</td><td>subtraction</td></tr>
-      <tr><td>11</td><td><code>neg</code></td><td>1</td><td>negation (additive inverse)</td></tr>
-      <tr><td>12</td><td><code>÷</code></td><td>2</td><td>division</td></tr>
-      <tr><td>13</td><td><code><data value="not">not</data></code></td><td>1</td><td>logical negation</td></tr>
-      <tr><td>14</td><td><code><data value="and">and</data></code></td><td>2+</td><td>all are true</td></tr>
-      <tr><td>15</td><td><code><data value="or">or</data></code></td><td>2+</td><td>at least one is true</td></tr>
-      <tr><td>16</td><td><code>∀</code></td><td>3</td><td>for all: variable, domain, statement</td></tr>
-      <tr><td>17</td><td><code>∃</code></td><td>3</td><td>there exists: variable, domain, statement</td></tr>
-      <tr><td>18</td><td><code><data value="implies">implies</data></code></td><td>2</td><td>if the first is true, so is the second</td></tr>
-      <tr><td>19</td><td><code>list</code></td><td>0+</td><td>a list of the arguments, in order</td></tr>
-      <tr><td>20</td><td><code>length</code></td><td>1</td><td>number of items in a list</td></tr>
-      <tr><td>21</td><td><code>item</code></td><td>2</td><td>the item at a position in a list, counted from 1</td></tr>
-      <tr><td>22</td><td><code>count</code></td><td>2</td><td>how many of one thing are in another: items in a list, particles in an atom, atoms in a molecule</td></tr>
-      <tr><td>23</td><td><code>^</code></td><td>2</td><td>power with a natural-number exponent</td></tr>
-      <tr><td>24</td><td><code>abs</code></td><td>1</td><td>absolute value</td></tr>
-      <tr><td>25</td><td><code>exp</code></td><td>1</td><td>exponential function</td></tr>
-      <tr><td>26</td><td><code>apply</code></td><td>2</td><td>apply an operation to the items of a list or sequence as its arguments</td></tr>
-      <tr><td>27</td><td><code>sequence</code></td><td>3</td><td>variable, values (ℕ or a list), rule: the list or infinite sequence of the rule's values</td></tr>
-      <tr><td>28</td><td><code>mean</code></td><td>1</td><td>the sum of a list's items divided by their number</td></tr>
-      <tr><td>29</td><td><code>chance</code></td><td>2</td><td>the proportion of a list's items that equal a value: (count x L) ÷ (length L)</td></tr>
-      <tr><td>30</td><td><code>pairs</code></td><td>2</td><td>all pairs of an item from one list with an item from another, in order</td></tr>
-      <tr><td>31</td><td><code>observed</code></td><td>1</td><td>the statement is a measurement (§8.3)</td></tr>
-      <tr><td>32</td><td><code>mass</code></td><td>1</td><td>mass of a particle or atom (a quantity)</td></tr>
-      <tr><td>33</td><td><code>charge</code></td><td>1</td><td>electric charge (a quantity)</td></tr>
-      <tr><td>34</td><td><code>isotope</code></td><td>2</td><td>an element with a given number of neutrons</td></tr>
-      <tr><td>35</td><td><code>stable</code></td><td>1+</td><td>all are stable isotopes (observed property)</td></tr>
-      <tr><td>36</td><td><code>level</code></td><td>2</td><td>energy of the <var>n</var>th state of an atom (a quantity)</td></tr>
-      <tr><td>37</td><td><code>states</code></td><td>2</td><td>number of electron states at the <var>n</var>th level of an atom</td></tr>
-      <tr><td>38</td><td><code>noble</code></td><td>1+</td><td>all are noble gases (observed property)</td></tr>
-      <tr><td>39</td><td><code>atoms</code></td><td>1</td><td>the atoms of a molecule, as a list of elements</td></tr>
-      <tr><td>40</td><td><code>bonds</code></td><td>1</td><td>the bonds of a molecule, as a list of (position, position, shared pairs)</td></tr>
-      <tr><td>41</td><td><code>dim</code></td><td>1</td><td>the dimension of a quantity</td></tr>
-      <tr><td>42</td><td><code>speed</code></td><td>1</td><td>speed (a quantity)</td></tr>
-      <tr><td>43</td><td><code>wavelength</code></td><td>1</td><td>wavelength of a photon (a quantity)</td></tr>
-      <tr><td>44</td><td><code>frequency</code></td><td>1</td><td>frequency of a photon (a quantity)</td></tr>
-      <tr><td>45</td><td><code>energy</code></td><td>1</td><td>energy (a quantity)</td></tr>
-      <tr><td>46</td><td><code>emitted</code></td><td>3</td><td>the photon an atom emits falling from one level to another</td></tr>
-      <tr><td>47</td><td><code>gravity</code></td><td>2</td><td>the force of gravity between two bodies (a quantity)</td></tr>
-      <tr><td>48</td><td><code>distance</code></td><td>2</td><td>the distance between two bodies (a quantity)</td></tr>
-      <tr><td>49</td><td><code>electric</code></td><td>2</td><td>the electric force between two bodies (a quantity)</td></tr>
-      <tr><td>50</td><td><code>kinetic</code></td><td>1</td><td>the average energy of motion of a gas's particles (a quantity)</td></tr>
-      <tr><td>51</td><td><code>temperature</code></td><td>1</td><td>temperature (a quantity)</td></tr>
-      <tr><td>52</td><td><code>radiance</code></td><td>1</td><td>power radiated per area (a quantity)</td></tr>
-      <tr><td>53</td><td><code>triple-point</code></td><td>1</td><td>the temperature at which a substance's solid, liquid and gas exist together</td></tr>
-      <tr><td>54</td><td><code>lifetime</code></td><td>1</td><td>the mean lifetime of an unstable particle or isotope (a quantity)</td></tr>
-      <tr><td>55</td><td><code>survival</code></td><td>2</td><td>the chance that something has not decayed after a duration</td></tr>
-      <tr><td>56</td><td><code>half-life</code></td><td>1</td><td>the duration after which the chance of survival is 1/2 (a quantity)</td></tr>
-      <tr><td>57</td><td><code>payoff</code></td><td>2</td><td>the score for one's move, given the other's move</td></tr>
-      <tr><td>58</td><td><code>move</code></td><td>2</td><td>a strategy's next move given a history: a list to pick from</td></tr>
-      <tr><td>59</td><td><code>rounds</code></td><td>3</td><td>the history after a number of rounds of two strategies playing each other</td></tr>
-      <tr><td>60</td><td><code>score</code></td><td>3</td><td>the sum of one strategy's payoffs over a number of rounds</td></tr>
+      <tr><td>1</td><td><code>=</code></td><td></td><td>2+</td><td>all equal</td></tr>
+      <tr><td>2</td><td><code>≠</code></td><td></td><td>2</td><td>not equal</td></tr>
+      <tr><td>3</td><td><code>&lt;</code></td><td></td><td>2+</td><td>less than (strictly increasing)</td></tr>
+      <tr><td>4</td><td><code>&gt;</code></td><td></td><td>2+</td><td>greater than (strictly decreasing)</td></tr>
+      <tr><td>5</td><td><code>≤</code></td><td></td><td>2+</td><td>less than or equal (non-decreasing)</td></tr>
+      <tr><td>6</td><td><code>≥</code></td><td></td><td>2+</td><td>greater than or equal (non-increasing)</td></tr>
+      <tr><td>7</td><td><code>+</code></td><td></td><td>2+</td><td>addition (sum of all)</td></tr>
+      <tr><td>8</td><td><code>×</code></td><td></td><td>2+</td><td>multiplication (product of all)</td></tr>
+      <tr><td>9</td><td><code>big</code></td><td></td><td>2+</td><td>positional notation, base 2<sup><var>C</var></sup></td></tr>
+      <tr><td>10</td><td><code>−</code></td><td></td><td>2</td><td>subtraction</td></tr>
+      <tr><td>11</td><td><code>neg</code></td><td></td><td>1</td><td>negation (additive inverse)</td></tr>
+      <tr><td>12</td><td><code>÷</code></td><td></td><td>2</td><td>division</td></tr>
+      <tr><td>13</td><td><code><data value="not">not</data></code></td><td>¬</td><td>1</td><td>logical negation</td></tr>
+      <tr><td>14</td><td><code><data value="and">and</data></code></td><td>∧</td><td>2+</td><td>all are true</td></tr>
+      <tr><td>15</td><td><code><data value="or">or</data></code></td><td>∨</td><td>2+</td><td>at least one is true</td></tr>
+      <tr><td>16</td><td><code>∀</code></td><td></td><td>3</td><td>for all: variable, domain, statement</td></tr>
+      <tr><td>17</td><td><code>∃</code></td><td></td><td>3</td><td>there exists: variable, domain, statement</td></tr>
+      <tr><td>18</td><td><code><data value="implies">implies</data></code></td><td>⇒</td><td>2</td><td>if the first is true, so is the second</td></tr>
+      <tr><td>19</td><td><code>list</code></td><td></td><td>0+</td><td>a list of the arguments, in order</td></tr>
+      <tr><td>20</td><td><code>length</code></td><td></td><td>1</td><td>number of items in a list</td></tr>
+      <tr><td>21</td><td><code>item</code></td><td></td><td>2</td><td>the item at a position in a list, counted from 1</td></tr>
+      <tr><td>22</td><td><code>count</code></td><td></td><td>2</td><td>how many of one thing are in another: items in a list, particles in an atom, atoms in a molecule</td></tr>
+      <tr><td>23</td><td><code>^</code></td><td></td><td>2</td><td>power with a natural-number exponent</td></tr>
+      <tr><td>24</td><td><code>abs</code></td><td></td><td>1</td><td>absolute value</td></tr>
+      <tr><td>25</td><td><code>exp</code></td><td></td><td>1</td><td>exponential function</td></tr>
+      <tr><td>26</td><td><code>apply</code></td><td></td><td>2</td><td>apply an operation to the items of a list or sequence as its arguments</td></tr>
+      <tr><td>27</td><td><code>sequence</code></td><td></td><td>3</td><td>variable, values (ℕ or a list), rule: the list or infinite sequence of the rule's values</td></tr>
+      <tr><td>28</td><td><code>mean</code></td><td></td><td>1</td><td>the sum of a list's items divided by their number</td></tr>
+      <tr><td>29</td><td><code>chance</code></td><td></td><td>2</td><td>the proportion of a list's items that equal a value: (count x L) ÷ (length L)</td></tr>
+      <tr><td>30</td><td><code>pairs</code></td><td></td><td>2</td><td>all pairs of an item from one list with an item from another, in order</td></tr>
+      <tr><td>31</td><td><code>observed</code></td><td></td><td>1</td><td>the statement is a measurement (§8.3)</td></tr>
+      <tr><td>32</td><td><code>mass</code></td><td></td><td>1</td><td>mass of a particle or atom (a quantity)</td></tr>
+      <tr><td>33</td><td><code>charge</code></td><td></td><td>1</td><td>electric charge (a quantity)</td></tr>
+      <tr><td>34</td><td><code>isotope</code></td><td></td><td>2</td><td>an element with a given number of neutrons</td></tr>
+      <tr><td>35</td><td><code>stable</code></td><td></td><td>1+</td><td>all are stable isotopes (observed property)</td></tr>
+      <tr><td>36</td><td><code>level</code></td><td></td><td>2</td><td>energy of the <var>n</var>th state of an atom (a quantity)</td></tr>
+      <tr><td>37</td><td><code>states</code></td><td></td><td>2</td><td>number of electron states at the <var>n</var>th level of an atom</td></tr>
+      <tr><td>38</td><td><code>noble</code></td><td></td><td>1+</td><td>all are noble gases (observed property)</td></tr>
+      <tr><td>39</td><td><code>atoms</code></td><td></td><td>1</td><td>the atoms of a molecule, as a list of elements</td></tr>
+      <tr><td>40</td><td><code>bonds</code></td><td></td><td>1</td><td>the bonds of a molecule, as a list of (position, position, shared pairs)</td></tr>
+      <tr><td>41</td><td><code>dim</code></td><td></td><td>1</td><td>the dimension of a quantity</td></tr>
+      <tr><td>42</td><td><code>speed</code></td><td></td><td>1</td><td>speed (a quantity)</td></tr>
+      <tr><td>43</td><td><code>wavelength</code></td><td></td><td>1</td><td>wavelength of a photon (a quantity)</td></tr>
+      <tr><td>44</td><td><code>frequency</code></td><td></td><td>1</td><td>frequency of a photon (a quantity)</td></tr>
+      <tr><td>45</td><td><code>energy</code></td><td></td><td>1</td><td>energy (a quantity)</td></tr>
+      <tr><td>46</td><td><code>emitted</code></td><td></td><td>3</td><td>the photon an atom emits falling from one level to another</td></tr>
+      <tr><td>47</td><td><code>gravity</code></td><td></td><td>2</td><td>the force of gravity between two bodies (a quantity)</td></tr>
+      <tr><td>48</td><td><code>distance</code></td><td></td><td>2</td><td>the distance between two bodies (a quantity)</td></tr>
+      <tr><td>49</td><td><code>electric</code></td><td></td><td>2</td><td>the electric force between two bodies (a quantity)</td></tr>
+      <tr><td>50</td><td><code>kinetic</code></td><td></td><td>1</td><td>the average energy of motion of a gas's particles (a quantity)</td></tr>
+      <tr><td>51</td><td><code>temperature</code></td><td></td><td>1</td><td>temperature (a quantity)</td></tr>
+      <tr><td>52</td><td><code>radiance</code></td><td></td><td>1</td><td>power radiated per area (a quantity)</td></tr>
+      <tr><td>53</td><td><code>triple-point</code></td><td></td><td>1</td><td>the temperature at which a substance's solid, liquid and gas exist together</td></tr>
+      <tr><td>54</td><td><code>lifetime</code></td><td></td><td>1</td><td>the mean lifetime of an unstable particle or isotope (a quantity)</td></tr>
+      <tr><td>55</td><td><code>survival</code></td><td></td><td>2</td><td>the chance that something has not decayed after a duration</td></tr>
+      <tr><td>56</td><td><code>half-life</code></td><td></td><td>1</td><td>the duration after which the chance of survival is 1/2 (a quantity)</td></tr>
+      <tr><td>57</td><td><code>payoff</code></td><td></td><td>2</td><td>the score for one's move, given the other's move</td></tr>
+      <tr><td>58</td><td><code>move</code></td><td></td><td>2</td><td>a strategy's next move given a history: a list to pick from</td></tr>
+      <tr><td>59</td><td><code>rounds</code></td><td></td><td>3</td><td>the history after a number of rounds of two strategies playing each other</td></tr>
+      <tr><td>60</td><td><code>score</code></td><td></td><td>3</td><td>the sum of one strategy's payoffs over a number of rounds</td></tr>
     </tbody>
   </table>
   <h3>9.2 Constants (type 3)</h3>
-  <table>
-    <thead><tr><th>Id</th><th>Name</th><th>Meaning</th></tr></thead>
+  <table data-type="3">
+    <thead><tr><th>Id</th><th>Name</th><th>Sign</th><th>Meaning</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td><code><data value="true">true</data></code></td><td>truth value: true</td></tr>
-      <tr><td>2</td><td><code><data value="false">false</data></code></td><td>truth value: false</td></tr>
-      <tr><td>3</td><td><code>ℕ</code></td><td>domain: the natural numbers</td></tr>
-      <tr><td>4</td><td><code>ℚ</code></td><td>domain: the rational numbers</td></tr>
-      <tr><td>5</td><td><code>ℝ</code></td><td>domain: the real numbers</td></tr>
-      <tr><td>6</td><td><code>i</code></td><td>the imaginary unit, <code>(= (× i i) (neg 1))</code></td></tr>
-      <tr><td>7</td><td><code>ℂ</code></td><td>domain: the complex numbers</td></tr>
-      <tr><td>8</td><td><code>e</code></td><td><code>(exp 1)</code></td></tr>
-      <tr><td>9</td><td><code>π</code></td><td>the number in (0, 4) with <code>(= (exp (× i π)) (neg 1))</code></td></tr>
-      <tr><td>10</td><td><code>elements</code></td><td>domain: the chemical elements</td></tr>
-      <tr><td>11</td><td><code>photons</code></td><td>domain: all individual photons</td></tr>
-      <tr><td>12</td><td><code>bodies</code></td><td>domain: bodies with mass, moving slowly in weak gravity</td></tr>
-      <tr><td>13</td><td><code>gases</code></td><td>domain: thin gases of single atoms</td></tr>
-      <tr><td>14</td><td><code>black-bodies</code></td><td>domain: bodies that absorb all light falling on them</td></tr>
-      <tr><td>15</td><td><code>durations</code></td><td>domain: durations (quantities of dimension T)</td></tr>
-      <tr><td>16</td><td><code>cooperate</code></td><td>a move in the prisoner's dilemma</td></tr>
-      <tr><td>17</td><td><code>defect</code></td><td>a move in the prisoner's dilemma</td></tr>
-      <tr><td>18</td><td><code>histories</code></td><td>domain: lists of rounds, each round a list of two moves (one's own, the other's)</td></tr>
-      <tr><td>19</td><td><code>always-cooperate</code></td><td>strategy</td></tr>
-      <tr><td>20</td><td><code>always-defect</code></td><td>strategy</td></tr>
-      <tr><td>21</td><td><code>tit-for-tat</code></td><td>strategy</td></tr>
-      <tr><td>22</td><td><code>grim</code></td><td>strategy</td></tr>
-      <tr><td>23</td><td><code>pavlov</code></td><td>strategy</td></tr>
-      <tr><td>24</td><td><code>generous-tit-for-tat</code></td><td>strategy (picks by chance after a defection)</td></tr>
-      <tr><td>25</td><td><code>tournament</code></td><td>the list of the five fixed strategies</td></tr>
+      <tr><td>1</td><td><code><data value="true">true</data></code></td><td>⊤</td><td>truth value: true</td></tr>
+      <tr><td>2</td><td><code><data value="false">false</data></code></td><td>⊥</td><td>truth value: false</td></tr>
+      <tr><td>3</td><td><code>ℕ</code></td><td></td><td>domain: the natural numbers</td></tr>
+      <tr><td>4</td><td><code>ℚ</code></td><td></td><td>domain: the rational numbers</td></tr>
+      <tr><td>5</td><td><code>ℝ</code></td><td></td><td>domain: the real numbers</td></tr>
+      <tr><td>6</td><td><code>i</code></td><td></td><td>the imaginary unit, <code>(= (× i i) (neg 1))</code></td></tr>
+      <tr><td>7</td><td><code>ℂ</code></td><td></td><td>domain: the complex numbers</td></tr>
+      <tr><td>8</td><td><code>e</code></td><td></td><td><code>(exp 1)</code></td></tr>
+      <tr><td>9</td><td><code>π</code></td><td></td><td>the number in (0, 4) with <code>(= (exp (× i π)) (neg 1))</code></td></tr>
+      <tr><td>10</td><td><code>elements</code></td><td></td><td>domain: the chemical elements</td></tr>
+      <tr><td>11</td><td><code>photons</code></td><td></td><td>domain: all individual photons</td></tr>
+      <tr><td>12</td><td><code>bodies</code></td><td></td><td>domain: bodies with mass, moving slowly in weak gravity</td></tr>
+      <tr><td>13</td><td><code>gases</code></td><td></td><td>domain: thin gases of single atoms</td></tr>
+      <tr><td>14</td><td><code>black-bodies</code></td><td></td><td>domain: bodies that absorb all light falling on them</td></tr>
+      <tr><td>15</td><td><code>durations</code></td><td></td><td>domain: durations (quantities of dimension T)</td></tr>
+      <tr><td>16</td><td><code>cooperate</code></td><td></td><td>a move in the prisoner's dilemma</td></tr>
+      <tr><td>17</td><td><code>defect</code></td><td></td><td>a move in the prisoner's dilemma</td></tr>
+      <tr><td>18</td><td><code>histories</code></td><td></td><td>domain: lists of rounds, each round a list of two moves (one's own, the other's)</td></tr>
+      <tr><td>19</td><td><code>always-cooperate</code></td><td></td><td>strategy</td></tr>
+      <tr><td>20</td><td><code>always-defect</code></td><td></td><td>strategy</td></tr>
+      <tr><td>21</td><td><code>tit-for-tat</code></td><td></td><td>strategy</td></tr>
+      <tr><td>22</td><td><code>grim</code></td><td></td><td>strategy</td></tr>
+      <tr><td>23</td><td><code>pavlov</code></td><td></td><td>strategy</td></tr>
+      <tr><td>24</td><td><code>generous-tit-for-tat</code></td><td></td><td>strategy (picks by chance after a defection)</td></tr>
+      <tr><td>25</td><td><code>tournament</code></td><td></td><td>the list of the five fixed strategies</td></tr>
     </tbody>
   </table>
   <h3>9.3 Variables (type 4)</h3>
-  <table>
-    <thead><tr><th>Id</th><th>Name</th></tr></thead>
+  <table data-type="4">
+    <thead><tr><th>Id</th><th>Name</th><th>Sign</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td><var>u</var></td></tr>
-      <tr><td>2</td><td><var>v</var></td></tr>
-      <tr><td>3</td><td><var>w</var></td></tr>
-      <tr><td>4</td><td><var>z</var></td></tr>
+      <tr><td>1</td><td><var>u</var></td><td></td></tr>
+      <tr><td>2</td><td><var>v</var></td><td></td></tr>
+      <tr><td>3</td><td><var>w</var></td><td></td></tr>
+      <tr><td>4</td><td><var>z</var></td><td></td></tr>
     </tbody>
   </table>
   <h3>9.4 Particles (type 5)</h3>
-  <table>
-    <thead><tr><th>Id</th><th>Name</th></tr></thead>
+  <table data-type="5">
+    <thead><tr><th>Id</th><th>Name</th><th>Sign</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td><code>proton</code></td></tr>
-      <tr><td>2</td><td><code>electron</code></td></tr>
-      <tr><td>3</td><td><code>neutron</code></td></tr>
-      <tr><td>4</td><td><code>photon</code></td></tr>
+      <tr><td>1</td><td><code>proton</code></td><td>p</td></tr>
+      <tr><td>2</td><td><code>electron</code></td><td>e⁻</td></tr>
+      <tr><td>3</td><td><code>neutron</code></td><td>n</td></tr>
+      <tr><td>4</td><td><code>photon</code></td><td>γ</td></tr>
     </tbody>
   </table>
   <h3>9.5 Elements (type 6)</h3>
-  <p>The value is the atomic number: 1 = <code>hydrogen</code>, 2 = <code>helium</code>, 6 = <code>carbon</code>, 7 = <code>nitrogen</code>, 8 = <code>oxygen</code>, 10 = <code>neon</code>, 18 = <code>argon</code>, 36 = <code>krypton</code>, 54 = <code>xenon</code>, 86 = <code>radon</code>, and so on up to 118. Names are the usual English element names.</p>
-  <h3>9.6 Dimensions (type 7)</h3>
-  <table>
-    <thead><tr><th>Id</th><th>Name</th><th>Meaning</th></tr></thead>
+  <p>The value is the atomic number, up to 118. Names are the usual English element names, and signs the usual chemical symbols. The table lists the elements the message uses so far.</p>
+  <table data-type="6">
+    <thead><tr><th>Id</th><th>Name</th><th>Sign</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td><code>M</code></td><td>mass</td></tr>
-      <tr><td>2</td><td><code>L</code></td><td>length</td></tr>
-      <tr><td>3</td><td><code>T</code></td><td>time</td></tr>
-      <tr><td>4</td><td><code>Q</code></td><td>charge</td></tr>
-      <tr><td>5</td><td><code>Θ</code></td><td>temperature</td></tr>
+      <tr><td>1</td><td><code>hydrogen</code></td><td>H</td></tr>
+      <tr><td>2</td><td><code>helium</code></td><td>He</td></tr>
+      <tr><td>6</td><td><code>carbon</code></td><td>C</td></tr>
+      <tr><td>7</td><td><code>nitrogen</code></td><td>N</td></tr>
+      <tr><td>8</td><td><code>oxygen</code></td><td>O</td></tr>
+      <tr><td>10</td><td><code>neon</code></td><td>Ne</td></tr>
+      <tr><td>18</td><td><code>argon</code></td><td>Ar</td></tr>
+      <tr><td>36</td><td><code>krypton</code></td><td>Kr</td></tr>
+      <tr><td>54</td><td><code>xenon</code></td><td>Xe</td></tr>
+      <tr><td>86</td><td><code>radon</code></td><td>Rn</td></tr>
+    </tbody>
+  </table>
+  <h3>9.6 Dimensions (type 7)</h3>
+  <table data-type="7">
+    <thead><tr><th>Id</th><th>Name</th><th>Sign</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>M</code></td><td></td><td>mass</td></tr>
+      <tr><td>2</td><td><code>L</code></td><td></td><td>length</td></tr>
+      <tr><td>3</td><td><code>T</code></td><td></td><td>time</td></tr>
+      <tr><td>4</td><td><code>Q</code></td><td></td><td>charge</td></tr>
+      <tr><td>5</td><td><code>Θ</code></td><td></td><td>temperature</td></tr>
     </tbody>
   </table>
   <h3>9.7 Physical constants (type 8)</h3>
-  <table>
-    <thead><tr><th>Id</th><th>Name</th><th>Introduced through</th></tr></thead>
+  <table data-type="8">
+    <thead><tr><th>Id</th><th>Name</th><th>Sign</th><th>Introduced through</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td><code>c</code></td><td>the speed of every photon; wavelength × frequency</td></tr>
-      <tr><td>2</td><td><code>ħ</code></td><td>a photon's energy = ħ × 2π × frequency</td></tr>
-      <tr><td>3</td><td><code>G</code></td><td>Newton's law of gravitation</td></tr>
-      <tr><td>4</td><td><code>ke</code></td><td>Coulomb's law of the electric force</td></tr>
-      <tr><td>5</td><td><code>planck-length</code></td><td>planck-length² = ħG / c³</td></tr>
-      <tr><td>6</td><td><code>planck-time</code></td><td>planck-time² = ħG / c⁵</td></tr>
-      <tr><td>7</td><td><code>planck-mass</code></td><td>planck-mass² = ħc / G</td></tr>
-      <tr><td>8</td><td><code>hydrogen-line</code></td><td>the photon of hydrogen's 21 cm line, identified by its energy and period</td></tr>
-      <tr><td>9</td><td><code>kB</code></td><td>a gas's particles have average energy of motion 3/2 kB × temperature</td></tr>
-      <tr><td>10</td><td><code>planck-temperature</code></td><td>planck-temperature² = ħc⁵ / (G kB²)</td></tr>
+      <tr><td>1</td><td><code>c</code></td><td></td><td>the speed of every photon; wavelength × frequency</td></tr>
+      <tr><td>2</td><td><code>ħ</code></td><td></td><td>a photon's energy = ħ × 2π × frequency</td></tr>
+      <tr><td>3</td><td><code>G</code></td><td></td><td>Newton's law of gravitation</td></tr>
+      <tr><td>4</td><td><code>ke</code></td><td></td><td>Coulomb's law of the electric force</td></tr>
+      <tr><td>5</td><td><code>planck-length</code></td><td>ℓP</td><td>planck-length² = ħG / c³</td></tr>
+      <tr><td>6</td><td><code>planck-time</code></td><td>tP</td><td>planck-time² = ħG / c⁵</td></tr>
+      <tr><td>7</td><td><code>planck-mass</code></td><td>mP</td><td>planck-mass² = ħc / G</td></tr>
+      <tr><td>8</td><td><code>hydrogen-line</code></td><td></td><td>the photon of hydrogen's 21 cm line, identified by its energy and period</td></tr>
+      <tr><td>9</td><td><code>kB</code></td><td></td><td>a gas's particles have average energy of motion 3/2 kB × temperature</td></tr>
+      <tr><td>10</td><td><code>planck-temperature</code></td><td>TP</td><td>planck-temperature² = ħc⁵ / (G kB²)</td></tr>
     </tbody>
   </table>
   <h3>9.8 Molecules (type 9)</h3>
-  <table>
-    <thead><tr><th>Id</th><th>Name</th><th>Atoms</th></tr></thead>
+  <table data-type="9">
+    <thead><tr><th>Id</th><th>Name</th><th>Sign</th></tr></thead>
     <tbody>
       <tr><td>1</td><td><code>water</code></td><td>H₂O</td></tr>
       <tr><td>2</td><td><code>methane</code></td><td>CH₄</td></tr>
@@ -465,7 +481,7 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
         <li>Making the boundary between repetitions unmistakable (terminator followed directly by the beacon).</li>
       </ul>
       Related to self-synchronization after burst errors and to L1.</li>
-    <li>Whether calibration should list all 54 primes up to 251, the largest prime in one chunk, instead of stopping at 31.</li>
+    <li>Whether calibration should list all 55 primes up to 251 (1 included), the largest prime in one chunk, instead of stopping at 31.</li>
     <li>The type field is large for what it carries (256 possible types, about 3 used), and the structure type has only two values. Decided direction: keep the uniform 16-bit token (it helps the receiver find type and value chunks) and let type 1 grow into a family of structural and transport tokens (padding, sync, end of message) when they are needed.</li>
   </ul>
 </section>

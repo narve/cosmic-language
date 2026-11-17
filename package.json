@@ -1,0 +1,17 @@
+{
+  "name": "cosmic-language",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsx build/build.ts"
+  },
+  "engines": {
+    "node": ">=22.18"
+  },
+  "dependencies": {
+    "happy-dom": "21.0.4"
+  },
+  "devDependencies": {
+    "tsx": "4.20.6"
+  }
+}

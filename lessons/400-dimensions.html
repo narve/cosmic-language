@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dimensions · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson">
+  <h3>dimensions</h3>
+  <p>New: the dimensions <code>M</code> (mass), <code>L</code> (length) and <code>T</code> (time), a new type, and the function <code>dim</code>, the dimension of a quantity. Dimensions combine with <code>×</code>, <code>÷</code> and <code>^</code>, and a ratio of two quantities of the same dimension is a plain number, of dimension 1.</p>
+  <pre><code>(= (dim (mass proton)) M)  (= (dim (mass electron)) M)
+(= (dim (÷ (mass proton) (mass electron))) 1)
+(≠ M L)  (≠ L T)  (≠ M T)
+<span data-comment>energy is mass × length² ÷ time²</span>
+(= (dim (level hydrogen 1)) (÷ (× M (^ L 2)) (^ T 2)))
+(= (× L (÷ 1 T)) (÷ L T))</code></pre>
+  <p>Only quantities of the same dimension are compared, added or divided into a number.</p>
+</article>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Energy and ħ · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson">
+  <h3>energy and ħ</h3>
+  <p>New: the function <code>energy</code>, the constant <code>ħ</code>, and <code>emitted</code>: the photon a hydrogen atom emits when it falls from one level to a lower one.</p>
+  <pre><code><span data-comment>the energy of a photon is ħ × 2π × its frequency</span>
+(observed (∀ <var>u</var> photons (= (energy <var>u</var>) (× ħ 2 π (frequency <var>u</var>)))))
+(= (dim ħ) (÷ (× M (^ L 2)) T))
+<span data-comment>falling from level 2 to level 1, hydrogen emits a photon carrying the difference,</span>
+<span data-comment>apart from a tiny share taken by the recoil of the atom</span>
+(observed (&lt; (÷ 99 100)
+              (÷ (energy (emitted hydrogen 2 1)) (− (level hydrogen 2) (level hydrogen 1)))
+              1))</code></pre>
+  <p>This ties the energy levels of hydrogen to light that can be measured.</p>
+</article>
+</body>
+</html>

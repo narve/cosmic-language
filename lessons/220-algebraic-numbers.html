@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Algebraic numbers · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson">
+  <h3>algebraic numbers</h3>
+  <p>A polynomial is an expression built from a variable, numbers, <code>+</code>, <code>×</code> and <code>^</code>. The laws of the previous lessons apply to them:</p>
+  <pre><code>(∀ <var>u</var> ℝ (= (^ (+ <var>u</var> 1) 2) (+ (^ <var>u</var> 2) (× 2 <var>u</var>) 1)))
+(∀ <var>u</var> ℝ (= (× (+ <var>u</var> 1) (− <var>u</var> 1)) (− (^ <var>u</var> 2) 1)))</code></pre>
+  <p>A number that makes a polynomial equal to 0 is a root of it. The square root of 2 from the lesson on real numbers is one; here are more:</p>
+  <pre><code><span data-comment>a root of u² − u − 1</span>
+(∃ <var>u</var> ℝ (<data value="and">and</data> (&gt; <var>u</var> 0) (= (^ <var>u</var> 2) (+ <var>u</var> 1))))
+<span data-comment>a root of u³ + u + 1</span>
+(∃ <var>u</var> ℝ (= (+ (^ <var>u</var> 3) <var>u</var> 1) 0))
+<span data-comment>a fifth root of 3</span>
+(∃ <var>u</var> ℝ (<data value="and">and</data> (&gt; <var>u</var> 0) (= (^ <var>u</var> 5) 3)))</code></pre>
+  <p>Numbers like these, roots of polynomials with whole-number coefficients, are called algebraic numbers. Every rational number is one: <code>(÷ 1 3)</code> is the root of 3<var>u</var> − 1.</p>
+</article>
+</body>
+</html>

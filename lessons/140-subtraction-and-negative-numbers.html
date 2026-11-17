@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Subtraction and negative numbers · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson">
+  <h3>subtraction and negative numbers</h3>
+  <p>New symbol: <code>−</code>. To begin with, only differences that stay at or above zero:</p>
+  <pre><code>(= (− 5 3) 2) (= (− 9 0) 9) (= (− 7 7) 0) (= (− (big 1 0) 1) 255)
+<span data-comment>− undoes +</span>
+(= (+ (− 5 3) 3) 5)</code></pre>
+  <p>Then the difference goes below zero, and a new symbol, <code>neg</code>, is needed for the result:</p>
+  <pre><code>(= (− 3 5) (neg 2)) (= (− 0 1) (neg 1)) (= (− 2 9) (neg 7))
+<span data-comment>neg is the opposite of +</span>
+(= (+ (neg 2) 2) 0) (= (+ 5 (neg 5)) 0)
+(= (neg 0) 0) (= (neg (neg 4)) 4)
+(&lt; (neg 3) (neg 1)) (&lt; (neg 1) 0) (&gt; 0 (neg 5))
+(= (× (neg 2) 3) (neg 6)) (= (× (neg 2) (neg 3)) 6)</code></pre>
+  <p>Strictly, <code>−</code> is not needed once <code>neg</code> exists: <code>(− <var>u</var> <var>v</var>)</code> is the same as <code>(+ <var>u</var> (neg <var>v</var>))</code>. It is included anyway, because the message values clarity over a minimal vocabulary. <code>neg</code> is deliberately a separate symbol from <code>−</code>. A symbol never changes meaning with the number of arguments it gets.</p>
+</article>
+</body>
+</html>

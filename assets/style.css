@@ -1,0 +1,308 @@
+/* Classless stylesheet for the cosmic-language docs. Inspired by dv8.no. */
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap");
+
+:root {
+  color-scheme: light dark;
+  --bg: #f3f5f8;
+  --bg-card: rgba(255, 255, 255, 0.78);
+  --line: rgba(20, 70, 100, 0.12);
+  --line-strong: rgba(20, 110, 140, 0.35);
+  --text: #18202b;
+  --muted: #5b6776;
+  --accent: #0b7f95;
+  --accent-2: #6a4fd1;
+  --grid: rgba(11, 127, 149, 0.06);
+  --glow: rgba(11, 127, 149, 0.07);
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+/* Light by default; dark only when the reader's system asks for it. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #07090d;
+    --bg-card: rgba(18, 24, 33, 0.72);
+    --line: rgba(120, 200, 230, 0.12);
+    --line-strong: rgba(120, 200, 230, 0.32);
+    --text: #d6dde6;
+    --muted: #7d8a99;
+    --accent: #6fd6e8;
+    --accent-2: #b59cff;
+    --grid: rgba(111, 214, 232, 0.045);
+    --glow: rgba(111, 214, 232, 0.08);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, var(--glow), transparent 70%),
+    linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 40px 40px,
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 40px 40px,
+    var(--bg);
+  background-attachment: fixed;
+}
+
+body {
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 4rem 1rem 3rem;
+  color: var(--text);
+  font: 400 16px/1.6 "Space Grotesk", system-ui, sans-serif;
+  background: transparent;
+}
+
+/* Header */
+body > header { margin-bottom: 3rem; }
+body > header p { max-width: 36rem; margin: 0; color: var(--muted); }
+body > header small {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+body > header small::before {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  margin-right: 0.6em;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  vertical-align: 0.08em;
+  animation: pulse 3s ease-in-out infinite;
+}
+@keyframes pulse { 50% { opacity: 0.35; } }
+@media (prefers-reduced-motion: reduce) { body > header small::before { animation: none; } }
+
+/* Headings */
+h1 {
+  margin: 0.6rem 0 0.8rem;
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 3.5rem 0 1.25rem;
+  font-weight: 400;
+  text-wrap: balance;
+}
+h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line-strong), transparent);
+}
+h3 { margin: 2rem 0 0.5rem; font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
+h4 { margin: 1.5rem 0 0.4rem; font-size: 1rem; font-weight: 600; color: var(--accent); }
+
+p, ul, ol, dl { max-width: 42rem; }
+li + li { margin-top: 0.25rem; }
+strong { font-weight: 600; }
+em { color: var(--accent-2); font-style: normal; }
+
+a { color: var(--accent); text-underline-offset: 0.2em; }
+a:hover { color: var(--accent-2); }
+a:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+
+/* Table of contents (parts, with their lessons nested) */
+nav > ol {
+  columns: 2 14rem;
+  padding: 1rem 1rem 1rem 2.5rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg-card);
+  max-width: none;
+}
+nav ol ol { margin: 0.25rem 0 0.5rem; padding-left: 1.75rem; font-size: 0.92em; }
+nav > ol > li { break-inside: avoid; }
+nav a { color: var(--text); text-decoration: none; }
+nav a:hover { color: var(--accent); }
+
+/* Code and bits */
+code, samp, kbd, pre { font-family: var(--mono); font-size: 0.88em; }
+code { color: var(--accent); }
+pre {
+  overflow-x: auto;
+  margin: 1rem 0 1.5rem;
+  padding: 1rem 1.25rem;
+  line-height: 1.5;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--accent);
+  border-radius: 6px;
+  backdrop-filter: blur(6px);
+}
+pre code { color: var(--text); }
+/* Variables: italic everywhere; in code also coloured, so they stand out from symbols such as × */
+var { font-style: italic; }
+code var, pre var { color: var(--accent-2); }
+
+[data-bit="continuation"] {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.25em;
+}
+pre i { color: var(--muted); font-style: normal; }    /* annotations */
+/* Comments in examples: <span data-comment>text</span>, shown with a marker before it.
+   Change the marker or the look here, e.g. --comment-marker: "// "; */
+:root { --comment-marker: "; "; }
+[data-comment] { color: var(--muted); font-style: italic; }
+[data-comment]::before { content: var(--comment-marker); }
+
+/* Illustrations: shown to explain, never part of the message. Marked with a label and a dashed border. */
+pre[data-illustration] { border-style: dashed; border-left-style: dashed; border-left-color: var(--muted); }
+pre[data-illustration]::before {
+  content: "illustration · not part of the message";
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+details > summary { cursor: pointer; }
+details > summary:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+
+/* Parts and lessons (articles from lessons/). On the tutorial page they are numbered with counters;
+   on a page of their own (body > article) the first heading is shown as large as a page title. */
+main { counter-reset: part lesson; }
+main article.part { counter-increment: part; }
+main article.lesson { counter-increment: lesson; }
+main article.part > h2:first-child::before { content: counter(part) "."; }
+main article.lesson > h3:first-child::before { content: "Lesson " counter(lesson) ": "; }
+main article.part { margin-top: 3.5rem; }
+main article.lesson { margin-top: 2rem; }
+body > article > :is(h2, h3):first-child {
+  margin: 0.6rem 0 1.5rem;
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+body > article > h3:first-child::first-letter { text-transform: uppercase; }
+
+/* Views of a message block, generated after its <pre> as <details data-views><table>.
+   Without JavaScript they are a closed disclosure. views.js sets :root[data-views] to the chosen
+   views (e.g. "words bits"): only words shows the <pre>, anything else the table's chosen columns. */
+details[data-views] { margin: -1rem 0 1.5rem; }
+details[data-views] > summary { padding: 0.3rem 0; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+details[data-views] table {
+  display: table;
+  width: 100%;
+  margin: 0.25rem 0 0;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--accent);
+  border-radius: 6px;
+}
+details[data-views] :is(th, td) { padding: 0.2rem 0.9rem; border-bottom: 0; }
+details[data-views] td { font-size: 0.86rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+details[data-views] td :is(code, samp) { color: var(--text); }
+details[data-views] td:is([data-view="words"], [data-view="symbols"]) { min-width: min(34ch, 70vw); }
+details[data-views] td[data-view="bits"] samp { font-size: 0.92em; }
+/* Several views side by side: on wide screens the table may grow past the text column. */
+@media (min-width: 64rem) {
+  :root[data-views*=" "] details[data-views] table {
+    --wide: min(calc(100vw - 4rem), 88rem);
+    width: var(--wide);
+    margin-left: calc((100% - var(--wide)) / 2);
+  }
+}
+details[data-views] tr + tr td { border-top: 1px solid var(--line); }
+details[data-views] tr[data-comment-row] td { padding-top: 0.5rem; }
+:root[data-views] details[data-views] { margin: 1rem 0 1.5rem; }
+:root[data-views] details[data-views] > summary { display: none; }
+:root[data-views="words"] details[data-views] { display: none; }
+:root[data-views]:not([data-views="words"]) pre:has(+ details[data-views]) { display: none; }
+:root[data-views]:not([data-views~="words"]) [data-view="words"],
+:root[data-views]:not([data-views~="symbols"]) [data-view="symbols"],
+:root[data-views]:not([data-views~="chunks"]) [data-view="chunks"],
+:root[data-views]:not([data-views~="bits"]) [data-view="bits"] { display: none; }
+@media (max-width: 40rem) {
+  /* Narrow screens: each row's views are stacked, each labelled by its view. */
+  details[data-views] thead { display: none; }
+  details[data-views] tr { display: grid; }
+  details[data-views] td[data-view]::before {
+    content: attr(data-view);
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+}
+
+/* The view control, added by views.js */
+fieldset[data-view-control] {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right, 0px));
+  bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.8rem;
+  max-width: calc(100vw - 2rem);
+  margin: 0;
+  padding: 0.35rem 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  background: var(--bg-card);
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  backdrop-filter: blur(6px);
+}
+fieldset[data-view-control] legend { float: left; padding: 0; color: var(--muted); }
+fieldset[data-view-control] label { display: inline-flex; align-items: center; gap: 0.3rem; cursor: pointer; color: var(--text); }
+fieldset[data-view-control] input { margin: 0; accent-color: var(--accent); }
+fieldset[data-view-control] input:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+body:has(fieldset[data-view-control]) { padding-bottom: 5rem; }
+
+figure { margin: 1.5rem 0; }
+figcaption { font-size: 0.85rem; color: var(--muted); }
+
+/* Tables */
+table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 1rem 0 1.5rem;
+  font-size: 0.92rem;
+}
+th, td { padding: 0.5rem 0.9rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+th { font-family: var(--mono); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+/* Asides and quotes */
+aside, blockquote {
+  max-width: 42rem;
+  margin: 1.5rem 0;
+  padding: 0.9rem 1.25rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--bg-card);
+}
+aside > :first-child, blockquote > :first-child { margin-top: 0; }
+aside > :last-child, blockquote > :last-child { margin-bottom: 0; }
+
+dt { font-weight: 600; }
+dd { margin: 0 0 0.75rem 1.25rem; color: var(--muted); }
+
+hr { border: 0; height: 1px; margin: 3rem 0; background: var(--line); }
+
+body > footer {
+  margin-top: 4rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+}

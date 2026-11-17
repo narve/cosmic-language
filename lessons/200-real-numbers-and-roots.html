@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Real numbers and roots · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson">
+  <h3>real numbers and roots</h3>
+  <p>New: the domain <code>ℝ</code> (real numbers). Every rational number is real, and the familiar laws still hold:</p>
+  <pre><code>(∀ <var>u</var> ℚ (∃ <var>v</var> ℝ (= <var>u</var> <var>v</var>)))
+(∀ <var>u</var> ℝ (= (+ <var>u</var> 0) <var>u</var>))  (∀ <var>u</var> ℝ (∀ <var>v</var> ℝ (= (× <var>u</var> <var>v</var>) (× <var>v</var> <var>u</var>))))</code></pre>
+  <p>ℝ has numbers that ℚ lacks, such as a square root of 2:</p>
+  <pre><code>(∃ <var>u</var> ℝ (<data value="and">and</data> (&gt; <var>u</var> 0) (= (× <var>u</var> <var>u</var>) 2)))
+<span data-comment>no rational number squares to 2</span>
+(∀ <var>u</var> ℚ (≠ (× <var>u</var> <var>u</var>) 2))
+<span data-comment>a cube root of 2</span>
+(∃ <var>u</var> ℝ (= (× <var>u</var> <var>u</var> <var>u</var>) 2))
+<span data-comment>no real number squares to a negative number</span>
+(∀ <var>u</var> ℝ (≠ (× <var>u</var> <var>u</var>) (neg 1)))</code></pre>
+  <p>With variables, the meaning of <code>≤</code> and <code>≥</code> from the lesson on order can now be stated exactly:</p>
+  <pre><code>(∀ <var>u</var> ℝ (∀ <var>v</var> ℝ (= (≤ <var>u</var> <var>v</var>) (<data value="or">or</data> (&lt; <var>u</var> <var>v</var>) (= <var>u</var> <var>v</var>)))))
+(∀ <var>u</var> ℝ (∀ <var>v</var> ℝ (= (≥ <var>u</var> <var>v</var>) (<data value="or">or</data> (&gt; <var>u</var> <var>v</var>) (= <var>u</var> <var>v</var>)))))
+<span data-comment>squares are never negative</span>
+(∀ <var>u</var> ℝ (≥ (× <var>u</var> <var>u</var>) 0))</code></pre>
+</article>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Elements · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson">
+  <h3>elements</h3>
+  <p>New: the elements (a new type) and the domain <code>elements</code>. <code>count</code> from the lesson on lists now tells how many of a particle an atom contains. The value of an element token is its number of protons, so <code>hydrogen</code> is element 1, <code>helium</code> element 2, and so on. This is a definition, not a measurement, so it is not marked <code>observed</code>.</p>
+  <pre><code>(= (count proton hydrogen) 1)  (= (count proton helium) 2)
+(= (count proton carbon) 6)  (= (count proton oxygen) 8)
+(= (count electron hydrogen) 1)  (= (count electron helium) 2)
+<span data-comment>atoms are neutral: as many electrons as protons</span>
+(∀ <var>u</var> elements (= (count electron <var>u</var>) (count proton <var>u</var>)))
+(observed (∀ <var>u</var> elements (= (charge <var>u</var>) 0)))
+<span data-comment>hydrogen is a proton plus a much lighter electron</span>
+(observed (&lt; 1 (÷ (mass hydrogen) (mass proton)) (÷ 101 100)))</code></pre>
+  <p>Neutron counts are left out here: atoms of the same element can have different numbers of neutrons. The next lesson deals with that.</p>
+</article>
+</body>
+</html>

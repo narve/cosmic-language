@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mean and chance · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson">
+  <h3>mean and chance</h3>
+  <p>New: <code>mean</code>, <code>chance</code> and <code>pairs</code>. The mean of a list is the sum of its items divided by how many there are:</p>
+  <pre><code>(= (mean (list 2 4 9)) 5)  (= (mean (list 7)) 7)
+(= (mean (list 1 2 3 4 5 6)) (÷ 7 2))
+(= (mean (list 2 4 9)) (÷ (apply + (list 2 4 9)) (length (list 2 4 9))))</code></pre>
+  <p>The chance of a value in a list is the part of the list that is that value: how many of the items are that value, divided by the number of items. It is a proportion, nothing more.</p>
+  <pre><code>(= (chance 3 (list 3 1 3)) (÷ 2 3))
+(= (chance 6 (list 1 2 3 4 5 6)) (÷ 1 6))
+(= (chance <data value="true">true</data> (list <data value="true">true</data> <data value="false">false</data>)) (÷ 1 2))
+(= (chance 5 (list 1 2 2)) 0)
+(= (chance 3 (list 3 1 3)) (÷ (count 3 (list 3 1 3)) (length (list 3 1 3))))
+<span data-comment>the chances of all the different items add up to 1</span>
+(= (+ (chance 1 (list 1 2 2)) (chance 2 (list 1 2 2))) 1)</code></pre>
+  <p><code>pairs</code> makes every pair of an item from one list with an item from another. The chance of a pair is the product of the two chances:</p>
+  <pre><code>(= (pairs (list 1 2) (list 3 4)) (list (list 1 3) (list 1 4) (list 2 3) (list 2 4)))
+(= (length (pairs (list 1 2 3) (list 4 5))) 6)
+(= (chance (list <data value="true">true</data> <data value="true">true</data>) (pairs (list <data value="true">true</data> <data value="false">false</data>) (list <data value="true">true</data> <data value="false">false</data>))) (÷ 1 4))
+(= (chance (list <data value="true">true</data> <data value="true">true</data>) (pairs (list <data value="true">true</data> <data value="false">false</data>) (list <data value="true">true</data> <data value="false">false</data>)))
+   (× (chance <data value="true">true</data> (list <data value="true">true</data> <data value="false">false</data>)) (chance <data value="true">true</data> (list <data value="true">true</data> <data value="false">false</data>))))
+(= (chance (list 6 6) (pairs (list 1 2 3 4 5 6) (list 1 2 3 4 5 6))) (÷ 1 36))</code></pre>
+</article>
+</body>
+</html>
