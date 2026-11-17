@@ -1,0 +1,144 @@
+I decoded the whole stream and checked it by machine. The message is a self-teaching mathematics course that ends in a repeated two-player game and a tournament, and its last statement says one reciprocating strategy has a strictly lower total than every other. My best reading is that it is an argument for reciprocal cooperation, though the message never says that lower is better.
+
+Notation below is mine: `F`n are operator symbols, `K`n are constants, `v`n are variables.
+
+## 1. Format
+
+- **Frame:** the stream is 98,168 bits. It opens with 172 bits of unary runs of 1s separated by 0s, with lengths 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, and closes with the identical 172 bits.
+- **Words:** between the frames are 97,824 bits, which is exactly 6,114 words of 16 bits. Autocorrelation peaks at lags 8, 16, 24 and 32, and the first words read 1, 2, 3, 5, …, 31 and then 0, 1, 2, …, 255, which fixes the word size and bit order.
+- **Symbol classes:** the high byte of each word is a type.
+  - 0 is a literal number 0–255.
+  - 1 is a bracket: 256 opens and 257 closes, each occurring 1,308 times and perfectly balanced.
+  - 2 is an operator, 3 is a named constant, 4 is a bound variable.
+- **Grammar:** after the number list come 389 bracketed prefix expressions of the form `( operator arguments… )`, each of which is a claim.
+- **Check:** I assigned meanings from the examples, wrote an evaluator, and all 389 statements come out true. Statements quantified over all naturals or rationals were checked on finite samples only.
+
+## 2. Contents, in order
+
+Percentages are shares of the 6,114 words.
+
+1. **Numbers (4%).** The primes again as words, then 0 to 255 counting up.
+
+2. **Equality and order (5%).** `F1` is equals, `F2` not-equal, `F3` to `F6` are <, >, ≤, ≥, and they chain.
+   - `(F1 7 7)`
+   - `(F2 2 5)`
+   - `(F3 0 5 9 255)`
+
+3. **Arithmetic (18%).** `F7` is +, `F8` ×, `F10` −, `F11` negation, `F12` division, and `F9` builds base-256 numbers.
+   - `(F1 (F7 2 3) 5)`
+   - `(F1 (F8 15 17) 255)`
+   - `(F1 (F9 1 0) (F7 255 1))`, i.e. 256 = 255 + 1
+   - `(F1 (F7 (F12 1 2) (F12 1 3)) (F12 5 6))`, i.e. ½ + ⅓ = ⅚
+
+4. **Truth and logic (5%).** `K1` is true, `K2` false, `F13` not, `F14` and, `F15` or.
+   - `(F1 (F1 2 2) K1)`
+   - `(F1 (F13 (F14 K1 K2)) (F15 (F13 K1) (F13 K2)))`, a De Morgan instance
+
+5. **Lists (4%).** `F16` is a list, `F17` length, `F18` the n-th element, `F19` count of occurrences.
+   - `(F1 (F17 (F16 4 7 9)) 3)`
+   - `(F1 (F18 (F16 4 7 9) 2) 7)`
+
+6. **Quantifiers and number sets (19%), implication (2%).** `F20` is for-all, `F21` exists, `K3` the naturals, `K4` the rationals, `F22` implies.
+   - `(F20 v1 K3 (F1 (F7 v1 0) v1))`, i.e. n + 0 = n for every natural
+   - `(F20 v1 K3 (F21 v2 K3 (F1 v2 (F7 v1 1))))`, i.e. every natural has a successor
+   - `(F21 v1 K4 (F1 (F8 v1 3) 1))` paired with `(F20 v1 K3 (F2 (F8 v1 3) 1))`, i.e. ⅓ exists among rationals but not naturals
+   - Commutativity, associativity and distributivity are also stated.
+
+7. **Data tools (13%).** `F23` is fold, `F24` map, `F25` mean, `F26` the fraction of a list equal to a value (probability), `F27` Cartesian product, `F28` tail, `F29` if-then-else.
+   - `(F1 (F25 (F16 2 4 9)) 5)`
+   - `(F1 (F26 6 (F16 1 2 3 4 5 6)) (F12 1 6))`
+   - Two "coin" events together have probability ¼, which equals ½ × ½.
+
+8. **A two-move game (3%).** `K18` and `K19` are two distinct moves, and `F64(mine, theirs)` is a number.
+   - The four values: `F64(K18,K18)` = 3, `F64(K19,K19)` = 5, `F64(K18,K19)` = 7, `F64(K19,K18)` = 2.
+   - `(F20 v1 K20 (F3 (F64 K19 v1) (F64 K18 v1)))`: whatever the other does, playing `K19` gives me the smaller number.
+   - `(F3 (F64 K18 K18) (F64 K19 K19))`: both playing `K18` gives each a smaller number than both playing `K19`.
+   - `(F3 (F8 2 (F64 K18 K18)) (F7 (F64 K19 K18) (F64 K18 K19)))`, i.e. 6 < 9.
+
+9. **Strategies (11%).** `F65(strategy, history)` gives the next move, and a history is a list of (my move, their move) pairs.
+   - `K22`: always `K18`.
+   - `K23`: always `K19`.
+   - `K24`: `K18` first, then copy the other's last move.
+   - `K25`: `K19` first, then copy.
+   - `K26`: `K18` until the other has ever played `K19`, then `K19` forever.
+   - `K27`: `K18` first, then `K18` if the last round's two moves matched, else `K19`.
+   - `K28`: like `K24`, but after the other's `K19` it draws from (`K18`, `K19`, `K19`).
+   - `K29`: draws from (`K18`, `K19`).
+   - `K24` to `K27` are then defined a second time with if-then-else.
+
+10. **Matches and scores (5%), worked examples (3%).** `K30` is the set {`K22`, …, `K27`}. `F66(a, b, n)` is the n-round history, defined recursively. `F67(a, b, n)` is the sum of a's `F64` values.
+    - `(F1 (F67 K24 K23 4) 22)`, i.e. 7 + 5 + 5 + 5
+    - Against the random `K29`, playing `K18` averages 5 and playing `K19` averages 7/2.
+
+11. **Tournament (5%) and conclusion (2.5%).** There are twelve pairings over 255 rounds, for example `K24` vs `K24` = 765 and `K23` vs `K23` = 1275. Then come each strategy's total against all six, itself included:
+
+    | Strategy | Total |
+    |---|---|
+    | `K24` | 5487 |
+    | `K26` | 5611 |
+    | `K22` | 5614 |
+    | `K27` | 5781 |
+    | `K23` | 6495 |
+    | `K25` | 6923 |
+
+    My own simulation reproduces every one of these figures.
+
+## 3. Design
+
+- **Taught only as scaffolding:** almost everything before the game.
+  - Base-256 notation is needed to write totals above 255.
+  - Lists, indexing and count are needed for histories.
+  - Fold and map are needed for the score.
+  - If-then-else and implication are needed for the strategies.
+  - Quantifiers are needed for the final claim.
+  - Mean and probability are needed for the two random strategies.
+- **Share of the message:** the game takes about 30% directly, and essentially all of the remaining 70% is reused in it.
+- **Not strictly needed:**
+  - The doubled strategy definitions.
+  - The rationals/naturals contrasts.
+  - `K28` and `K29`, which are defined and exemplified but left out of the tournament.
+  - The explicit statement that mutual `K18` beats mutual `K19` and beats alternating (6 < 9).
+  - Symbol numbers `K5`–`K17` and `F30`–`F63` never appear, which suggests an excerpt from a larger vocabulary. That is a guess.
+- **The ending:** the last three statements are as follows.
+  - Mutual `K24` totals less than mutual `K23`.
+  - The six totals are in strict order, `K24` < `K26` < `K22` < `K27` < `K23` < `K25`.
+  - The last statement is `(F20 v1 K30 (F22 (F2 v1 K24) (F3 total(K24) total(v1))))`: every strategy other than `K24` has a strictly larger total than `K24`. I abbreviated the folded sums as `total(·)`.
+  - The closing prime frame follows immediately.
+
+## 4. Purpose
+
+- **What the message states:** a game with the structure of a dilemma, in which one move is individually better in every single round but worse for both if both play it. In repeated play among six rules, "open with `K18`, then mirror the other" has the uniquely smallest total.
+- **What I infer:** `F64` is a cost, `K18` is the cooperative move, and `K24` is being presented as the best policy. The evidence is indirect.
+  - Every conditional strategy defaults to `K18` on an empty history.
+  - `K28`'s leniency is toward `K18`.
+  - The 6 < 9 inequality is the natural "mutual cooperation beats taking turns exploiting" condition only if lower is better.
+  - The climax singles out the minimum.
+- **A caveat that does not change the conclusion:** if `F64` is instead a gain, the roles of the moves flip, and the winner is `K25` with the highest total. `K25` is the same rule: open with the mutually better move, then mirror. So "reciprocity with a friendly opening does best" holds under both readings. Only which symbol names it, and whether the final statement points at the winner or the loser, depends on the reading.
+- **My guess about the sender:** the message is a statement of policy, or an invitation. It says, in effect, "we understand the dilemma that two strangers face; the rule that does best is to start cooperatively and return what you receive." The sender wants the receiver to believe it will behave this way, and perhaps to do the same. Spending the whole message on proving one game-theoretic result, with nothing else of substance, is the main evidence.
+
+## 5. Alternatives
+
+- **Warning or deterrent.** The emphasis would be "we mirror: `K19` will be answered with `K19`." In favour: `K24` retaliates, the unforgiving `K26` comes second, and the more lenient `K28` is kept out of the tournament. Against: the message stresses that mutual `K18` beats mutual `K19`, and nothing in it is threat-specific.
+- **Pure demonstration of intelligence, or a language primer.** The game would be just a sophisticated example, or the first chapter of something longer. In favour: the unused symbol ranges, and the absence of any reference to sender or receiver. Against: the message is closed by a matching frame, and the curriculum is too narrowly aimed at one theorem to be a general primer.
+- **A test or probe.** The sender states a result and watches what comes back. Nothing in the bits supports this beyond the lack of any explicit request.
+
+## 6. What the message does not say
+
+- It never says that smaller or larger `F64` is preferred. There is no symbol for want, good, choose or should.
+- It has no symbol for "we", "you", sender or receiver, and nothing maps the game onto the actual contact.
+- It contains no physics, chemistry, location, time, images or description of the sender, and no reply instructions or question.
+- It does not say what `K18` and `K19` would be in reality.
+- It gives no reason for 255 rounds, which is simply the largest one-word number, or for those six strategies. The result depends on that field, and the message does not claim generality.
+
+These absences could mean caution about revealing anything. They could mean the sender holds that a commitment to a policy is the only thing worth saying before trust exists. Or this could be only the first instalment.
+
+## 7. Confidence
+
+| Point | Confidence | Reason |
+|---|---|---|
+| 1. Format | Very high | Exact word count, balanced brackets, identical frames. |
+| 2. Contents and operator meanings | Very high | All 389 statements verify and the tournament numbers are reproduced. The exact intended scope of `K3` and `K4` is slightly less certain. |
+| 3. Design | High on what is scaffolding and what the last statement is; low on the "excerpt of a larger lexicon" idea. | |
+| 4. Purpose | Moderate | High that the point is "friendly-opening reciprocity does best in a repeated dilemma". Moderate, about 75%, that `F64` is a cost and `K24` the intended winner. Low to moderate that it is meant as a commitment or invitation rather than a bare theorem. |
+| 5. Alternatives | Not excluded | The deterrent reading is the strongest rival and is compatible with the same mathematics. |
+| 6. Omissions | High that they are absent; their meaning is speculation. | |
