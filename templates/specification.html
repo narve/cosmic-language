@@ -195,6 +195,9 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
     <li><strong>Chance</strong> is a proportion: <code>(chance <var>x</var> <var>L</var>)</code> is <code>(÷ (count <var>x</var> <var>L</var>) (length <var>L</var>))</code> for a non-empty list <var>L</var>. Uneven chances come from repeated items, e.g. 1/3 from <code>(list a b b)</code>. <code>(pairs <var>A</var> <var>B</var>)</code> lists every pair <code>(list <var>a</var> <var>b</var>)</code>, taking <var>a</var> from <var>A</var> in order and, for each, <var>b</var> from <var>B</var> in order; the chance of a pair is the product of the two chances.</li>
     <li><strong>Domains can be lists.</strong> A quantifier or <code>sequence</code> may range over a list instead of a domain constant, e.g. <code>(∀ <var>u</var> tournament …)</code> with <code>tournament</code> a named list.</li>
     <li><strong>Strategies</strong> (for games) are named constants. <code>(move <var>s</var> <var>h</var>)</code> gives a list to pick the next move from: one item for a fixed choice, repeated items for a chance. <code>rounds</code> and <code>score</code> are defined by general rules for the strategies in <code>tournament</code>, and shown with worked examples.</li>
+    <li><strong>Quoting.</strong> <code>(quote <var>X</var>)</code> is the expression <var>X</var> itself: nothing inside it is computed or asserted, and variables inside it are not bound (a quoted <var>u</var> is a symbol of type 4). A quoted bracket group is the list of its parts, e.g. <code>(= (quote (+ 2 3)) (list (quote +) 2 3))</code>; a number is its own quote. <code>type</code> gives an atom's token type, and 1 for a list.</li>
+    <li><strong><code>if</code></strong> computes only the branch it picks, so the other branch may be undefined (e.g. divide by zero) for that case.</li>
+    <li><strong><code>eval</code></strong> gives the value of an expression. Numbers and operators are their own values; a named thing (constant, particle, element …) has the thing it names as its value. An operation applies its operator to the values of its arguments, except for the special forms <code>quote</code>, <code>if</code>, <code>∀</code>, <code>∃</code> and <code>sequence</code>, which have their own rules. <code>eval</code> is not the same as truth: it computes, and cannot settle a sentence about infinitely many cases.</li>
     <li><code>≠</code> takes exactly two arguments. <em>Justification:</em> <code>(≠ 1 2 1)</code> has three plausible readings that disagree. "All different" (false), "not all equal" (true), and "each differs from the next" as a chain (true). <code>≠</code> is not transitive, so the chain reading does not give "all different" as it does for <code>&lt;</code>. Rather than make the receiver guess, <code>≠</code> is kept to two arguments. "All different" can be defined later if needed.</li>
   </ul>
   <p>Example: <code>(= (+ 2 3) 5)</code> becomes 9 tokens:</p>
@@ -238,7 +241,7 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
   <p>The evaluator normalizes both sides of a statement before comparing them.</p>
   <h3 id="truth">8.2 Truth values</h3>
   <p>Relations (<code>=</code>, <code>≠</code>, <code>&lt;</code>, <code>&gt;</code>) and the logical operations (<data value="not">not</data>, <data value="and">and</data>, <data value="or">or</data>) have a truth value, <data value="true">true</data> or <data value="false">false</data>. A sentence asserts that its value is <data value="true">true</data>. Between truth values, <code>=</code> means "equivalent".</p>
-  <p><strong>No false relations.</strong> No <em>closed</em> relation in the message (one without variables) is applied to arguments for which it does not hold: <code>(= 2 3)</code> never appears, not even inside another expression. <data value="false">false</data> appears only as a constant or as the value of an expression built with <data value="not">not</data>, <data value="and">and</data>, <data value="or">or</data> or <data value="implies">implies</data>, e.g. <code>(= (<data value="not">not</data> (= 2 2)) <data value="false">false</data>)</code>. Relations that contain bound variables are open statements and are exempt, e.g. <code>(&lt; <var>u</var> 2)</code> in <code>(∀ <var>u</var> ℚ (<data value="implies">implies</data> (&lt; <var>u</var> 2) (&lt; <var>u</var> 3)))</code>. Likewise, division by zero must not occur in a closed expression; inside a quantifier it must be guarded, e.g. by <code>(<data value="implies">implies</data> (≠ <var>u</var> 0) …)</code>. The rule may be relaxed once the message can quote a statement and evaluate it (an <code>eval</code> or <code>quote</code> mechanism).</p>
+  <p><strong>No false relations.</strong> No <em>closed</em> relation in the message (one without variables) is applied to arguments for which it does not hold: <code>(= 2 3)</code> never appears, not even inside another expression, except inside <code>quote</code>: a quoted sentence is mentioned, not asserted, e.g. <code>(= (eval (quote (= 2 3))) <data value="false">false</data>)</code>. <data value="false">false</data> appears only as a constant or as the value of an expression built with <data value="not">not</data>, <data value="and">and</data>, <data value="or">or</data> or <data value="implies">implies</data>, e.g. <code>(= (<data value="not">not</data> (= 2 2)) <data value="false">false</data>)</code>. Relations that contain bound variables are open statements and are exempt, e.g. <code>(&lt; <var>u</var> 2)</code> in <code>(∀ <var>u</var> ℚ (<data value="implies">implies</data> (&lt; <var>u</var> 2) (&lt; <var>u</var> 3)))</code>. Likewise, division by zero must not occur in a closed expression; inside a quantifier it must be guarded, e.g. by <code>(<data value="implies">implies</data> (≠ <var>u</var> 0) …)</code>.</p>
   <h3 id="world">8.3 Statements about the physical world</h3>
   <p>Statements about particles, atoms and other physical things cannot be proved from the message. They are either <em>definitions</em> (e.g. <code>(= (count proton hydrogen) 1)</code>, which follows from the element token's value) or <em>measurements</em>.</p>
   <ul>
@@ -329,6 +332,11 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
       <tr><td>60</td><td><code>move</code></td><td></td><td>2</td><td>a strategy's next move given a history: a list to pick from</td></tr>
       <tr><td>61</td><td><code>rounds</code></td><td></td><td>3</td><td>the history after a number of rounds of two strategies playing each other</td></tr>
       <tr><td>62</td><td><code>score</code></td><td></td><td>3</td><td>the sum of one strategy's payoffs over a number of rounds</td></tr>
+      <tr><td>63</td><td><code>quote</code></td><td></td><td>1</td><td>the expression itself, not computed: a bracket group is the list of its parts (§7)</td></tr>
+      <tr><td>64</td><td><code>type</code></td><td></td><td>1</td><td>the token type of an atom (0 number, 2 operator, 3 constant …); 1 for a list</td></tr>
+      <tr><td>65</td><td><code>rest</code></td><td></td><td>1</td><td>a non-empty list without its first item</td></tr>
+      <tr><td>66</td><td><code>if</code></td><td></td><td>3</td><td>the second argument if the first is true, the third if it is false; only that one is computed</td></tr>
+      <tr><td>67</td><td><code>eval</code></td><td></td><td>1</td><td>the value of an expression (§7)</td></tr>
     </tbody>
   </table>
   <h3>9.2 Constants (type 3)</h3>
@@ -361,6 +369,7 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
       <tr><td>24</td><td><code>pavlov</code></td><td></td><td>strategy</td></tr>
       <tr><td>25</td><td><code>generous-tit-for-tat</code></td><td></td><td>strategy (picks by chance after a defection)</td></tr>
       <tr><td>26</td><td><code>tournament</code></td><td></td><td>the list of the five fixed strategies</td></tr>
+      <tr><td>27</td><td><code>expressions</code></td><td></td><td>domain: numbers, symbols, and lists of expressions</td></tr>
     </tbody>
   </table>
   <h3>9.3 Variables (type 4)</h3>
@@ -472,7 +481,7 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
     <li>How to verify that a characterization determines a symbol uniquely (e.g. <code>exp</code> by its product rule and bound). This needs proofs, like quantified statements.</li>
     <li>How quantified statements are checked: they cannot be evaluated by trying every number (deferred; Lean 4 is one candidate).</li>
     <li>Whether the message needs questions or unknowns ("solve for ?"), and where. Not needed yet.</li>
-    <li>When and how false statements may be written. Probably only after an <code>eval</code>/<code>quote</code> mechanism exists, so a statement can be mentioned without being asserted.</li>
+    <li>How to give truth (<code>holds</code>) to quantified sentences, which <code>eval</code> cannot compute, without the liar paradox (Tarski: a language cannot define truth for all of its own sentences).</li>
     <li>Self-synchronization after burst errors (currently left to L1).</li>
     <li>Final error-correction strategy: three copies, or a code taught by the message itself.</li>
     <li>Assigning symbol ids: consecutive, or spread out for distance.</li>

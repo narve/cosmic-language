@@ -1,19 +1,23 @@
-// <cl-lessons>: lists the articles of lessons/ as links, or includes them as articles.
+// <cl-lessons>: lists the lessons of lessons/ as links, or includes them as articles.
 // The element is replaced by what it renders.
 //
-//   as      links | articles          (default links)
-//   href    file | anchor             (links; default file)
-//   select  all | parts | lessons     (links; default all)
-//   src     directory of the pages    (links with href="file"; default lessons/)
-//   views   generated views to add    (articles; default "symbols chunks bits", "" for none)
+//   as        links | articles            (default links)
+//   href      file | anchor               (links; default file)
+//   topic  one or more topic names  (only lessons in one of them; default all)
+//   group     none | runs | topic      (default none)
+//             runs: consecutive lessons of the same first topic, in message order
+//             topic: one group per topic, in the order of templates/topics.html
+//   src       directory of the pages      (links with href="file"; default lessons/)
+//   views     generated views to add      (articles; default "symbols chunks bits", "" for none)
 import type { Window } from "happy-dom";
 import { escape } from "../dom.ts";
-import { anchor as id, findArticle, groupByPart, type Article } from "../lessons.ts";
+import { anchor as id, findArticle, groupByTopic, groupRuns, type Article, type Topic, type Group } from "../lessons.ts";
 import type { Registry } from "../registry.ts";
 import { addViews, VIEWS, type View } from "../views.ts";
 
 export interface Context {
   articles: Article[];
+  topics: Topic[];
   registry: Registry;
 }
 
@@ -28,31 +32,46 @@ export function defineClLessons(window: Window, context: Context): void {
       this.replaceWith(template.content);
     }
 
+    selected(): Article[] {
+      const wanted = (this.getAttribute("topic") ?? "").split(/\s+/).filter(Boolean);
+      if (wanted.length === 0) return context.articles;
+      return context.articles.filter((article) => article.topics.some((name) => wanted.includes(name)));
+    }
+
+    groups(): Group[] | undefined {
+      const group = this.getAttribute("group") ?? "none";
+      if (group === "runs") return groupRuns(this.selected(), context.topics);
+      if (group === "topic") return groupByTopic(this.selected(), context.topics);
+      return undefined;
+    }
+
     links(): string {
-      const select = this.getAttribute("select") ?? "all";
       const anchor = this.getAttribute("href") === "anchor";
       const src = this.getAttribute("src") ?? "lessons/";
-      const link = (article: Article) =>
-        `<a href="${anchor ? `#${id(article)}` : `${src}${escape(article.slug)}.html`}">${escape(article.title)}</a>`;
-      const list = (articles: Article[], start?: number) =>
-        `<ol${start && start > 1 ? ` start="${start}"` : ""}>\n${articles.map((a) => `<li>${link(a)}</li>`).join("\n")}\n</ol>`;
-      if (select === "parts") return list(context.articles.filter((a) => a.kind === "part"));
-      if (select === "lessons") return list(context.articles.filter((a) => a.kind === "lesson"));
-      const items = groupByPart(context.articles).map(({ part, lessons }) => {
-        const nested = lessons.length ? "\n" + list(lessons, lessons[0].number) : "";
-        return part ? `<li>${link(part)}${nested}</li>` : `<li>${nested}</li>`;
+      const href = (article: Article) => (anchor ? `#${id(article)}` : `${src}${escape(article.slug)}.html`);
+      // <li value> keeps each lesson's number in the message, also in a selection.
+      const list = (articles: Article[]) =>
+        `<ol>\n${articles.map((a) => `<li value="${a.number}"><a href="${href(a)}">${escape(a.title)}</a></li>`).join("\n")}\n</ol>`;
+      const groups = this.groups();
+      if (!groups) return list(this.selected());
+      const items = groups.map((group) => {
+        const target = anchor ? `#${group.id}` : `topics.html#${group.topic.name}`;
+        return `<li><a href="${target}">${escape(group.topic.title)}</a>\n${list(group.articles)}</li>`;
       });
-      return `<ol>\n${items.join("\n")}\n</ol>`;
+      return `<ul>\n${items.join("\n")}\n</ul>`;
     }
 
     articles(): string {
       const views = (this.getAttribute("views") ?? "symbols chunks bits")
         .split(/\s+/)
         .filter((view): view is View => (VIEWS as readonly string[]).includes(view));
-      return groupByPart(context.articles)
-        .map(({ part, lessons }) => {
-          const articles = [...(part ? [part] : []), ...lessons].map((article) => this.article(article, views));
-          return `<section>\n${articles.join("\n\n")}\n</section>`;
+      const groups = this.groups();
+      if (!groups) return this.selected().map((article) => this.article(article, views)).join("\n\n");
+      return groups
+        .map((group) => {
+          const intro = group.first && group.topic.intro ? `\n${group.topic.intro}` : "";
+          const articles = group.articles.map((article) => this.article(article, views)).join("\n\n");
+          return `<section id="${group.id}" data-topic="${group.topic.name}">\n<h2>${escape(group.topic.title)}</h2>${intro}\n\n${articles}\n</section>`;
         })
         .join("\n\n");
     }

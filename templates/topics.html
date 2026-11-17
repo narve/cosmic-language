@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cosmic Language Topics</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <small>Draft · design phase · 2026-11-17</small>
+  <h1>Topics</h1>
+  <p>The lessons by topic. The message itself is one sequence; the topics only group its lessons for reading, and a lesson can belong to more than one. Each section here is also the heading and introduction a topic gets on the other pages.</p>
+</header>
+
+<main>
+
+<section id="signal">
+  <h2>The signal</h2>
+  <p>The message is designed for a receiver who knows nothing about us, apart from the fact that counting and physics work the same everywhere. That's why it never <em>assumes</em> a convention. Every convention is either easy to spot in the bitstream or taught with many examples before it is used.</p>
+  <p>It's built in layers: bits, then chunks, then tokens, then sentences, then lessons. You learn one layer at a time, in the same order as the receiver.</p>
+  <p>The first lessons show how the message is read, from the bottom up: bits and the beacon, then chunks, tokens and calibration. Sentences in brackets come with the first lesson that uses them, and the last lesson shows how the message ends.</p>
+  <p>In every lesson, the code blocks are the message itself, exactly as it is sent. Blocks marked as illustrations only explain and are not sent.</p>
+  <cl-lessons topic="signal"></cl-lessons>
+</section>
+
+<section id="math">
+  <h2>Mathematics</h2>
+  <p>A lesson introduces one new concept with many examples. There's no "new lesson" marker: the receiver sees the change in what is being talked about. Some lessons are complete, such as counting to 255; others will get more examples.</p>
+  <cl-lessons topic="math"></cl-lessons>
+</section>
+
+<section id="logic">
+  <h2>Logic</h2>
+  <p>Truth values, variables and quantifiers, and then sentences about sentences: quoting a sentence without claiming it, and computing the value of an expression with <code>eval</code>.</p>
+  <cl-lessons topic="logic"></cl-lessons>
+</section>
+
+<section id="physics">
+  <h2>Physics</h2>
+  <p>Until now, everything in the message could be proved from the message itself. From here on it talks about things outside the message: particles, atoms, light. These cannot be defined, only <em>identified</em>. The message states facts that only one thing in the receiver's own physics can satisfy.</p>
+  <p>Two things change. Measured facts are marked with <code>observed</code>, so the receiver can tell them from proved ones. And measured values are never written with <code>=</code>: they are written as ranges with <code>&lt;</code>, wide enough to include the uncertainty of the measurement.</p>
+  <cl-lessons topic="physics"></cl-lessons>
+</section>
+
+<section id="chemistry">
+  <h2>Chemistry</h2>
+  <p>How electrons fill the shells of atoms, why some elements hardly react, and how atoms join into molecules, among them the four bases of DNA.</p>
+  <cl-lessons topic="chemistry"></cl-lessons>
+</section>
+
+<section id="games">
+  <h2>Games</h2>
+  <p>Two players each choose, at the same time, to cooperate or to defect. Each gains most by defecting, yet both do better if both cooperate. This is the prisoner's dilemma, and it is pure mathematics: the rules, the strategies and their results can all be computed.</p>
+  <cl-lessons topic="games"></cl-lessons>
+</section>
+
+</main>
+
+<footer>cosmic-language · topics · draft</footer>
+</body>
+</html>

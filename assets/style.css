@@ -111,8 +111,8 @@ a { color: var(--accent); text-underline-offset: 0.2em; }
 a:hover { color: var(--accent-2); }
 a:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
 
-/* Table of contents (parts, with their lessons nested) */
-nav > ol {
+/* Lists of lessons: in the table of contents and on the index, grouped by topic with the lessons nested */
+nav > :is(ol, ul) {
   columns: 2 14rem;
   padding: 1rem 1rem 1rem 2.5rem;
   border: 1px solid var(--line);
@@ -121,7 +121,9 @@ nav > ol {
   max-width: none;
 }
 nav ol ol { margin: 0.25rem 0 0.5rem; padding-left: 1.75rem; font-size: 0.92em; }
-nav > ol > li { break-inside: avoid; }
+nav > :is(ol, ul) > li { break-inside: avoid; }
+nav > ul { list-style: none; padding-left: 1rem; }
+main ul > li > ol { margin: 0.25rem 0 0.75rem; }
 nav a { color: var(--text); text-decoration: none; }
 nav a:hover { color: var(--accent); }
 
@@ -172,16 +174,13 @@ pre[data-illustration]::before {
 details > summary { cursor: pointer; }
 details > summary:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
 
-/* Parts and lessons (articles from lessons/). On the tutorial page they are numbered with counters;
-   on a page of their own (body > article) the first heading is shown as large as a page title. */
-main { counter-reset: part lesson; }
-main article.part { counter-increment: part; }
-main article.lesson { counter-increment: lesson; }
-main article.part > h2:first-child::before { content: counter(part) "."; }
+/* Lessons (articles from lessons/). On the tutorial page they are numbered with a counter and grouped
+   in sections by topic; on a page of their own (body > article) the title is shown as large as a page title. */
+main { counter-reset: lesson; }
+main article.lesson { counter-increment: lesson; margin-top: 2rem; }
 main article.lesson > h3:first-child::before { content: "Lesson " counter(lesson) ": "; }
-main article.part { margin-top: 3.5rem; }
-main article.lesson { margin-top: 2rem; }
-body > article > :is(h2, h3):first-child {
+main > section[data-topic] + section[data-topic] { margin-top: 3.5rem; }
+body > article > h3:first-child {
   margin: 0.6rem 0 1.5rem;
   font-size: clamp(2.2rem, 6vw, 3.4rem);
   font-weight: 500;

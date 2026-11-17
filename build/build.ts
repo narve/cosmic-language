@@ -4,7 +4,7 @@ import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } f
 import { join, resolve } from "node:path";
 import { defineClLessons } from "./components/cl-lessons.ts";
 import { BuildError, createWindow, parse, serialize } from "./dom.ts";
-import { findArticle, loadArticles } from "./lessons.ts";
+import { findArticle, loadArticles, loadTopics } from "./lessons.ts";
 import { binaryDump, messageBinary, messageBits, messageStream, messageCode, messageText, readBlock, type Message } from "./message.ts";
 import { loadRegistry } from "./registry.ts";
 import { addViews, VIEWS } from "./views.ts";
@@ -16,7 +16,8 @@ const docs = dir("docs");
 async function build(): Promise<void> {
   const window = createWindow();
   const registry = loadRegistry(window, readFileSync(join(dir("templates"), "specification.html"), "utf8"));
-  const articles = loadArticles(window, dir("lessons"));
+  const topics = loadTopics(window, readFileSync(join(dir("templates"), "topics.html"), "utf8"));
+  const articles = loadArticles(window, dir("lessons"), topics);
 
   for (const entry of readdirSync(docs)) if (entry !== ".gitkeep") rmSync(join(docs, entry), { recursive: true });
   cpSync(dir("assets"), join(docs, "assets"), { recursive: true });
@@ -28,6 +29,7 @@ async function build(): Promise<void> {
       const blocks = messageCode(element).map((code, i) => readBlock(code, registry, `${article.slug}, block ${i + 1}`));
       return { article, blocks };
     }),
+    topics,
   };
   const bits = messageBits(message);
   const binary = messageBinary(messageStream(message));
@@ -50,7 +52,7 @@ async function build(): Promise<void> {
   for (const file of readdirSync(dir("templates")).filter((f) => f.endsWith(".html"))) {
     const page = createWindow();
     page.document.write(readFileSync(join(dir("templates"), file), "utf8"));
-    defineClLessons(page, { articles, registry });
+    defineClLessons(page, { articles, topics, registry });
     await page.happyDOM.waitUntilComplete();
     writeFileSync(join(docs, file), serialize(page.document as unknown as Document));
     await page.happyDOM.close();

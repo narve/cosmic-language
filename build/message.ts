@@ -1,12 +1,9 @@
-// The message: reading code blocks into tokens, the frame, and the output files.
+// The message: reading code blocks into tokens or bits, and the output files.
 import { BuildError } from "./dom.ts";
 import type { Registry } from "./registry.ts";
-import type { Article } from "./lessons.ts";
+import { groupRuns, type Article, type Topic } from "./lessons.ts";
 
 export const CHUNK_BITS = 8;
-// The beacon: the primes in unary, separated by single 0s; 1 counts as a prime. The terminator repeats it.
-const PRIMES = [1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31];
-export const BEACON = PRIMES.map((p) => "1".repeat(p)).join("0");
 
 export interface Token {
   text: string; // as written: a number, a bracket or a symbol name
@@ -24,6 +21,7 @@ export interface Line {
 export interface Block {
   lines: Line[];
   tokens: Token[];
+  bits?: string; // for a bits block (<pre data-bits>, e.g. the beacon): its 0s and 1s, sent as they are
 }
 
 // The code elements of an article's message blocks (illustrations are not sent).
@@ -40,6 +38,8 @@ export function readBlock(code: Element, registry: Registry, where: string): Blo
   const lines: Line[] = [];
   const tokens: Token[] = [];
   let depth = 0;
+  const raw = code.parentElement!.hasAttribute("data-bits");
+  let bits = "";
   copy.textContent!.split("\n").forEach((text, index) => {
     const at = `${where}, line ${index + 1}`;
     if (text.includes("\u0000")) {
@@ -48,6 +48,12 @@ export function readBlock(code: Element, registry: Registry, where: string): Blo
       return;
     }
     const line: Line = { text, tokens: [] };
+    if (raw) {
+      if (/[^01\s]/.test(text)) throw new BuildError(`${at}: a bits block may only contain 0, 1 and spaces`);
+      bits += text.replace(/\s/g, "");
+      lines.push(line);
+      return;
+    }
     for (const match of text.matchAll(/[()]|[^\s()]+/g)) {
       const token = classify(match[0], match.index!, registry, at);
       if (token.type === 1) depth += token.value === 0 ? 1 : -1;
@@ -58,7 +64,7 @@ export function readBlock(code: Element, registry: Registry, where: string): Blo
     lines.push(line);
   });
   if (depth > 0) throw new BuildError(`${where}: ${depth} unclosed "(" at the end of the block`);
-  return { lines, tokens };
+  return raw ? { lines, tokens, bits } : { lines, tokens };
 }
 
 function classify(text: string, start: number, registry: Registry, at: string): Token {
@@ -83,33 +89,31 @@ export function tokenBits(token: Token): string {
 
 export interface Message {
   articles: { article: Article; blocks: Block[] }[];
+  topics: Topic[];
 }
 
-// The beacon for reading: each run of 1s, then its separating 0.
-const BEACON_SPACED = PRIMES.map((p) => "1".repeat(p)).join(" 0 ");
-const BEACON_HEADING = `; ==== Beacon: ${PRIMES.join(", ")} in unary, separated by single 0s (1 counts as a prime; ${BEACON.length} bits) ====`;
-const TERMINATOR_HEADING = `; ==== Terminator: the beacon again (${BEACON.length} bits) ====`;
-
-// The message in reading order: a heading for each part and lesson that has message blocks, then the blocks.
+// The message in reading order: a heading for each run of a topic and each lesson that has message blocks, then the blocks.
 type Entry = { heading: string } | { block: Block };
 
 function outline(message: Message): Entry[] {
+  const blocks = new Map(message.articles.map(({ article, blocks }) => [article, blocks]));
   const entries: Entry[] = [];
-  let part: Article | undefined; // a part whose heading waits for its first block
-  for (const { article, blocks } of message.articles) {
-    if (article.kind === "part") part = article;
-    if (blocks.length === 0) continue;
-    if (part) entries.push({ heading: `; ==== Part ${part.number}: ${part.title} ====` });
-    if (article.kind === "lesson") entries.push({ heading: `; ---- Lesson ${article.number}: ${article.title} ----` });
-    part = undefined;
-    for (const block of blocks) entries.push({ block });
+  const groups = groupRuns(message.articles.map(({ article }) => article), message.topics);
+  for (const group of groups) {
+    const lessons = group.articles.filter((article) => blocks.get(article)!.length > 0);
+    if (lessons.length === 0) continue;
+    entries.push({ heading: `; ==== ${group.topic.title} ====` });
+    for (const article of lessons) {
+      entries.push({ heading: `; ---- Lesson ${article.number}: ${article.title} ----` });
+      for (const block of blocks.get(article)!) entries.push({ block });
+    }
   }
   return entries;
 }
 
 // Writes the outline: a blank line before each heading and between blocks.
 function write(message: Message, header: string[], block: (block: Block) => string[]): string {
-  const out = [...header, "", BEACON_HEADING, BEACON_SPACED];
+  const out = [...header];
   let previous: Entry | undefined;
   for (const entry of outline(message)) {
     if ("heading" in entry) out.push("", entry.heading);
@@ -119,14 +123,14 @@ function write(message: Message, header: string[], block: (block: Block) => stri
     }
     previous = entry;
   }
-  out.push("", TERMINATOR_HEADING, BEACON_SPACED, "");
+  out.push("");
   return out.join("\n");
 }
 
 export function messageText(message: Message): string {
   const header = [
     "; The cosmic-language message as text. Generated by `npm run build`; do not edit.",
-    "; Numbers, brackets and symbol names are tokens; the beacon and the terminator are bits.",
+    "; Numbers, brackets and symbol names are tokens; lines of 0s and 1s (the beacon and the terminator) are bits, sent as they are.",
     "; Everything from ; to the end of a line is a comment and is not sent.",
   ];
   return write(message, header, (block) => block.lines.map((line) => (line.comment ? `; ${line.text}` : line.text)));
@@ -138,16 +142,20 @@ export function messageBits(message: Message): string {
     "; Only the 0s and 1s outside comments are sent; spaces, line breaks and comments (from ; to the end of a line) are for reading.",
   ];
   return write(message, header, (block) =>
-    block.lines.flatMap((line) =>
-      line.comment ? [`; ${line.text}`] : line.tokens.map((token) => `${tokenBits(token)}   ; ${token.text}`),
-    ),
+    block.lines.flatMap((line) => {
+      if (line.comment) return [`; ${line.text}`];
+      if (block.bits !== undefined) return line.text.trim() ? [line.text.trim()] : [];
+      return line.tokens.map((token) => `${tokenBits(token)}   ; ${token.text}`);
+    }),
   );
 }
 
-// The stream exactly as sent: beacon, tokens, terminator.
+// The stream exactly as sent: every message block in order, bits blocks as they are, tokens as two chunks each.
 export function messageStream(message: Message): string {
-  const tokens = message.articles.flatMap(({ blocks }) => blocks.flatMap((block) => block.tokens));
-  return BEACON + tokens.map((token) => chunkBits(token.type) + chunkBits(token.value)).join("") + BEACON;
+  const blocks = message.articles.flatMap(({ blocks }) => blocks);
+  return blocks
+    .map((block) => block.bits ?? block.tokens.map((token) => chunkBits(token.type) + chunkBits(token.value)).join(""))
+    .join("");
 }
 
 // The bit stream packed into bytes, most significant bit first; the last byte is padded with 0s.

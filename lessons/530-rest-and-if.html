@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rest and if · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson" data-topic="logic">
+  <h3>rest and if</h3>
+  <p>New: <code>rest</code>, a list without its first item, and <code>if</code>, which picks one of two values. With <code>item</code>, <code>rest</code> lets a list be taken apart one item at a time: the first item, then the rest.</p>
+  <pre><code>(= (rest (list 4 7 9)) (list 7 9))  (= (rest (list 7 9)) (list 9))  (= (rest (list 9)) (list))
+(= (rest (quote (+ 2 3))) (list 2 3))
+(= (length (rest (list 4 7 9))) 2)
+(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (rest (list <var>u</var> <var>v</var>)) (list <var>v</var>))))
+(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (= (item (rest (list <var>u</var> <var>v</var> <var>w</var>)) 2) (item (list <var>u</var> <var>v</var> <var>w</var>) 3)))))</code></pre>
+  <p><code>rest</code> is never applied to an empty list.</p>
+  <p><code>(if <var>a</var> <var>b</var> <var>c</var>)</code> is <var>b</var> when <var>a</var> is <data value="true">true</data>, and <var>c</var> when <var>a</var> is <data value="false">false</data>:</p>
+  <pre><code>(= (if <data value="true">true</data> 1 2) 1)  (= (if <data value="false">false</data> 1 2) 2)
+(= (if (&lt; 2 3) 5 7) 5)  (= (if (<data value="not">not</data> (&lt; 2 3)) 5 7) 7)
+(∀ <var>u</var> ℚ (= (abs <var>u</var>) (if (&lt; <var>u</var> 0) (neg <var>u</var>) <var>u</var>)))
+<span data-comment>only the value that is picked is computed: here (÷ 1 u) is never computed for u = 0</span>
+(∀ <var>u</var> ℚ (= (if (= <var>u</var> 0) 0 (× <var>u</var> (÷ 1 <var>u</var>))) (if (= <var>u</var> 0) 0 1)))</code></pre>
+  <p><data value="implies">implies</data> states that something holds where a condition holds; <code>if</code> picks a value. Two sentences with opposite conditions, like those that defined the strategies of the prisoner's dilemma, say the same as one sentence with <code>if</code>:</p>
+  <pre><code><span data-comment>tit-for-tat: cooperate first, then do what the other did last</span>
+(∀ <var>u</var> histories (= (move tit-for-tat <var>u</var>)
+  (if (= (length <var>u</var>) 0) (list cooperate) (list (item (item <var>u</var> (length <var>u</var>)) 2)))))
+<span data-comment>grim: cooperate as long as the other has never defected</span>
+(∀ <var>u</var> histories (= (move grim <var>u</var>)
+  (if (= (count defect (sequence <var>v</var> <var>u</var> (item <var>v</var> 2))) 0) (list cooperate) (list defect))))
+<span data-comment>pavlov: cooperate first, then cooperate if both did the same last time</span>
+(∀ <var>u</var> histories (= (move pavlov <var>u</var>)
+  (if (= (length <var>u</var>) 0)
+      (list cooperate)
+      (if (= (item (item <var>u</var> (length <var>u</var>)) 1) (item (item <var>u</var> (length <var>u</var>)) 2)) (list cooperate) (list defect)))))</code></pre>
+</article>
+</body>
+</html>

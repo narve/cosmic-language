@@ -8,7 +8,7 @@
   <script src="../assets/views.js" defer></script>
 </head>
 <body>
-<article class="lesson">
+<article class="lesson" data-topic="math">
   <h3>division and fractions</h3>
   <p>New symbol: <code>÷</code>. It follows the same pattern as subtraction. First, only divisions that come out even:</p>
   <pre><code>(= (÷ 6 3) 2) (= (÷ 8 2) 4) (= (÷ 9 9) 1) (= (÷ 0 5) 0) (= (÷ 7 1) 7)
@@ -22,6 +22,7 @@
 <span data-comment>fractions lie between whole numbers</span>
 (&lt; 0 (÷ 1 3) (÷ 1 2) 1)
 (= (÷ (neg 6) 3) (neg 2)) (= (÷ 1 (neg 3)) (neg (÷ 1 3)))</code></pre>
+  <p>With <code>÷</code>, the message has fractions, and with them all the rational numbers: every one can be written as <code>(÷ <var>p</var> <var>q</var>)</code> in lowest terms, with <code>neg</code> in front if it is negative. Fractions are exact, which suits a message in which every statement is true. Decimals and floating-point numbers, which round, will probably never be needed: where a value is measured rather than exact, the message gives a range between two fractions instead.</p>
   <p>Division by zero never appears in the message.</p>
 </article>
 </body>

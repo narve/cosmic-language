@@ -13,6 +13,7 @@ export function addViews(article: Element, registry: Registry, views: View[], wh
   if (columns.length === 1) return;
   messageCode(article).forEach((code, index) => {
     const block = readBlock(code, registry, `${where}, block ${index + 1}`);
+    if (block.bits !== undefined) return; // a bits block already is its own bits view
     const rows = block.lines
       .filter((line) => line.comment || line.tokens.length > 0)
       .map((line) => {
