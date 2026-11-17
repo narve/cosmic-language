@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Magnetism and light · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson">
+  <h3>magnetism and light</h3>
+  <p>New: the domain <code>wires</code> (long, straight, parallel wires that carry a steady current), the functions <code>current</code> (the charge that flows along a wire per time) and <code>magnetic</code> (the magnetic force between two wires, per length of wire), and the constant <code>km</code>. Charges at rest feel the electric force; charges in motion also feel a second one, the magnetic force. Like the electric force, it is introduced through its law, and a negative force pulls together.</p>
+  <pre><code><span data-comment>current is charge per time; its sign says which way it flows along the wires</span>
+(∀ <var>u</var> wires (= (dim (current <var>u</var>)) (÷ Q T)))
+<span data-comment>currents in the same direction pull the wires together</span>
+<span data-comment>current, magnetic and km come back later, in Maxwell's equations of the electric and magnetic field</span>
+(observed (∀ <var>u</var> wires (∀ <var>v</var> wires
+  (= (magnetic <var>u</var> <var>v</var>) (neg (÷ (× 2 km (current <var>u</var>) (current <var>v</var>)) (distance <var>u</var> <var>v</var>)))))))
+<span data-comment>a force per length: mass ÷ time²</span>
+(∀ <var>u</var> wires (∀ <var>v</var> wires (= (dim (magnetic <var>u</var> <var>v</var>)) (÷ M (^ T 2)))))
+(= (dim km) (÷ (× M L) (^ Q 2)))</code></pre>
+  <p>Nothing in the electric law or the magnetic law is about light: one is about charges at rest, the other about currents in wires. Yet the ratio of their two constants has the dimension of a speed squared, and it is the speed of light:</p>
+  <pre><code>(= (dim (÷ ke km)) (^ (dim c) 2))
+<span data-comment>this is the ratio Maxwell's equations explain, later in the message: light is a wave of the electric and magnetic field</span>
+(observed (= (÷ ke km) (^ c 2)))</code></pre>
+  <p>This is how it was discovered that light is electric and magnetic: the ratio was measured with charges and currents, long before anyone could explain why it should equal the speed of light.</p>
+</article>
+</body>
+</html>
