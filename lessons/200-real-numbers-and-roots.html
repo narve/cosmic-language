@@ -12,31 +12,31 @@
   <h3>real numbers and roots</h3>
   <p>The rational numbers are not enough to answer simple questions such as "which number squares to 2?". The next three lessons add the real numbers, powers, and the numbers that solve polynomial equations.</p>
   <p>New: the domain <code>ℝ</code> (real numbers). Every rational number is real, and the familiar laws still hold:</p>
-  <pre><code><span data-comment>2, 1/3 and neg 5 are real numbers</span>
+  <pre><code><span data-comment>; 2, 1/3 and neg 5 are real numbers</span>
 (∃ <var>u</var> ℝ (= <var>u</var> 2))  (∃ <var>u</var> ℝ (= <var>u</var> (÷ 1 3)))  (∃ <var>u</var> ℝ (= <var>u</var> (neg 5)))
-<span data-comment>every rational number is a real number</span>
+<span data-comment>; every rational number is a real number</span>
 (∀ <var>u</var> ℚ (∃ <var>v</var> ℝ (= <var>u</var> <var>v</var>)))
 
-<span data-comment>the familiar laws: adding 0 changes nothing, the order of a product does not matter</span>
+<span data-comment>; the familiar laws: adding 0 changes nothing, the order of a product does not matter</span>
 (∀ <var>u</var> ℝ (= (+ <var>u</var> 0) <var>u</var>))  (∀ <var>u</var> ℝ (∀ <var>v</var> ℝ (= (× <var>u</var> <var>v</var>) (× <var>v</var> <var>u</var>))))</code></pre>
   <p>ℝ has numbers that ℚ lacks, such as a square root of 2:</p>
-  <pre><code><span data-comment>there is a positive real number whose square is 2 …</span>
+  <pre><code><span data-comment>; there is a positive real number whose square is 2 …</span>
 (∃ <var>u</var> ℝ (<data value="and">and</data> (&gt; <var>u</var> 0) (= (× <var>u</var> <var>u</var>) 2)))
-<span data-comment>… but no rational number squares to 2</span>
+<span data-comment>; … but no rational number squares to 2</span>
 (∀ <var>u</var> ℚ (≠ (× <var>u</var> <var>u</var>) 2))
 
-<span data-comment>a cube root of 2</span>
+<span data-comment>; a cube root of 2</span>
 (∃ <var>u</var> ℝ (= (× <var>u</var> <var>u</var> <var>u</var>) 2))
 
-<span data-comment>no real number squares to a negative number</span>
+<span data-comment>; no real number squares to a negative number</span>
 (∀ <var>u</var> ℝ (≠ (× <var>u</var> <var>u</var>) (neg 1)))</code></pre>
   <p>With variables, the meaning of <code>≤</code> and <code>≥</code> from the lesson on order can now be stated exactly. The examples there already showed it; saying it again as a law lets the receiver check that reading:</p>
-  <pre><code><span data-comment><var>u</var> ≤ <var>v</var> means: <var>u</var> &lt; <var>v</var> or <var>u</var> = <var>v</var></span>
+  <pre><code><span data-comment>; <var>u</var> ≤ <var>v</var> means: <var>u</var> &lt; <var>v</var> or <var>u</var> = <var>v</var></span>
 (∀ <var>u</var> ℝ (∀ <var>v</var> ℝ (= (≤ <var>u</var> <var>v</var>) (<data value="or">or</data> (&lt; <var>u</var> <var>v</var>) (= <var>u</var> <var>v</var>)))))
-<span data-comment><var>u</var> ≥ <var>v</var> means: <var>u</var> &gt; <var>v</var> or <var>u</var> = <var>v</var></span>
+<span data-comment>; <var>u</var> ≥ <var>v</var> means: <var>u</var> &gt; <var>v</var> or <var>u</var> = <var>v</var></span>
 (∀ <var>u</var> ℝ (∀ <var>v</var> ℝ (= (≥ <var>u</var> <var>v</var>) (<data value="or">or</data> (&gt; <var>u</var> <var>v</var>) (= <var>u</var> <var>v</var>)))))
 
-<span data-comment>squares are never negative</span>
+<span data-comment>; squares are never negative</span>
 (∀ <var>u</var> ℝ (≥ (× <var>u</var> <var>u</var>) 0))</code></pre>
 </article>
 </body>

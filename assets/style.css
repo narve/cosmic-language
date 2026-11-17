@@ -153,11 +153,8 @@ code var, pre var { color: var(--accent-2); }
   text-underline-offset: 0.25em;
 }
 pre i { color: var(--muted); font-style: normal; }    /* annotations */
-/* Comments in examples: <span data-comment>text</span>, shown with a marker before it.
-   Change the marker or the look here, e.g. --comment-marker: "// "; */
-:root { --comment-marker: "; "; }
+/* Comments in examples: <span data-comment>; text</span>. The ";" is part of the text, so it is copied with it. */
 [data-comment] { color: var(--muted); font-style: italic; }
-[data-comment]::before { content: var(--comment-marker); }
 
 /* Illustrations: shown to explain, never part of the message. Marked with a label and a dashed border. */
 pre[data-illustration] { border-style: dashed; border-left-style: dashed; border-left-color: var(--muted); }

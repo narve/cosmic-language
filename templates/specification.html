@@ -174,6 +174,7 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
     <li>The first element of a group is the operator, and the rest are arguments. The number of arguments is shown by the brackets. No separate arity field is used.</li>
     <li>There are no separators, lesson-start tokens or <code>NEW</code> markers (for now).</li>
     <li>Brackets <strong>must</strong> be balanced in every sentence.</li>
+    <li><strong>Written form.</strong> In this documentation, in the lessons and in <code>message.txt</code>, tokens are written as numbers, brackets and symbol names, separated by spaces or line breaks. Everything from <code>;</code> to the end of a line is a <dfn>comment</dfn> for the human reader. Comments, spaces, line breaks and empty lines are not sent: only the tokens are.</li>
     <li><strong>Quantifiers</strong> bind exactly one variable to an explicit domain: <code>(∀ <var>variable</var> <var>domain</var> <var>statement</var>)</code> and <code>(∃ <var>variable</var> <var>domain</var> <var>statement</var>)</code>. Several variables need nested quantifiers. The domain is never implicit.</li>
     <li><strong>Introducing a symbol by a characterization.</strong> Besides being shown by examples, a new symbol may be introduced by one or more sentences that state its meaning in terms of symbols already introduced, e.g. <code>abs</code> by its defining property, or <code>(= e (exp 1))</code>. These sentences <strong>must</strong> determine the symbol uniquely. Examples follow, as for any other symbol.</li>
     <li><strong>Every sentence is closed:</strong> each variable is bound by a quantifier in the same sentence. A variable in one sentence is unrelated to the same variable in another.</li>
@@ -232,9 +233,9 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
   <p>A rational number that is not an integer has the canonical form <code>(÷ p q)</code> or <code>(neg (÷ p q))</code>, where <var>p</var> ≥ 1, <var>q</var> ≥ 2, and <var>p</var> and <var>q</var> have no common factor. <var>p</var> and <var>q</var> are natural numbers, written with <code>big</code> if needed. Division by zero <strong>must not</strong> appear in the message (see §8.2 for expressions with variables).</p>
   <h3>8.1 Large numbers: <code>big</code></h3>
   <p>A natural number larger than 2<sup><var>C</var></sup> − 1 is written <code>(big d<sub>n</sub> … d<sub>1</sub> d<sub>0</sub>)</code>: positional notation in base 2<sup><var>C</var></sup>, <strong>most significant digit first</strong>. Each digit is an ordinary number token. The leading digit <strong>must not</strong> be 0, and <code>big</code> <strong>must not</strong> be used for values that fit in one number token.</p>
-  <pre><code><span data-comment>= 1·256 + 0 = 256</span>
+  <pre><code><span data-comment>; = 1·256 + 0 = 256</span>
 (big 1 0)
-<span data-comment>= 2·256² + 0·256 + 5 = 131077</span>
+<span data-comment>; = 2·256² + 0·256 + 5 = 131077</span>
 (big 2 0 5)</code></pre>
   <p>Put the value chunks of the digits side by side and the bits form the number in binary. <code>big</code> is taught as a lesson after <code>+</code> and <code>×</code>, e.g. <code>(= (big 1 0) (+ 255 1))</code>.</p>
   <p><em>Reason for most significant first:</em> later number forms that are refined digit by digit (π, measured constants) must have the most significant part first. <code>big</code> follows the same direction, so the message has one convention.</p>

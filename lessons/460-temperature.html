@@ -11,53 +11,53 @@
 <article class="lesson" data-topic="physics">
   <h3>temperature</h3>
   <p>New: the dimension <code>Θ</code> (temperature), the constant <code>kB</code>, the domains <code>gases</code> (thin gases of single atoms) and <code>black-bodies</code> (bodies that absorb all light falling on them), and the functions <code>temperature</code>, <code>kinetic</code> (the average energy of motion of a gas's particles), <code>radiance</code> (the power a body radiates per area) and <code>triple-point</code>. Again <code>kB</code> is introduced through a law:</p>
-  <pre><code><span data-comment>the law: the particles of a gas move with an average energy of 3/2 × kB × its temperature</span>
+  <pre><code><span data-comment>; the law: the particles of a gas move with an average energy of 3/2 × kB × its temperature</span>
 (observed (∀ <var>u</var> gases (= (kinetic <var>u</var>) (× (÷ 3 2) kB (temperature <var>u</var>)))))
-<span data-comment>the dimension of kB: energy ÷ temperature</span>
+<span data-comment>; the dimension of kB: energy ÷ temperature</span>
 (= (dim kB) (÷ (× M (^ L 2)) (× (^ T 2) Θ)))
 
-<span data-comment>a temperature has the dimension Θ</span>
+<span data-comment>; a temperature has the dimension Θ</span>
 (∀ <var>u</var> gases (= (dim (temperature <var>u</var>)) Θ))
-<span data-comment>the energy of motion is an energy: mass × length² ÷ time²</span>
+<span data-comment>; the energy of motion is an energy: mass × length² ÷ time²</span>
 (∀ <var>u</var> gases (= (dim (kinetic <var>u</var>)) (÷ (× M (^ L 2)) (^ T 2))))
 
-<span data-comment>the same law turned around, read as what temperature is: 2 × energy of motion ÷ (3 × kB)</span>
+<span data-comment>; the same law turned around, read as what temperature is: 2 × energy of motion ÷ (3 × kB)</span>
 (observed (∀ <var>u</var> gases (= (temperature <var>u</var>) (÷ (× 2 (kinetic <var>u</var>)) (× 3 kB)))))</code></pre>
   <p>A black body radiates power that grows with the fourth power of its temperature. The factor in front is made only of constants the message has already introduced, and π²/60 is the signature of the spectrum of thermal light:</p>
-  <pre><code><span data-comment>the law: radiance = π²/60 × kB⁴ ÷ (ħ³ × c²) × temperature⁴</span>
+  <pre><code><span data-comment>; the law: radiance = π²/60 × kB⁴ ÷ (ħ³ × c²) × temperature⁴</span>
 (observed (∀ <var>u</var> black-bodies
   (= (radiance <var>u</var>)
      (× (÷ (^ π 2) 60)
         (÷ (^ kB 4) (× (^ ħ 3) (^ c 2)))
         (^ (temperature <var>u</var>) 4)))))
 
-<span data-comment>the dimension of radiance, power per area: mass ÷ time³</span>
+<span data-comment>; the dimension of radiance, power per area: mass ÷ time³</span>
 (∀ <var>u</var> black-bodies (= (dim (radiance <var>u</var>)) (÷ M (^ T 3))))
-<span data-comment>a black body's temperature is a temperature like that of a gas</span>
+<span data-comment>; a black body's temperature is a temperature like that of a gas</span>
 (∀ <var>u</var> black-bodies (= (dim (temperature <var>u</var>)) Θ))
 
-<span data-comment>twice the temperature gives 2⁴ = 16 times the power</span>
+<span data-comment>; twice the temperature gives 2⁴ = 16 times the power</span>
 (observed (∀ <var>u</var> black-bodies (∀ <var>v</var> black-bodies
   (<data value="implies">implies</data> (= (temperature <var>u</var>) (× 2 (temperature <var>v</var>)))
            (= (radiance <var>u</var>) (× 16 (radiance <var>v</var>)))))))</code></pre>
   <p>The Planck temperature completes the Planck units:</p>
-  <pre><code><span data-comment>planck-temperature² = ħ × c⁵ ÷ (G × kB²)</span>
+  <pre><code><span data-comment>; planck-temperature² = ħ × c⁵ ÷ (G × kB²)</span>
 (= (^ planck-temperature 2) (÷ (× ħ (^ c 5)) (× G (^ kB 2))))
-<span data-comment>it is a temperature</span>
+<span data-comment>; it is a temperature</span>
 (= (dim planck-temperature) Θ)
 
-<span data-comment>at the Planck temperature, the thermal energy (kB × temperature) is the energy of the Planck mass (mass × c²)</span>
+<span data-comment>; at the Planck temperature, the thermal energy (kB × temperature) is the energy of the Planck mass (mass × c²)</span>
 (= (× kB planck-temperature) (× planck-mass (^ c 2)))</code></pre>
   <p>A temperature that is the same everywhere: water's triple point, where ice, liquid water and vapour exist together. Its thermal energy is compared with hydrogen's step from level 1 to level 2:</p>
-  <pre><code><span data-comment>kB × the triple point of water, divided by hydrogen's step from level 1 to level 2:</span>
-<span data-comment>about 2.3 × 10⁻³ (between 1/2⁹ and 1/2⁸)</span>
+  <pre><code><span data-comment>; kB × the triple point of water, divided by hydrogen's step from level 1 to level 2:</span>
+<span data-comment>; about 2.3 × 10⁻³ (between 1/2⁹ and 1/2⁸)</span>
 (observed (&lt; (÷ 1 (^ 2 9))
               (÷ (× kB (triple-point water)) (− (level hydrogen 2) (level hydrogen 1)))
               (÷ 1 (^ 2 8))))
 
-<span data-comment>the triple point is a temperature</span>
+<span data-comment>; the triple point is a temperature</span>
 (= (dim (triple-point water)) Θ)
-<span data-comment>in Planck units: about 1.9 × 10⁻³⁰ Planck temperatures (between 1/2⁹⁹ and 1/2⁹⁸)</span>
+<span data-comment>; in Planck units: about 1.9 × 10⁻³⁰ Planck temperatures (between 1/2⁹⁹ and 1/2⁹⁸)</span>
 (observed (&lt; (÷ 1 (^ 2 99))
               (÷ (triple-point water) planck-temperature)
               (÷ 1 (^ 2 98))))</code></pre>

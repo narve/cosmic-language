@@ -12,20 +12,20 @@
   <h3>the exponential function</h3>
   <p>Some numbers are not roots of any polynomial with whole-number coefficients. The two most important ones, <code>e</code> and <code>π</code>, cannot be described with the tools so far. They need one more building block: the exponential function.</p>
   <p>New symbol: <code>exp</code>. After a few of its values, it is introduced by two properties that together single out exactly one function on ℝ:</p>
-  <pre><code><span data-comment>three values first: exp of 0 is 1, and exp of 1 is between 2 and 3</span>
+  <pre><code><span data-comment>; three values first: exp of 0 is 1, and exp of 1 is between 2 and 3</span>
 (= (exp 0) 1)  (&gt; (exp 1) 2)  (&lt; (exp 1) 3)
-<span data-comment>always above 0</span>
+<span data-comment>; always above 0</span>
 (∀ <var>u</var> ℝ (&gt; (exp <var>u</var>) 0))
 
-<span data-comment>the first property: it turns sums into products</span>
+<span data-comment>; the first property: it turns sums into products</span>
 (∀ <var>u</var> ℝ (∀ <var>v</var> ℝ (= (exp (+ <var>u</var> <var>v</var>)) (× (exp <var>u</var>) (exp <var>v</var>)))))
-<span data-comment>the second property: it is never below 1 + <var>u</var></span>
+<span data-comment>; the second property: it is never below 1 + <var>u</var></span>
 (∀ <var>u</var> ℝ (≥ (exp <var>u</var>) (+ 1 <var>u</var>)))</code></pre>
   <p>On ℂ, <code>exp</code> has the same product rule. A bound close to 0 rules out every other candidate:</p>
-  <pre><code><span data-comment>the same product rule</span>
+  <pre><code><span data-comment>; the same product rule</span>
 (∀ <var>u</var> ℂ (∀ <var>v</var> ℂ (= (exp (+ <var>u</var> <var>v</var>)) (× (exp <var>u</var>) (exp <var>v</var>)))))
 
-<span data-comment>close to 0, exp of <var>u</var> is close to 1 + <var>u</var>: where |<var>u</var>| ≤ 1, they differ by at most |<var>u</var>|²</span>
+<span data-comment>; close to 0, exp of <var>u</var> is close to 1 + <var>u</var>: where |<var>u</var>| ≤ 1, they differ by at most |<var>u</var>|²</span>
 (∀ <var>u</var> ℂ (<data value="implies">implies</data> (≤ (abs <var>u</var>) 1)
                    (≤ (abs (− (− (exp <var>u</var>) 1) <var>u</var>)) (^ (abs <var>u</var>) 2))))</code></pre>
 </article>

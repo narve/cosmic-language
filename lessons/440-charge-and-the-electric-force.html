@@ -11,30 +11,30 @@
 <article class="lesson" data-topic="physics">
   <h3>charge and the electric force</h3>
   <p>New: the dimension <code>Q</code> (charge), the function <code>electric</code> (the electric force between two bodies) and the constant <code>ke</code>. The lesson on particles compared charges; now they get a dimension and a law. A positive force pushes apart, a negative one pulls together.</p>
-  <pre><code><span data-comment>charge has a dimension of its own, Q, different from the other three</span>
+  <pre><code><span data-comment>; charge has a dimension of its own, Q, different from the other three</span>
 (= (dim (charge proton)) Q)  (= (dim (charge electron)) Q)
 (≠ Q M)  (≠ Q L)  (≠ Q T)
 
-<span data-comment>Coulomb's law: electric force = ke × charge × charge ÷ distance²</span>
-<span data-comment>(as for gravity, only where the distance is above 0)</span>
+<span data-comment>; Coulomb's law: electric force = ke × charge × charge ÷ distance²</span>
+<span data-comment>; (as for gravity, only where the distance is above 0)</span>
 (observed (∀ <var>u</var> bodies (∀ <var>v</var> bodies
   (<data value="implies">implies</data> (&gt; (distance <var>u</var> <var>v</var>) 0)
     (= (electric <var>u</var> <var>v</var>)
        (÷ (× ke (charge <var>u</var>) (charge <var>v</var>)) (^ (distance <var>u</var> <var>v</var>) 2)))))))
 
-<span data-comment>the dimension of ke, which makes the law come out as a force</span>
+<span data-comment>; the dimension of ke, which makes the law come out as a force</span>
 (= (dim ke) (÷ (× M (^ L 3)) (× (^ T 2) (^ Q 2))))
-<span data-comment>the electric force is a force like gravity: mass × length ÷ time²</span>
+<span data-comment>; the electric force is a force like gravity: mass × length ÷ time²</span>
 (∀ <var>u</var> bodies (∀ <var>v</var> bodies (= (dim (electric <var>u</var> <var>v</var>)) (÷ (× M L) (^ T 2)))))
 
-<span data-comment>opposite charges pull together (a force below 0), equal charges push apart (above 0)</span>
+<span data-comment>; opposite charges pull together (a force below 0), equal charges push apart (above 0)</span>
 (observed (&lt; (electric proton electron) 0))  (observed (&gt; (electric proton proton) 0))</code></pre>
   <p>Because the law is written out, the next number does not depend on how charge is measured. It is the fine-structure constant, which sets the strength of the electric force:</p>
-  <pre><code><span data-comment>the fine-structure constant, ke × charge² ÷ (ħ × c): between 1/138 and 1/137</span>
+  <pre><code><span data-comment>; the fine-structure constant, ke × charge² ÷ (ħ × c): between 1/138 and 1/137</span>
 (observed (&lt; (÷ 1 138) (÷ (× ke (^ (charge proton) 2)) (× ħ c)) (÷ 1 137)))
 
-<span data-comment>between a proton and an electron, the electric force is about 2.3 × 10³⁹ times the force of gravity:</span>
-<span data-comment>between 2¹³⁰ and 2¹³¹ times (the distance does not matter: it cancels)</span>
+<span data-comment>; between a proton and an electron, the electric force is about 2.3 × 10³⁹ times the force of gravity:</span>
+<span data-comment>; between 2¹³⁰ and 2¹³¹ times (the distance does not matter: it cancels)</span>
 (observed (&lt; (^ 2 130)
               (÷ (abs (electric proton electron)) (gravity proton electron))
               (^ 2 131)))</code></pre>

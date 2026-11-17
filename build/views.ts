@@ -15,10 +15,11 @@ export function addViews(article: Element, registry: Registry, views: View[], wh
     const block = readBlock(code, registry, `${where}, block ${index + 1}`);
     if (block.bits !== undefined) return; // a bits block already is its own bits view
     const rows = block.lines
-      .filter((line) => line.comment || line.tokens.length > 0)
+      .filter((line) => line.comment !== undefined || line.tokens.length > 0)
       .map((line) => {
-        if (line.comment) {
-          return `<tr data-comment-row><td colspan="${columns.length}"><span data-comment>${line.comment.innerHTML}</span></td></tr>`;
+        if (line.tokens.length === 0) {
+          const comment = line.commentHtml ?? escape(line.comment!);
+          return `<tr data-comment-row><td colspan="${columns.length}"><span data-comment>${comment}</span></td></tr>`;
         }
         return `<tr>${columns.map((view) => `<td data-view="${view}">${cell(view, line, registry)}</td>`).join("")}</tr>`;
       });
@@ -42,7 +43,7 @@ function cell(view: View, line: Line, registry: Registry): string {
       let html = "";
       let end = 0;
       for (const token of line.tokens) {
-        html += escape(line.text.slice(end, token.start)) + written(view, token, registry);
+        html += escape(line.code.slice(end, token.start)) + written(view, token, registry);
         end = token.start + token.text.length;
       }
       return `<code>${html}</code>`;

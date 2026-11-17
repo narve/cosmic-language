@@ -15,18 +15,18 @@
   <pre><code>(= (quote (+ 2 3)) (list (quote +) 2 3))
 (= (length (quote (+ 2 3))) 3)
 (= (item (quote (+ 2 3)) 1) (quote +))  (= (item (quote (+ 2 3)) 2) 2)  (= (item (quote (+ 2 3)) 3) 3)
-<span data-comment>a symbol can be quoted on its own</span>
+<span data-comment>; a symbol can be quoted on its own</span>
 (= (quote +) (quote +))  (≠ (quote +) (quote ×))
-<span data-comment>numbers are their own quotes</span>
+<span data-comment>; numbers are their own quotes</span>
 (= (quote 5) 5)
-<span data-comment>an expression is not its value, and two expressions with the same value are still different</span>
+<span data-comment>; an expression is not its value, and two expressions with the same value are still different</span>
 (= (+ 2 3) 5)  (≠ (quote (+ 2 3)) 5)
 (= (+ 2 3) (+ 3 2))  (≠ (quote (+ 2 3)) (quote (+ 3 2)))
-<span data-comment>quoted expressions can be nested</span>
+<span data-comment>; quoted expressions can be nested</span>
 (= (item (quote (= (+ 2 3) 5)) 2) (quote (+ 2 3)))
 (= (item (quote (quote 7)) 1) (quote quote))</code></pre>
   <p>Because a quoted sentence is only mentioned, it may be false. This is the first time a false sentence appears in the message, and it is never asserted:</p>
-  <pre><code><span data-comment>the sentence "2 = 3", taken apart</span>
+  <pre><code><span data-comment>; the sentence "2 = 3", taken apart</span>
 (= (length (quote (= 2 3))) 3)
 (= (item (quote (= 2 3)) 1) (quote =))
 (= (item (quote (= 2 3)) 3) 3)
@@ -35,7 +35,7 @@
   <pre><code>(= (type 5) 0)  (= (type (quote (+ 2 3))) 1)  (= (type (quote +)) 2)  (= (type (quote <data value="true">true</data>)) 3)
 (= (type (quote <var>u</var>)) 4)  (= (type (quote proton)) 5)  (= (type (quote hydrogen)) 6)  (= (type (quote M)) 7)
 (= (type (quote c)) 8)  (= (type (quote water)) 9)  (= (type (list 1 2)) 1)
-<span data-comment>an operator in a quoted expression is a symbol like any other</span>
+<span data-comment>; an operator in a quoted expression is a symbol like any other</span>
 (= (type (item (quote (+ 2 3)) 1)) 2)  (= (type (item (quote (+ 2 3)) 2)) 0)</code></pre>
   <p>Inside a quote, <var>u</var> is just a symbol of type 4, not a variable standing for a number.</p>
 </article>

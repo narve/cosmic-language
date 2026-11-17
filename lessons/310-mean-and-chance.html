@@ -11,40 +11,40 @@
 <article class="lesson" data-topic="math">
   <h3>mean and chance</h3>
   <p>New: <code>mean</code>, <code>chance</code> and <code>pairs</code>. The mean of a list is the sum of its items divided by how many there are:</p>
-  <pre><code><span data-comment>the mean of 2, 4 and 9 is 5; the mean of a single item is that item</span>
+  <pre><code><span data-comment>; the mean of 2, 4 and 9 is 5; the mean of a single item is that item</span>
 (= (mean (list 2 4 9)) 5)  (= (mean (list 7)) 7)
-<span data-comment>the mean need not be a whole number: 7/2</span>
+<span data-comment>; the mean need not be a whole number: 7/2</span>
 (= (mean (list 1 2 3 4 5 6)) (÷ 7 2))
 
-<span data-comment>what mean means: the sum divided by the length</span>
+<span data-comment>; what mean means: the sum divided by the length</span>
 (= (mean (list 2 4 9)) (÷ (apply + (list 2 4 9)) (length (list 2 4 9))))</code></pre>
   <p>The chance of a value in a list is the part of the list that is that value: how many of the items are that value, divided by the number of items. It is a proportion, nothing more.</p>
-  <pre><code><span data-comment>one of two items is true: chance 1/2</span>
+  <pre><code><span data-comment>; one of two items is true: chance 1/2</span>
 (= (chance <data value="true">true</data> (list <data value="true">true</data> <data value="false">false</data>)) (÷ 1 2))
-<span data-comment>one of six items is 6: chance 1/6</span>
+<span data-comment>; one of six items is 6: chance 1/6</span>
 (= (chance 6 (list 1 2 3 4 5 6)) (÷ 1 6))
-<span data-comment>two of three items are 3: chance 2/3</span>
+<span data-comment>; two of three items are 3: chance 2/3</span>
 (= (chance 3 (list 3 1 3)) (÷ 2 3))
-<span data-comment>5 is not in the list: chance 0</span>
+<span data-comment>; 5 is not in the list: chance 0</span>
 (= (chance 5 (list 1 2 2)) 0)
 
-<span data-comment>what chance means: the count divided by the length</span>
+<span data-comment>; what chance means: the count divided by the length</span>
 (= (chance 3 (list 3 1 3)) (÷ (count 3 (list 3 1 3)) (length (list 3 1 3))))
-<span data-comment>the chances of all the different items add up to 1</span>
+<span data-comment>; the chances of all the different items add up to 1</span>
 (= (+ (chance 1 (list 1 2 2)) (chance 2 (list 1 2 2))) 1)</code></pre>
   <p><code>pairs</code> makes every pair of an item from one list with an item from another. The chance of a pair is the product of the two chances:</p>
-  <pre><code><span data-comment>every pair of an item from the first list with an item from the second</span>
+  <pre><code><span data-comment>; every pair of an item from the first list with an item from the second</span>
 (= (pairs (list 1 2) (list 3 4)) (list (list 1 3) (list 1 4) (list 2 3) (list 2 4)))
-<span data-comment>3 items and 2 items give 6 pairs</span>
+<span data-comment>; 3 items and 2 items give 6 pairs</span>
 (= (length (pairs (list 1 2 3) (list 4 5))) 6)
 
-<span data-comment>two picks from true and false: the chance that both are true is 1/4 …</span>
+<span data-comment>; two picks from true and false: the chance that both are true is 1/4 …</span>
 (= (chance (list <data value="true">true</data> <data value="true">true</data>) (pairs (list <data value="true">true</data> <data value="false">false</data>) (list <data value="true">true</data> <data value="false">false</data>))) (÷ 1 4))
-<span data-comment>… which is the chance of one true times the chance of the other</span>
+<span data-comment>; … which is the chance of one true times the chance of the other</span>
 (= (chance (list <data value="true">true</data> <data value="true">true</data>) (pairs (list <data value="true">true</data> <data value="false">false</data>) (list <data value="true">true</data> <data value="false">false</data>)))
    (× (chance <data value="true">true</data> (list <data value="true">true</data> <data value="false">false</data>)) (chance <data value="true">true</data> (list <data value="true">true</data> <data value="false">false</data>))))
 
-<span data-comment>two picks from 1 to 6: the chance of two sixes is 1/36</span>
+<span data-comment>; two picks from 1 to 6: the chance of two sixes is 1/36</span>
 (= (chance (list 6 6) (pairs (list 1 2 3 4 5 6) (list 1 2 3 4 5 6))) (÷ 1 36))</code></pre>
 </article>
 </body>

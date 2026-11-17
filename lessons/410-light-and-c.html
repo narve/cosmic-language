@@ -11,23 +11,23 @@
 <article class="lesson" data-topic="physics">
   <h3>light and c</h3>
   <p>New: the particle <code>photon</code>, the domain <code>photons</code> (all individual photons), the functions <code>speed</code>, <code>wavelength</code> and <code>frequency</code>, and the constant <code>c</code>, a new type for physical constants.</p>
-  <pre><code><span data-comment>a photon has no mass and no charge</span>
+  <pre><code><span data-comment>; a photon has no mass and no charge</span>
 (observed (= (mass photon) 0))  (observed (= (charge photon) 0))
 
-<span data-comment>every photon has the same speed, c</span>
+<span data-comment>; every photon has the same speed, c</span>
 (observed (∀ <var>u</var> photons (= (speed <var>u</var>) c)))
 (observed (= (speed photon) c))
-<span data-comment>the dimension of a speed: length ÷ time</span>
+<span data-comment>; the dimension of a speed: length ÷ time</span>
 (∀ <var>u</var> photons (= (dim (speed <var>u</var>)) (÷ L T)))
 (= (dim c) (÷ L T))
 
-<span data-comment>for every photon, wavelength × frequency = c</span>
+<span data-comment>; for every photon, wavelength × frequency = c</span>
 (observed (∀ <var>u</var> photons (= (× (wavelength <var>u</var>) (frequency <var>u</var>)) c)))
-<span data-comment>a frequency is a number per time, a wavelength is a length</span>
+<span data-comment>; a frequency is a number per time, a wavelength is a length</span>
 (∀ <var>u</var> photons (= (dim (frequency <var>u</var>)) (÷ 1 T)))
 (∀ <var>u</var> photons (= (dim (wavelength <var>u</var>)) L))
 
-<span data-comment>the frequency of a photon is never 0, so the law can be turned around: wavelength = c ÷ frequency</span>
+<span data-comment>; the frequency of a photon is never 0, so the law can be turned around: wavelength = c ÷ frequency</span>
 (observed (∀ <var>u</var> photons (&gt; (frequency <var>u</var>) 0)))
 (observed (∀ <var>u</var> photons (= (wavelength <var>u</var>) (÷ c (frequency <var>u</var>)))))</code></pre>
 </article>

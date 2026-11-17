@@ -13,26 +13,26 @@
   <p>New: the moves <code>cooperate</code> and <code>defect</code>, and <code>payoff</code>, the score for a move given the other player's move.</p>
   <pre><code>(= (payoff cooperate cooperate) 3)  (= (payoff cooperate defect) 0)
 (= (payoff defect cooperate) 5)  (= (payoff defect defect) 1)
-<span data-comment>defecting always pays more, whatever the other does …</span>
+<span data-comment>; defecting always pays more, whatever the other does …</span>
 (&gt; (payoff defect cooperate) (payoff cooperate cooperate) (payoff defect defect) (payoff cooperate defect))
-<span data-comment>… yet cooperating together beats taking turns to exploit each other</span>
+<span data-comment>; … yet cooperating together beats taking turns to exploit each other</span>
 (&gt; (× 2 (payoff cooperate cooperate)) (+ (payoff defect cooperate) (payoff cooperate defect)))</code></pre>
 
   <h4>Strategies</h4>
   <p>New: the domain <code>histories</code>, the function <code>move</code>, and six strategies. A history is a list of the rounds played so far, each round a list of two moves: one's own, then the other's. <code>(move <var>s</var> <var>h</var>)</code> is a list to pick the next move from: a single move for a fixed choice, repeated moves for a chance.</p>
-  <pre><code><span data-comment>always-cooperate and always-defect ignore the history</span>
+  <pre><code><span data-comment>; always-cooperate and always-defect ignore the history</span>
 (∀ <var>u</var> histories (= (move always-cooperate <var>u</var>) (list cooperate)))
 (∀ <var>u</var> histories (= (move always-defect <var>u</var>) (list defect)))
-<span data-comment>tit-for-tat: cooperate first, then do what the other did last</span>
+<span data-comment>; tit-for-tat: cooperate first, then do what the other did last</span>
 (= (move tit-for-tat (list)) (list cooperate))
 (∀ <var>u</var> histories (<data value="implies">implies</data> (&gt; (length <var>u</var>) 0)
   (= (move tit-for-tat <var>u</var>) (list (item (item <var>u</var> (length <var>u</var>)) 2)))))
-<span data-comment>grim: cooperate as long as the other has never defected</span>
+<span data-comment>; grim: cooperate as long as the other has never defected</span>
 (∀ <var>u</var> histories (<data value="implies">implies</data> (= (count defect (sequence <var>v</var> <var>u</var> (item <var>v</var> 2))) 0)
   (= (move grim <var>u</var>) (list cooperate))))
 (∀ <var>u</var> histories (<data value="implies">implies</data> (&gt; (count defect (sequence <var>v</var> <var>u</var> (item <var>v</var> 2))) 0)
   (= (move grim <var>u</var>) (list defect))))
-<span data-comment>pavlov: cooperate if both did the same last time, otherwise defect</span>
+<span data-comment>; pavlov: cooperate if both did the same last time, otherwise defect</span>
 (= (move pavlov (list)) (list cooperate))
 (∀ <var>u</var> histories (<data value="implies">implies</data> (<data value="and">and</data> (&gt; (length <var>u</var>) 0)
                                 (= (item (item <var>u</var> (length <var>u</var>)) 1) (item (item <var>u</var> (length <var>u</var>)) 2)))
@@ -40,7 +40,7 @@
 (∀ <var>u</var> histories (<data value="implies">implies</data> (<data value="and">and</data> (&gt; (length <var>u</var>) 0)
                                 (≠ (item (item <var>u</var> (length <var>u</var>)) 1) (item (item <var>u</var> (length <var>u</var>)) 2)))
   (= (move pavlov <var>u</var>) (list defect))))
-<span data-comment>generous-tit-for-tat: like tit-for-tat, but after a defection it forgives once in three</span>
+<span data-comment>; generous-tit-for-tat: like tit-for-tat, but after a defection it forgives once in three</span>
 (= (move generous-tit-for-tat (list)) (list cooperate))
 (∀ <var>u</var> histories (<data value="implies">implies</data> (<data value="and">and</data> (&gt; (length <var>u</var>) 0) (= (item (item <var>u</var> (length <var>u</var>)) 2) cooperate))
   (= (move generous-tit-for-tat <var>u</var>) (list cooperate))))
@@ -52,17 +52,17 @@
   <pre><code>(= tournament (list always-cooperate always-defect tit-for-tat grim pavlov))
 (∀ <var>u</var> tournament (∀ <var>v</var> tournament (= (rounds <var>u</var> <var>v</var> 0) (list))))
 (∀ <var>u</var> tournament (∀ <var>v</var> tournament (∀ <var>w</var> ℕ (= (length (rounds <var>u</var> <var>v</var> <var>w</var>)) <var>w</var>))))
-<span data-comment>earlier rounds stay as they were</span>
+<span data-comment>; earlier rounds stay as they were</span>
 (∀ <var>u</var> tournament (∀ <var>v</var> tournament (∀ <var>w</var> ℕ (∀ <var>z</var> ℕ (<data value="implies">implies</data> (≤ 1 <var>z</var> <var>w</var>)
   (= (item (rounds <var>u</var> <var>v</var> <var>w</var>) <var>z</var>) (item (rounds <var>u</var> <var>v</var> <var>z</var>) <var>z</var>)))))))
-<span data-comment>the same game seen from the other side: each round with its two moves swapped</span>
+<span data-comment>; the same game seen from the other side: each round with its two moves swapped</span>
 (∀ <var>u</var> tournament (∀ <var>v</var> tournament (∀ <var>w</var> ℕ (∀ <var>z</var> ℕ (<data value="implies">implies</data> (≤ 1 <var>z</var> <var>w</var>)
   (= (item (item (rounds <var>u</var> <var>v</var> <var>w</var>) <var>z</var>) 1) (item (item (rounds <var>v</var> <var>u</var> <var>w</var>) <var>z</var>) 2)))))))
-<span data-comment>the next round: each player's move, given the game so far from its own side</span>
+<span data-comment>; the next round: each player's move, given the game so far from its own side</span>
 (∀ <var>u</var> tournament (∀ <var>v</var> tournament (∀ <var>w</var> ℕ
   (= (item (rounds <var>u</var> <var>v</var> (+ <var>w</var> 1)) (+ <var>w</var> 1))
      (list (item (move <var>u</var> (rounds <var>u</var> <var>v</var> <var>w</var>)) 1) (item (move <var>v</var> (rounds <var>v</var> <var>u</var> <var>w</var>)) 1))))))
-<span data-comment>the score is the sum of the payoffs of all rounds</span>
+<span data-comment>; the score is the sum of the payoffs of all rounds</span>
 (∀ <var>u</var> tournament (∀ <var>v</var> tournament (∀ <var>w</var> ℕ
   (= (score <var>u</var> <var>v</var> <var>w</var>) (apply + (sequence <var>z</var> (rounds <var>u</var> <var>v</var> <var>w</var>) (payoff (item <var>z</var> 1) (item <var>z</var> 2))))))))</code></pre>
   <p>An example, played out in full:</p>
@@ -84,9 +84,9 @@
 
   <h4>Chance in the game</h4>
   <p>Generous-tit-for-tat picks its move by chance after a defection, so its score is not fixed. Its expected payoff for a round is the mean over the list it picks from:</p>
-  <pre><code><span data-comment>after a defection, against always-defect: two thirds per round</span>
+  <pre><code><span data-comment>; after a defection, against always-defect: two thirds per round</span>
 (= (mean (sequence <var>u</var> (list cooperate defect defect) (payoff <var>u</var> defect))) (÷ 2 3))
-<span data-comment>against itself, it never needs to forgive: it always cooperates</span>
+<span data-comment>; against itself, it never needs to forgive: it always cooperates</span>
 (= (move generous-tit-for-tat (list (list cooperate cooperate))) (list cooperate))</code></pre>
   <p>Forgiving costs a little against a player who always defects, but it lets two forgiving players recover from a mistake.</p>
 </article>

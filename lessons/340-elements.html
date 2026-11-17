@@ -11,23 +11,23 @@
 <article class="lesson" data-topic="physics">
   <h3>elements</h3>
   <p>New: the elements (a new type) and the domain <code>elements</code>. <code>count</code> from the lesson on lists now tells how many of a particle an atom contains. The value of an element token is its number of protons, so <code>hydrogen</code> is element 1, <code>helium</code> element 2, and so on. This is a definition, not a measurement, so it is not marked <code>observed</code>.</p>
-  <pre><code><span data-comment>protons: the number that defines each element</span>
+  <pre><code><span data-comment>; protons: the number that defines each element</span>
 (= (count proton hydrogen) 1)  (= (count proton helium) 2)
 (= (count proton carbon) 6)  (= (count proton oxygen) 8)
-<span data-comment>electrons: the same numbers</span>
+<span data-comment>; electrons: the same numbers</span>
 (= (count electron hydrogen) 1)  (= (count electron helium) 2)
 (= (count electron carbon) 6)  (= (count electron oxygen) 8)
 
-<span data-comment>the four elements in order of their protons</span>
+<span data-comment>; the four elements in order of their protons</span>
 (&lt; (count proton hydrogen) (count proton helium) (count proton carbon) (count proton oxygen))
-<span data-comment>every element has at least one proton</span>
+<span data-comment>; every element has at least one proton</span>
 (∀ <var>u</var> elements (≥ (count proton <var>u</var>) 1))
 
-<span data-comment>atoms are neutral: as many electrons as protons, so no charge in total</span>
+<span data-comment>; atoms are neutral: as many electrons as protons, so no charge in total</span>
 (∀ <var>u</var> elements (= (count electron <var>u</var>) (count proton <var>u</var>)))
 (observed (∀ <var>u</var> elements (= (charge <var>u</var>) 0)))
 
-<span data-comment>a hydrogen atom weighs only a little more than its proton: the electron adds very little</span>
+<span data-comment>; a hydrogen atom weighs only a little more than its proton: the electron adds very little</span>
 (observed (&lt; 1 (÷ (mass hydrogen) (mass proton)) (÷ 101 100)))</code></pre>
   <p>Neutron counts are left out here: atoms of the same element can have different numbers of neutrons. The next lesson deals with that.</p>
 </article>

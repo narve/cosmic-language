@@ -13,8 +13,10 @@ export interface Token {
 }
 
 export interface Line {
-  text: string; // a code line as written, or the text of a comment
-  comment?: Element; // the <span data-comment>, for comment lines
+  text: string; // the line as written, with its comment
+  code: string; // the line without its comment
+  comment?: string; // the comment, from its ";" to the end of the line
+  commentHtml?: string; // the same with its markup (<var> …), when the comment is a <span data-comment>
   tokens: Token[];
 }
 
@@ -30,31 +32,30 @@ export function messageCode(article: Element): Element[] {
 }
 
 export function readBlock(code: Element, registry: Registry, where: string): Block {
-  // Comments are on their own lines: swap each for a marker line, then split into lines.
-  const copy = code.cloneNode(true) as Element;
-  const comments = Array.from(code.querySelectorAll("[data-comment]"));
-  for (const span of copy.querySelectorAll("[data-comment]")) span.replaceWith(copy.ownerDocument.createTextNode("\u0000"));
-  let comment = 0;
+  // A comment runs from ";" to the end of its line and is not sent. In the lessons it is also marked up as
+  // <span data-comment>, which only matters for how it looks: the spans are matched to the comments in order.
+  const spans = Array.from(code.querySelectorAll("[data-comment]"));
+  let span = 0;
   const lines: Line[] = [];
   const tokens: Token[] = [];
   let depth = 0;
   const raw = code.parentElement!.hasAttribute("data-bits");
   let bits = "";
-  copy.textContent!.split("\n").forEach((text, index) => {
+  code.textContent!.split("\n").forEach((text, index) => {
     const at = `${where}, line ${index + 1}`;
-    if (text.includes("\u0000")) {
-      const span = comments[comment++];
-      lines.push({ text: span.textContent!, comment: span, tokens: [] });
-      return;
+    const semicolon = text.indexOf(";");
+    const line: Line = { text, code: semicolon < 0 ? text : text.slice(0, semicolon), tokens: [] };
+    if (semicolon >= 0) {
+      line.comment = text.slice(semicolon);
+      if (spans[span]?.textContent === line.comment) line.commentHtml = spans[span++].innerHTML;
     }
-    const line: Line = { text, tokens: [] };
     if (raw) {
-      if (/[^01\s]/.test(text)) throw new BuildError(`${at}: a bits block may only contain 0, 1 and spaces`);
-      bits += text.replace(/\s/g, "");
+      if (/[^01\s]/.test(line.code)) throw new BuildError(`${at}: a bits block may only contain 0, 1, spaces and ; comments`);
+      bits += line.code.replace(/\s/g, "");
       lines.push(line);
       return;
     }
-    for (const match of text.matchAll(/[()]|[^\s()]+/g)) {
+    for (const match of line.code.matchAll(/[()]|[^\s()]+/g)) {
       const token = classify(match[0], match.index!, registry, at);
       if (token.type === 1) depth += token.value === 0 ? 1 : -1;
       if (depth < 0) throw new BuildError(`${at}: ")" without a matching "("`);
@@ -64,6 +65,7 @@ export function readBlock(code: Element, registry: Registry, where: string): Blo
     lines.push(line);
   });
   if (depth > 0) throw new BuildError(`${where}: ${depth} unclosed "(" at the end of the block`);
+  if (span < spans.length) throw new BuildError(`${where}: the comment "${spans[span].textContent}" must start with ";" and fill the rest of its line`);
   return raw ? { lines, tokens, bits } : { lines, tokens };
 }
 
@@ -133,7 +135,7 @@ export function messageText(message: Message): string {
     "; Numbers, brackets and symbol names are tokens; lines of 0s and 1s (the beacon and the terminator) are bits, sent as they are.",
     "; Everything from ; to the end of a line is a comment and is not sent.",
   ];
-  return write(message, header, (block) => block.lines.map((line) => (line.comment ? `; ${line.text}` : line.text)));
+  return write(message, header, (block) => block.lines.map((line) => line.text));
 }
 
 export function messageBits(message: Message): string {
@@ -143,8 +145,8 @@ export function messageBits(message: Message): string {
   ];
   return write(message, header, (block) =>
     block.lines.flatMap((line) => {
-      if (line.comment) return [`; ${line.text}`];
       if (block.bits !== undefined) return line.text.trim() ? [line.text.trim()] : [];
+      if (line.tokens.length === 0) return line.comment ? [line.comment] : [];
       return line.tokens.map((token) => `${tokenBits(token)}   ; ${token.text}`);
     }),
   );
