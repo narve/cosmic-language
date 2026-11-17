@@ -125,51 +125,52 @@
 <span data-comment>; against random, defecting gets 5 or 1: a mean of 3 per round</span>
 (= (mean (sequence <var>u</var> (move random (list)) (payoff defect <var>u</var>))) 3)</code></pre>
 
-  <h4>Results over 10 rounds</h4>
-  <pre><code><span data-comment>; two that cooperate get 30 each; two that defect get 10 each</span>
-(= (score tit-for-tat tit-for-tat 10) 30)  (= (score always-defect always-defect 10) 10)
+  <h4>Results over 251 rounds</h4>
+  <p>A game lasts 251 rounds: the largest prime number that fits in one chunk. Nothing depends on that number, except that it is long enough for the first rounds not to decide the result.</p>
+  <pre><code><span data-comment>; two that cooperate get 753 each: (big 2 241); two that defect get 251 each</span>
+(= (score tit-for-tat tit-for-tat 251) (big 2 241))  (= (score always-defect always-defect 251) 251)
 
-<span data-comment>; tit-for-tat loses only the first round to always-defect: 9 against 14</span>
-(= (score tit-for-tat always-defect 10) 9)  (= (score always-defect tit-for-tat 10) 14)
+<span data-comment>; tit-for-tat loses only the first round to always-defect: 250 against 255</span>
+(= (score tit-for-tat always-defect 251) 250)  (= (score always-defect tit-for-tat 251) 255)
 
-<span data-comment>; always-cooperate is exploited in every round: 0 against 50</span>
-(= (score always-cooperate always-defect 10) 0)  (= (score always-defect always-cooperate 10) 50)
+<span data-comment>; always-cooperate is exploited in every round: 0 against 1255</span>
+(= (score always-cooperate always-defect 251) 0)  (= (score always-defect always-cooperate 251) (big 4 231))
 
-<span data-comment>; pavlov is exploited every second round: 5 against 30</span>
-(= (score pavlov always-defect 10) 5)  (= (score always-defect pavlov 10) 30)
+<span data-comment>; pavlov is exploited every second round: 125 against 755</span>
+(= (score pavlov always-defect 251) 125)  (= (score always-defect pavlov 251) (big 2 243))
 
-<span data-comment>; tit-for-tat against its suspicious twin: the first defection echoes back and forth, 25 each instead of 30</span>
-(= (score tit-for-tat suspicious-tit-for-tat 10) 25)  (= (score suspicious-tit-for-tat tit-for-tat 10) 25)
+<span data-comment>; tit-for-tat against its suspicious twin: the first defection echoes back and forth, 625 and 630 instead of 753 each</span>
+(= (score tit-for-tat suspicious-tit-for-tat 251) (big 2 113))  (= (score suspicious-tit-for-tat tit-for-tat 251) (big 2 118))
 
-<span data-comment>; grim never forgives that first defection: 13 each</span>
-(= (score grim suspicious-tit-for-tat 10) 13)  (= (score suspicious-tit-for-tat grim 10) 13)</code></pre>
+<span data-comment>; grim never forgives that first defection: 254 against 254</span>
+(= (score grim suspicious-tit-for-tat 251) 254)  (= (score suspicious-tit-for-tat grim 251) 254)</code></pre>
   <p>A tournament: each strategy plays all six, itself included. Always-defect never loses a single game, yet it ends up second to last. Last of all is the strategy that follows the same rule as tit-for-tat but opens with a defection. Tit-for-tat, which opens in peace, is first:</p>
-  <pre><code><span data-comment>; the total of each strategy over its five games</span>
-(= (apply + (sequence <var>u</var> tournament (score tit-for-tat <var>u</var> 10))) 154)
-(= (apply + (sequence <var>u</var> tournament (score always-cooperate <var>u</var> 10))) 147)
-(= (apply + (sequence <var>u</var> tournament (score pavlov <var>u</var> 10))) 143)
-(= (apply + (sequence <var>u</var> tournament (score grim <var>u</var> 10))) 142)
-(= (apply + (sequence <var>u</var> tournament (score always-defect <var>u</var> 10))) 128)
-(= (apply + (sequence <var>u</var> tournament (score suspicious-tit-for-tat <var>u</var> 10))) 113)</code></pre>
+  <pre><code><span data-comment>; the total of each strategy over its six games: 3887, 3762, 3640, 3516, 3022, 2644</span>
+(= (apply + (sequence <var>u</var> tournament (score tit-for-tat <var>u</var> 251))) (big 15 47))
+(= (apply + (sequence <var>u</var> tournament (score always-cooperate <var>u</var> 251))) (big 14 178))
+(= (apply + (sequence <var>u</var> tournament (score pavlov <var>u</var> 251))) (big 14 56))
+(= (apply + (sequence <var>u</var> tournament (score grim <var>u</var> 251))) (big 13 188))
+(= (apply + (sequence <var>u</var> tournament (score always-defect <var>u</var> 251))) (big 11 206))
+(= (apply + (sequence <var>u</var> tournament (score suspicious-tit-for-tat <var>u</var> 251))) (big 10 84))</code></pre>
 
   <h4>Peace wins</h4>
   <p>The message ends with what the tournament shows. Two players who keep the peace each get three times what two players at war get. The two strategies that defect first end with the lowest totals, and the four that never defect first all end above them. And tit-for-tat, which opens in peace, answers in kind and forgives as soon as the other returns to peace, ends with more than every other strategy. That is the last statement of the message.</p>
-  <pre><code><span data-comment>; two at peace get more, each, than two at war: 30 against 10</span>
-(&gt; (score tit-for-tat tit-for-tat 10) (score always-defect always-defect 10))
+  <pre><code><span data-comment>; two at peace get more, each, than two at war: 753 against 251</span>
+(&gt; (score tit-for-tat tit-for-tat 251) (score always-defect always-defect 251))
 
 <span data-comment>; the whole ranking, from last to first: the two that defect first are at the bottom</span>
-(&lt; (apply + (sequence <var>v</var> tournament (score suspicious-tit-for-tat <var>v</var> 10)))
-   (apply + (sequence <var>v</var> tournament (score always-defect <var>v</var> 10)))
-   (apply + (sequence <var>v</var> tournament (score grim <var>v</var> 10)))
-   (apply + (sequence <var>v</var> tournament (score pavlov <var>v</var> 10)))
-   (apply + (sequence <var>v</var> tournament (score always-cooperate <var>v</var> 10)))
-   (apply + (sequence <var>v</var> tournament (score tit-for-tat <var>v</var> 10))))
+(&lt; (apply + (sequence <var>v</var> tournament (score suspicious-tit-for-tat <var>v</var> 251)))
+   (apply + (sequence <var>v</var> tournament (score always-defect <var>v</var> 251)))
+   (apply + (sequence <var>v</var> tournament (score grim <var>v</var> 251)))
+   (apply + (sequence <var>v</var> tournament (score pavlov <var>v</var> 251)))
+   (apply + (sequence <var>v</var> tournament (score always-cooperate <var>v</var> 251)))
+   (apply + (sequence <var>v</var> tournament (score tit-for-tat <var>v</var> 251))))
 
 <span data-comment>; tit-for-tat ends with more than every other strategy</span>
 (∀ <var>u</var> tournament
   (<data value="implies">implies</data> (≠ <var>u</var> tit-for-tat)
-    (&gt; (apply + (sequence <var>v</var> tournament (score tit-for-tat <var>v</var> 10)))
-       (apply + (sequence <var>v</var> tournament (score <var>u</var> <var>v</var> 10))))))</code></pre>
+    (&gt; (apply + (sequence <var>v</var> tournament (score tit-for-tat <var>v</var> 251)))
+       (apply + (sequence <var>v</var> tournament (score <var>u</var> <var>v</var> 251))))))</code></pre>
 </article>
 </body>
 </html>
