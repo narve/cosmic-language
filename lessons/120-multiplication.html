@@ -11,16 +11,22 @@
 <article class="lesson" data-topic="math">
   <h3>multiplication</h3>
   <p>New symbol: <code>×</code>.</p>
-  <pre><code>(= (× 2 1) 2) (= (× 2 2) 4) (= (× 2 3) 6) (= (× 2 4) 8) (= (× 2 5) 10)
-<span data-comment>multiplying adds the same number again and again</span>
+  <pre><code><span data-comment>the multiples of 2</span>
+(= (× 2 1) 2) (= (× 2 2) 4) (= (× 2 3) 6) (= (× 2 4) 8) (= (× 2 5) 10)
+<span data-comment>multiplying adds the same number again and again: 2 × 3 = 3 + 3</span>
 (= (× 2 3) (+ 3 3) 6) (= (× 3 2) (+ 2 2 2) 6) (= (× 4 5) (+ 5 5 5 5) 20)
+<span data-comment>the order does not matter; times 0 gives 0, times 1 changes nothing</span>
 (= (× 2 3) 6) (= (× 3 2) 6) (= (× 0 5) 0) (= (× 1 9) 9)
-<span data-comment>nesting two levels deep</span>
+
+<span data-comment>nesting two levels deep: 2 × (1 + 2) = 6</span>
 (= (× 2 (+ 1 2)) 6)
+
 <span data-comment>× multiplies any number of factors</span>
 (= (× 2 3 4) 24) (= (× 2 2 2 2) 16) (= (× 5 1 1) 5)
 <span data-comment>grouping does not matter</span>
 (= (× 2 3 4) (× (× 2 3) 4) (× 2 (× 3 4)))
+
+<span data-comment>up to the largest number in a chunk, and one product beyond it: 16 × 16 is more than 255</span>
 (= (× 15 15) 225) (= (× 15 17) 255) (&gt; (× 16 16) 255)</code></pre>
   <p>The last example is a product that is larger than any single number token. The next lesson shows how to write it.</p>
 </article>

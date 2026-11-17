@@ -11,14 +11,18 @@
 <article class="lesson" data-topic="math">
   <h3>large numbers</h3>
   <p>New symbol: <code>big</code>. It writes a number with several digits in base 256, most significant digit first: <code>(big 1 0)</code> means 1·256 + 0.</p>
-  <pre><code>(= (big 1 0) (+ 255 1)) (= (big 1 1) (+ 255 2)) (= (big 1 0) (× 16 16))
+  <pre><code><span data-comment>(big 1 0) is 256, the number after 255; it is also 16 × 16</span>
+(= (big 1 0) (+ 255 1)) (= (big 1 1) (+ 255 2)) (= (big 1 0) (× 16 16))
+<span data-comment>the first digit counts 256s, the second counts ones</span>
 (= (big 2 0) (× 2 (big 1 0))) (= (big 1 5) (+ (big 1 0) 5))
 (&lt; 255 (big 1 0)) (&gt; (big 2 0) (big 1 255))
-<span data-comment>counting on past 255</span>
+
+<span data-comment>counting on past 255: 254, 255, 256, 257, 258</span>
 (&lt; 254 255 (big 1 0) (big 1 1) (big 1 2))
-<span data-comment>when the last digit is full, the next digit goes up</span>
+<span data-comment>when the last digit is full, the next digit goes up: 511 + 1 = 512</span>
 (= (big 1 255) (+ (big 1 0) 255)) (= (+ (big 1 255) 1) (big 2 0))
-<span data-comment>three digits: 256²</span>
+
+<span data-comment>three digits: (big 1 0 0) is 256 × 256</span>
 (= (big 1 0 0) (× (big 1 0) (big 1 0)))</code></pre>
   <p>As bits, <code>(big 1 0)</code> ends with the digits <code>00000001 00000000</code>. Put the digits side by side and you have 256 in binary.</p>
 </article>

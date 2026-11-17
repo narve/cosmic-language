@@ -16,28 +16,39 @@
   <h4>Relations have the value <data value="true">true</data></h4>
   <pre><code><span data-comment>two new constants: each equals itself, and they differ</span>
 (= <data value="true">true</data> <data value="true">true</data>) (= <data value="false">false</data> <data value="false">false</data>) (≠ <data value="true">true</data> <data value="false">false</data>) (≠ <data value="false">false</data> <data value="true">true</data>)
+
+<span data-comment>a relation that holds has the value true</span>
 (= (= 2 2) <data value="true">true</data>) (= (&lt; 1 2) <data value="true">true</data>) (= (≠ 3 4) <data value="true">true</data>) (= (&gt; 5 1 0) <data value="true">true</data>)
-<span data-comment>all three are equal</span>
+<span data-comment>all three are equal: true, and two relations that hold</span>
 (= <data value="true">true</data> (= 7 7) (&lt; 0 255))
+
 <span data-comment>false is something other than true</span>
 (≠ <data value="true">true</data> <data value="false">false</data>)</code></pre>
 
   <h4><data value="not">not</data></h4>
-  <pre><code>(= (<data value="not">not</data> <data value="true">true</data>) <data value="false">false</data>) (= (<data value="not">not</data> <data value="false">false</data>) <data value="true">true</data>)
+  <pre><code><span data-comment><data value="not">not</data> turns true into false and false into true</span>
+(= (<data value="not">not</data> <data value="true">true</data>) <data value="false">false</data>) (= (<data value="not">not</data> <data value="false">false</data>) <data value="true">true</data>)
+<span data-comment><data value="not">not</data> of a relation that holds is false</span>
 (= (<data value="not">not</data> (= 2 2)) <data value="false">false</data>) (= (<data value="not">not</data> (&lt; 1 2)) <data value="false">false</data>)
 <span data-comment>applying it twice gives the original, like neg</span>
 (= (<data value="not">not</data> (<data value="not">not</data> <data value="true">true</data>)) <data value="true">true</data>)</code></pre>
 
   <h4><data value="and">and</data> and <data value="or">or</data></h4>
   <p>Both are associative, so they take two or more arguments.</p>
-  <pre><code>(= (<data value="and">and</data> <data value="true">true</data> <data value="true">true</data>) <data value="true">true</data>) (= (<data value="and">and</data> <data value="true">true</data> <data value="false">false</data>) <data value="false">false</data>)
+  <pre><code><span data-comment><data value="and">and</data> is true only when both are true</span>
+(= (<data value="and">and</data> <data value="true">true</data> <data value="true">true</data>) <data value="true">true</data>) (= (<data value="and">and</data> <data value="true">true</data> <data value="false">false</data>) <data value="false">false</data>)
 (= (<data value="and">and</data> <data value="false">false</data> <data value="true">true</data>) <data value="false">false</data>) (= (<data value="and">and</data> <data value="false">false</data> <data value="false">false</data>) <data value="false">false</data>)
+<span data-comment><data value="or">or</data> is true when at least one is true</span>
 (= (<data value="or">or</data> <data value="true">true</data> <data value="true">true</data>) <data value="true">true</data>) (= (<data value="or">or</data> <data value="true">true</data> <data value="false">false</data>) <data value="true">true</data>)
 (= (<data value="or">or</data> <data value="false">false</data> <data value="true">true</data>) <data value="true">true</data>) (= (<data value="or">or</data> <data value="false">false</data> <data value="false">false</data>) <data value="false">false</data>)
+<span data-comment>with three arguments: all of them, or at least one of them</span>
 (= (<data value="and">and</data> <data value="true">true</data> <data value="true">true</data> <data value="false">false</data>) <data value="false">false</data>) (= (<data value="or">or</data> <data value="false">false</data> <data value="false">false</data> <data value="true">true</data>) <data value="true">true</data>)
+
 <span data-comment>a chain is an <data value="and">and</data> of its steps</span>
 (= (<data value="and">and</data> (&lt; 1 2) (&lt; 2 3)) (&lt; 1 2 3))
+<span data-comment>a true part and a false part: together false</span>
 (= (<data value="and">and</data> (= 2 2) (<data value="not">not</data> (= 3 3))) <data value="false">false</data>)
+<span data-comment><data value="not">not</data> of an <data value="and">and</data> is the <data value="or">or</data> of the <data value="not">not</data>s</span>
 (= (<data value="not">not</data> (<data value="and">and</data> <data value="true">true</data> <data value="false">false</data>)) (<data value="or">or</data> (<data value="not">not</data> <data value="true">true</data>) (<data value="not">not</data> <data value="false">false</data>)))</code></pre>
   <p>Between truth values, <code>=</code> means "equivalent", so no separate symbol is needed for that.</p>
 </article>

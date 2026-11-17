@@ -11,22 +11,28 @@
 <article class="lesson" data-topic="chemistry">
   <h3>shells and the noble gases</h3>
   <p>New: the function <code>states</code>, the number of different states an electron can be in at a given level, and <code>noble</code>, a property of some elements. At level <var>n</var> there are 2<var>n</var>² states. Electrons fill these levels like shells.</p>
-  <pre><code>(observed (= (states hydrogen 1) 2))
+  <pre><code><span data-comment>the number of states at levels 1, 2, 3 and 4: 2, 8, 18, 32</span>
+(observed (= (states hydrogen 1) 2))
 (observed (= (states hydrogen 2) 8))
 (observed (= (states hydrogen 3) 18))
 (observed (= (states hydrogen 4) 32))
-<span data-comment>the general law: 2n² states at level n</span>
+
+<span data-comment>the general law: 2n² states at level n, for every level from 1 up</span>
 (observed (∀ <var>u</var> ℕ (<data value="implies">implies</data> (≥ <var>u</var> 1) (= (states hydrogen <var>u</var>) (× 2 (^ <var>u</var> 2))))))</code></pre>
   <p>Some elements hardly react with anything: the noble gases. Their numbers of protons are where a run of filled shells ends, with the sizes 2, 8, 8, 18, 18, 32:</p>
-  <pre><code>(observed (noble helium neon argon krypton xenon radon))
-<span data-comment>the same can be said of one element, or of a few</span>
+  <pre><code><span data-comment>helium is a noble gas; so are neon and argon</span>
 (observed (noble helium))  (observed (noble neon argon))
+<span data-comment>all six of them</span>
+(observed (noble helium neon argon krypton xenon radon))
+
+<span data-comment>their numbers of protons: each adds one more filled shell</span>
 (= (count proton helium) 2)
 (= (count proton neon) (+ 2 8))
 (= (count proton argon) (+ 2 8 8))
 (= (count proton krypton) (+ 2 8 8 18))
 (= (count proton xenon) (+ 2 8 8 18 18))
 (= (count proton radon) (+ 2 8 8 18 18 32))
+
 <span data-comment>from one noble gas to the next: the size of the shell that was filled</span>
 (= (− (count proton neon) (count proton helium)) 8)  (= (− (count proton argon) (count proton neon)) 8)
 (= (− (count proton krypton) (count proton argon)) 18)  (= (− (count proton xenon) (count proton krypton)) 18)

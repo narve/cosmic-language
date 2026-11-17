@@ -12,24 +12,35 @@
   <h3>sequences and apply</h3>
   <p>Two tools that build on lists: sequences, which follow a rule for as long as needed, and chance, which is a proportion of a list.</p>
   <p>New: <code>apply</code>, which gives the items of a list to an operation as its arguments, and <code>sequence</code>, which builds a list from a rule.</p>
-  <pre><code><span data-comment>apply + to the items of the list</span>
+  <pre><code><span data-comment>apply + to the items of a list: their sum</span>
 (= (apply + (list 1 2)) 3)  (= (apply + (list 1 2 3)) 6)
+<span data-comment>the same as writing the items as arguments</span>
 (= (apply + (list 1 2 3 4)) (+ 1 2 3 4) 10)
+<span data-comment>apply × gives the product</span>
 (= (apply × (list 2 3 4)) 24)
+<span data-comment>apply &lt; says that the items are in increasing order</span>
 (apply &lt; (list 1 5 9))</code></pre>
   <p><code>sequence</code> has the same form as the quantifiers: a variable, the values it runs through, and a rule for each item. Over a list, it gives a list:</p>
-  <pre><code>(= (sequence <var>u</var> (list 1 2 3) <var>u</var>) (list 1 2 3))  (= (sequence <var>u</var> (list 1 2 3) (+ <var>u</var> 1)) (list 2 3 4))
+  <pre><code><span data-comment>the rule "<var>u</var> itself" gives the same list; the rule "<var>u</var> + 1" adds 1 to every item</span>
+(= (sequence <var>u</var> (list 1 2 3) <var>u</var>) (list 1 2 3))  (= (sequence <var>u</var> (list 1 2 3) (+ <var>u</var> 1)) (list 2 3 4))
+<span data-comment>the rule "<var>u</var> × <var>u</var>" gives the squares</span>
 (= (sequence <var>u</var> (list 1 2 3 4) (× <var>u</var> <var>u</var>)) (list 1 4 9 16))
+<span data-comment>a sequence is a list, so apply works on it</span>
 (= (apply + (sequence <var>u</var> (list 1 2 3) <var>u</var>)) 6)</code></pre>
   <p>Over ℕ it gives an infinite sequence, which continues without end by the same rule. Its first item is the one for 0:</p>
-  <pre><code>(= (item (sequence <var>u</var> ℕ <var>u</var>) 1) 0)  (= (item (sequence <var>u</var> ℕ <var>u</var>) 5) 4)
+  <pre><code><span data-comment>the natural numbers themselves: the first item is 0, the fifth is 4</span>
+(= (item (sequence <var>u</var> ℕ <var>u</var>) 1) 0)  (= (item (sequence <var>u</var> ℕ <var>u</var>) 5) 4)
+<span data-comment>the squares: the first item is 0 × 0</span>
 (= (item (sequence <var>u</var> ℕ (× <var>u</var> <var>u</var>)) 1) 0)
+<span data-comment>the powers of 2: the fourth item is 2³ = 8</span>
 (= (item (sequence <var>u</var> ℕ (^ 2 <var>u</var>)) 4) 8)</code></pre>
   <p>Applying <code>+</code> to an infinite sequence means: the value that the sums of the first items come ever closer to.</p>
   <pre><code><span data-comment>1/2 + 1/4 + 1/8 + … = 1</span>
 (= (apply + (sequence <var>u</var> ℕ (÷ 1 (^ 2 (+ <var>u</var> 1))))) 1)
+
 <span data-comment>π = 4 × (1 − 1/3 + 1/5 − 1/7 + …)</span>
 (= π (× 4 (apply + (sequence <var>u</var> ℕ (÷ (^ (neg 1) <var>u</var>) (+ (× 2 <var>u</var>) 1))))))
+
 <span data-comment>1 + 1/4 + 1/9 + 1/16 + … = π²/6</span>
 (= (apply + (sequence <var>u</var> ℕ (÷ 1 (^ (+ <var>u</var> 1) 2)))) (÷ (^ π 2) 6))</code></pre>
   <p>These are two more routes to the π of the lesson on e and π, found in a completely different way. One definition would be enough; three that agree leave little room for a wrong reading.</p>

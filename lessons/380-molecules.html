@@ -11,29 +11,44 @@
 <article class="lesson" data-topic="chemistry">
   <h3>molecules</h3>
   <p>New: molecules (a new type), and the functions <code>atoms</code> and <code>bonds</code>. Atoms other than the noble gases join into molecules. <code>count</code> tells how many atoms of an element a molecule contains, and counting goes on through the atoms to their particles:</p>
-  <pre><code><span data-comment>water: two hydrogen and one oxygen</span>
+  <pre><code><span data-comment>water: two hydrogen atoms and one oxygen atom</span>
 (= (count hydrogen water) 2)  (= (count oxygen water) 1)
+<span data-comment>counting through the atoms: 1 + 1 + 8 = 10 protons, and as many electrons</span>
 (= (count proton water) 10)  (= (count electron water) 10)
+
+<span data-comment>methane: one carbon and four hydrogen</span>
 (= (count carbon methane) 1)  (= (count hydrogen methane) 4)
+<span data-comment>ammonia: one nitrogen and three hydrogen</span>
 (= (count nitrogen ammonia) 1)  (= (count hydrogen ammonia) 3)
+<span data-comment>carbon dioxide: one carbon and two oxygen</span>
 (= (count carbon carbon-dioxide) 1)  (= (count oxygen carbon-dioxide) 2)</code></pre>
   <p><code>atoms</code> gives a molecule's atoms as a list. <code>bonds</code> gives its bonds: each bond is a list of the positions of two atoms and the number of electron pairs they share.</p>
-  <pre><code>(= (atoms water) (list oxygen hydrogen hydrogen))
-<span data-comment>the oxygen (1) shares one pair with each hydrogen (2 and 3)</span>
+  <pre><code><span data-comment>water: the oxygen (atom 1) shares one pair with each hydrogen (atoms 2 and 3)</span>
+(= (atoms water) (list oxygen hydrogen hydrogen))
 (= (bonds water) (list (list 1 2 1) (list 1 3 1)))
+
+<span data-comment>carbon dioxide: the carbon shares two pairs with each oxygen</span>
 (= (atoms carbon-dioxide) (list carbon oxygen oxygen))
-<span data-comment>the carbon shares two pairs with each oxygen</span>
 (= (bonds carbon-dioxide) (list (list 1 2 2) (list 1 3 2)))
+
+<span data-comment>methane: the carbon shares one pair with each of the four hydrogens</span>
 (= (atoms methane) (list carbon hydrogen hydrogen hydrogen hydrogen))
 (= (bonds methane) (list (list 1 2 1) (list 1 3 1) (list 1 4 1) (list 1 5 1)))
+
+<span data-comment>ammonia: the nitrogen shares one pair with each of the three hydrogens</span>
 (= (atoms ammonia) (list nitrogen hydrogen hydrogen hydrogen))
 (= (bonds ammonia) (list (list 1 2 1) (list 1 3 1) (list 1 4 1)))
-<span data-comment>the count of an element is its count in the list of atoms</span>
+
+<span data-comment>the count of an element in a molecule is its count in the list of atoms</span>
 (= (count hydrogen water) (count hydrogen (atoms water)))</code></pre>
   <p>Four molecules that will matter later, given by their atoms:</p>
-  <pre><code>(= (count carbon adenine) 5)  (= (count hydrogen adenine) 5)  (= (count nitrogen adenine) 5)
+  <pre><code><span data-comment>adenine: 5 carbon, 5 hydrogen, 5 nitrogen</span>
+(= (count carbon adenine) 5)  (= (count hydrogen adenine) 5)  (= (count nitrogen adenine) 5)
+<span data-comment>thymine: 5 carbon, 6 hydrogen, 2 nitrogen, 2 oxygen</span>
 (= (count carbon thymine) 5)  (= (count hydrogen thymine) 6)  (= (count nitrogen thymine) 2)  (= (count oxygen thymine) 2)
+<span data-comment>guanine: 5 carbon, 5 hydrogen, 5 nitrogen, 1 oxygen</span>
 (= (count carbon guanine) 5)  (= (count hydrogen guanine) 5)  (= (count nitrogen guanine) 5)  (= (count oxygen guanine) 1)
+<span data-comment>cytosine: 4 carbon, 5 hydrogen, 3 nitrogen, 1 oxygen</span>
 (= (count carbon cytosine) 4)  (= (count hydrogen cytosine) 5)  (= (count nitrogen cytosine) 3)  (= (count oxygen cytosine) 1)</code></pre>
 </article>
 </body>
