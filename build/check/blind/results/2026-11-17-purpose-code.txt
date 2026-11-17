@@ -1,0 +1,123 @@
+I decoded the whole message. It is a self-teaching logical language that runs from counting through physics and chemistry to a worked game-theory result, and its last statement is that reciprocal cooperation ("tit-for-tat") outscores every other listed strategy. My reading of the purpose is that the sender is declaring, and justifying, how it intends to deal with whoever answers.
+
+Symbol names below are my labels; the message only has numbers. `PHYS` is my label for symbol 548, a wrapper the message puts around empirical claims.
+
+## 1. Format
+
+- **Frame marker.** The first 172 bits are runs of 1s of length 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, separated by single 0s. The last 172 bits are the identical pattern. Run lengths of 11 or more occur exactly twice each in the stream, so this marker appears only at the two ends.
+- **Words.** Between the markers are 11,825 16-bit big-endian words (189,384 = 172 + 16 × 11,825 + 12, the last 12 bits being the start of the closing marker). Read at that alignment, the first words are 1, 2, 3, 5, …, 31 again and then 0, 1, 2, …, 255 in order, which confirms the word size and bit order.
+- **Vocabulary.** Values 0–255 are literal numbers. 256 and 257 are open and close brackets (2,696 of each, perfectly balanced). Values from 513 up are symbols, introduced in ascending order as the message proceeds.
+- **Symbol classes by number range.** 513–579 are operators; 769–797 are constants and sets; 1025+ are bound variables. Higher blocks hold physical objects: particles (1281+), chemical elements (1537+, numbered so that the offset equals the proton count), dimensions (1793+), physical constants (2049+) and molecules (2305+).
+- **Grammar.** There are 696 top-level statements, all prefix expressions of the form `( operator arguments… )`. Every symbol is taught by examples before it is used.
+
+## 2. Contents, in order
+
+Shares are of the 11,546 words of statements.
+
+| Part | Share | What it says | Decoded examples |
+|---|---|---|---|
+| Arithmetic | ~13% | Equality, inequality, order, addition, multiplication, base-256 numbers, subtraction, negation, fractions | `(= 7 7)`, `(!= 2 5)`, `(= (+ 2 3) 5)`, `(= (* 15 17) 255)`, `(= (B256 1 0) (+ 255 1))`, `(= (/ 4 6) (/ 2 3))` |
+| Logic | ~5% | True, false, not, and, or; lists with length, n-th element, count | `(= (= 2 2) T)`, `(= (not (and T F)) (or (not T) (not F)))`, `(= (len (list 4 7 9)) 3)` |
+| Quantifiers and number sets | ~11% | For-all, exists, implication; naturals, integers, reals; algebraic laws | `(forall x N (forall y N (= (+ x y) (+ y x))))`, `(forall x Z (!= (* x x) 2))`, `(exists x R (and (> x 0) (= (* x x) 2)))` |
+| Higher mathematics | ~10% | Powers, the imaginary unit, complex numbers, absolute value, exponential, e, π | `(= (* i i) (neg 1))`, `(= (+ (exp (* i pi)) 1) 0)`, a series for π, `Σ 1/(n+1)² = π²/6` |
+| Functional tools and probability | ~6% | Fold, map, mean, probability, Cartesian product | `(= (fold + (list 1 2 3 4)) 10)`, `(= (prob 6 (list 1 2 3 4 5 6)) (/ 1 6))`, the two-coin probability 1/4 as a product |
+| The language describing itself | ~10% | Quote, type-of, rest, if, eval; eval is defined recursively | `(!= (quote (+ 2 3)) 5)`, `(= (eval (quote (+ 2 3))) 5)`, `(= (if (< 2 3) 5 7) 5)` |
+| Physics | ~27% | Particles, atoms, spectra, dimensions, constants, forces, temperature, decay, shells | see below |
+| Chemistry | ~4% | Four small molecules with bond lists; four larger ones by atom counts only; one temperature for water | see below |
+| Game theory | ~14% | A two-move game, eight strategies, a round-robin of six and its result | see below |
+
+**Physics in more detail.** Unit-free ratios are given as bounds, which is what identifies the objects:
+
+- Three particles: `(PHYS (< 1836 (/ (mass p) (mass e)) 1837))`, opposite charges, and a neutral third particle slightly heavier than the second. I read these as electron, proton and neutron.
+- Atoms as counts of protons, with isotopes and a list of stable ones.
+- Hydrogen level ratios: 5.39–5.41 (the exact fraction 27/5 is taught just before) and 1.18–1.19 (32/27).
+- Dimensional analysis with four abstract dimensions (mass, length, time, charge) plus temperature.
+- A massless neutral particle with a fixed speed (photon, c), wavelength × frequency = c, and E = h·2π·f.
+- Inverse-square gravity and electric force, with `(PHYS (< (/ 1 138) (/ (* k (pow (charge p) 2)) (* hbar c)) (/ 1 137)))` and an electric-to-gravity ratio between 2^130 and 2^131.
+- Force between currents, and the electric and magnetic constants related by c².
+- Natural length, time, mass and temperature units built from ħ, G, c and k, with particle masses expressed in them.
+- A specific photon whose energy is 2^-21 to 2^-20 of hydrogen's 1→2 transition and whose frequency is about 2^-113 per natural time unit. That matches the hydrogen hyperfine (21 cm) line.
+- Thermal energy 3/2·kT and the T⁴ radiation law.
+- Neutron decay with exponential survival and half-life, tied explicitly to the coin-flip probability: `(= (/ 1 2) (prob T (list T F)))`.
+- Shell capacities 2n² and the inert elements 2, 10, 18, 36, 54, 86.
+
+**Chemistry in more detail.**
+
+- H₂O, CH₄, NH₃ and CO₂ are given with atom lists and bond lists, e.g. `(= (bonds water) (list (list 1 2 1) (list 1 3 1)))`; CO₂ has double bonds.
+- Four larger molecules are given by composition only: C₅H₅N₅, C₅H₆N₂O₂, C₅H₅N₅O and C₄H₅N₃O.
+- One temperature attached to water is bounded at roughly 230–460 K. I cannot tell from the bounds whether it is melting or boiling.
+
+**Game theory in more detail.**
+
+- Payoffs: `(= (pay A A) 3)`, `(pay A B) = 0`, `(pay B A) = 5`, `(pay B B) = 1`, followed by `5 > 3 > 1 > 0` and `2·3 > 5 + 0`. This is a prisoner's-dilemma structure, with A as cooperate and B as defect.
+- Eight strategies are defined as functions of the history of play:
+  - always A;
+  - always B;
+  - copy the other's last move, starting with A (tit-for-tat);
+  - the same, starting with B;
+  - A until the other ever plays B, then B forever;
+  - A if both moves matched last round, otherwise B;
+  - a forgiving copier that answers B with A one time in three;
+  - a 50/50 random player.
+- The repeated game and total score are defined recursively, and results over 10 rounds are stated, e.g. `(= (score TFT TFT 10) 30)`, `(= (score allB allB 10) 10)`, `(= (score allB allA 10) 50)`.
+- Totals against the six deterministic strategies are given as 154, 147, 143, 142, 128 and 113.
+- I re-simulated the tournament from the message's own definitions, and every stated pair score and total is correct.
+
+## 3. Design
+
+- **Everything is scaffolding for the last section.**
+  - Lists, n-th element and length are needed to represent histories of play.
+  - `if`, implication and quantifiers are needed to define strategies.
+  - Fold and map are needed to total the scores.
+  - Mean and probability are needed for the random and forgiving strategies.
+- **The quote/eval section** shows the language can talk about expressions and rules, not just numbers. A strategy is a rule.
+- **The `PHYS` wrapper** separates empirical claims from definitions and theorems. The message labels what it asks to be believed on evidence as opposed to what can be checked by calculation, and the game results are deliberately of the checkable kind.
+- **Physics as proof of honesty and competence.** The receiver can verify 1836, 1/137 and the spectral ratios independently. Every physical quantity is given as a pure ratio or in natural units, so no convention is shared.
+- **Things said that did not need to be said.**
+  - Strategies are defined twice, once by cases and once with `if`.
+  - The forgiving and random strategies are defined and given expected payoffs but left out of the tournament. This keeps the final claim exactly verifiable.
+  - `(> (score TFT TFT 10) (score allB allB 10))` is stated separately although it follows from the numbers. It is emphasis: mutual cooperation beats mutual defection.
+  - The message states honestly that exploitation pays in a single pairing (`allB` against `allA` scores 50, and `allB` against TFT scores 14 to TFT's 9).
+- **Ending.** The last two statements are the full ranking chain and then:
+
+  `(forall x STRATS (implies (!= x TFT) (> (fold + (map y STRATS (score TFT y 10))) (fold + (map y STRATS (score x y 10))))))`
+
+  That is, tit-for-tat's total is strictly greater than that of every other strategy in the set. Then the prime marker closes the message.
+
+## 4. Purpose (best explanation)
+
+- **What the message states.** It states mathematics, physics, chemistry and a theorem-like result: in a repeated game where betrayal tempts but mutual cooperation is better, the reciprocating strategy that starts cooperatively comes out on top.
+- **What I infer.** The message is an opening move plus a statement of policy. It reads as: "We know contact is a repeated dilemma. We know defection can win a single encounter. Here is a checkable reason why we reciprocate — cooperate first, answer in kind — and why you should too." What it wants from the receiver is a cooperative reply, and an understanding that cooperation will be returned and defection also returned.
+- **Evidence.**
+  - The message culminates in this result, which is its final statement.
+  - 14% of the message is the game, and much of the earlier machinery exists only to support it.
+  - The empirical/provable distinction and the verifiable constants build the credibility needed for a promise.
+  - The transmission itself is an unprompted cooperative move: free, true information.
+- **What I am guessing.** That the sender itself plays tit-for-tat, and that the 21 cm line is singled out as a suggested reply channel or shared unit. Neither is stated.
+
+## 5. Alternatives
+
+- **(a) A pure "we are here / this is what we know" beacon or teaching primer.** For it: 86% of the message is language, mathematics and science. Against: the science stops abruptly with no astronomy, location or self-description, and the ending is not science at all. A beacon would not need eight strategies and a tournament.
+- **(b) A warning or deterrent ("we retaliate").** For: tit-for-tat punishes defection, the unforgiving "grim" strategy is included, and the 14-versus-9 loss to a defector is shown openly. Against: the emphasised comparisons are cooperation over defection (30 > 10), the forgiving variant is defined, and no capabilities or threats appear.
+- **(c) Manipulation: inducing the receiver to cooperate so it can be exploited.** For: the message itself shows always-B scoring 50 against an unconditional cooperator. Against: it recommends conditional cooperation, not unconditional, which is exactly the strategy that cannot be exploited much. The message cannot rule this out.
+- **(d) A test or probe of the receiver's reasoning, or an archive.** Nothing in the bits asks a question or leaves a blank to fill in, so this is weakly supported.
+
+## 6. What the message does not say
+
+- **Nothing about the sender.** There is no location, no star or planet, no anatomy, numbers or history, no date or clock, and no pictures. This may be caution, which is consistent with a sender who thinks in terms of dilemmas, or it may be deliberately holding back until reciprocity is shown.
+- **No explicit request.** There is no imperative or question, no "reply", and no channel or time specified. The "do this" is left to inference from the final theorem.
+- **No link between the game and the two parties.** There are no symbols for "us" or "you", and it never says "we play this strategy". The policy reading is my inference.
+- **No stakes.** It does not say what cooperation or defection would concretely consist of.
+- **Limited scope of the game result.** It holds only for this six-strategy field and 10 rounds. Noise, the random and forgiving strategies, and end-game effects are left out of the tournament, so it is an illustration and not a general proof.
+- **The four large molecules are left unexplained.** Their formulas match adenine, thymine, guanine and cytosine. That identification is mine: the message gives no structures or roles and says nothing about life. They may be a hint about the sender's chemistry, or about what it expects of ours.
+
+## 7. Confidence
+
+- **Format:** very high.
+- **Mathematics, logic and language decoding:** very high. The examples are self-checking.
+- **Physics identifications:** high. The numerical ratios match electron, proton, neutron, hydrogen, the fine-structure constant, natural units, the 21 cm line, and the half-life ratio of carbon-14 to tritium (2^8–2^9). Medium on which water temperature is meant.
+- **Chemistry:** high for the four small molecules; medium for the nucleobase reading, which rests on formula alone.
+- **Game section and final statement:** very high. I reproduced it by simulation.
+- **Design reading:** medium-high.
+- **Purpose (invitation to reciprocal cooperation, with a declared policy):** medium, about 60%. Deterrent emphasis is about 15%, pure primer or beacon about 15%, and manipulation or other about 10%. These numbers are judgement, not measurement.
+- **What is absent:** high that those things are absent; low on why.

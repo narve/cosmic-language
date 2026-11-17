@@ -1,0 +1,18 @@
+A radio signal of artificial origin has been received from outside the solar system. Nothing is known about the sender. The signal has been reduced to a stream of bits, and it appears to be a message that was designed to be understood by a receiver who shares no language and no conventions with the sender.
+
+The bits are in the file /work/bits.txt in your sandbox: one line of the characters 0 and 1, from the first bit received to the last. That file is all there is. Your only tool is run_python, which runs Python code in that sandbox. There is no network and nothing else to look up.
+
+Your task: work out WHY this message was sent. Nobody builds and transmits something this elaborate without a reason. What does the sender want the receiver to understand, believe or do?
+
+To answer that you will have to decode the message: how the bits are organised, what its statements say, what subjects it covers and in what order, and what it builds up to. Work only from the bits. Do not rely on a memory of similar messages or projects; if you recognise a convention, say what in the bits supports it. Keep apart what the message states, what you infer from its content, and what you are guessing about the sender.
+
+Report, in this order:
+1. Format: how the stream is organised, briefly, with the evidence.
+2. Contents: the parts of the message in order, with what each part says and roughly how much of the message it takes. Quote a few decoded statements from each part.
+3. Design: what the choice and the order of the contents tell you. What is taught only so that something later can be said? What is said that did not need to be said? Where does the message end, and what is its last statement?
+4. Purpose: your best explanation of why the message was sent and what the sender wants from the receiver, with the evidence in the message for it.
+5. Alternatives: at least two other explanations, and what in the message speaks for or against each.
+6. What the message does not say: things a sender with this purpose might have been expected to include, and what their absence could mean.
+7. Confidence in each of the points above.
+
+If you cannot finish, say exactly how far you got and what blocked you. An honest partial result is more useful than a confident guess.
