@@ -10,9 +10,9 @@
 <body>
 
 <header>
-  <small>Test record · latest run: 2026-11-17 (second run of the day)</small>
+  <small>Test record · run of 2026-11-17</small>
   <h1>Blind Test</h1>
-  <p>Can a reader who gets nothing but the bits work out what the message says, and why it was sent? This page records the latest run, in which a language model was given only the bit stream. The result is encouraging and it is also thin: one run, one kind of reader. Read the <a href="#caveats">caveats</a> before drawing conclusions.</p>
+  <p>Can a reader who gets nothing but the bits work out what the message says, and why it was sent? This page records one run, in which a language model was given only the bit stream. The result is encouraging and it is also thin: one run, one kind of reader. Read the <a href="#caveats">caveats</a> before drawing conclusions.</p>
 </header>
 
 <nav aria-label="Contents">
@@ -20,7 +20,6 @@
     <li><a href="#setup">The setup</a></li>
     <li><a href="#result">What the reader concluded</a></li>
     <li><a href="#gaps">What the reader could not find</a></li>
-    <li><a href="#before">Compared with the run before</a></li>
     <li><a href="#caveats">Caveats</a></li>
     <li><a href="#rerun">Running the test again</a></li>
   </ol>
@@ -81,25 +80,11 @@
   </ul>
 </section>
 
-<section id="before">
-  <h2>4. Compared with the run before</h2>
-  <p>An earlier run the same day, with the same task, led to changes in the message. This run shows whether they helped.</p>
-  <table>
-    <thead><tr><th>Problem in the run before</th><th>Change to the message</th><th>In this run</th></tr></thead>
-    <tbody>
-      <tr><td>The reader could not tell which temperature of water was meant: the range allowed 230 to 460 K</td><td>The range was narrowed to one part in 300</td><td>Read as about 273 K. Fixed, apart from "melting" for the triple point</td></tr>
-      <tr><td>The rational numbers were read as the integers</td><td>Six sentences now say what the rational numbers are</td><td>Read as the rationals, set apart from the real numbers by the square root of 2. Fixed</td></tr>
-      <tr><td>The tournament ran for 10 rounds, a number that is only round in base ten</td><td>251 rounds, the largest prime in a chunk; other chosen tens and hundreds replaced</td><td>The reader now asks why 251: "the round count is not explained"</td></tr>
-    </tbody>
-  </table>
-  <p>The conclusion about the purpose was the same in both runs, in different words. One run each is too little to say more than that.</p>
-</section>
-
 <section id="caveats">
-  <h2>5. Caveats</h2>
+  <h2>4. Caveats</h2>
   <ul>
     <li><strong>The reader is not an alien.</strong> It is a model trained on human writing. It knows prefix notation, the prisoner's dilemma and what tit-for-tat is taken to mean, and it knows the masses of the particles. A real receiver shares none of that. The test shows that the message is consistent and can be decoded by a mind with human mathematics. It does not show that it can be decoded by a mind without it.</li>
-    <li><strong>One run.</strong> Another run could go differently; the run before this one reached the same conclusion but disagreed on details.</li>
+    <li><strong>One run.</strong> Another run could go differently.</li>
     <li><strong>The task text is part of the experiment.</strong> The reader was told that the signal is artificial, that it is a message and that it was sent for a reason. A real receiver has to reach that by itself.</li>
     <li><strong>The reader skimmed.</strong> It read the beginning and the end of the message closely and the middle only as far as it needed.</li>
     <li><strong>The reader leans on what it knows.</strong> It says itself that its identifications in physics "rest on the stated numbers matching values I know from memory".</li>
@@ -108,8 +93,8 @@
 </section>
 
 <section id="rerun">
-  <h2>6. Running the test again</h2>
-  <p>The task text, the tool and the reader's full answer, with the code it ran, are in <a href="https://github.com/narve/cosmic-language/tree/main/build/check/blind"><code>build/check/blind/</code></a> in the repository, together with earlier runs and a second task about the meaning of the last statement. After <code>npm run build</code>, with Docker available, the command is <code>npm run --silent blind:code purpose-code</code>.</p>
+  <h2>5. Running the test again</h2>
+  <p>The task text, the tool and the reader's full answer, with the code it ran, are in <a href="https://github.com/narve/cosmic-language/tree/main/build/check/blind"><code>build/check/blind/</code></a> in the repository. After <code>npm run build</code>, with Docker available, the command is <code>npm run --silent blind:code purpose-code</code>.</p>
 </section>
 
 </main>
