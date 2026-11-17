@@ -20,6 +20,8 @@
 (&lt; 1 4) (&lt; 2 4) (&lt; 3 4)
 <span data-comment>; the same in one sentence: every <var>u</var> in the list is less than 4</span>
 (∀ <var>u</var> (list 1 2 3) (&lt; <var>u</var> 4))
+<span data-comment>; <var>u</var> stands for each item in turn: it is 1, or 2, or 3</span>
+(∀ <var>u</var> (list 1 2 3) (<data value="or">or</data> (= <var>u</var> 1) (= <var>u</var> 2) (= <var>u</var> 3)))
 <span data-comment>; what it means: put each item in the place of <var>u</var>, and join the three results with <data value="and">and</data></span>
 (= (∀ <var>u</var> (list 1 2 3) (&lt; <var>u</var> 4))
    (<data value="and">and</data> (&lt; 1 4) (&lt; 2 4) (&lt; 3 4)))
@@ -35,6 +37,8 @@
 (∃ <var>u</var> (list 1 2 3) (= <var>u</var> 2))  (= 2 2)
 <span data-comment>; one of the items is greater than 2: it is 3</span>
 (∃ <var>u</var> (list 1 2 3) (&gt; <var>u</var> 2))  (&gt; 3 2)
+<span data-comment>; each of the three items is a value <var>u</var> can take</span>
+(∃ <var>u</var> (list 1 2 3) (= <var>u</var> 1))  (∃ <var>u</var> (list 1 2 3) (= <var>u</var> 3))
 
 <span data-comment>; "some item is 2" is true, "every item is 2" is false</span>
 (= (∃ <var>u</var> (list 1 2 3) (= <var>u</var> 2)) <data value="true">true</data>)  (= (∀ <var>u</var> (list 1 2 3) (= <var>u</var> 2)) <data value="false">false</data>)
