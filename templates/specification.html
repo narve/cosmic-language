@@ -281,9 +281,21 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
         <td><code>mass_1.mas20.txt</code></td>
         <td>2026-11-17</td>
       </tr>
+      <tr>
+        <td><cite>JPL Molecular Spectroscopy catalog</cite>, species 1001 (H atom). H. M. Pickett and others, J. Quant. Spectrosc. Radiat. Transfer 60, 883 (1998). The line itself was measured by L. Essen, R. W. Donaldson, M. J. Bangham and E. G. Hope, Nature 229, 110 (1971). File from <a href="https://spec.jpl.nasa.gov/ftp/pub/catalog/c001001.cat">JPL</a>.</td>
+        <td>The frequency of the hydrogen 21 cm line: 1420.4058 MHz, as far as the catalog's four decimals go.</td>
+        <td><code>jpl-c001001.cat</code>, with its documentation <code>jpl-d001001.pdf</code></td>
+        <td>2026-11-17</td>
+      </tr>
+      <tr>
+        <td><cite>Mise en pratique for the definition of the kelvin in the SI</cite> (MeP-K-19D), SI Brochure, 9th edition (2019), Appendix 2. Consultative Committee for Thermometry, <a href="https://www.bipm.org/documents/20126/41489682/SI-App2-kelvin.pdf">BIPM</a>.</td>
+        <td>The temperature of water's triple point: 273.16 K, with a standard uncertainty of 0.1 mK (page 3).</td>
+        <td><code>SI-App2-kelvin.pdf</code></td>
+        <td>2026-11-17</td>
+      </tr>
     </tbody>
   </table>
-  <p>Not yet covered by a downloaded source: the frequency of the hydrogen 21 cm line and the temperature of water's triple point. The energy levels of hydrogen follow from the Rydberg constant.</p>
+  <p>The triple point is read by hand from a PDF, so it is kept in <code>transcribed.json</code> with the page and the sentence it comes from, and is accepted only while the PDF is unchanged. The energy levels of hydrogen have no table of their own: they follow from the Rydberg constant.</p>
 </section>
 
 <section id="symbols">

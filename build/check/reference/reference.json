@@ -21,6 +21,24 @@
       "url": "https://www-nds.iaea.org/amdc/ame2020/mass_1.mas20.txt",
       "file": "mass_1.mas20.txt",
       "retrieved": "2026-11-17"
+    },
+    "jpl": {
+      "title": "JPL Molecular Spectroscopy catalog, species 1001 (H atom); the line was measured by L. Essen, R. W. Donaldson, M. J. Bangham and E. G. Hope, Nature 229, 110 (1971)",
+      "citation": "H. M. Pickett, R. L. Poynter, E. A. Cohen, M. L. Delitsky, J. C. Pearson and H. S. P. Müller, J. Quant. Spectrosc. Radiat. Transfer 60, 883 (1998)",
+      "url": "https://spec.jpl.nasa.gov/ftp/pub/catalog/c001001.cat",
+      "file": "jpl-c001001.cat",
+      "documentation": {
+        "url": "https://spec.jpl.nasa.gov/ftp/pub/catalog/doc/d001001.pdf",
+        "file": "jpl-d001001.pdf"
+      },
+      "retrieved": "2026-11-17"
+    },
+    "bipm": {
+      "title": "Mise en pratique for the definition of the kelvin in the SI (MeP-K-19D), SI Brochure, 9th edition (2019), Appendix 2",
+      "citation": "Consultative Committee for Thermometry, BIPM",
+      "url": "https://www.bipm.org/documents/20126/41489682/SI-App2-kelvin.pdf",
+      "file": "SI-App2-kelvin.pdf",
+      "retrieved": "2026-11-17"
     }
   },
   "constants": {
@@ -382,6 +400,27 @@
         "uncertainty": "0.00032",
         "unit": "micro-u"
       }
+    }
+  },
+  "other": {
+    "hydrogen 21 cm line frequency": {
+      "value": "1420.4058",
+      "truncated": false,
+      "uncertainty": "0.00005",
+      "exact": false,
+      "unit": "MHz",
+      "source": "jpl"
+    },
+    "triple point of water": {
+      "value": "273.16",
+      "uncertainty": "0.0001",
+      "exact": false,
+      "unit": "K",
+      "source": "bipm",
+      "file": "SI-App2-kelvin.pdf",
+      "sha256": "14ee4053efcc7190d469761b6cc25d999f2ba73777a2c1a6986c9fb4d951c1b5",
+      "page": 3,
+      "quote": "the best estimate of the value of TTPW remains 273.16 K. [...] The standard uncertainty of TTPW is hence now u(TTPW) = 0.1 mK."
     }
   }
 }

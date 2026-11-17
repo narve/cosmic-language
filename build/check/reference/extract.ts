@@ -1,6 +1,7 @@
 // Extracts the reference values the message's measurements are checked against, from the downloaded
 // tables in this directory, into reference.json. Run with `npm run reference` after replacing a table.
 // Numbers are kept as decimal strings, digit for digit as published, so nothing is lost to rounding.
+import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -27,6 +28,21 @@ const SOURCES = {
     citation: "M. Wang, W. J. Huang, F. G. Kondev, G. Audi and S. Naimi, Chin. Phys. C 45, 030003 (2021)",
     url: "https://www-nds.iaea.org/amdc/ame2020/mass_1.mas20.txt",
     file: "mass_1.mas20.txt",
+    retrieved: "2026-11-17",
+  },
+  jpl: {
+    title: "JPL Molecular Spectroscopy catalog, species 1001 (H atom); the line was measured by L. Essen, R. W. Donaldson, M. J. Bangham and E. G. Hope, Nature 229, 110 (1971)",
+    citation: "H. M. Pickett, R. L. Poynter, E. A. Cohen, M. L. Delitsky, J. C. Pearson and H. S. P. Müller, J. Quant. Spectrosc. Radiat. Transfer 60, 883 (1998)",
+    url: "https://spec.jpl.nasa.gov/ftp/pub/catalog/c001001.cat",
+    file: "jpl-c001001.cat",
+    documentation: { url: "https://spec.jpl.nasa.gov/ftp/pub/catalog/doc/d001001.pdf", file: "jpl-d001001.pdf" },
+    retrieved: "2026-11-17",
+  },
+  bipm: {
+    title: "Mise en pratique for the definition of the kelvin in the SI (MeP-K-19D), SI Brochure, 9th edition (2019), Appendix 2",
+    citation: "Consultative Committee for Thermometry, BIPM",
+    url: "https://www.bipm.org/documents/20126/41489682/SI-App2-kelvin.pdf",
+    file: "SI-App2-kelvin.pdf",
     retrieved: "2026-11-17",
   },
 };
@@ -142,6 +158,28 @@ function ame() {
   return found;
 }
 
+// JPL catalog: one line per spectral line; the frequency in MHz is the first 13 characters, its error the next 8.
+// An error of 0.0000 means the frequency is known better than the table can show: half a unit of the last digit is used.
+function hydrogenLine() {
+  const lines = read(SOURCES.jpl.file).filter((line) => line.trim());
+  if (lines.length !== 1) fail("the JPL catalog file of the H atom should hold exactly one line");
+  const value = number(lines[0].slice(0, 13)).value;
+  const error = number(lines[0].slice(13, 21)).value;
+  const digits = value.split(".")[1]?.length ?? 0;
+  const uncertainty = Number(error) > 0 ? error : (0.5 / 10 ** digits).toFixed(digits + 1);
+  return { value, truncated: false, uncertainty, exact: false, unit: "MHz", source: "jpl" };
+}
+
+// Values read by hand from PDF documents (transcribed.json): accepted only while the document is unchanged.
+function transcribed() {
+  const { values } = JSON.parse(readFileSync(join(dir, "transcribed.json"), "utf8"));
+  for (const [name, entry] of Object.entries<{ file: string; sha256: string }>(values)) {
+    const hash = createHash("sha256").update(readFileSync(join(dir, entry.file))).digest("hex");
+    if (hash !== entry.sha256) fail(`${entry.file} has changed: read "${name}" from it again and update transcribed.json`);
+  }
+  return values;
+}
+
 const [masses, properties] = [ame(), nubase()];
 const nuclides = Object.fromEntries(
   NUCLIDES.map(([a, z]) => {
@@ -161,6 +199,7 @@ const out = {
   sources: SOURCES,
   constants: codata(),
   nuclides,
+  other: { "hydrogen 21 cm line frequency": hydrogenLine(), ...transcribed() },
 };
 writeFileSync(join(dir, "reference.json"), JSON.stringify(out, null, 2) + "\n");
-console.log(`reference.json: ${CONSTANTS.length} constants, ${NUCLIDES.length} nuclides`);
+console.log(`reference.json: ${CONSTANTS.length} constants, ${NUCLIDES.length} nuclides, ${Object.keys(out.other).length} other values`);

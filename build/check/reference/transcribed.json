@@ -1,0 +1,16 @@
+{
+  "about": "Values read by hand from documents in this directory that cannot be extracted by script (PDF). Each entry names the file, its SHA-256, the page and the sentence it was read from. `npm run reference` checks the file against the hash and copies the values into reference.json.",
+  "values": {
+    "triple point of water": {
+      "value": "273.16",
+      "uncertainty": "0.0001",
+      "exact": false,
+      "unit": "K",
+      "source": "bipm",
+      "file": "SI-App2-kelvin.pdf",
+      "sha256": "14ee4053efcc7190d469761b6cc25d999f2ba73777a2c1a6986c9fb4d951c1b5",
+      "page": 3,
+      "quote": "the best estimate of the value of TTPW remains 273.16 K. [...] The standard uncertainty of TTPW is hence now u(TTPW) = 0.1 mK."
+    }
+  }
+}
