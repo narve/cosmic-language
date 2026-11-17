@@ -20,8 +20,9 @@
 (&lt; 1 4) (&lt; 2 4) (&lt; 3 4)
 <span data-comment>; the same in one sentence: every <var>u</var> in the list is less than 4</span>
 (∀ <var>u</var> (list 1 2 3) (&lt; <var>u</var> 4))
-<span data-comment>; for all is the <data value="and">and</data> of the instances</span>
-(= (∀ <var>u</var> (list 1 2 3) (&lt; <var>u</var> 4)) (<data value="and">and</data> (&lt; 1 4) (&lt; 2 4) (&lt; 3 4)))
+<span data-comment>; what it means: put each item in the place of <var>u</var>, and join the three results with <data value="and">and</data></span>
+(= (∀ <var>u</var> (list 1 2 3) (&lt; <var>u</var> 4))
+   (<data value="and">and</data> (&lt; 1 4) (&lt; 2 4) (&lt; 3 4)))
 
 <span data-comment>; more lists, more statements</span>
 (∀ <var>u</var> (list 5 7 9) (&gt; <var>u</var> 4))  (∀ <var>u</var> (list 0 3 7) (= (+ <var>u</var> 0) <var>u</var>))  (∀ <var>u</var> (list 2 4 6) (≠ <var>u</var> 5))
