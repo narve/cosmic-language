@@ -26,7 +26,10 @@
 <span data-comment>; the proton and the electron have opposite charges</span>
 (observed (= (charge proton) (neg (charge electron))))
 <span data-comment>; the electron's charge is not zero; the neutron's is</span>
-(observed (≠ (charge electron) 0))  (observed (= (charge neutron) 0))</code></pre>
+(observed (≠ (charge electron) 0))  (observed (= (charge neutron) 0))
+
+<span data-comment>; the three are tokens of a new type, 5</span>
+(= (type (quote electron)) 5)  (= (type (quote proton)) 5)  (= (type (quote neutron)) 5)</code></pre>
   <p>Three particles, two of them about 1836 and 1839 times heavier than the third, with charges that are opposite and zero. A receiver who knows physics will recognize them.</p>
 </article>
 </body>

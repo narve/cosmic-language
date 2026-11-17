@@ -11,7 +11,7 @@
 <body>
 <article class="lesson" data-topic="physics">
   <h3>temperature</h3>
-  <p>New: the dimension <code>Θ</code> (temperature), the constant <code>kB</code>, the domains <code>gases</code> (thin gases of single atoms) and <code>black-bodies</code> (bodies that absorb all light falling on them), and the functions <code>temperature</code>, <code>kinetic</code> (the average energy of motion of a gas's particles), <code>radiance</code> (the power a body radiates per area) and <code>triple-point</code>. Again <code>kB</code> is introduced through a law:</p>
+  <p>New: the dimension <code>Θ</code> (temperature), the constant <code>kB</code>, the domains <code>gases</code> (thin gases of single atoms) and <code>black-bodies</code> (bodies that absorb all light falling on them), and the functions <code>temperature</code>, <code>kinetic</code> (the average energy of motion of a gas's particles) and <code>radiance</code> (the power a body radiates per area). Again <code>kB</code> is introduced through a law:</p>
   <pre><code><span data-comment>; the law: the particles of a gas move with an average energy of 3/2 × kB × its temperature</span>
 (observed (∀ <var>u</var> gases (= (kinetic <var>u</var>) (× (÷ 3 2) kB (temperature <var>u</var>)))))
 <span data-comment>; the dimension of kB: energy ÷ temperature</span>
@@ -49,19 +49,6 @@
 
 <span data-comment>; at the Planck temperature, the thermal energy (kB × temperature) is the energy of the Planck mass (mass × c²)</span>
 (= (× kB planck-temperature) (× planck-mass (^ c 2)))</code></pre>
-  <p>A temperature that is the same everywhere: water's triple point, where ice, liquid water and vapour exist together. Its thermal energy is compared with hydrogen's step from level 1 to level 2:</p>
-  <pre><code><span data-comment>; kB × the triple point of water, divided by hydrogen's step from level 1 to level 2:</span>
-<span data-comment>; about 2.3 × 10⁻³ (between 1/2⁹ and 1/2⁸)</span>
-(observed (&lt; (÷ 1 (^ 2 9))
-              (÷ (× kB (triple-point water)) (− (level hydrogen 2) (level hydrogen 1)))
-              (÷ 1 (^ 2 8))))
-
-<span data-comment>; the triple point is a temperature</span>
-(= (dim (triple-point water)) Θ)
-<span data-comment>; in Planck units: about 1.9 × 10⁻³⁰ Planck temperatures (between 1/2⁹⁹ and 1/2⁹⁸)</span>
-(observed (&lt; (÷ 1 (^ 2 99))
-              (÷ (triple-point water) planck-temperature)
-              (÷ 1 (^ 2 98))))</code></pre>
 </article>
 </body>
 </html>

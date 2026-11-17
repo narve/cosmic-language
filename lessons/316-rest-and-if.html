@@ -24,18 +24,6 @@
 (∀ <var>u</var> ℚ (= (abs <var>u</var>) (if (&lt; <var>u</var> 0) (neg <var>u</var>) <var>u</var>)))
 <span data-comment>; only the value that is picked is computed: here (÷ 1 u) is never computed for u = 0</span>
 (∀ <var>u</var> ℚ (= (if (= <var>u</var> 0) 0 (× <var>u</var> (÷ 1 <var>u</var>))) (if (= <var>u</var> 0) 0 1)))</code></pre>
-  <p><data value="implies">implies</data> states that something holds where a condition holds; <code>if</code> picks a value. Two sentences with opposite conditions, like those that defined the strategies of the prisoner's dilemma, say the same as one sentence with <code>if</code>. The strategies are now defined twice, on purpose: each form helps the receiver read the other.</p>
-  <pre><code><span data-comment>; tit-for-tat: cooperate first, then do what the other did last</span>
-(∀ <var>u</var> histories (= (move tit-for-tat <var>u</var>)
-  (if (= (length <var>u</var>) 0) (list cooperate) (list (item (item <var>u</var> (length <var>u</var>)) 2)))))
-<span data-comment>; grim: cooperate as long as the other has never defected</span>
-(∀ <var>u</var> histories (= (move grim <var>u</var>)
-  (if (= (count defect (sequence <var>v</var> <var>u</var> (item <var>v</var> 2))) 0) (list cooperate) (list defect))))
-<span data-comment>; pavlov: cooperate first, then cooperate if both did the same last time</span>
-(∀ <var>u</var> histories (= (move pavlov <var>u</var>)
-  (if (= (length <var>u</var>) 0)
-      (list cooperate)
-      (if (= (item (item <var>u</var> (length <var>u</var>)) 1) (item (item <var>u</var> (length <var>u</var>)) 2)) (list cooperate) (list defect)))))</code></pre>
 </article>
 </body>
 </html>

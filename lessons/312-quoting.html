@@ -32,10 +32,9 @@
 (= (item (quote (= 2 3)) 1) (quote =))
 (= (item (quote (= 2 3)) 3) 3)
 (≠ (quote (= 2 3)) (quote (= 3 3)))</code></pre>
-  <p><code>type</code> tells what kind of thing a part of an expression is. Its values are the token types the message has used from the start, the first chunk of every token: 0 for a number, 2 for an operator, 3 for a constant, and so on. A list in brackets has type 1, the type of the brackets.</p>
+  <p><code>type</code> tells what kind of thing a part of an expression is. Its values are the token types the message has used from the start, the first chunk of every token: 0 for a number, 2 for an operator, 3 for a constant, and so on. A list in brackets has type 1, the type of the brackets. Later lessons bring new kinds of token (particles, elements, dimensions, physical constants, molecules), and each states the type of its tokens in the same way.</p>
   <pre><code>(= (type 5) 0)  (= (type (quote (+ 2 3))) 1)  (= (type (quote +)) 2)  (= (type (quote <data value="true">true</data>)) 3)
-(= (type (quote <var>u</var>)) 4)  (= (type (quote proton)) 5)  (= (type (quote hydrogen)) 6)  (= (type (quote M)) 7)
-(= (type (quote c)) 8)  (= (type (quote water)) 9)  (= (type (list 1 2)) 1)
+(= (type (quote <var>u</var>)) 4)  (= (type (list 1 2)) 1)
 <span data-comment>; an operator in a quoted expression is a symbol like any other</span>
 (= (type (item (quote (+ 2 3)) 1)) 2)  (= (type (item (quote (+ 2 3)) 2)) 0)</code></pre>
   <p>Inside a quote, <var>u</var> is just a symbol of type 4, not a variable standing for a number.</p>

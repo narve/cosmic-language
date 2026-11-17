@@ -29,7 +29,10 @@
 (observed (∀ <var>u</var> elements (= (charge <var>u</var>) 0)))
 
 <span data-comment>; a hydrogen atom weighs only a little more than its proton: the electron adds very little</span>
-(observed (&lt; 1 (÷ (mass hydrogen) (mass proton)) (÷ 101 100)))</code></pre>
+(observed (&lt; 1 (÷ (mass hydrogen) (mass proton)) (÷ 101 100)))
+
+<span data-comment>; an element is a token of a new type, 6</span>
+(= (type (quote hydrogen)) 6)</code></pre>
   <p>Neutron counts are left out here: atoms of the same element can have different numbers of neutrons. The next lesson deals with that.</p>
 </article>
 </body>

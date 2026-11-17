@@ -48,6 +48,20 @@
 (∀ <var>u</var> histories (<data value="implies">implies</data> (<data value="and">and</data> (&gt; (length <var>u</var>) 0) (= (item (item <var>u</var> (length <var>u</var>)) 2) defect))
   (= (move generous-tit-for-tat <var>u</var>) (list cooperate defect defect))))</code></pre>
 
+  <h4>The same strategies with <code>if</code></h4>
+  <p><data value="implies">implies</data> states that something holds where a condition holds; <code>if</code> picks a value. Two sentences with opposite conditions, like those above, say the same as one sentence with <code>if</code>. So the strategies are defined twice, on purpose: each form helps the receiver read the other.</p>
+  <pre><code><span data-comment>; tit-for-tat: cooperate first, then do what the other did last</span>
+(∀ <var>u</var> histories (= (move tit-for-tat <var>u</var>)
+  (if (= (length <var>u</var>) 0) (list cooperate) (list (item (item <var>u</var> (length <var>u</var>)) 2)))))
+<span data-comment>; grim: cooperate as long as the other has never defected</span>
+(∀ <var>u</var> histories (= (move grim <var>u</var>)
+  (if (= (count defect (sequence <var>v</var> <var>u</var> (item <var>v</var> 2))) 0) (list cooperate) (list defect))))
+<span data-comment>; pavlov: cooperate first, then cooperate if both did the same last time</span>
+(∀ <var>u</var> histories (= (move pavlov <var>u</var>)
+  (if (= (length <var>u</var>) 0)
+      (list cooperate)
+      (if (= (item (item <var>u</var> (length <var>u</var>)) 1) (item (item <var>u</var> (length <var>u</var>)) 2)) (list cooperate) (list defect)))))</code></pre>
+
   <h4>Playing a game</h4>
   <p>New: <code>tournament</code>, the list of the five strategies that always make a fixed choice, and the functions <code>rounds</code> (the history after a number of rounds) and <code>score</code>. First the rules: each round, each player takes its strategy's move given the rounds so far, seen from its own side, which is the same game with the players swapped.</p>
   <pre><code>(= tournament (list always-cooperate always-defect tit-for-tat grim pavlov))

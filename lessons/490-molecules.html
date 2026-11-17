@@ -41,7 +41,10 @@
 (= (bonds ammonia) (list (list 1 2 1) (list 1 3 1) (list 1 4 1)))
 
 <span data-comment>; the count of an element in a molecule is its count in the list of atoms</span>
-(= (count hydrogen water) (count hydrogen (atoms water)))</code></pre>
+(= (count hydrogen water) (count hydrogen (atoms water)))
+
+<span data-comment>; a molecule is a token of a new type, 9</span>
+(= (type (quote water)) 9)</code></pre>
   <p>Four molecules that will matter later, given by their atoms:</p>
   <pre><code><span data-comment>; adenine: 5 carbon, 5 hydrogen, 5 nitrogen</span>
 (= (count carbon adenine) 5)  (= (count hydrogen adenine) 5)  (= (count nitrogen adenine) 5)
@@ -51,6 +54,19 @@
 (= (count carbon guanine) 5)  (= (count hydrogen guanine) 5)  (= (count nitrogen guanine) 5)  (= (count oxygen guanine) 1)
 <span data-comment>; cytosine: 4 carbon, 5 hydrogen, 3 nitrogen, 1 oxygen</span>
 (= (count carbon cytosine) 4)  (= (count hydrogen cytosine) 5)  (= (count nitrogen cytosine) 3)  (= (count oxygen cytosine) 1)</code></pre>
+  <p>New: <code>triple-point</code>. Now that water is known, the message can name a temperature that is the same everywhere: water's triple point, where ice, liquid water and vapour exist together. Its thermal energy is compared with hydrogen's step from level 1 to level 2:</p>
+  <pre><code><span data-comment>; kB × the triple point of water, divided by hydrogen's step from level 1 to level 2:</span>
+<span data-comment>; about 2.3 × 10⁻³ (between 1/2⁹ and 1/2⁸)</span>
+(observed (&lt; (÷ 1 (^ 2 9))
+              (÷ (× kB (triple-point water)) (− (level hydrogen 2) (level hydrogen 1)))
+              (÷ 1 (^ 2 8))))
+
+<span data-comment>; the triple point is a temperature</span>
+(= (dim (triple-point water)) Θ)
+<span data-comment>; in Planck units: about 1.9 × 10⁻³⁰ Planck temperatures (between 1/2⁹⁹ and 1/2⁹⁸)</span>
+(observed (&lt; (÷ 1 (^ 2 99))
+              (÷ (triple-point water) planck-temperature)
+              (÷ 1 (^ 2 98))))</code></pre>
 </article>
 </body>
 </html>
