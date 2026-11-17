@@ -36,7 +36,10 @@
 <span data-comment>; its square is the sum of the squares of the two parts</span>
 (∀ <var>u</var> ℝ (∀ <var>v</var> ℝ (= (^ (abs (+ <var>u</var> (× <var>v</var> i))) 2) (+ (^ <var>u</var> 2) (^ <var>v</var> 2)))))
 <span data-comment>; the absolute value of a square is the square of the absolute value</span>
-(∀ <var>u</var> ℂ (= (abs (× <var>u</var> <var>u</var>)) (× (abs <var>u</var>) (abs <var>u</var>))))</code></pre>
+(∀ <var>u</var> ℂ (= (abs (× <var>u</var> <var>u</var>)) (× (abs <var>u</var>) (abs <var>u</var>))))
+
+<span data-comment>; for a rational number, with if from the lesson on rest and if: the number itself, or its neg when it is below 0</span>
+(∀ <var>u</var> ℚ (= (abs <var>u</var>) (if (&lt; <var>u</var> 0) (neg <var>u</var>) <var>u</var>)))</code></pre>
 </article>
 </body>
 </html>

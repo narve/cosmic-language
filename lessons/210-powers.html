@@ -31,6 +31,12 @@
 (∀ <var>u</var> ℝ (∀ <var>v</var> ℕ (= (^ <var>u</var> (+ <var>v</var> 1)) (× <var>u</var> (^ <var>u</var> <var>v</var>)))))
 <span data-comment>; adding exponents multiplies the powers</span>
 (∀ <var>u</var> ℝ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (= (^ <var>u</var> (+ <var>v</var> <var>w</var>)) (× (^ <var>u</var> <var>v</var>) (^ <var>u</var> <var>w</var>))))))</code></pre>
+  <p>With <code>sequence</code> from the lesson on sequences, the powers of 2 are one infinite sequence. And <code>apply</code> can add up an infinite sequence: applying <code>+</code> to it means the value that the sums of the first items come ever closer to.</p>
+  <pre><code><span data-comment>; the powers of 2: the fourth item is 2³ = 8</span>
+(= (item (sequence <var>u</var> ℕ (^ 2 <var>u</var>)) 4) 8)
+
+<span data-comment>; 1/2 + 1/4 + 1/8 + … = 1</span>
+(= (apply + (sequence <var>u</var> ℕ (÷ 1 (^ 2 (+ <var>u</var> 1))))) 1)</code></pre>
 </article>
 </body>
 </html>

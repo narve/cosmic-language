@@ -14,7 +14,8 @@
   <p>Until now, every sentence in the message has been <em>asserted</em>: written down, it claims to be true. The next lessons let the message <em>mention</em> a sentence without claiming it, take sentences apart like lists, and compute their values. The last of them is <code>eval</code>, the value of any expression, written in a few sentences of the message itself. This is the idea at the heart of Lisp, published by John McCarthy in 1960, and the first step towards a message that can describe itself.</p>
   <p>New: <code>quote</code> and <code>type</code>. <code>(quote <var>S</var>)</code> is the expression <var>S</var> itself, not its value: nothing inside it is computed or claimed. A quoted expression in brackets is a list of its parts, so everything from the lesson on lists works on it.</p>
   <pre><code>(= (quote (+ 2 3)) (list (quote +) 2 3))
-(= (length (quote (+ 2 3))) 3)
+(= (length (quote (+ 2 3))) 3)  (= (rest (quote (+ 2 3))) (list 2 3))
+<span data-comment>; everything that works on lists works on a quoted expression: its length, its items, the rest of it</span>
 (= (item (quote (+ 2 3)) 1) (quote +))  (= (item (quote (+ 2 3)) 2) 2)  (= (item (quote (+ 2 3)) 3) 3)
 
 <span data-comment>; a symbol can be quoted on its own</span>

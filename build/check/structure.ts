@@ -88,6 +88,21 @@ interface First {
   sentences: number; // sentences of that lesson that use it
 }
 
+// The core is a message of its own: a core lesson may only use symbols that a core lesson introduces.
+export function checkCore(message: Message, isCore: (slug: string) => boolean): void {
+  const introducedIn = new Map<string, string>();
+  for (const { article, blocks } of message.articles) {
+    for (const block of blocks) for (const token of block.tokens) {
+      if (token.type < OPERATOR) continue;
+      if (!introducedIn.has(token.text)) introducedIn.set(token.text, article.slug);
+      const home = introducedIn.get(token.text)!;
+      if (isCore(article.slug) && !isCore(home)) {
+        throw new BuildError(`${article.slug} is a core lesson but uses "${token.text}", which ${home} introduces and which is not in the core`);
+      }
+    }
+  }
+}
+
 // Throws on a broken rule.
 export function checkStructure(message: Message, registry: Registry): void {
   const first = new Map<string, First>(); // in order of first appearance

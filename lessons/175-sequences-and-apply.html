@@ -9,7 +9,7 @@
   <script src="../assets/views.js" defer></script>
 </head>
 <body>
-<article class="lesson" data-topic="math">
+<article class="lesson" data-topic="math core">
   <h3>sequences and apply</h3>
   <p>Two tools that build on lists: sequences, which follow a rule for as long as needed, and chance, which is a proportion of a list.</p>
   <p>New: <code>apply</code>, which gives the items of a list to an operation as its arguments, and <code>sequence</code>, which builds a list from a rule.</p>
@@ -37,19 +37,7 @@
 (= (item (sequence <var>u</var> ℕ <var>u</var>) 1) 0)  (= (item (sequence <var>u</var> ℕ <var>u</var>) 5) 4)
 
 <span data-comment>; the squares: the first item is 0 × 0</span>
-(= (item (sequence <var>u</var> ℕ (× <var>u</var> <var>u</var>)) 1) 0)
-<span data-comment>; the powers of 2: the fourth item is 2³ = 8</span>
-(= (item (sequence <var>u</var> ℕ (^ 2 <var>u</var>)) 4) 8)</code></pre>
-  <p>Applying <code>+</code> to an infinite sequence means: the value that the sums of the first items come ever closer to.</p>
-  <pre><code><span data-comment>; 1/2 + 1/4 + 1/8 + … = 1</span>
-(= (apply + (sequence <var>u</var> ℕ (÷ 1 (^ 2 (+ <var>u</var> 1))))) 1)
-
-<span data-comment>; π = 4 × (1 − 1/3 + 1/5 − 1/7 + …)</span>
-(= π (× 4 (apply + (sequence <var>u</var> ℕ (÷ (^ (neg 1) <var>u</var>) (+ (× 2 <var>u</var>) 1))))))
-
-<span data-comment>; 1 + 1/4 + 1/9 + 1/16 + … = π²/6</span>
-(= (apply + (sequence <var>u</var> ℕ (÷ 1 (^ (+ <var>u</var> 1) 2)))) (÷ (^ π 2) 6))</code></pre>
-  <p>These are two more routes to the π of the lesson on e and π, found in a completely different way. One definition would be enough; three that agree leave little room for a wrong reading.</p>
+(= (item (sequence <var>u</var> ℕ (× <var>u</var> <var>u</var>)) 1) 0)</code></pre>
 </article>
 </body>
 </html>

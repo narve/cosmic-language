@@ -8,7 +8,7 @@ import { findArticle, loadArticles, loadTopics } from "./lessons.ts";
 import { binaryDump, messageBinary, messageBits, messageStream, messageCode, messageText, readBlock, type Message } from "./message.ts";
 import { loadRegistry } from "./registry.ts";
 import { addViews, VIEWS } from "./views.ts";
-import { checkStructure } from "./check/structure.ts";
+import { checkCore, checkStructure } from "./check/structure.ts";
 
 const root = resolve(import.meta.dirname, "..");
 const dir = (name: string) => join(root, name);
@@ -34,6 +34,13 @@ async function build(): Promise<void> {
   };
   // The structure rules of the specification (§10.1): hard errors.
   checkStructure(message, registry);
+
+  // The core (lessons with the topic "core") is a shorter message of its own, written to docs/core/.
+  const CORE = "core";
+  const inCore = new Set(articles.filter((article) => article.topics.includes(CORE)).map((article) => article.slug));
+  checkCore(message, (slug) => inCore.has(slug));
+  const core: Message = { articles: message.articles.filter(({ article }) => inCore.has(article.slug)), topics };
+  const coreBinary = messageBinary(messageStream(core));
   const bits = messageBits(message);
   const binary = messageBinary(messageStream(message));
   // A byte order mark, so browsers read these plain-text files as UTF-8 (≠, ∀, π …) instead of guessing.
@@ -42,6 +49,11 @@ async function build(): Promise<void> {
   writeFileSync(join(docs, "message.bits"), BOM + bits);
   writeFileSync(join(docs, "message.bin"), binary.bytes);
   writeFileSync(join(docs, "message.bin.txt"), binaryDump(binary));
+  mkdirSync(join(docs, CORE));
+  writeFileSync(join(docs, CORE, "message.txt"), BOM + messageText(core));
+  writeFileSync(join(docs, CORE, "message.bits"), BOM + messageBits(core));
+  writeFileSync(join(docs, CORE, "message.bin"), coreBinary.bytes);
+  writeFileSync(join(docs, CORE, "message.bin.txt"), binaryDump(coreBinary));
 
   // Each lesson page as written, with the generated views added.
   mkdirSync(join(docs, "lessons"));
@@ -64,6 +76,8 @@ async function build(): Promise<void> {
 
   const tokens = message.articles.reduce((n, a) => n + a.blocks.reduce((m, b) => m + b.tokens.length, 0), 0);
   console.log(`${articles.length} articles, ${tokens} tokens, ${binary.length} bits (${binary.bytes.length} bytes)`);
+  const coreTokens = core.articles.reduce((n, a) => n + a.blocks.reduce((m, b) => m + b.tokens.length, 0), 0);
+  console.log(`core: ${core.articles.length} articles, ${coreTokens} tokens, ${coreBinary.length} bits (${coreBinary.bytes.length} bytes)`);
 }
 
 try {
