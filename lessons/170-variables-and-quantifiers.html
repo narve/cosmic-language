@@ -12,14 +12,50 @@
 <article class="lesson" data-topic="math logic">
   <h3>variables and quantifiers</h3>
   <p>New: variables (<var>u</var>, <var>v</var>, <var>w</var>), the quantifiers <code>∀</code> ("for all") and <code>∃</code> ("there exists"), the domains <code>ℕ</code> (natural numbers) and <code>ℚ</code> (rational numbers), and <data value="implies">implies</data>.</p>
-  <p>A quantifier binds one variable to a domain: <code>(∀ <var>u</var> ℕ …)</code> means "for every natural number <var>u</var>, …". Every variable is bound in the sentence where it appears, and a variable in one sentence has nothing to do with the same variable in the next.</p>
+  <p>A quantifier binds one variable to the values it runs through: <code>(∀ <var>u</var> (list 1 2 3) …)</code> means "for every <var>u</var> among 1, 2 and 3, …". Every variable is bound in the sentence where it appears, and a variable in one sentence has nothing to do with the same variable in the next.</p>
 
-  <h4>From instances to a law</h4>
-  <p>The receiver has seen many instances already. The law states them all at once. From here on, a law often comes with a few of its instances, although the law alone says everything: the instances show how to read it.</p>
+  <h4>For all, over a list</h4>
+  <p>The lesson starts with short lists, where everything can be checked by hand. A sentence with <code>∀</code> says the same as all its instances together: it is the <data value="and">and</data> of them.</p>
+  <pre><code><span data-comment>; three instances: 1, 2 and 3 are each less than 4</span>
+(&lt; 1 4) (&lt; 2 4) (&lt; 3 4)
+<span data-comment>; the same in one sentence: every <var>u</var> in the list is less than 4</span>
+(∀ <var>u</var> (list 1 2 3) (&lt; <var>u</var> 4))
+<span data-comment>; for all is the <data value="and">and</data> of the instances</span>
+(= (∀ <var>u</var> (list 1 2 3) (&lt; <var>u</var> 4)) (<data value="and">and</data> (&lt; 1 4) (&lt; 2 4) (&lt; 3 4)))
+
+<span data-comment>; more lists, more statements</span>
+(∀ <var>u</var> (list 5 7 9) (&gt; <var>u</var> 4))  (∀ <var>u</var> (list 0 3 7) (= (+ <var>u</var> 0) <var>u</var>))  (∀ <var>u</var> (list 2 4 6) (≠ <var>u</var> 5))
+<span data-comment>; a list of one item: just that one instance</span>
+(= (∀ <var>u</var> (list 5) (&gt; <var>u</var> 4)) (&gt; 5 4))</code></pre>
+
+  <h4>There exists, over a list</h4>
+  <p><code>∃</code> says that at least one item makes the statement true. Each example is followed by an item that does.</p>
+  <pre><code><span data-comment>; one of the items is 2</span>
+(∃ <var>u</var> (list 1 2 3) (= <var>u</var> 2))  (= 2 2)
+<span data-comment>; one of the items is greater than 2: it is 3</span>
+(∃ <var>u</var> (list 1 2 3) (&gt; <var>u</var> 2))  (&gt; 3 2)
+
+<span data-comment>; "some item is 2" is true, "every item is 2" is false</span>
+(= (∃ <var>u</var> (list 1 2 3) (= <var>u</var> 2)) <data value="true">true</data>)  (= (∀ <var>u</var> (list 1 2 3) (= <var>u</var> 2)) <data value="false">false</data>)
+<span data-comment>; what holds for every item holds for some item</span>
+(∀ <var>u</var> (list 1 2 3) (&lt; <var>u</var> 4))  (∃ <var>u</var> (list 1 2 3) (&lt; <var>u</var> 4))
+
+<span data-comment>; some item is 2: the same as "not every item differs from 2"</span>
+(= (∃ <var>u</var> (list 1 2 3) (= <var>u</var> 2)) (<data value="not">not</data> (∀ <var>u</var> (list 1 2 3) (≠ <var>u</var> 2))))</code></pre>
+
+  <h4>From a list to ℕ</h4>
+  <p>A list ends. The natural numbers do not: <code>ℕ</code> stands for 0, 1, 2, 3 and so on without end. A law over ℕ cannot be checked instance by instance, but it reads the same way. From here on, a law often comes with a few of its instances, although the law alone says everything: the instances show how to read it.</p>
   <pre><code><span data-comment>; four instances: adding 0 changes nothing</span>
 (= (+ 0 0) 0) (= (+ 3 0) 3) (= (+ 7 0) 7) (= (+ 255 0) 255)
+<span data-comment>; the same over a list of those four numbers</span>
+(∀ <var>u</var> (list 0 3 7 255) (= (+ <var>u</var> 0) <var>u</var>))
 <span data-comment>; the law: for every natural number <var>u</var>, <var>u</var> + 0 = <var>u</var></span>
-(∀ <var>u</var> ℕ (= (+ <var>u</var> 0) <var>u</var>))</code></pre>
+(∀ <var>u</var> ℕ (= (+ <var>u</var> 0) <var>u</var>))
+
+<span data-comment>; ℕ starts at 0 …</span>
+(∃ <var>u</var> ℕ (= <var>u</var> 0))
+<span data-comment>; … and never ends: every number has a next one</span>
+(∀ <var>u</var> ℕ (∃ <var>v</var> ℕ (= <var>v</var> (+ <var>u</var> 1))))</code></pre>
 
   <h4>More laws over ℕ</h4>
   <pre><code><span data-comment>; three instances, then the law: times 1 changes nothing</span>
@@ -45,11 +81,19 @@
 <span data-comment>; and (<var>u</var> + <var>v</var>) + <var>w</var> = <var>u</var> + (<var>v</var> + <var>w</var>)</span>
 (∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (= (+ (+ <var>u</var> <var>v</var>) <var>w</var>) (+ <var>u</var> (+ <var>v</var> <var>w</var>))))))</code></pre>
 
+  <h4>Laws about lists</h4>
+  <p>With variables, what the lesson on lists showed by examples can be stated in general:</p>
+  <pre><code><span data-comment>; a list of two items has length 2, and its first item is the first one given</span>
+(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (length (list <var>u</var> <var>v</var>)) 2)))
+(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (item (list <var>u</var> <var>v</var>) 1) <var>u</var>)))
+<span data-comment>; the last item is the one at the position of the length</span>
+(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (item (list <var>u</var> <var>v</var>) (length (list <var>u</var> <var>v</var>))) <var>v</var>)))</code></pre>
+
   <h4>The name does not matter</h4>
   <pre><code><span data-comment>; the same law three times, with three different variables</span>
 (∀ <var>u</var> ℕ (= (+ <var>u</var> 0) <var>u</var>))  (∀ <var>v</var> ℕ (= (+ <var>v</var> 0) <var>v</var>))  (∀ <var>w</var> ℕ (= (+ <var>w</var> 0) <var>w</var>))</code></pre>
 
-  <h4>There exists</h4>
+  <h4>There exists, in ℕ</h4>
   <p>Each example is followed by the number that makes it true.</p>
   <pre><code><span data-comment>; there is a number that gives 5 when 2 is added: it is 3</span>
 (∃ <var>u</var> ℕ (= (+ <var>u</var> 2) 5))  (= (+ 3 2) 5)
