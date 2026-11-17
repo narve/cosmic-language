@@ -1,8 +1,8 @@
-// The structure rules of the specification (§10), checked on the parsed message. All but the last are hard errors:
+// The structure rules of the specification (§10.1), checked on the parsed message. All are hard errors:
 // - an unquoted group starts with an operator and has the number of arguments its arity allows;
 // - ∀, ∃ and sequence bind a variable, and every variable is bound (sentences are closed);
 // - every symbol in the registry is used, and ids follow the order of first appearance in each type;
-// - (reported, not an error) a symbol is in at least EXAMPLES sentences of the lesson that introduces it.
+// - a symbol is in at least EXAMPLES sentences of the lesson that introduces it.
 import { BuildError } from "../dom.ts";
 import type { Message, Token } from "../message.ts";
 import type { Registry } from "../registry.ts";
@@ -82,15 +82,15 @@ function symbols(node: Node, into: Set<string> = new Set()): Set<string> {
   return into;
 }
 
-export interface Short {
+interface First {
   name: string;
-  lesson: string;
-  sentences: number;
+  lesson: string; // the lesson that introduces the symbol
+  sentences: number; // sentences of that lesson that use it
 }
 
-// Throws on a broken rule. Returns the symbols with fewer than EXAMPLES sentences in their first lesson.
-export function checkStructure(message: Message, registry: Registry): Short[] {
-  const first = new Map<string, Short>(); // in order of first appearance
+// Throws on a broken rule.
+export function checkStructure(message: Message, registry: Registry): void {
+  const first = new Map<string, First>(); // in order of first appearance
   for (const { article, blocks } of message.articles) {
     blocks.forEach((block, index) => {
       if (block.bits !== undefined) return;
@@ -117,5 +117,9 @@ export function checkStructure(message: Message, registry: Registry): Short[] {
     }
     next.set(type, expected + 1);
   }
-  return [...first.values()].filter((symbol) => symbol.sentences < EXAMPLES);
+  const short = [...first.values()].filter((symbol) => symbol.sentences < EXAMPLES);
+  if (short.length > 0) {
+    const list = short.map(({ name, lesson, sentences }) => `\n  ${name}: ${sentences} in ${lesson}`).join("");
+    throw new BuildError(`a new symbol must be in at least ${EXAMPLES} sentences of the lesson that introduces it:${list}`);
+  }
 }
