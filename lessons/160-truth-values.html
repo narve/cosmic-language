@@ -29,6 +29,7 @@
   <h4><data value="not">not</data></h4>
   <pre><code><span data-comment>; <data value="not">not</data> turns true into false and false into true</span>
 (= (<data value="not">not</data> <data value="true">true</data>) <data value="false">false</data>) (= (<data value="not">not</data> <data value="false">false</data>) <data value="true">true</data>)
+
 <span data-comment>; <data value="not">not</data> of a relation that holds is false</span>
 (= (<data value="not">not</data> (= 2 2)) <data value="false">false</data>) (= (<data value="not">not</data> (&lt; 1 2)) <data value="false">false</data>)
 <span data-comment>; applying it twice gives the original, like neg</span>

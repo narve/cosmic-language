@@ -16,13 +16,17 @@
   <pre><code>(= (quote (+ 2 3)) (list (quote +) 2 3))
 (= (length (quote (+ 2 3))) 3)
 (= (item (quote (+ 2 3)) 1) (quote +))  (= (item (quote (+ 2 3)) 2) 2)  (= (item (quote (+ 2 3)) 3) 3)
+
 <span data-comment>; a symbol can be quoted on its own</span>
 (= (quote +) (quote +))  (≠ (quote +) (quote ×))
+
 <span data-comment>; numbers are their own quotes</span>
 (= (quote 5) 5)
+
 <span data-comment>; an expression is not its value, and two expressions with the same value are still different</span>
 (= (+ 2 3) 5)  (≠ (quote (+ 2 3)) 5)
 (= (+ 2 3) (+ 3 2))  (≠ (quote (+ 2 3)) (quote (+ 3 2)))
+
 <span data-comment>; quoted expressions can be nested</span>
 (= (item (quote (= (+ 2 3) 5)) 2) (quote (+ 2 3)))
 (= (item (quote (quote 7)) 1) (quote quote))</code></pre>

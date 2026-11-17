@@ -14,6 +14,7 @@
   <p>A polynomial is an expression built from a variable, numbers, <code>+</code>, <code>×</code> and <code>^</code>. The laws of the previous lessons apply to them:</p>
   <pre><code><span data-comment>; an instance first: (3 + 1)² = 3² + 2·3 + 1 = 16</span>
 (= (^ (+ 3 1) 2) (+ (^ 3 2) (× 2 3) 1) 16)
+
 <span data-comment>; the law: (<var>u</var> + 1)² = u² + 2u + 1</span>
 (∀ <var>u</var> ℝ (= (^ (+ <var>u</var> 1) 2) (+ (^ <var>u</var> 2) (× 2 <var>u</var>) 1)))
 <span data-comment>; and (<var>u</var> + 1) × (<var>u</var> − 1) = u² − 1</span>

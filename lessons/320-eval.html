@@ -17,13 +17,16 @@
 (= (eval (quote (rest (list 4 7 9)))) (list 7 9))
 (= (eval (quote (if (&lt; 1 2) 10 20))) 10)
 (= (eval (quote <data value="true">true</data>)) <data value="true">true</data>)  (= (eval (quote π)) π)
+
 <span data-comment>; the value of a sentence is true or false; a false sentence can now be evaluated without being claimed</span>
 (= (eval (quote (= 2 2))) <data value="true">true</data>)
 (= (eval (quote (= 2 3))) <data value="false">false</data>)
 (= (eval (quote (&lt; 3 2))) <data value="false">false</data>)
 (= (eval (quote (<data value="and">and</data> (= 2 2) (= 2 3)))) <data value="false">false</data>)
+
 <span data-comment>; the value of a quoted expression is the expression</span>
 (= (eval (quote (quote (+ 2 3)))) (quote (+ 2 3)))
+
 <span data-comment>; eval can be applied to itself</span>
 (= (eval (quote (eval (quote (+ 1 2))))) 3)</code></pre>
   <h4>The rules</h4>

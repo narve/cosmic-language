@@ -22,6 +22,7 @@
   <pre><code>(= (if <data value="true">true</data> 1 2) 1)  (= (if <data value="false">false</data> 1 2) 2)
 (= (if (&lt; 2 3) 5 7) 5)  (= (if (<data value="not">not</data> (&lt; 2 3)) 5 7) 7)
 (∀ <var>u</var> ℚ (= (abs <var>u</var>) (if (&lt; <var>u</var> 0) (neg <var>u</var>) <var>u</var>)))
+
 <span data-comment>; only the value that is picked is computed: here (÷ 1 u) is never computed for u = 0</span>
 (∀ <var>u</var> ℚ (= (if (= <var>u</var> 0) 0 (× <var>u</var> (÷ 1 <var>u</var>))) (if (= <var>u</var> 0) 0 1)))</code></pre>
 </article>

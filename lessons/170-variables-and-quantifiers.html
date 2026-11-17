@@ -91,6 +91,7 @@
   <pre><code><span data-comment>; a list of two items has length 2, and its first item is the first one given</span>
 (∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (length (list <var>u</var> <var>v</var>)) 2)))
 (∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (item (list <var>u</var> <var>v</var>) 1) <var>u</var>)))
+
 <span data-comment>; the last item is the one at the position of the length</span>
 (∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (item (list <var>u</var> <var>v</var>) (length (list <var>u</var> <var>v</var>))) <var>v</var>)))</code></pre>
 
@@ -102,6 +103,7 @@
   <p>Each example is followed by the number that makes it true.</p>
   <pre><code><span data-comment>; there is a number that gives 5 when 2 is added: it is 3</span>
 (∃ <var>u</var> ℕ (= (+ <var>u</var> 2) 5))  (= (+ 3 2) 5)
+
 <span data-comment>; there is a number whose square is 9: it is 3</span>
 (∃ <var>u</var> ℕ (= (× <var>u</var> <var>u</var>) 9))  (= (× 3 3) 9)
 <span data-comment>; there is a number above 255: 256 is one</span>
