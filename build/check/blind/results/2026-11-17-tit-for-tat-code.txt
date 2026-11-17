@@ -1,0 +1,69 @@
+I decoded the whole message. The last statement says that, among six strategies for a repeated two-player game, the one that copies its opponent's previous move scores strictly more in a 10-round all-play-all than each of the other five. I checked this by simulating the game from the message's own definitions.
+
+Notation: `w N` is the N-th 16-bit word of the body (from 0), and its bit offset is 172 + 16·N. Symbols are written class:index in hex-free form, e.g. `2:20` is word 0x0214.
+
+## 1. Structure
+
+- **Length:** 189,384 bits.
+- **Framing:** bits 0–171 and bits 189,212–189,383 are the same 172-bit pattern. It is runs of 1s of length 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, separated by single 0s. Runs of 11 or more 1s occur nowhere else.
+- **Unit size:** the 189,040 bits between the frames are 11,815 words of 16 bits, most significant bit first. The evidence is that the first 12 words read as 1, 2, 3, 5, …, 31 (the frame's run lengths again, now in binary), and the next 256 words count 0, 1, 2, …, 255.
+- **Word classes:** the high byte is a class and the low byte an index.
+  - Class 0 is a literal number 0–255.
+  - Class 1 has only two members: 0x0100 opens a group and 0x0101 closes one. Each occurs exactly 2,696 times, and nesting never goes negative and ends at zero.
+  - Class 2 is operators (always first in a group), class 3 named constants and sets, class 4 bound variables, and classes 5–9 named objects of the later sections.
+  - The message confirms this itself: operator 2:32 applied to a quoted symbol returns 2, 3, 4, 5, 6, 7, 8, 9 for classes 2–9, 0 for a number and 1 for a list.
+- **Combination:** prefix notation, `( operator argument … )`, nested.
+
+## 2. Statements
+
+- A statement is one balanced top-level group. After the 268 bare introductory words (w 0–267), the body is exactly 696 such groups with nothing between them.
+- The last statement is w 11769–11814 (46 words), which is bits 188,476 to 189,211 inclusive. The closing frame starts at bit 189,212.
+
+## 3. The last statement
+
+```
+( ∀ v1 ∈ SIX
+   ( ⇒ ( ≠ v1 TFT )
+       ( > ( fold + ( map v2 SIX ( score TFT v2 10 ) ) )
+           ( fold + ( map v2 SIX ( score v1  v2 10 ) ) ) ) ) )
+```
+
+In words: `0100 0214 0401 031D 0100 0216 0100 0202 0401 0317 0101 0100 0204 0100 021A 0207 0100 021B 0402 031D 0100 0243 0317 0402 000A 0101 0101 0101 0100 021A 0207 0100 021B 0402 031D 0100 0243 0401 0402 000A 0101×6`
+
+| Unit | Meaning | Taught by (word offsets) |
+|---|---|---|
+| 2:20 with 4:1, 4:2 | "for all x in set, …"; class 4 are variables | w 2262–2355: `(< 1 4)`, `(< 2 4)`, `(< 3 4)`, then ∀ v over list (1 2 3) of `v<4`, stated equal to the AND of the three. Contrast 2:21 (exists) at w 2426 onward. |
+| 2:22 | implies | Truth table at w 3275–3310: only true→false gives false. |
+| 2:1, 2:2, 2:3, 2:4 | =, ≠, <, > | w 268–528: `(= 1 1)`, `(≠ 0 1)`, `(< 0 1)`, `(> 1 0)`, and chains such as `(< 1 2 3)`. |
+| 2:7 | addition | w 593–777, e.g. `(= (+ 2 3) 5)`. |
+| 2:16 | list constructor (used in the definitions) | w 2000–2261, with length 2:17 and i-th element 2:18. |
+| 2:27 | map: `(map v list expr)` | w 4830–4899: map of v·v over (1 2 3 4) = (1 4 9 16). |
+| 2:26 | fold a list with an operator | w 4757–4819: fold + over (1 2 3) = 6; fold × over (2 3 4) = 24. |
+| 3:18, 3:19 | the two moves, "cooperate" and "defect" | Payoff 2:64 (my move, other's move) at w 10202–10285: 3, 0, 5, 1, followed by statements of the orderings 5 > 3 > 1 > 0 and 2·3 > 5 + 0. This is the prisoner's-dilemma payoff structure. |
+| 2:65 | `(strategy history)` → list of possible next moves; a history is a list of (own move, other's move) pairs | w 10286–10953. |
+| 3:21 … 3:26 | six strategies: always cooperate; always defect; 3:23 below; start with defect then copy; cooperate until the other ever defects; cooperate first, then cooperate exactly when both moved alike last round | w 10286–10953, each defined by its 2:65 rule. |
+| 3:23 ("TFT") | cooperate on an empty history, otherwise play the other's last move | w 10320–10372, restated with if-then-else at w 10760. |
+| 3:29 ("SIX") | the list of those six strategies | w 10954. |
+| 2:66 | the history of n rounds between a and b | w 10967–11195, defined recursively. |
+| 2:67 ("score") | a's total payoff over n rounds against b | w 11196 (sum of payoffs over the history); example w 11279: TFT against always-defect over 4 rounds = 3. |
+| 10 | the number ten | Counting sequence at w 12–267. |
+
+The statements just before it give the facts it generalises:
+- Pairwise 10-round scores at w 11427–11546.
+- The six totals at w 11547–11660: 154, 147, 143, 142, 128, 113.
+- Their ordering at w 11676.
+
+I simulated the six strategies from their definitions and reproduced every one of those pairwise scores and totals exactly.
+
+## 4. Meaning
+
+For every one of the six listed strategies other than the "cooperate first, then copy the opponent's previous move" strategy, that strategy's total payoff is strictly greater than theirs. The total is summed over 10-round games against all six strategies, including itself: it scores 154 against 147, 143, 142, 128 and 113.
+
+## 5. Confidence and limits
+
+- **Structure (1) and delimitation (2):** very high. Framing, word size, bracket balance and the self-described classes all agree.
+- **Units of the last statement (3):** very high for logic, arithmetic, map and fold. Very high for the game symbols too, because the independent simulation matches all 18 stated numbers.
+- **Meaning (4):** very high as a formal claim. "Cooperate", "defect" and "TFT" are my labels; the message defines these symbols only by the payoff table and the rules.
+- **Not determined:**
+  - Strategies 3:27 and 3:28 are randomised and are not in the list of six, so they play no part in the last statement. I read their rules but did not verify them numerically.
+  - I did not decode the middle section (w 6560–10201) in detail. It appears to be physics and chemistry (particles, elements, units, constants) and is not needed for the last statement.
