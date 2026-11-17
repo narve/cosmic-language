@@ -10,7 +10,7 @@
 <body>
 
 <header>
-  <small>Test record · latest run: 2026-11-17</small>
+  <small>Test record · latest run: 2026-11-17 (second run of the day)</small>
   <h1>Blind Test</h1>
   <p>Can a reader who gets nothing but the bits work out what the message says, and why it was sent? This page records the latest run, in which a language model was given only the bit stream. The result is encouraging and it is also thin: one run, one kind of reader. Read the <a href="#caveats">caveats</a> before drawing conclusions.</p>
 </header>
@@ -20,6 +20,7 @@
     <li><a href="#setup">The setup</a></li>
     <li><a href="#result">What the reader concluded</a></li>
     <li><a href="#gaps">What the reader could not find</a></li>
+    <li><a href="#before">Compared with the run before</a></li>
     <li><a href="#caveats">Caveats</a></li>
     <li><a href="#rerun">Running the test again</a></li>
   </ol>
@@ -35,64 +36,79 @@
     <p>Work out WHY this message was sent. Nobody builds and transmits something this elaborate without a reason. What does the sender want the receiver to understand, believe or do?</p>
   </blockquote>
   <p>The reader also had to describe the format and the contents, give at least two other explanations, and say what the message leaves out. The task text contains none of the project's vocabulary: no "token", "chunk" or "prime", and nothing about games, strategies or peace.</p>
-  <p>The run took about two minutes and seven pieces of code. The message was the version of 2026-11-17 that ends with the prisoner's dilemma and the tit-for-tat theorem (11,815 tokens).</p>
+  <p>The run took a little over two minutes and nine pieces of code. The message was the version of 2026-11-17 that ends with the prisoner's dilemma, played over 251 rounds, and the tit-for-tat theorem (12,102 tokens).</p>
 </section>
 
 <section id="result">
   <h2>2. What the reader concluded</h2>
-  <p>The reader decoded all parts of the message. It found the beacon and the terminator, the 16-bit tokens, the token types and the brackets, and split the message into 696 statements. It identified the electron, proton and neutron from their mass ratios, the fine-structure constant, the Planck units, the 21 cm line of hydrogen, and the four bases of DNA from their formulas. It recognised the payoffs as a prisoner's dilemma and worked out each of the eight strategies from its rule. Without being asked, it wrote its own simulation of the tournament from the message's definitions and reproduced every score and total the message states.</p>
-  <p>It read the last statement of the message as: tit-for-tat's total is strictly greater than that of every other strategy in the set. Its conclusion about the purpose:</p>
+  <p>The reader decoded the whole message: all 193,976 bits, "with nothing left over". It found the beacon and the terminator, the 16-bit tokens, the token types and the brackets, and split the message into 702 statements. It identified the electron, proton and neutron from their mass ratios, the fine-structure constant, the Planck units, the 21 cm line of hydrogen, and the four bases of DNA from their formulas. It recognised the payoffs as a prisoner's dilemma and worked out each of the eight strategies from its rule. Without being asked, it wrote its own simulation of the tournament from the message's definitions and reproduced all 12 scores and all 6 totals the message states.</p>
+  <p>It read the last statement of the message as: for every strategy in the set other than tit-for-tat, tit-for-tat's total score is greater. Its conclusion about the purpose:</p>
   <blockquote>
-    <p>The message is an opening move plus a statement of policy. It reads as: "We know contact is a repeated dilemma. We know defection can win a single encounter. Here is a checkable reason why we reciprocate — cooperate first, answer in kind — and why you should too." What it wants from the receiver is a cooperative reply, and an understanding that cooperation will be returned and defection also returned.</p>
+    <p>My best explanation is a declaration of how the sender intends to deal with others, and an invitation to deal the same way. The message says: we will cooperate first and answer in kind, and here is the proof that this is the better course for both of us.</p>
   </blockquote>
-  <p>How it read the design:</p>
+  <p>What it took from the message:</p>
   <ul>
-    <li><strong>The mathematics is scaffolding.</strong> Lists hold the history of a game, <code>if</code> and the quantifiers define strategies, <code>apply</code> and <code>sequence</code> add up scores, mean and chance handle the strategies that pick at random.</li>
-    <li><strong>The physics is proof of honesty and competence.</strong> The receiver can check 1836, 1/137 and the ratios in the spectrum of hydrogen for itself.</li>
-    <li><strong><code>observed</code> marks a line</strong> between what must be believed on evidence and what can be checked by calculation. The results of the game are of the second kind.</li>
-    <li><strong>The transmission is itself a cooperative move:</strong> free, true information, sent unprompted.</li>
+    <li><strong>Everything converges on one theorem, and it is the last word.</strong> Beside it stand three more results: two players who cooperate get three times what two who defect get, pure exploitation loses overall, and unconditional cooperation is exploited (0 against 1255).</li>
+    <li><strong>The message concedes a weakness.</strong> Tit-for-tat never beats its partner in a single game (250 against 255) and still has the highest total.</li>
+    <li><strong>The strategy it singles out is neither naive nor hostile:</strong> it punishes defection and forgives.</li>
+    <li><strong>The mathematics is scaffolding.</strong> Lists hold the history of a game, <code>sequence</code> and <code>apply</code> add up payoffs, <code>if</code> restates the strategies, chance and mean handle the strategies that pick at random, and the quantifiers carry the final "for every other strategy".</li>
+    <li><strong>The physics is not needed for the game.</strong> It establishes a shared reality, units and time scales, and it shows that the sender marks what is observed apart from what is proved.</li>
+    <li><strong>A repeated game is the natural model</strong> for two parties who exchange messages over long delays.</li>
   </ul>
-  <p>It gave this reading about 60 %, and weighed three others:</p>
+  <p>It was "high" in confidence that reciprocal cooperation is the point, and "moderate" that the message is a declaration by the sender and an invitation. It weighed four other readings and rated each well below the main one:</p>
   <table>
-    <thead><tr><th>Other reading</th><th>Its weight</th><th>Its main argument against</th></tr></thead>
+    <thead><tr><th>Other reading</th><th>For</th><th>Against</th></tr></thead>
     <tbody>
-      <tr><td>A deterrent: "we retaliate"</td><td>15 %</td><td>The comparisons the message stresses are cooperation over defection, and it shows no threats or capabilities.</td></tr>
-      <tr><td>A primer or beacon: "we are here, this is what we know"</td><td>15 %</td><td>The science stops without astronomy or any description of the sender, and the ending is not science.</td></tr>
-      <tr><td>Manipulation into cooperating, or something else</td><td>10 %</td><td>The message recommends conditional cooperation, which cannot be exploited much. But "the message cannot rule this out".</td></tr>
+      <tr><td>A curriculum, with the game as merely its last chapter</td><td>The breadth; the bases of DNA look like "about us"</td><td>The ending is a ranked comparison with a conclusion about every strategy, not a survey</td></tr>
+      <tr><td>A deterrent: "we retaliate"</td><td>Tit-for-tat does punish; the strategy that always cooperates is shown being exploited</td><td>The comparisons the message stresses are about joint gain; no capability, weapon or demand appears</td></tr>
+      <tr><td>Manipulation into cooperating</td><td>"The content cannot rule this out"</td><td>The message itself shows the exploiter doing worse overall, "which is poor bait"</td></tr>
+      <tr><td>An intelligence test, or a first instalment</td><td>The evaluator is defined and never used</td><td>No question is asked anywhere</td></tr>
     </tbody>
   </table>
-  <p>The reader called these numbers judgement, not measurement.</p>
 </section>
 
 <section id="gaps">
   <h2>3. What the reader could not find</h2>
   <p>These are the most useful results: each is something the message does not yet say, or says badly.</p>
   <ul>
-    <li><strong>No "us" and no "you".</strong> Nothing says that the sender plays tit-for-tat, or that the game is about sender and receiver. The reading "a statement of policy" is the reader's inference. The message is meant to say "we come in peace"; so far it proves that peace wins a game.</li>
-    <li><strong>No request.</strong> There is no question, no instruction and no channel for a reply.</li>
-    <li><strong>Nothing about the sender:</strong> no place, no time, no body, no history. (Whether to say where the message comes from is a deliberate open question, see the <a href="specification.html#open">specification</a>.)</li>
-    <li><strong>No stakes.</strong> Nothing says what cooperating or defecting would be in practice.</li>
-    <li><strong>A narrow result.</strong> The theorem holds for six strategies and ten rounds. It is an illustration, not a general proof.</li>
-    <li><strong>Water's temperature is ambiguous.</strong> The bounds the message gives allow roughly 230 to 460 K, so the reader could not tell which temperature of water is meant.</li>
-    <li><strong>The rational numbers were read as the integers.</strong> What the message says about <code>ℚ</code> did not set it clearly apart.</li>
-    <li><strong>The four large molecules are unexplained.</strong> The reader matched their formulas to the bases of DNA, but the message gives no structures or roles and says nothing about life.</li>
+    <li><strong>No "us" and no "you".</strong> That the sender is describing its own policy is the reader's guess, and it says so. The message is meant to say "we come in peace"; so far it proves that peace wins a game.</li>
+    <li><strong>No request.</strong> Nothing says "reply", or how, where or when. The invitation is only implied.</li>
+    <li><strong>Nothing about the sender:</strong> no place, no body, no history. (Whether to say where the message comes from is a deliberate open question, see the <a href="specification.html#open">specification</a>.)</li>
+    <li><strong>No stakes.</strong> What cooperating and defecting mean in practice is left open.</li>
+    <li><strong>A narrow result.</strong> The theorem is shown for six strategies and a fixed, known number of rounds. Nothing claims that reciprocity is best in general, and the two strategies that pick at random are left out of the tournament.</li>
+    <li><strong>Parts that lead nowhere.</strong> Quoting and <code>eval</code> take up 9 % of the message and the tournament does not use them. The four bases of DNA are stated and dropped. The reader could only guess that they prepare for a later message.</li>
+    <li><strong>The triple point is not understood as one.</strong> The reader found that the temperature given for water is about 273 K and read it as melting. That ice, water and vapour exist together there is not something the message can say yet.</li>
   </ul>
 </section>
 
+<section id="before">
+  <h2>4. Compared with the run before</h2>
+  <p>An earlier run the same day, with the same task, led to changes in the message. This run shows whether they helped.</p>
+  <table>
+    <thead><tr><th>Problem in the run before</th><th>Change to the message</th><th>In this run</th></tr></thead>
+    <tbody>
+      <tr><td>The reader could not tell which temperature of water was meant: the range allowed 230 to 460 K</td><td>The range was narrowed to one part in 300</td><td>Read as about 273 K. Fixed, apart from "melting" for the triple point</td></tr>
+      <tr><td>The rational numbers were read as the integers</td><td>Six sentences now say what the rational numbers are</td><td>Read as the rationals, set apart from the real numbers by the square root of 2. Fixed</td></tr>
+      <tr><td>The tournament ran for 10 rounds, a number that is only round in base ten</td><td>251 rounds, the largest prime in a chunk; other chosen tens and hundreds replaced</td><td>The reader now asks why 251: "the round count is not explained"</td></tr>
+    </tbody>
+  </table>
+  <p>The conclusion about the purpose was the same in both runs, in different words. One run each is too little to say more than that.</p>
+</section>
+
 <section id="caveats">
-  <h2>4. Caveats</h2>
+  <h2>5. Caveats</h2>
   <ul>
     <li><strong>The reader is not an alien.</strong> It is a model trained on human writing. It knows prefix notation, the prisoner's dilemma and what tit-for-tat is taken to mean, and it knows the masses of the particles. A real receiver shares none of that. The test shows that the message is consistent and can be decoded by a mind with human mathematics. It does not show that it can be decoded by a mind without it.</li>
-    <li><strong>One run.</strong> A second run could go differently.</li>
+    <li><strong>One run.</strong> Another run could go differently; the run before this one reached the same conclusion but disagreed on details.</li>
     <li><strong>The task text is part of the experiment.</strong> The reader was told that the signal is artificial, that it is a message and that it was sent for a reason. A real receiver has to reach that by itself.</li>
     <li><strong>The reader skimmed.</strong> It read the beginning and the end of the message closely and the middle only as far as it needed.</li>
-    <li><strong>The reader made mistakes</strong> that did not affect its conclusion: a wrong count of tokens in one place, and the integers for the rationals.</li>
+    <li><strong>The reader leans on what it knows.</strong> It says itself that its identifications in physics "rest on the stated numbers matching values I know from memory".</li>
     <li><strong>The message is a draft.</strong> It has changed since this run and will change again; this page is replaced when the test is run again.</li>
   </ul>
 </section>
 
 <section id="rerun">
-  <h2>5. Running the test again</h2>
+  <h2>6. Running the test again</h2>
   <p>The task text, the tool and the reader's full answer, with the code it ran, are in <a href="https://github.com/narve/cosmic-language/tree/main/build/check/blind"><code>build/check/blind/</code></a> in the repository, together with earlier runs and a second task about the meaning of the last statement. After <code>npm run build</code>, with Docker available, the command is <code>npm run --silent blind:code purpose-code</code>.</p>
 </section>
 

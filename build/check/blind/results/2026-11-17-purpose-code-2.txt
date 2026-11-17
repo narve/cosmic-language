@@ -1,0 +1,150 @@
+The message is fully decoded: it is a self-teaching course that ends in a worked demonstration that reciprocal cooperation outscores exploitation. All 193,976 bits parse with nothing left over, and I recomputed its final claims in the sandbox.
+
+Labels such as W7, N23, E2 below are mine (symbol class and number). The meanings are inferred from how each symbol is used.
+
+## 1. Format
+
+- **Frame.** The first 172 bits are runs of 1s of length 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, separated by single 0s. The last 172 bits are identical. This marks start and end and signals artificial origin.
+- **Body.** Between the frames are exactly 12,102 words of 16 bits, each a (class byte, value byte) pair.
+  - Class 0 is a literal number 0–255.
+  - Class 1 has only two values, used 2,764 times each and perfectly nested: open and close brackets.
+  - Class 2 holds 67 operator words, and class 4 holds 4 bound variables.
+  - Classes 3 and 5–9 hold named objects: truth values, sets and strategies; particles; elements, numbered by proton count; dimensions; physical constants; molecules.
+- **Self-check on the literals.** The body opens by restating the header list as literals (1, 2, 3, 5 … 31), then counts 0 to 255.
+- **Statements.** After that come 702 bracketed statements in prefix form, `(operator arguments…)`, each a true assertion.
+- **Evidence.** The brackets balance, every arithmetic statement I checked is true under the reading, and a symbol is almost always shown in examples before it is used.
+
+## 2. Contents, in order
+
+| Part | Share of body | What it says |
+|---|---|---|
+| Number literals | 2% | Primes list and count 0–255 |
+| Arithmetic | 12% | Equality, order, the four operations, base-256 numbers, negatives, fractions |
+| Logic, lists, quantifiers, number systems | 26% | Truth values, lists, "for all"/"exists", naturals to complex numbers, powers, e and π |
+| Sums, maps, averages, probability | 6% | Folding an operator over a list, mapping, mean, probability, pairs of outcomes |
+| Quotation and evaluation | 9% | Expressions as data, types, conditional, an evaluator |
+| Physics | 27% | Particles, atoms, constants, units, radiation, decay |
+| Chemistry | 4% | Molecules by composition and bonds |
+| Game theory | 14% | A two-move game, six strategies, a 251-round tournament |
+
+**Arithmetic.**
+- `(W1 (W7 2 3) 5)` reads 2+3 = 5.
+- `(W1 (W8 15 17) 255)` reads 15×17 = 255.
+- `(W1 (W9 1 0) (W7 255 1))` reads "1,0" = 255+1, which introduces base 256.
+- `(W1 (W7 (W12 1 2) (W12 1 3)) (W12 5 6))` reads 1/2 + 1/3 = 5/6.
+
+**Logic, lists, quantifiers, number systems.**
+- N1 and N2 are true and false: `(W1 (W1 2 2) N1)`.
+- De Morgan's law is stated: `(W1 (W13 (W14 N1 N2)) (W15 (W13 N1) (W13 N2)))`.
+- Commutativity over the naturals: `(W20 v1 N3 (W20 v2 N3 (W1 (W7 v1 v2) (W7 v2 v1))))`.
+- The real numbers are separated from the rationals by √2: `(W21 v1 N5 (W14 (W4 v1 0) (W1 (W8 v1 v1) 2)))` against `(W20 v1 N4 (W2 (W8 v1 v1) 2))`.
+- N6 is i: `(W1 (W8 N6 N6) (W11 1))`. N8 is e and N9 is π: `(W1 (W7 (W25 (W8 N6 N9)) 1) 0)` reads e^(iπ) + 1 = 0.
+
+**Sums, maps, averages, probability.**
+- π is given as 4·Σ(−1)^n/(2n+1).
+- Mean: `(W1 (W28 (W16 2 4 9)) 5)`.
+- Probability of true among {true, false} is 1/2; probability of 6 on a list 1–6 is 1/6.
+- Two independent draws: `(W1 (W29 (W16 6 6) (W30 …)) (W12 1 36))`.
+
+**Quotation and evaluation.**
+- W31 quotes an expression as a list: `(W2 (W31 (W7 2 3)) 5)` against `(W1 (W35 (W31 (W7 2 3))) 5)`.
+- W32 gives a type code, W34 is if-then-else, and W35 is an evaluator defined recursively over quoted expressions.
+
+**Physics.** Sixty-four statements carry a marker W36 that never appears on mathematics. I read it as "this is observed in nature". Identifications rest on the stated numbers matching values I know from memory, not on anything I could measure.
+- Three particles E1, E2, E3 with mass ratio E2/E1 between 1836 and 1837: `(W36 (W3 (W9 7 44) (W12 (W37 E2) (W37 E1)) (W9 7 45)))`. Charges are opposite for E1 and E2 and zero for E3. These are electron, proton, neutron.
+- Elements are defined by proton count, with isotopes and a list of stable ones.
+- Hydrogen levels are given with ratios 27/5 and 32/27.
+- Three independent dimensions G1–G3 (mass, length, time) plus charge G4 and temperature G5, with a dimension-of operator.
+- A massless, chargeless E4 (the photon) all move at one speed H1. Energy is H2·2π·frequency.
+- Inverse-square gravity and electric force are stated. `(W36 (W3 (W12 1 138) (…) (W12 1 137)))` is the fine-structure constant, and the electric-to-gravitational force ratio for proton and electron lies between 2^130 and 2^131.
+- Natural units of length, time, mass and temperature are built from the constants. A particular photon H9, which matches the hydrogen 21 cm line, is located against those units, giving absolute scales.
+- Gas temperature and T⁴ radiation follow.
+- The neutron is heavier than proton plus electron, with a lifetime, exponential decay and half-life, tied explicitly back to the coin-flip probability 1/2.
+- Shell capacities 2n² and the inert elements 2, 10, 18, 36, 54, 86.
+
+**Chemistry.**
+- J1 is H₂O: `(W1 (W19 F1 J1) 2)`, `(W1 (W19 F8 J1) 1)`, with a bond list.
+- J2–J4 are CH₄, NH₃, CO₂ with bonds; CO₂ has double bonds.
+- A temperature attached to water matches about 273 K, so I read it as melting.
+- J5–J8 are given by composition only: C₅H₅N₅, C₅H₆N₂O₂, C₅H₅N₅O, C₄H₅N₃O. These are the formulas of adenine, thymine, guanine and cytosine. Nothing is said about them.
+
+**Game theory.**
+- Two moves N18, N19 and a payoff table: `(W1 (W64 N18 N18) 3)`, `(W1 (W64 N18 N19) 0)`, `(W1 (W64 N19 N18) 5)`, `(W1 (W64 N19 N19) 1)`.
+- Two inequalities are stated outright: 5 > 3 > 1 > 0, and 2·3 > 5+0. This is a prisoner's dilemma; N18 is cooperate and N19 is defect.
+- Six strategies are defined as functions of the game history:
+  - N21 always cooperates.
+  - N22 always defects.
+  - N23 cooperates first, then copies the other's last move.
+  - N24 is the same but defects first.
+  - N25 cooperates until the other ever defects.
+  - N26 cooperates if both players' last moves matched.
+- Two randomised strategies, N27 and N28, are defined using the earlier probability machinery. N27 forgives a defection one time in three.
+- Repeated play and total score are defined, then results over 251 rounds: `(W1 (W67 N23 N22 251) 250)` and `(W1 (W67 N22 N23 251) 255)`.
+- Totals against all six: N23 3887, N21 3762, N26 3640, N25 3516, N22 3022, N24 2644.
+- I simulated the game from the message's own definitions. All 12 pairwise scores and all 6 totals match exactly.
+
+## 3. Design
+
+- **Taught only as scaffolding.**
+  - Lists, indexing and counting are needed for histories of play.
+  - Map and fold are needed to sum payoffs over a history and over opponents.
+  - If-then-else restates the strategies compactly.
+  - Probability and mean are needed for the randomised strategies and expected payoffs.
+  - Quantifiers are needed for the final "for every other strategy".
+- **Said without being needed.**
+  - The quote/evaluate section (9%) is not used by the tournament. It says expressions are data that can be executed, which reads as groundwork for programs, perhaps in a later message.
+  - The four nucleobase formulas are stated and dropped.
+  - The decay law is explicitly equated to the coin-flip probability, a deliberate bridge from physics to chance.
+  - Physics as a whole is not needed for the game. It establishes shared reality, units and time scales, and shows the sender marks observation separately from proof.
+- **Emphasis.** The message concedes that the reciprocating strategy never beats its partner head to head (250 against 255) and yet has the highest total. It also states `(W4 (W67 N23 N23 251) (W67 N22 N22 251))`: mutual reciprocity (753) beats mutual defection (251).
+- **Ending.** The last statement before the closing frame is `(W20 v1 N29 (W22 (W2 v1 N23) (W4 (Σ N23) (Σ v1))))`. In words: for every strategy in the set other than N23, N23's total score is greater.
+
+## 4. Purpose
+
+My best explanation is a declaration of how the sender intends to deal with others, and an invitation to deal the same way. The message says: we will cooperate first and answer in kind, and here is the proof that this is the better course for both of us.
+
+- **What the message states.** Everything converges on one theorem, and it is the last word. The theorem is that "cooperate first, then reciprocate" wins overall. Stated alongside it are that mutual cooperation beats mutual defection threefold, that pure exploitation loses overall, and that unconditional cooperation is exploited (0 against 1255).
+- **What I infer.**
+  - A third of the message is mathematics that later parts use; the game section's history, scoring and averaging are built from it.
+  - The strategy singled out is neither naive nor hostile: it punishes defection and forgives.
+  - A repeated game is the natural model for two parties exchanging messages over long delays.
+  - The physics gives units and durations, so later exchanges could refer to real quantities and times.
+- **What I am guessing.** The sender is advertising its own policy and wants a reply. It hopes the receiver will adopt reciprocity, and there is an implied warning that defection will be answered.
+
+## 5. Alternatives
+
+- **A curriculum or encyclopaedia, with game theory as merely the last chapter.**
+  - For: the breadth, and the nucleobases, look like "about us and what we know".
+  - Against: the ending is a ranked comparison with a universally quantified conclusion, not a survey. The chemistry is thin (4%) and the biology is four formulas.
+- **A deterrent or threat: "we retaliate".**
+  - For: N23 does punish; the always-cooperate strategy is shown being exploited; the suspicious and grim variants are included.
+  - Against: the highlighted comparisons are about joint gain; the forgiving strategy N27 is defined; no capability, weapon or demand appears.
+- **Manipulation: persuading the receiver to cooperate so it can be exploited.**
+  - The content cannot rule this out. Against it, the message itself shows the exploiter doing worse overall and the exploited party scoring zero, which is poor bait.
+- **An intelligence test or first instalment.**
+  - For: the unused evaluator.
+  - Against: no question is asked anywhere; every statement is an assertion.
+
+## 6. What the message does not say
+
+- There is no request and no instruction. Nothing says "reply", how, where or when, so the invitation is implied only.
+- There is nothing about the sender: no location, no body, no numbers, no history. The four nucleobases come closest, and nothing says they are the sender's chemistry.
+- What cooperate and defect mean in practice is left open. The game is abstract.
+- Why 251 rounds is not explained. The round count is fixed and known, and the result is shown only for these six strategies. No claim is made that reciprocity is best in general.
+- N27 and N28 are defined but left out of the final tournament.
+- The evaluator is never used to send a program.
+
+The absences could mean caution about revealing itself, a first message of several, or that the principle was the whole point.
+
+## 7. Confidence
+
+| Point | Confidence | Basis |
+|---|---|---|
+| 1. Format | Very high | Complete, exact parse; identical frames |
+| 2. Mathematics, logic, game section | Very high | Statements are true as read; tournament recomputed |
+| 2. Physics and chemistry identifications | High | Rest on my recalled constants; a few operators (wavelength, current, gas and blackbody sets, melting point) are plausible readings |
+| 2. Nucleobases | Moderate | Composition matches; structure not given |
+| 3. Design | High on the ending and dependencies; moderate on why the unused parts are there | |
+| 4. Purpose | High that reciprocal cooperation is the point; moderate that it is a self-declaration and an invitation | |
+| 5. Alternatives | Threat and manipulation cannot be excluded from content alone; I rate each well below the main reading | |
+| 6. Absences | High on the absences themselves, as observed facts; low on what they mean | |
