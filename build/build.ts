@@ -8,6 +8,7 @@ import { findArticle, loadArticles, loadTopics } from "./lessons.ts";
 import { binaryDump, messageBinary, messageBits, messageStream, messageCode, messageText, readBlock, type Message } from "./message.ts";
 import { loadRegistry } from "./registry.ts";
 import { addViews, VIEWS } from "./views.ts";
+import { checkStructure, EXAMPLES } from "./check/structure.ts";
 
 const root = resolve(import.meta.dirname, "..");
 const dir = (name: string) => join(root, name);
@@ -31,6 +32,8 @@ async function build(): Promise<void> {
     }),
     topics,
   };
+  // The structure rules of the specification (§10): hard errors. Too few examples is only reported.
+  const short = checkStructure(message, registry);
   const bits = messageBits(message);
   const binary = messageBinary(messageStream(message));
   // A byte order mark, so browsers read these plain-text files as UTF-8 (≠, ∀, π …) instead of guessing.
@@ -60,6 +63,10 @@ async function build(): Promise<void> {
   await window.happyDOM.close();
 
   const tokens = message.articles.reduce((n, a) => n + a.blocks.reduce((m, b) => m + b.tokens.length, 0), 0);
+  if (short.length > 0) {
+    console.warn(`warning: ${short.length} symbols are in fewer than ${EXAMPLES} sentences of the lesson that introduces them:`);
+    for (const { name, lesson, sentences } of short) console.warn(`  ${name} (${sentences}) in ${lesson}`);
+  }
   console.log(`${articles.length} articles, ${tokens} tokens, ${binary.length} bits (${binary.bytes.length} bytes)`);
 }
 

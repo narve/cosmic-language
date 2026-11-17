@@ -7,6 +7,7 @@ export interface Entry {
   type: number;
   id: number;
   sign: string;
+  arity?: string; // operators only, as written in the Arity column: "2", "2+", "0+" …
 }
 
 export type Registry = Map<string, Entry>;
@@ -18,7 +19,7 @@ export function loadRegistry(window: Window, specHtml: string): Registry {
   for (const table of document.querySelectorAll("table[data-type]")) {
     const type = Number(table.getAttribute("data-type"));
     const headings = Array.from(table.querySelectorAll("thead th")).map((th) => th.textContent!.trim());
-    const [idColumn, nameColumn, signColumn] = ["Id", "Name", "Sign"].map((h) => headings.indexOf(h));
+    const [idColumn, nameColumn, signColumn, arityColumn] = ["Id", "Name", "Sign", "Arity"].map((h) => headings.indexOf(h));
     if (idColumn < 0 || nameColumn < 0) throw new BuildError(`registry table of type ${type} needs Id and Name columns`);
     for (const row of table.querySelectorAll("tbody tr")) {
       const cells = row.children;
@@ -28,6 +29,7 @@ export function loadRegistry(window: Window, specHtml: string): Registry {
         name: cells[nameColumn].textContent!.trim(),
         sign: signColumn < 0 ? "" : cells[signColumn].textContent!.trim(),
       };
+      if (arityColumn >= 0) symbol.arity = cells[arityColumn].textContent!.trim();
       const other = registry.get(symbol.name);
       if (other) throw new BuildError(`symbol name "${symbol.name}" is listed in type ${other.type} and type ${type}`);
       registry.set(symbol.name, symbol);

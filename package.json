@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsx build/build.ts"
+    "build": "tsx build/build.ts",
+    "reference": "tsx build/check/reference/extract.ts"
   },
   "engines": {
     "node": ">=22.18"

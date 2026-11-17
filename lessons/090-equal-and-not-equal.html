@@ -20,7 +20,7 @@
 <i>)</i>  00000001 00000001   <i>type 1, value 1: close</i></code></pre>
   <p>Such a group is a <dfn>sentence</dfn>: <code>(= 1 1)</code>. The symbol right after the opening bracket is the <dfn>operator</dfn>, and the rest are its <dfn>arguments</dfn>, in what's called Lisp style. The brackets show where each sentence starts and ends, so the receiver never has to guess how many arguments an operator takes. Every sentence the message asserts is true; what each operator means, the receiver works out from many sentences that use it.</p>
   <h4>Equal</h4>
-  <p>The first operator is <code>=</code>. In every sentence its two arguments are the same number, so the receiver can guess what it means: the two are equal. The numbers are the primes the receiver already knows from the beacon and the calibration, and then the smallest and the largest number a chunk can hold.</p>
+  <p>The first operator is <code>=</code>. In every sentence its two arguments are the same number, so the receiver can guess what it means: the two are equal. The numbers are the primes the receiver already knows from the beacon and the calibration, and then the smallest and the largest number a chunk can hold. Two or three sentences would not be enough to guess from, and one of them might arrive damaged, so the message gives more examples than seem necessary, here and in every later lesson.</p>
   <pre><code>(= 1 1) (= 2 2) (= 3 3) (= 5 5) (= 7 7) (= 11 11) (= 13 13) (= 17 17)
 (= 19 19) (= 23 23) (= 29 29) (= 31 31)
 (= 0 0) (= 255 255)</code></pre>
