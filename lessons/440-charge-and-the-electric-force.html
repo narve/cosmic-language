@@ -14,8 +14,10 @@
   <pre><code>(= (dim (charge proton)) Q)  (= (dim (charge electron)) Q)
 <span data-comment>a new dimension, different from the others</span>
 (≠ Q M)  (≠ Q L)  (≠ Q T)
+<span data-comment>as for gravity, only where the distance is not 0</span>
 (observed (∀ <var>u</var> bodies (∀ <var>v</var> bodies
-  (= (electric <var>u</var> <var>v</var>) (÷ (× ke (charge <var>u</var>) (charge <var>v</var>)) (^ (distance <var>u</var> <var>v</var>) 2))))))
+  (<data value="implies">implies</data> (&gt; (distance <var>u</var> <var>v</var>) 0)
+    (= (electric <var>u</var> <var>v</var>) (÷ (× ke (charge <var>u</var>) (charge <var>v</var>)) (^ (distance <var>u</var> <var>v</var>) 2)))))))
 (= (dim ke) (÷ (× M (^ L 3)) (× (^ T 2) (^ Q 2))))
 <span data-comment>a force, like gravity</span>
 (∀ <var>u</var> bodies (∀ <var>v</var> bodies (= (dim (electric <var>u</var> <var>v</var>)) (÷ (× M L) (^ T 2)))))

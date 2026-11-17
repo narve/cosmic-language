@@ -17,8 +17,10 @@
 (∀ <var>u</var> wires (= (dim (÷ (current <var>u</var>) (charge proton))) (÷ 1 T)))
 <span data-comment>currents in the same direction pull the wires together</span>
 <span data-comment>current, magnetic and km come back later, in Maxwell's equations of the electric and magnetic field</span>
+<span data-comment>only where the distance is not 0: a wire and itself are left out</span>
 (observed (∀ <var>u</var> wires (∀ <var>v</var> wires
-  (= (magnetic <var>u</var> <var>v</var>) (neg (÷ (× 2 km (current <var>u</var>) (current <var>v</var>)) (distance <var>u</var> <var>v</var>)))))))
+  (<data value="implies">implies</data> (&gt; (distance <var>u</var> <var>v</var>) 0)
+    (= (magnetic <var>u</var> <var>v</var>) (neg (÷ (× 2 km (current <var>u</var>) (current <var>v</var>)) (distance <var>u</var> <var>v</var>))))))))
 <span data-comment>a force per length: mass ÷ time²</span>
 (∀ <var>u</var> wires (∀ <var>v</var> wires (= (dim (magnetic <var>u</var> <var>v</var>)) (÷ M (^ T 2)))))
 (= (dim km) (÷ (× M L) (^ Q 2)))
