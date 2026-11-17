@@ -27,8 +27,10 @@
     <li><a href="#algebraic">Roots, powers and algebraic numbers</a></li>
     <li><a href="#complex">Imaginary and complex numbers</a></li>
     <li><a href="#transcendental">Transcendental numbers</a></li>
+    <li><a href="#chance">Sequences and chance</a></li>
     <li><a href="#physics">From mathematics to physics</a></li>
     <li><a href="#units">Dimensions and Planck units</a></li>
+    <li><a href="#decay">Chance in nature</a></li>
   </ol>
 </nav>
 
@@ -418,6 +420,11 @@
 (= (+ (exp (× i π)) 1) 0)
 (= (exp (× 2 i π)) 1)  (= (exp (× i (÷ π 2))) i)
 (&lt; 3 π 4)</code></pre>
+</section>
+
+<section id="chance">
+  <h2>11. Sequences and chance</h2>
+  <p>Two tools that build on lists: sequences, which follow a rule for as long as needed, and chance, which is a proportion of a list.</p>
 
   <h3>Lesson 19: sequences and apply</h3>
   <p>New: <code>apply</code>, which gives the items of a list to an operation as its arguments, and <code>sequence</code>, which builds a list from a rule.</p>
@@ -439,14 +446,35 @@
 <span data-comment>1 + 1/4 + 1/9 + 1/16 + … = π²/6</span>
 (= (apply + (sequence <var>u</var> ℕ (÷ 1 (^ (+ <var>u</var> 1) 2)))) (÷ (^ π 2) 6))</code></pre>
   <p>These are two more routes to the π of lesson 18, found in a completely different way.</p>
+
+  <h3>Lesson 20: mean and chance</h3>
+  <p>New: <code>mean</code>, <code>chance</code> and <code>pairs</code>. The mean of a list is the sum of its items divided by how many there are:</p>
+  <pre><code>(= (mean (list 2 4 9)) 5)  (= (mean (list 7)) 7)
+(= (mean (list 1 2 3 4 5 6)) (÷ 7 2))
+(= (mean (list 2 4 9)) (÷ (apply + (list 2 4 9)) (length (list 2 4 9))))</code></pre>
+  <p>The chance of a value in a list is the part of the list that is that value: how many of the items are that value, divided by the number of items. It is a proportion, nothing more.</p>
+  <pre><code>(= (chance 3 (list 3 1 3)) (÷ 2 3))
+(= (chance 6 (list 1 2 3 4 5 6)) (÷ 1 6))
+(= (chance <data value="true">true</data> (list <data value="true">true</data> <data value="false">false</data>)) (÷ 1 2))
+(= (chance 5 (list 1 2 2)) 0)
+(= (chance 3 (list 3 1 3)) (÷ (count 3 (list 3 1 3)) (length (list 3 1 3))))
+<span data-comment>the chances of all the different items add up to 1</span>
+(= (+ (chance 1 (list 1 2 2)) (chance 2 (list 1 2 2))) 1)</code></pre>
+  <p><code>pairs</code> makes every pair of an item from one list with an item from another. The chance of a pair is the product of the two chances:</p>
+  <pre><code>(= (pairs (list 1 2) (list 3 4)) (list (list 1 3) (list 1 4) (list 2 3) (list 2 4)))
+(= (length (pairs (list 1 2 3) (list 4 5))) 6)
+(= (chance (list <data value="true">true</data> <data value="true">true</data>) (pairs (list <data value="true">true</data> <data value="false">false</data>) (list <data value="true">true</data> <data value="false">false</data>))) (÷ 1 4))
+(= (chance (list <data value="true">true</data> <data value="true">true</data>) (pairs (list <data value="true">true</data> <data value="false">false</data>) (list <data value="true">true</data> <data value="false">false</data>)))
+   (× (chance <data value="true">true</data> (list <data value="true">true</data> <data value="false">false</data>)) (chance <data value="true">true</data> (list <data value="true">true</data> <data value="false">false</data>))))
+(= (chance (list 6 6) (pairs (list 1 2 3 4 5 6) (list 1 2 3 4 5 6))) (÷ 1 36))</code></pre>
 </section>
 
 <section id="physics">
-  <h2>11. From mathematics to physics</h2>
+  <h2>12. From mathematics to physics</h2>
   <p>Until now, everything in the message could be proved from the message itself. From here on it talks about things outside the message: particles, atoms, light. These cannot be defined, only <em>identified</em>. The message states facts that only one thing in the receiver's own physics can satisfy.</p>
   <p>Two things change. Measured facts are marked with <code>observed</code>, so the receiver can tell them from proved ones. And measured values are never written with <code>=</code>: they are written as ranges with <code>&lt;</code>, wide enough to include the uncertainty of the measurement.</p>
 
-  <h3>Lesson 20: three particles</h3>
+  <h3>Lesson 21: three particles</h3>
   <p>New: the particles <code>proton</code>, <code>electron</code> and <code>neutron</code> (a new type), the functions <code>mass</code> and <code>charge</code>, and the marker <code>observed</code>. Only ratios of masses are given, never a mass on its own, because a mass on its own needs a unit.</p>
   <pre><code><span data-comment>between 1836 and 1837</span>
 (observed (&lt; (big 7 44) (÷ (mass proton) (mass electron)) (big 7 45)))
@@ -459,7 +487,7 @@
 (observed (≠ (charge electron) 0))  (observed (= (charge neutron) 0))</code></pre>
   <p>Three particles, two of them about 1836 and 1839 times heavier than the third, with charges that are opposite and zero. A receiver who knows physics will recognize them.</p>
 
-  <h3>Lesson 21: elements</h3>
+  <h3>Lesson 22: elements</h3>
   <p>New: the elements (a new type) and the domain <code>elements</code>. <code>count</code> from lesson 11 now tells how many of a particle an atom contains. The value of an element token is its number of protons, so <code>hydrogen</code> is element 1, <code>helium</code> element 2, and so on. This is a definition, not a measurement, so it is not marked <code>observed</code>.</p>
   <pre><code>(= (count proton hydrogen) 1)  (= (count proton helium) 2)
 (= (count proton carbon) 6)  (= (count proton oxygen) 8)
@@ -471,7 +499,7 @@
 (observed (&lt; 1 (÷ (mass hydrogen) (mass proton)) (÷ 101 100)))</code></pre>
   <p>Neutron counts are left out here: atoms of the same element can have different numbers of neutrons. The next lesson deals with that.</p>
 
-  <h3>Lesson 22: isotopes</h3>
+  <h3>Lesson 23: isotopes</h3>
   <p>New: <code>isotope</code> and <code>stable</code>. Atoms of the same element can have different numbers of neutrons. <code>(isotope hydrogen 1)</code> is hydrogen with 1 neutron.</p>
   <pre><code>(= (count proton (isotope hydrogen 1)) 1)  (= (count neutron (isotope hydrogen 1)) 1)
 (= (count proton (isotope helium 2)) 2)  (= (count neutron (isotope helium 2)) 2)
@@ -484,7 +512,7 @@
 <span data-comment>hydrogen with one neutron weighs almost twice as much as hydrogen without</span>
 (observed (&lt; (÷ 199 100) (÷ (mass (isotope hydrogen 1)) (mass (isotope hydrogen 0))) 2))</code></pre>
 
-  <h3>Lesson 23: the energy levels of hydrogen</h3>
+  <h3>Lesson 24: the energy levels of hydrogen</h3>
   <p>New: the function <code>level</code>, the energy of a hydrogen atom in its 1st, 2nd, 3rd, … state. Again only ratios are given. First the mathematics: if the levels go as 1 − 1/n², the steps between them have exact ratios.</p>
   <pre><code>(= (÷ (− 1 (÷ 1 4)) (− (÷ 1 4) (÷ 1 9))) (÷ 27 5))
 (= (÷ (− 1 (÷ 1 9)) (− 1 (÷ 1 4))) (÷ 32 27))</code></pre>
@@ -500,7 +528,7 @@
               (÷ 119 100)))</code></pre>
   <p>The first range contains 27/5, the second 32/27. These ratios are the pattern every spectroscopist finds first in the light from hydrogen.</p>
 
-  <h3>Lesson 24: shells and the noble gases</h3>
+  <h3>Lesson 25: shells and the noble gases</h3>
   <p>New: the function <code>states</code>, the number of different states an electron can be in at a given level, and <code>noble</code>, a property of some elements. At level <var>n</var> there are 2<var>n</var>² states. Electrons fill these levels like shells.</p>
   <pre><code>(observed (= (states hydrogen 1) 2))
 (observed (= (states hydrogen 2) 8))
@@ -518,7 +546,7 @@
 (= (count proton radon) (+ 2 8 8 18 18 32))</code></pre>
   <p>Each size is 2<var>n</var>² for some <var>n</var>: 2 for <var>n</var> = 1, then 8 twice, 18 twice and 32. Element 118 is left out: only a few atoms of it have ever been made, and it may not behave like a noble gas.</p>
 
-  <h3>Lesson 25: molecules</h3>
+  <h3>Lesson 26: molecules</h3>
   <p>New: molecules (a new type), and the functions <code>atoms</code> and <code>bonds</code>. Atoms other than the noble gases join into molecules. <code>count</code> tells how many atoms of an element a molecule contains, and counting goes on through the atoms to their particles:</p>
   <pre><code><span data-comment>water: two hydrogen and one oxygen</span>
 (= (count hydrogen water) 2)  (= (count oxygen water) 1)
@@ -545,10 +573,10 @@
 </section>
 
 <section id="units">
-  <h2>12. Dimensions and Planck units</h2>
+  <h2>13. Dimensions and Planck units</h2>
   <p>So far the message has only compared quantities of the same kind, such as two masses. To say how big something is, it needs units. The units used here are Planck units, built from three constants of nature: the speed of light <code>c</code>, the quantum of action <code>ħ</code> and the gravitational constant <code>G</code>. Each constant is introduced through the law it appears in, so its meaning, including any factor such as 2π, is fixed by the message itself.</p>
 
-  <h3>Lesson 26: dimensions</h3>
+  <h3>Lesson 27: dimensions</h3>
   <p>New: the dimensions <code>M</code> (mass), <code>L</code> (length) and <code>T</code> (time), a new type, and the function <code>dim</code>, the dimension of a quantity. Dimensions combine with <code>×</code>, <code>÷</code> and <code>^</code>, and a ratio of two quantities of the same dimension is a plain number, of dimension 1.</p>
   <pre><code>(= (dim (mass proton)) M)  (= (dim (mass electron)) M)
 (= (dim (÷ (mass proton) (mass electron))) 1)
@@ -558,7 +586,7 @@
 (= (× L (÷ 1 T)) (÷ L T))</code></pre>
   <p>Only quantities of the same dimension are compared, added or divided into a number.</p>
 
-  <h3>Lesson 27: light and c</h3>
+  <h3>Lesson 28: light and c</h3>
   <p>New: the particle <code>photon</code>, the domain <code>photons</code> (all individual photons), the functions <code>speed</code>, <code>wavelength</code> and <code>frequency</code>, and the constant <code>c</code>, a new type for physical constants.</p>
   <pre><code>(observed (= (mass photon) 0))  (observed (= (charge photon) 0))
 <span data-comment>every photon has the same speed: c</span>
@@ -568,7 +596,7 @@
 (observed (∀ <var>u</var> photons (= (× (wavelength <var>u</var>) (frequency <var>u</var>)) c)))
 (∀ <var>u</var> photons (= (dim (frequency <var>u</var>)) (÷ 1 T)))</code></pre>
 
-  <h3>Lesson 28: energy and ħ</h3>
+  <h3>Lesson 29: energy and ħ</h3>
   <p>New: the function <code>energy</code>, the constant <code>ħ</code>, and <code>emitted</code>: the photon a hydrogen atom emits when it falls from one level to a lower one.</p>
   <pre><code><span data-comment>the energy of a photon is ħ × 2π × its frequency</span>
 (observed (∀ <var>u</var> photons (= (energy <var>u</var>) (× ħ 2 π (frequency <var>u</var>)))))
@@ -578,9 +606,9 @@
 (observed (&lt; (÷ 99 100)
               (÷ (energy (emitted hydrogen 2 1)) (− (level hydrogen 2) (level hydrogen 1)))
               1))</code></pre>
-  <p>This ties the energy levels of lesson 23 to light that can be measured.</p>
+  <p>This ties the energy levels of lesson 24 to light that can be measured.</p>
 
-  <h3>Lesson 29: gravity and G</h3>
+  <h3>Lesson 30: gravity and G</h3>
   <p>New: the domain <code>bodies</code> (things with mass), the functions <code>gravity</code> (the force of gravity between two bodies) and <code>distance</code>, and the constant <code>G</code>. Newton's law of gravitation is written out in full. It holds for bodies that move slowly and are not too heavy or close, which is the case the domain <code>bodies</code> stands for:</p>
   <pre><code>(observed (∀ <var>u</var> bodies (∀ <var>v</var> bodies
   (= (gravity <var>u</var> <var>v</var>) (÷ (× G (mass <var>u</var>) (mass <var>v</var>)) (^ (distance <var>u</var> <var>v</var>) 2))))))
@@ -588,8 +616,8 @@
 (∀ <var>u</var> bodies (∀ <var>v</var> bodies (= (dim (gravity <var>u</var> <var>v</var>)) (÷ (× M L) (^ T 2)))))
 (= (dim G) (÷ (^ L 3) (× M (^ T 2))))</code></pre>
 
-  <h3>Lesson 30: charge and the electric force</h3>
-  <p>New: the dimension <code>Q</code> (charge), the function <code>electric</code> (the electric force between two bodies) and the constant <code>ke</code>. Lesson 20 compared charges; now they get a dimension and a law. A positive force pushes apart, a negative one pulls together.</p>
+  <h3>Lesson 31: charge and the electric force</h3>
+  <p>New: the dimension <code>Q</code> (charge), the function <code>electric</code> (the electric force between two bodies) and the constant <code>ke</code>. Lesson 21 compared charges; now they get a dimension and a law. A positive force pushes apart, a negative one pulls together.</p>
   <pre><code>(= (dim (charge proton)) Q)
 (observed (∀ <var>u</var> bodies (∀ <var>v</var> bodies
   (= (electric <var>u</var> <var>v</var>) (÷ (× ke (charge <var>u</var>) (charge <var>v</var>)) (^ (distance <var>u</var> <var>v</var>) 2))))))
@@ -600,7 +628,7 @@
 <span data-comment>between a proton and an electron, the electric force is about 2.3 × 10³⁹ times the force of gravity</span>
 (observed (&lt; (^ 2 130) (÷ (abs (electric proton electron)) (gravity proton electron)) (^ 2 131)))</code></pre>
 
-  <h3>Lesson 31: Planck units</h3>
+  <h3>Lesson 32: Planck units</h3>
   <p>New: the constants <code>planck-length</code>, <code>planck-time</code> and <code>planck-mass</code>, each defined from <code>c</code>, <code>ħ</code> and <code>G</code>:</p>
   <pre><code>(= (^ planck-length 2) (÷ (× ħ G) (^ c 3)))
 (= (^ planck-time 2) (÷ (× ħ G) (^ c 5)))
@@ -623,7 +651,7 @@
               (÷ (− (level hydrogen 2) (level hydrogen 1)) (× (mass electron) (^ c 2)))
               (÷ 1 (^ 2 15))))</code></pre>
 
-  <h3>Lesson 32: temperature</h3>
+  <h3>Lesson 33: temperature</h3>
   <p>New: the dimension <code>Θ</code> (temperature), the constant <code>kB</code>, the domains <code>gases</code> (thin gases of single atoms) and <code>black-bodies</code> (bodies that absorb all light falling on them), and the functions <code>temperature</code>, <code>kinetic</code> (the average energy of motion of a gas's particles), <code>radiance</code> (the power a body radiates per area) and <code>triple-point</code>. Again <code>kB</code> is introduced through a law:</p>
   <pre><code><span data-comment>the particles of a gas move with an average energy of 3/2 kB × its temperature</span>
 (observed (∀ <var>u</var> gases (= (kinetic <var>u</var>) (× (÷ 3 2) kB (temperature <var>u</var>)))))
@@ -641,6 +669,36 @@
 (observed (&lt; (÷ 1 (^ 2 9))
               (÷ (× kB (triple-point water)) (− (level hydrogen 2) (level hydrogen 1)))
               (÷ 1 (^ 2 8))))</code></pre>
+</section>
+
+<section id="decay">
+  <h2>14. Chance in nature</h2>
+  <p>Chance was introduced as a proportion of a list. Nature has chances of its own: an unstable atom or particle decays at a moment that nothing can predict.</p>
+
+  <h3>Lesson 34: radioactive decay</h3>
+  <p>New: the domain <code>durations</code> and the functions <code>lifetime</code>, <code>survival</code> (the chance that something has not yet decayed after a given duration) and <code>half-life</code>. The example is the free neutron: on its own, it turns into a proton, an electron and one more very light particle without charge.</p>
+  <pre><code><span data-comment>the charge before equals the charge after</span>
+(observed (= (charge neutron) (+ (charge proton) (charge electron))))
+<span data-comment>the neutron is heavier than a proton and an electron together, so it has mass to spare</span>
+(observed (&gt; (mass neutron) (+ (mass proton) (mass electron))))
+<span data-comment>its mean lifetime: about 880 seconds, or about 1.6 × 10⁴⁶ Planck times</span>
+(observed (&lt; (^ 2 153) (÷ (lifetime neutron) planck-time) (^ 2 154)))
+(= (dim (lifetime neutron)) T)</code></pre>
+  <p>The half-life is the duration after which the chance of survival is one half. That is exactly the chance of <data value="true">true</data> when picking from <data value="true">true</data> and <data value="false">false</data>:</p>
+  <pre><code>(= (survival neutron (half-life neutron)) (÷ 1 2))
+(= (÷ 1 2) (chance <data value="true">true</data> (list <data value="true">true</data> <data value="false">false</data>)))</code></pre>
+  <p>A neutron has no memory: its chance of decaying does not depend on how long it has existed. So each half-life is a new, independent pick, and the chances multiply:</p>
+  <pre><code><span data-comment>surviving u and then v is the same as surviving u + v</span>
+(observed (∀ <var>u</var> durations (∀ <var>v</var> durations
+  (= (survival neutron (+ <var>u</var> <var>v</var>)) (× (survival neutron <var>u</var>) (survival neutron <var>v</var>))))))
+<span data-comment>surviving u half-lives is u picks of true in a row</span>
+(observed (∀ <var>u</var> ℕ (= (survival neutron (× <var>u</var> (half-life neutron)))
+                   (^ (chance <data value="true">true</data> (list <data value="true">true</data> <data value="false">false</data>)) <var>u</var>))))</code></pre>
+  <p>The first law is the product rule that defined <code>exp</code> in lesson 17. So <code>exp</code> gives the chance for any duration:</p>
+  <pre><code>(observed (∀ <var>u</var> durations (= (survival neutron <var>u</var>) (exp (neg (÷ <var>u</var> (lifetime neutron)))))))</code></pre>
+  <p>These laws give the chance for a single neutron. In a real sample of many neutrons, the part that survives is close to this chance, but the message makes no claim about any particular sample.</p>
+  <p>Some isotopes decay in the same way, unlike the stable ones of lesson 23: hydrogen with two neutrons, and carbon with eight. Carbon's half-life is between 256 and 512 times that of hydrogen:</p>
+  <pre><code>(observed (&lt; (^ 2 8) (÷ (half-life (isotope carbon 8)) (half-life (isotope hydrogen 2))) (^ 2 9)))</code></pre>
 </section>
 
 </main>

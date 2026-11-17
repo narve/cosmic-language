@@ -192,6 +192,7 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
     <li><strong>Lists</strong>: <code>(list <var>a</var> <var>b</var> …)</code> is an ordered list of values, possibly empty (<code>(list)</code>) and possibly containing lists. Two lists are equal when they have the same items in the same order. Items are numbered from 1: <code>(item <var>L</var> 1)</code> is the first and <code>(item <var>L</var> (length <var>L</var>))</code> the last.</li>
     <li><strong>Sequences</strong>: <code>(sequence <var>variable</var> <var>values</var> <var>rule</var>)</code> has the same form as the quantifiers. Over a list of values it gives a list; over <code>ℕ</code> it gives an infinite sequence whose first item is the rule's value for 0. <code>item</code> works on both.</li>
     <li><strong>apply</strong>: <code>(apply <var>op</var> <var>L</var>)</code> gives the items of <var>L</var> to <var>op</var> as its arguments, so <code>(apply + (list 1 2 3))</code> is <code>(+ 1 2 3)</code>. For an infinite sequence, <code>(apply + <var>S</var>)</code> is the limit of the sums of the first items, taken in order; it is only used where that limit exists. There is no separate <code>sum</code> or <code>product</code>.</li>
+    <li><strong>Chance</strong> is a proportion: <code>(chance <var>x</var> <var>L</var>)</code> is <code>(÷ (count <var>x</var> <var>L</var>) (length <var>L</var>))</code> for a non-empty list <var>L</var>. Uneven chances come from repeated items, e.g. 1/3 from <code>(list a b b)</code>. <code>(pairs <var>A</var> <var>B</var>)</code> lists every pair <code>(list <var>a</var> <var>b</var>)</code>, taking <var>a</var> from <var>A</var> in order and, for each, <var>b</var> from <var>B</var> in order; the chance of a pair is the product of the two chances.</li>
     <li><code>≠</code> takes exactly two arguments. <em>Justification:</em> <code>(≠ 1 2 1)</code> has three plausible readings that disagree. "All different" (false), "not all equal" (true), and "each differs from the next" as a chain (true). <code>≠</code> is not transitive, so the chain reading does not give "all different" as it does for <code>&lt;</code>. Rather than make the receiver guess, <code>≠</code> is kept to two arguments. "All different" can be defined later if needed.</li>
   </ul>
   <p>Example: <code>(= (+ 2 3) 5)</code> becomes 9 tokens:</p>
@@ -248,6 +249,7 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
     <li><strong>Molecules</strong> are described by <code>(atoms <var>m</var>)</code>, a list of elements, and <code>(bonds <var>m</var>)</code>, a list of bonds. Each bond is <code>(list <var>i</var> <var>j</var> <var>n</var>)</code>: atoms at positions <var>i</var> and <var>j</var> share <var>n</var> electron pairs. These are definitions of the molecule tokens, not measurements.</li>
     <li><strong><code>count</code></strong> always means "how many of <var>x</var> are in <var>y</var>": items in a list, particles in an atom or isotope, atoms in a molecule, and particles in a molecule through its atoms.</li>
     <li><strong>Forces</strong> have their own functions (<code>gravity</code>, <code>electric</code>), each introduced by its law. A positive electric force pushes apart, a negative one pulls together; <code>gravity</code> gives the strength of the attraction.</li>
+    <li><strong>Chance in nature.</strong> Physical chances, such as <code>(survival neutron <var>t</var>)</code>, are tied to the mathematical <code>chance</code> by equating them with proportions of lists, e.g. the chance of survival after one half-life with <code>(chance true (list true false))</code>. Such laws state the chance for a single particle or atom. The message makes no claim about the outcome in any particular sample.</li>
     <li><strong>Laws are stated in their idealized form</strong> and restricted by their domain, e.g. Newton's law of gravitation for <code>bodies</code> (slow, weakly gravitating bodies).</li>
     <li><strong>Units:</strong> the message uses Planck units. <code>planck-length</code>, <code>planck-time</code> and <code>planck-mass</code> are defined from <code>c</code>, <code>ħ</code> and <code>G</code>, and <code>planck-temperature</code> also from <code>kB</code>, and the hydrogen 21 cm line is the observational anchor. The transmission itself is never used as a unit or anchor.</li>
   </ul>
@@ -289,29 +291,35 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
       <tr><td>25</td><td><code>exp</code></td><td>1</td><td>exponential function</td></tr>
       <tr><td>26</td><td><code>apply</code></td><td>2</td><td>apply an operation to the items of a list or sequence as its arguments</td></tr>
       <tr><td>27</td><td><code>sequence</code></td><td>3</td><td>variable, values (ℕ or a list), rule: the list or infinite sequence of the rule's values</td></tr>
-      <tr><td>28</td><td><code>observed</code></td><td>1</td><td>the statement is a measurement (§8.3)</td></tr>
-      <tr><td>29</td><td><code>mass</code></td><td>1</td><td>mass of a particle or atom (a quantity)</td></tr>
-      <tr><td>30</td><td><code>charge</code></td><td>1</td><td>electric charge (a quantity)</td></tr>
-      <tr><td>31</td><td><code>isotope</code></td><td>2</td><td>an element with a given number of neutrons</td></tr>
-      <tr><td>32</td><td><code>stable</code></td><td>1+</td><td>all are stable isotopes (observed property)</td></tr>
-      <tr><td>33</td><td><code>level</code></td><td>2</td><td>energy of the <var>n</var>th state of an atom (a quantity)</td></tr>
-      <tr><td>34</td><td><code>states</code></td><td>2</td><td>number of electron states at the <var>n</var>th level of an atom</td></tr>
-      <tr><td>35</td><td><code>noble</code></td><td>1+</td><td>all are noble gases (observed property)</td></tr>
-      <tr><td>36</td><td><code>atoms</code></td><td>1</td><td>the atoms of a molecule, as a list of elements</td></tr>
-      <tr><td>37</td><td><code>bonds</code></td><td>1</td><td>the bonds of a molecule, as a list of (position, position, shared pairs)</td></tr>
-      <tr><td>38</td><td><code>dim</code></td><td>1</td><td>the dimension of a quantity</td></tr>
-      <tr><td>39</td><td><code>speed</code></td><td>1</td><td>speed (a quantity)</td></tr>
-      <tr><td>40</td><td><code>wavelength</code></td><td>1</td><td>wavelength of a photon (a quantity)</td></tr>
-      <tr><td>41</td><td><code>frequency</code></td><td>1</td><td>frequency of a photon (a quantity)</td></tr>
-      <tr><td>42</td><td><code>energy</code></td><td>1</td><td>energy (a quantity)</td></tr>
-      <tr><td>43</td><td><code>emitted</code></td><td>3</td><td>the photon an atom emits falling from one level to another</td></tr>
-      <tr><td>44</td><td><code>gravity</code></td><td>2</td><td>the force of gravity between two bodies (a quantity)</td></tr>
-      <tr><td>45</td><td><code>distance</code></td><td>2</td><td>the distance between two bodies (a quantity)</td></tr>
-      <tr><td>46</td><td><code>electric</code></td><td>2</td><td>the electric force between two bodies (a quantity)</td></tr>
-      <tr><td>47</td><td><code>kinetic</code></td><td>1</td><td>the average energy of motion of a gas's particles (a quantity)</td></tr>
-      <tr><td>48</td><td><code>temperature</code></td><td>1</td><td>temperature (a quantity)</td></tr>
-      <tr><td>49</td><td><code>radiance</code></td><td>1</td><td>power radiated per area (a quantity)</td></tr>
-      <tr><td>50</td><td><code>triple-point</code></td><td>1</td><td>the temperature at which a substance's solid, liquid and gas exist together</td></tr>
+      <tr><td>28</td><td><code>mean</code></td><td>1</td><td>the sum of a list's items divided by their number</td></tr>
+      <tr><td>29</td><td><code>chance</code></td><td>2</td><td>the proportion of a list's items that equal a value: (count x L) ÷ (length L)</td></tr>
+      <tr><td>30</td><td><code>pairs</code></td><td>2</td><td>all pairs of an item from one list with an item from another, in order</td></tr>
+      <tr><td>31</td><td><code>observed</code></td><td>1</td><td>the statement is a measurement (§8.3)</td></tr>
+      <tr><td>32</td><td><code>mass</code></td><td>1</td><td>mass of a particle or atom (a quantity)</td></tr>
+      <tr><td>33</td><td><code>charge</code></td><td>1</td><td>electric charge (a quantity)</td></tr>
+      <tr><td>34</td><td><code>isotope</code></td><td>2</td><td>an element with a given number of neutrons</td></tr>
+      <tr><td>35</td><td><code>stable</code></td><td>1+</td><td>all are stable isotopes (observed property)</td></tr>
+      <tr><td>36</td><td><code>level</code></td><td>2</td><td>energy of the <var>n</var>th state of an atom (a quantity)</td></tr>
+      <tr><td>37</td><td><code>states</code></td><td>2</td><td>number of electron states at the <var>n</var>th level of an atom</td></tr>
+      <tr><td>38</td><td><code>noble</code></td><td>1+</td><td>all are noble gases (observed property)</td></tr>
+      <tr><td>39</td><td><code>atoms</code></td><td>1</td><td>the atoms of a molecule, as a list of elements</td></tr>
+      <tr><td>40</td><td><code>bonds</code></td><td>1</td><td>the bonds of a molecule, as a list of (position, position, shared pairs)</td></tr>
+      <tr><td>41</td><td><code>dim</code></td><td>1</td><td>the dimension of a quantity</td></tr>
+      <tr><td>42</td><td><code>speed</code></td><td>1</td><td>speed (a quantity)</td></tr>
+      <tr><td>43</td><td><code>wavelength</code></td><td>1</td><td>wavelength of a photon (a quantity)</td></tr>
+      <tr><td>44</td><td><code>frequency</code></td><td>1</td><td>frequency of a photon (a quantity)</td></tr>
+      <tr><td>45</td><td><code>energy</code></td><td>1</td><td>energy (a quantity)</td></tr>
+      <tr><td>46</td><td><code>emitted</code></td><td>3</td><td>the photon an atom emits falling from one level to another</td></tr>
+      <tr><td>47</td><td><code>gravity</code></td><td>2</td><td>the force of gravity between two bodies (a quantity)</td></tr>
+      <tr><td>48</td><td><code>distance</code></td><td>2</td><td>the distance between two bodies (a quantity)</td></tr>
+      <tr><td>49</td><td><code>electric</code></td><td>2</td><td>the electric force between two bodies (a quantity)</td></tr>
+      <tr><td>50</td><td><code>kinetic</code></td><td>1</td><td>the average energy of motion of a gas's particles (a quantity)</td></tr>
+      <tr><td>51</td><td><code>temperature</code></td><td>1</td><td>temperature (a quantity)</td></tr>
+      <tr><td>52</td><td><code>radiance</code></td><td>1</td><td>power radiated per area (a quantity)</td></tr>
+      <tr><td>53</td><td><code>triple-point</code></td><td>1</td><td>the temperature at which a substance's solid, liquid and gas exist together</td></tr>
+      <tr><td>54</td><td><code>lifetime</code></td><td>1</td><td>the mean lifetime of an unstable particle or isotope (a quantity)</td></tr>
+      <tr><td>55</td><td><code>survival</code></td><td>2</td><td>the chance that something has not decayed after a duration</td></tr>
+      <tr><td>56</td><td><code>half-life</code></td><td>1</td><td>the duration after which the chance of survival is 1/2 (a quantity)</td></tr>
     </tbody>
   </table>
   <h3>9.2 Constants (type 3)</h3>
@@ -332,6 +340,7 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
       <tr><td>12</td><td><code>bodies</code></td><td>domain: bodies with mass, moving slowly in weak gravity</td></tr>
       <tr><td>13</td><td><code>gases</code></td><td>domain: thin gases of single atoms</td></tr>
       <tr><td>14</td><td><code>black-bodies</code></td><td>domain: bodies that absorb all light falling on them</td></tr>
+      <tr><td>15</td><td><code>durations</code></td><td>domain: durations (quantities of dimension T)</td></tr>
     </tbody>
   </table>
   <h3>9.3 Variables (type 4)</h3>
