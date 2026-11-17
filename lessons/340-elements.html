@@ -14,6 +14,11 @@
   <pre><code>(= (count proton hydrogen) 1)  (= (count proton helium) 2)
 (= (count proton carbon) 6)  (= (count proton oxygen) 8)
 (= (count electron hydrogen) 1)  (= (count electron helium) 2)
+(= (count electron carbon) 6)  (= (count electron oxygen) 8)
+<span data-comment>the elements in order of their protons</span>
+(&lt; (count proton hydrogen) (count proton helium) (count proton carbon) (count proton oxygen))
+<span data-comment>every element has at least one proton</span>
+(∀ <var>u</var> elements (≥ (count proton <var>u</var>) 1))
 <span data-comment>atoms are neutral: as many electrons as protons</span>
 (∀ <var>u</var> elements (= (count electron <var>u</var>) (count proton <var>u</var>)))
 (observed (∀ <var>u</var> elements (= (charge <var>u</var>) 0)))

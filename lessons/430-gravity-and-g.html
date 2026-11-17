@@ -15,7 +15,13 @@
   (= (gravity <var>u</var> <var>v</var>) (÷ (× G (mass <var>u</var>) (mass <var>v</var>)) (^ (distance <var>u</var> <var>v</var>) 2))))))
 <span data-comment>a force is mass × length ÷ time²</span>
 (∀ <var>u</var> bodies (∀ <var>v</var> bodies (= (dim (gravity <var>u</var> <var>v</var>)) (÷ (× M L) (^ T 2)))))
-(= (dim G) (÷ (^ L 3) (× M (^ T 2))))</code></pre>
+(= (dim G) (÷ (^ L 3) (× M (^ T 2))))
+<span data-comment>each body pulls the other with the same force, and the distance is the same from either side</span>
+(observed (∀ <var>u</var> bodies (∀ <var>v</var> bodies (= (gravity <var>u</var> <var>v</var>) (gravity <var>v</var> <var>u</var>)))))
+(∀ <var>u</var> bodies (∀ <var>v</var> bodies (= (distance <var>u</var> <var>v</var>) (distance <var>v</var> <var>u</var>))))
+(∀ <var>u</var> bodies (∀ <var>v</var> bodies (= (dim (distance <var>u</var> <var>v</var>)) L)))
+<span data-comment>G × mass² ÷ (ħ × c) is a plain number</span>
+(= (dim (÷ (× G (^ (mass proton) 2)) (× ħ c))) 1)</code></pre>
 </article>
 </body>
 </html>

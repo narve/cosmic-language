@@ -18,7 +18,9 @@
 (observed (&gt; (mass neutron) (+ (mass proton) (mass electron))))
 <span data-comment>its mean lifetime: about 880 seconds, or about 1.6 × 10⁴⁶ Planck times</span>
 (observed (&lt; (^ 2 153) (÷ (lifetime neutron) planck-time) (^ 2 154)))
-(= (dim (lifetime neutron)) T)</code></pre>
+(= (dim (lifetime neutron)) T)
+<span data-comment>a duration is a time</span>
+(∀ <var>u</var> durations (= (dim <var>u</var>) T))</code></pre>
   <p>The half-life is the duration after which the chance of survival is one half. That is exactly the chance of <data value="true">true</data> when picking from <data value="true">true</data> and <data value="false">false</data>:</p>
   <pre><code>(= (survival neutron (half-life neutron)) (÷ 1 2))
 (= (÷ 1 2) (chance <data value="true">true</data> (list <data value="true">true</data> <data value="false">false</data>)))</code></pre>

@@ -19,12 +19,18 @@
 (observed (∀ <var>u</var> ℕ (<data value="implies">implies</data> (≥ <var>u</var> 1) (= (states hydrogen <var>u</var>) (× 2 (^ <var>u</var> 2))))))</code></pre>
   <p>Some elements hardly react with anything: the noble gases. Their numbers of protons are where a run of filled shells ends, with the sizes 2, 8, 8, 18, 18, 32:</p>
   <pre><code>(observed (noble helium neon argon krypton xenon radon))
+<span data-comment>the same can be said of one element, or of a few</span>
+(observed (noble helium))  (observed (noble neon argon))
 (= (count proton helium) 2)
 (= (count proton neon) (+ 2 8))
 (= (count proton argon) (+ 2 8 8))
 (= (count proton krypton) (+ 2 8 8 18))
 (= (count proton xenon) (+ 2 8 8 18 18))
-(= (count proton radon) (+ 2 8 8 18 18 32))</code></pre>
+(= (count proton radon) (+ 2 8 8 18 18 32))
+<span data-comment>from one noble gas to the next: the size of the shell that was filled</span>
+(= (− (count proton neon) (count proton helium)) 8)  (= (− (count proton argon) (count proton neon)) 8)
+(= (− (count proton krypton) (count proton argon)) 18)  (= (− (count proton xenon) (count proton krypton)) 18)
+(= (− (count proton radon) (count proton xenon)) 32)</code></pre>
   <p>The proton count of helium was already given in the lesson on elements; it is repeated here to start the pattern. Each size is 2<var>n</var>² for some <var>n</var>: 2 for <var>n</var> = 1, then 8 twice, 18 twice and 32. Element 118 is left out: only a few atoms of it have ever been made, and it may not behave like a noble gas.</p>
 </article>
 </body>

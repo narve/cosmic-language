@@ -30,7 +30,8 @@
   <pre><code>(= (+ 2 5) (+ 5 2)) (= (+ 3 4) (+ 4 3)) (= (× 2 5) (× 5 2))
 (∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (+ <var>u</var> <var>v</var>) (+ <var>v</var> <var>u</var>))))
 (∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (× <var>u</var> <var>v</var>) (× <var>v</var> <var>u</var>))))
-(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (= (× <var>u</var> (+ <var>v</var> <var>w</var>)) (+ (× <var>u</var> <var>v</var>) (× <var>u</var> <var>w</var>))))))</code></pre>
+(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (= (× <var>u</var> (+ <var>v</var> <var>w</var>)) (+ (× <var>u</var> <var>v</var>) (× <var>u</var> <var>w</var>))))))
+(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (= (+ (+ <var>u</var> <var>v</var>) <var>w</var>) (+ <var>u</var> (+ <var>v</var> <var>w</var>))))))</code></pre>
 
   <h4>The name does not matter</h4>
   <pre><code>(∀ <var>u</var> ℕ (= (+ <var>u</var> 0) <var>u</var>))  (∀ <var>v</var> ℕ (= (+ <var>v</var> 0) <var>v</var>))  (∀ <var>w</var> ℕ (= (+ <var>w</var> 0) <var>w</var>))</code></pre>

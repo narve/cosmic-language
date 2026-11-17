@@ -55,6 +55,9 @@
 <span data-comment>earlier rounds stay as they were</span>
 (∀ <var>u</var> tournament (∀ <var>v</var> tournament (∀ <var>w</var> ℕ (∀ <var>z</var> ℕ (<data value="implies">implies</data> (≤ 1 <var>z</var> <var>w</var>)
   (= (item (rounds <var>u</var> <var>v</var> <var>w</var>) <var>z</var>) (item (rounds <var>u</var> <var>v</var> <var>z</var>) <var>z</var>)))))))
+<span data-comment>the same game seen from the other side: each round with its two moves swapped</span>
+(∀ <var>u</var> tournament (∀ <var>v</var> tournament (∀ <var>w</var> ℕ (∀ <var>z</var> ℕ (<data value="implies">implies</data> (≤ 1 <var>z</var> <var>w</var>)
+  (= (item (item (rounds <var>u</var> <var>v</var> <var>w</var>) <var>z</var>) 1) (item (item (rounds <var>v</var> <var>u</var> <var>w</var>) <var>z</var>) 2)))))))
 <span data-comment>the next round: each player's move, given the game so far from its own side</span>
 (∀ <var>u</var> tournament (∀ <var>v</var> tournament (∀ <var>w</var> ℕ
   (= (item (rounds <var>u</var> <var>v</var> (+ <var>w</var> 1)) (+ <var>w</var> 1))

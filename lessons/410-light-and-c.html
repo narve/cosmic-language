@@ -14,10 +14,16 @@
   <pre><code>(observed (= (mass photon) 0))  (observed (= (charge photon) 0))
 <span data-comment>every photon has the same speed: c</span>
 (observed (∀ <var>u</var> photons (= (speed <var>u</var>) c)))
+(observed (= (speed photon) c))
+(∀ <var>u</var> photons (= (dim (speed <var>u</var>)) (÷ L T)))
 (= (dim c) (÷ L T))
 <span data-comment>wavelength × frequency is the speed</span>
 (observed (∀ <var>u</var> photons (= (× (wavelength <var>u</var>) (frequency <var>u</var>)) c)))
-(∀ <var>u</var> photons (= (dim (frequency <var>u</var>)) (÷ 1 T)))</code></pre>
+(∀ <var>u</var> photons (= (dim (frequency <var>u</var>)) (÷ 1 T)))
+(∀ <var>u</var> photons (= (dim (wavelength <var>u</var>)) L))
+<span data-comment>a photon always has a frequency above 0, so the law can be turned around</span>
+(observed (∀ <var>u</var> photons (&gt; (frequency <var>u</var>) 0)))
+(observed (∀ <var>u</var> photons (= (wavelength <var>u</var>) (÷ c (frequency <var>u</var>)))))</code></pre>
 </article>
 </body>
 </html>
