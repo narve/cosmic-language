@@ -12,11 +12,17 @@
   <h3>dimensions</h3>
   <p>So far the message has only compared quantities of the same kind, such as two masses. To say how big something is, it needs units. The units used here are Planck units, built from three constants of nature: the speed of light <code>c</code>, the quantum of action <code>ħ</code> and the gravitational constant <code>G</code>. Each constant is introduced through the law it appears in, so its meaning, including any factor such as 2π, is fixed by the message itself.</p>
   <p>New: the dimensions <code>M</code> (mass), <code>L</code> (length) and <code>T</code> (time), a new type, and the function <code>dim</code>, the dimension of a quantity. Dimensions combine with <code>×</code>, <code>÷</code> and <code>^</code>, and a ratio of two quantities of the same dimension is a plain number, of dimension 1.</p>
-  <pre><code>(= (dim (mass proton)) M)  (= (dim (mass electron)) M)
+  <pre><code><span data-comment>a mass has the dimension M</span>
+(= (dim (mass proton)) M)  (= (dim (mass electron)) M)
+<span data-comment>a mass divided by a mass is a plain number: dimension 1</span>
 (= (dim (÷ (mass proton) (mass electron))) 1)
+
+<span data-comment>the three dimensions are different from each other</span>
 (≠ M L)  (≠ L T)  (≠ M T)
-<span data-comment>energy is mass × length² ÷ time²</span>
+
+<span data-comment>the dimension of an energy: mass × length² ÷ time²</span>
 (= (dim (level hydrogen 1)) (÷ (× M (^ L 2)) (^ T 2)))
+<span data-comment>dimensions are multiplied and divided like numbers</span>
 (= (× L (÷ 1 T)) (÷ L T))</code></pre>
   <p>Only quantities of the same dimension are compared, added or divided into a number.</p>
 </article>

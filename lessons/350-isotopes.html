@@ -11,18 +11,27 @@
 <article class="lesson" data-topic="physics">
   <h3>isotopes</h3>
   <p>New: <code>isotope</code> and <code>stable</code>. Atoms of the same element can have different numbers of neutrons. <code>(isotope hydrogen 1)</code> is hydrogen with 1 neutron.</p>
-  <pre><code>(= (count proton (isotope hydrogen 1)) 1)  (= (count neutron (isotope hydrogen 1)) 1)
+  <pre><code><span data-comment>hydrogen with 1 neutron still has 1 proton</span>
+(= (count proton (isotope hydrogen 1)) 1)  (= (count neutron (isotope hydrogen 1)) 1)
+<span data-comment>helium with 2 neutrons still has 2 protons</span>
 (= (count proton (isotope helium 2)) 2)  (= (count neutron (isotope helium 2)) 2)
+
+<span data-comment>in general: an isotope has the neutrons it is given …</span>
 (∀ <var>u</var> elements (∀ <var>v</var> ℕ (= (count neutron (isotope <var>u</var> <var>v</var>)) <var>v</var>)))
+<span data-comment>… and the protons of its element</span>
 (∀ <var>u</var> elements (∀ <var>v</var> ℕ (= (count proton (isotope <var>u</var> <var>v</var>)) (count proton <var>u</var>))))</code></pre>
   <p>Some isotopes last for ever; others fall apart after a while. Here are some that last:</p>
-  <pre><code>(observed (stable (isotope hydrogen 0) (isotope hydrogen 1)
+  <pre><code><span data-comment>seven isotopes that last: hydrogen with 0 or 1 neutron, helium with 1 or 2,</span>
+<span data-comment>carbon with 6 or 7, oxygen with 8</span>
+(observed (stable (isotope hydrogen 0) (isotope hydrogen 1)
                   (isotope helium 1) (isotope helium 2)
                   (isotope carbon 6) (isotope carbon 7) (isotope oxygen 8)))
-<span data-comment>the same can be said of one isotope, or of a few</span>
+
+<span data-comment>stable can also be said of one isotope, or of a few</span>
 (observed (stable (isotope helium 2)))
 (observed (stable (isotope carbon 6) (isotope oxygen 8)))
-<span data-comment>hydrogen with one neutron weighs almost twice as much as hydrogen without</span>
+
+<span data-comment>hydrogen with one neutron weighs almost twice as much as hydrogen without: between 1.99 and 2 times</span>
 (observed (&lt; (÷ 199 100) (÷ (mass (isotope hydrogen 1)) (mass (isotope hydrogen 0))) 2))</code></pre>
 </article>
 </body>

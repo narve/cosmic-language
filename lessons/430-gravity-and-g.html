@@ -11,18 +11,25 @@
 <article class="lesson" data-topic="physics">
   <h3>gravity and G</h3>
   <p>New: the domain <code>bodies</code> (things with mass), the functions <code>gravity</code> (the force of gravity between two bodies) and <code>distance</code>, and the constant <code>G</code>. Newton's law of gravitation is written out in full. It holds for bodies that move slowly and are not too heavy or close, which is the case the domain <code>bodies</code> stands for. The two variables may stand for the same body, and then the distance is 0 and the law would divide by zero, so the law is stated only where the distance is above 0:</p>
-  <pre><code><span data-comment>only where the distance is not 0: a body does not pull on itself</span>
+  <pre><code><span data-comment>Newton's law: gravity = G × mass × mass ÷ distance²</span>
+<span data-comment>(only where the distance is above 0: a body does not pull on itself)</span>
 (observed (∀ <var>u</var> bodies (∀ <var>v</var> bodies
   (<data value="implies">implies</data> (&gt; (distance <var>u</var> <var>v</var>) 0)
-    (= (gravity <var>u</var> <var>v</var>) (÷ (× G (mass <var>u</var>) (mass <var>v</var>)) (^ (distance <var>u</var> <var>v</var>) 2)))))))
-<span data-comment>a force is mass × length ÷ time²</span>
+    (= (gravity <var>u</var> <var>v</var>)
+       (÷ (× G (mass <var>u</var>) (mass <var>v</var>)) (^ (distance <var>u</var> <var>v</var>) 2)))))))
+
+<span data-comment>the dimension of a force: mass × length ÷ time²</span>
 (∀ <var>u</var> bodies (∀ <var>v</var> bodies (= (dim (gravity <var>u</var> <var>v</var>)) (÷ (× M L) (^ T 2)))))
+<span data-comment>the dimension of G, which makes the law come out as a force: length³ ÷ (mass × time²)</span>
 (= (dim G) (÷ (^ L 3) (× M (^ T 2))))
-<span data-comment>each body pulls the other with the same force, and the distance is the same from either side</span>
+
+<span data-comment>each body pulls the other with the same force</span>
 (observed (∀ <var>u</var> bodies (∀ <var>v</var> bodies (= (gravity <var>u</var> <var>v</var>) (gravity <var>v</var> <var>u</var>)))))
+<span data-comment>the distance is the same from either side, and it is a length</span>
 (∀ <var>u</var> bodies (∀ <var>v</var> bodies (= (distance <var>u</var> <var>v</var>) (distance <var>v</var> <var>u</var>))))
 (∀ <var>u</var> bodies (∀ <var>v</var> bodies (= (dim (distance <var>u</var> <var>v</var>)) L)))
-<span data-comment>G × mass² ÷ (ħ × c) is a plain number</span>
+
+<span data-comment>G × mass² ÷ (ħ × c) is a plain number: it measures the strength of gravity between two protons</span>
 (= (dim (÷ (× G (^ (mass proton) 2)) (× ħ c))) 1)</code></pre>
 </article>
 </body>

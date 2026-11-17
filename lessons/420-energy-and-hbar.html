@@ -11,22 +11,27 @@
 <article class="lesson" data-topic="physics">
   <h3>energy and ħ</h3>
   <p>New: the function <code>energy</code>, the constant <code>ħ</code>, and <code>emitted</code>: the photon a hydrogen atom emits when it falls from one level to a lower one.</p>
-  <pre><code><span data-comment>the energy of a photon is ħ × 2π × its frequency</span>
+  <pre><code><span data-comment>the law: the energy of a photon = ħ × 2π × its frequency</span>
 (observed (∀ <var>u</var> photons (= (energy <var>u</var>) (× ħ 2 π (frequency <var>u</var>)))))
+<span data-comment>the dimension of ħ: mass × length² ÷ time</span>
 (= (dim ħ) (÷ (× M (^ L 2)) T))
-<span data-comment>an energy is mass × length² ÷ time², like the levels of hydrogen</span>
+
+<span data-comment>the dimension of a photon's energy: mass × length² ÷ time² …</span>
 (∀ <var>u</var> photons (= (dim (energy <var>u</var>)) (÷ (× M (^ L 2)) (^ T 2))))
+<span data-comment>… the same as ħ × a frequency, and the same as a level of hydrogen</span>
 (= (dim (× ħ (frequency (emitted hydrogen 2 1)))) (dim (level hydrogen 1)))
-<span data-comment>falling from level 2 to level 1, hydrogen emits a photon carrying the difference,</span>
-<span data-comment>apart from a tiny share taken by the recoil of the atom</span>
+
+<span data-comment>falling from level 2 to level 1, hydrogen emits a photon that carries the difference in energy,</span>
+<span data-comment>apart from a tiny share taken by the recoil of the atom: more than 99/100 of it, less than all</span>
 (observed (&lt; (÷ 99 100)
               (÷ (energy (emitted hydrogen 2 1)) (− (level hydrogen 2) (level hydrogen 1)))
               1))
-<span data-comment>the same from level 3 to level 1</span>
+<span data-comment>the same for the fall from level 3 to level 1</span>
 (observed (&lt; (÷ 99 100)
               (÷ (energy (emitted hydrogen 3 1)) (− (level hydrogen 3) (level hydrogen 1)))
               1))
-<span data-comment>the photon of the larger step has the higher frequency</span>
+
+<span data-comment>the larger step gives the photon with the higher frequency</span>
 (observed (&gt; (frequency (emitted hydrogen 3 1)) (frequency (emitted hydrogen 2 1))))</code></pre>
   <p>This ties the energy levels of hydrogen to light that can be measured.</p>
 </article>
