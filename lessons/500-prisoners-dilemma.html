@@ -11,13 +11,32 @@
 <body>
 <article class="lesson" data-topic="games core">
   <h3>the prisoner's dilemma</h3>
-  <p>New: the moves <code>cooperate</code> and <code>defect</code>, and <code>payoff</code>, the score for a move given the other player's move.</p>
-  <pre><code>(= (payoff cooperate cooperate) 3)  (= (payoff cooperate defect) 0)
-(= (payoff defect cooperate) 5)  (= (payoff defect defect) 1)
+  <p>New: the moves <code>cooperate</code> and <code>defect</code>, and <code>moves</code>, the list of the two. There are two moves, they are different, and there are no others:</p>
+  <pre><code><span data-comment>; two moves, and they are not the same</span>
+(≠ cooperate defect)
+<span data-comment>; the list of the moves: it has two items</span>
+(= moves (list cooperate defect))  (= (length moves) 2)
+<span data-comment>; every move is one or the other</span>
+(∀ <var>u</var> moves (<data value="or">or</data> (= <var>u</var> cooperate) (= <var>u</var> defect)))</code></pre>
+  <p>Two players each pick a move, at the same moment, neither knowing what the other picks. New: <code>payoff</code>, what a player gets for it. Its first argument is the player's own move, its second the other's. A player is better off with a higher payoff.</p>
+  <pre><code><span data-comment>; both cooperate: each gets 3. Both defect: each gets 1</span>
+(= (payoff cooperate cooperate) 3)  (= (payoff defect defect) 1)
+<span data-comment>; one cooperates and the other defects: the one who cooperates gets 0, the one who defects gets 5</span>
+(= (payoff cooperate defect) 0)  (= (payoff defect cooperate) 5)
 
-<span data-comment>; defecting always pays more, whatever the other does …</span>
+<span data-comment>; what the two get together: 6 when both cooperate, 5 when one exploits the other, 2 when both defect</span>
+(= (+ (payoff cooperate cooperate) (payoff cooperate cooperate)) 6)
+(= (+ (payoff cooperate defect) (payoff defect cooperate)) 5)
+(= (+ (payoff defect defect) (payoff defect defect)) 2)</code></pre>
+  <p>This is the dilemma. Whatever the other player does, a player gets more by defecting. Yet if both reason that way, each ends up with less than if both had cooperated.</p>
+  <pre><code><span data-comment>; whatever the other does, defecting pays more</span>
+(∀ <var>u</var> moves (&gt; (payoff defect <var>u</var>) (payoff cooperate <var>u</var>)))
+<span data-comment>; yet each gets more when both cooperate than when both defect</span>
+(&gt; (payoff cooperate cooperate) (payoff defect defect))
+
+<span data-comment>; the four payoffs in order: 5, 3, 1, 0</span>
 (&gt; (payoff defect cooperate) (payoff cooperate cooperate) (payoff defect defect) (payoff cooperate defect))
-<span data-comment>; … yet cooperating together beats taking turns to exploit each other</span>
+<span data-comment>; and cooperating together beats taking turns to exploit each other: 2 × 3 is more than 5 + 0</span>
 (&gt; (× 2 (payoff cooperate cooperate)) (+ (payoff defect cooperate) (payoff cooperate defect)))</code></pre>
 
   <h4>Strategies</h4>
