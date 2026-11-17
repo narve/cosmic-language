@@ -18,26 +18,27 @@
 (= moves (list cooperate defect))  (= (length moves) 2)
 <span data-comment>; every move is one or the other</span>
 (∀ <var>u</var> moves (<data value="or">or</data> (= <var>u</var> cooperate) (= <var>u</var> defect)))</code></pre>
-  <p>Two players each pick a move, at the same moment, neither knowing what the other picks. New: <code>payoff</code>, what a player gets for it. Its first argument is the player's own move, its second the other's. A player is better off with a higher payoff.</p>
-  <pre><code><span data-comment>; both cooperate: each gets 3. Both defect: each gets 1</span>
-(= (payoff cooperate cooperate) 3)  (= (payoff defect defect) 1)
-<span data-comment>; one cooperates and the other defects: the one who cooperates gets 0, the one who defects gets 5</span>
-(= (payoff cooperate defect) 0)  (= (payoff defect cooperate) 5)
+  <p>Two players each pick a move, at the same moment, neither knowing what the other picks. New: <code>loss</code>, what the round costs a player. Its first argument is the player's own move, its second the other's. A player is better off with a smaller loss.</p>
+  <p>The game is told in losses, not in gains. Neither is more natural than the other for a reader who shares nothing with us: that less loss is better is as much something to be worked out as that more gain is. There is a practical reason too. The usual numbers of this game are famous among humans, and a reader that has learned from human writing recognises them at once, without reading the lesson. With unfamiliar numbers it has to work the game out from what the message says. If such a reader cannot do that, a reader from elsewhere will not be able to either.</p>
+  <pre><code><span data-comment>; both cooperate: each loses 1. Both defect: each loses 3</span>
+(= (loss cooperate cooperate) 1)  (= (loss defect defect) 3)
+<span data-comment>; one cooperates and the other defects: the one who cooperates loses 5, the one who defects loses nothing</span>
+(= (loss cooperate defect) 5)  (= (loss defect cooperate) 0)
 
-<span data-comment>; what the two get together: 6 when both cooperate, 5 when one exploits the other, 2 when both defect</span>
-(= (+ (payoff cooperate cooperate) (payoff cooperate cooperate)) 6)
-(= (+ (payoff cooperate defect) (payoff defect cooperate)) 5)
-(= (+ (payoff defect defect) (payoff defect defect)) 2)</code></pre>
-  <p>This is the dilemma. Whatever the other player does, a player gets more by defecting. Yet if both reason that way, each ends up with less than if both had cooperated.</p>
-  <pre><code><span data-comment>; whatever the other does, defecting pays more</span>
-(∀ <var>u</var> moves (&gt; (payoff defect <var>u</var>) (payoff cooperate <var>u</var>)))
-<span data-comment>; yet each gets more when both cooperate than when both defect</span>
-(&gt; (payoff cooperate cooperate) (payoff defect defect))
+<span data-comment>; what the two lose together: 2 when both cooperate, 5 when one exploits the other, 6 when both defect</span>
+(= (+ (loss cooperate cooperate) (loss cooperate cooperate)) 2)
+(= (+ (loss cooperate defect) (loss defect cooperate)) 5)
+(= (+ (loss defect defect) (loss defect defect)) 6)</code></pre>
+  <p>This is the dilemma. Whatever the other player does, a player loses less by defecting. Yet if both reason that way, each ends up losing more than if both had cooperated.</p>
+  <pre><code><span data-comment>; whatever the other does, defecting costs less</span>
+(∀ <var>u</var> moves (&lt; (loss defect <var>u</var>) (loss cooperate <var>u</var>)))
+<span data-comment>; yet each loses less when both cooperate than when both defect</span>
+(&lt; (loss cooperate cooperate) (loss defect defect))
 
-<span data-comment>; the four payoffs in order: 5, 3, 1, 0</span>
-(&gt; (payoff defect cooperate) (payoff cooperate cooperate) (payoff defect defect) (payoff cooperate defect))
-<span data-comment>; and cooperating together beats taking turns to exploit each other: 2 × 3 is more than 5 + 0</span>
-(&gt; (× 2 (payoff cooperate cooperate)) (+ (payoff defect cooperate) (payoff cooperate defect)))</code></pre>
+<span data-comment>; the four losses in order: 0, 1, 3, 5</span>
+(&lt; (loss defect cooperate) (loss cooperate cooperate) (loss defect defect) (loss cooperate defect))
+<span data-comment>; and cooperating together costs less than taking turns to exploit each other: 2 × 1 is less than 0 + 5</span>
+(&lt; (× 2 (loss cooperate cooperate)) (+ (loss defect cooperate) (loss cooperate defect)))</code></pre>
 
   <h4>Strategies</h4>
   <p>New: the domain <code>histories</code>, the function <code>move</code>, and eight strategies. A history is a list of the rounds played so far, each round a list of two moves: one's own, then the other's. <code>(move <var>s</var> <var>h</var>)</code> is a list to pick the next move from: a single move for a fixed choice, repeated moves for a chance.</p>
@@ -101,7 +102,7 @@
       (if (= (item (item <var>u</var> (length <var>u</var>)) 1) (item (item <var>u</var> (length <var>u</var>)) 2)) (list cooperate) (list defect)))))</code></pre>
 
   <h4>Playing a game</h4>
-  <p>New: <code>tournament</code>, the list of the six strategies that always make a fixed choice, and the functions <code>rounds</code> (the history after a number of rounds) and <code>score</code>. First the rules: each round, each player takes its strategy's move given the rounds so far, seen from its own side, which is the same game with the players swapped.</p>
+  <p>New: <code>tournament</code>, the list of the six strategies that always make a fixed choice, and the functions <code>rounds</code> (the history after a number of rounds) and <code>cost</code> (what a game costs a player in all). First the rules: each round, each player takes its strategy's move given the rounds so far, seen from its own side, which is the same game with the players swapped.</p>
   <pre><code>(= tournament (list always-cooperate always-defect tit-for-tat suspicious-tit-for-tat grim pavlov))
 (∀ <var>u</var> tournament (∀ <var>v</var> tournament (= (rounds <var>u</var> <var>v</var> 0) (list))))
 (∀ <var>u</var> tournament (∀ <var>v</var> tournament (∀ <var>w</var> ℕ (= (length (rounds <var>u</var> <var>v</var> <var>w</var>)) <var>w</var>))))
@@ -119,77 +120,77 @@
   (= (item (rounds <var>u</var> <var>v</var> (+ <var>w</var> 1)) (+ <var>w</var> 1))
      (list (item (move <var>u</var> (rounds <var>u</var> <var>v</var> <var>w</var>)) 1) (item (move <var>v</var> (rounds <var>v</var> <var>u</var> <var>w</var>)) 1))))))
 
-<span data-comment>; the score is the sum of the payoffs of all rounds</span>
+<span data-comment>; the cost of a game is the sum of the losses of all its rounds</span>
 (∀ <var>u</var> tournament (∀ <var>v</var> tournament (∀ <var>w</var> ℕ
-  (= (score <var>u</var> <var>v</var> <var>w</var>) (apply + (sequence <var>z</var> (rounds <var>u</var> <var>v</var> <var>w</var>) (payoff (item <var>z</var> 1) (item <var>z</var> 2))))))))</code></pre>
+  (= (cost <var>u</var> <var>v</var> <var>w</var>) (apply + (sequence <var>z</var> (rounds <var>u</var> <var>v</var> <var>w</var>) (loss (item <var>z</var> 1) (item <var>z</var> 2))))))))</code></pre>
   <p>An example, played out in full:</p>
   <pre><code>(= (rounds tit-for-tat always-defect 4)
    (list (list cooperate defect) (list defect defect) (list defect defect) (list defect defect)))
-(= (score tit-for-tat always-defect 4) 3)</code></pre>
+(= (cost tit-for-tat always-defect 4) 14)</code></pre>
 
   <h4>Chance in the game</h4>
-  <p>Generous-tit-for-tat picks its move by chance after a defection, so its score is not fixed. Its expected payoff for a round is the mean over the list it picks from:</p>
-  <pre><code><span data-comment>; after a defection, against always-defect: two thirds per round</span>
-(= (mean (sequence <var>u</var> (list cooperate defect defect) (payoff <var>u</var> defect))) (÷ 2 3))
+  <p>Generous-tit-for-tat picks its move by chance after a defection, so what a game costs it is not fixed. Its expected loss for a round is the mean over the list it picks from:</p>
+  <pre><code><span data-comment>; after a defection, against always-defect: 11/3 per round, where always defecting back would cost 3</span>
+(= (mean (sequence <var>u</var> (list cooperate defect defect) (loss <var>u</var> defect))) (÷ 11 3))
 <span data-comment>; against itself, it never needs to forgive: it always cooperates</span>
 (= (move generous-tit-for-tat (list (list cooperate cooperate))) (list cooperate))</code></pre>
   <p>Forgiving costs a little against a player who always defects, but it lets two forgiving players recover from a mistake.</p>
-  <p>Random pays no attention to the game at all: each move is cooperate or defect with a chance of one half. Against such a player, defecting pays more whatever happens, because nothing one does changes what it does next. Cooperation only pays with a player who answers.</p>
+  <p>Random pays no attention to the game at all: each move is cooperate or defect with a chance of one half. Against such a player, defecting costs less whatever happens, because nothing one does changes what it does next. Cooperation only pays with a player who answers.</p>
   <pre><code><span data-comment>; random cooperates with a chance of one half, at the start and after any history</span>
 (= (chance cooperate (move random (list))) (÷ 1 2))
 (= (chance cooperate (move random (list (list defect defect)))) (÷ 1 2))
 
-<span data-comment>; against random, cooperating gets 3 or 0: a mean of 3/2 per round</span>
-(= (mean (sequence <var>u</var> (move random (list)) (payoff cooperate <var>u</var>))) (÷ 3 2))
-<span data-comment>; against random, defecting gets 5 or 1: a mean of 3 per round</span>
-(= (mean (sequence <var>u</var> (move random (list)) (payoff defect <var>u</var>))) 3)</code></pre>
+<span data-comment>; against random, cooperating costs 1 or 5: a mean of 3 per round</span>
+(= (mean (sequence <var>u</var> (move random (list)) (loss cooperate <var>u</var>))) 3)
+<span data-comment>; against random, defecting costs 0 or 3: a mean of 3/2 per round</span>
+(= (mean (sequence <var>u</var> (move random (list)) (loss defect <var>u</var>))) (÷ 3 2))</code></pre>
 
   <h4>Results over 255 rounds</h4>
   <p>A game lasts 255 rounds: the largest number a chunk can hold, and so the longest game the message can name with a single number. It stands for the long run. Nothing depends on the exact number, except that it is long enough for the first rounds not to decide the result.</p>
-  <pre><code><span data-comment>; two that cooperate get 765 each: (big 2 253); two that defect get 255 each</span>
-(= (score tit-for-tat tit-for-tat 255) (big 2 253))  (= (score always-defect always-defect 255) 255)
+  <pre><code><span data-comment>; two that cooperate lose 255 each; two that defect lose 765 each</span>
+(= (cost tit-for-tat tit-for-tat 255) 255)  (= (cost always-defect always-defect 255) (big 2 253))
 
-<span data-comment>; tit-for-tat loses only the first round to always-defect: 254 against 259</span>
-(= (score tit-for-tat always-defect 255) 254)  (= (score always-defect tit-for-tat 255) (big 1 3))
+<span data-comment>; tit-for-tat is exploited only in the first round by always-defect: 767 against 762</span>
+(= (cost tit-for-tat always-defect 255) (big 2 255))  (= (cost always-defect tit-for-tat 255) (big 2 250))
 
-<span data-comment>; always-cooperate is exploited in every round: 0 against 1275</span>
-(= (score always-cooperate always-defect 255) 0)  (= (score always-defect always-cooperate 255) (big 4 251))
+<span data-comment>; always-cooperate is exploited in every round: 1275 against 0</span>
+(= (cost always-cooperate always-defect 255) (big 4 251))  (= (cost always-defect always-cooperate 255) 0)
 
-<span data-comment>; pavlov is exploited every second round: 127 against 767</span>
-(= (score pavlov always-defect 255) 127)  (= (score always-defect pavlov 255) (big 2 255))
+<span data-comment>; pavlov is exploited every second round: 1021 against 381</span>
+(= (cost pavlov always-defect 255) (big 3 253))  (= (cost always-defect pavlov 255) (big 1 125))
 
-<span data-comment>; tit-for-tat against its suspicious twin: the first defection echoes back and forth, 635 and 640 instead of 765 each</span>
-(= (score tit-for-tat suspicious-tit-for-tat 255) (big 2 123))  (= (score suspicious-tit-for-tat tit-for-tat 255) (big 2 128))
+<span data-comment>; tit-for-tat against its suspicious twin: the first defection echoes back and forth, 640 and 635 instead of 255 each</span>
+(= (cost tit-for-tat suspicious-tit-for-tat 255) (big 2 128))  (= (cost suspicious-tit-for-tat tit-for-tat 255) (big 2 123))
 
-<span data-comment>; grim never forgives that first defection: 258 against 258</span>
-(= (score grim suspicious-tit-for-tat 255) (big 1 2))  (= (score suspicious-tit-for-tat grim 255) (big 1 2))</code></pre>
-  <p>A tournament: each strategy plays all six, itself included. Always-defect never loses a single game, yet it ends up second to last. Last of all is the strategy that follows the same rule as tit-for-tat but opens with a defection. Tit-for-tat, which opens in peace, is first:</p>
-  <pre><code><span data-comment>; the total of each strategy over its six games: 3949, 3822, 3697, 3572, 3070, 2685</span>
-(= (apply + (sequence <var>u</var> tournament (score tit-for-tat <var>u</var> 255))) (big 15 109))
-(= (apply + (sequence <var>u</var> tournament (score always-cooperate <var>u</var> 255))) (big 14 238))
-(= (apply + (sequence <var>u</var> tournament (score pavlov <var>u</var> 255))) (big 14 113))
-(= (apply + (sequence <var>u</var> tournament (score grim <var>u</var> 255))) (big 13 244))
-(= (apply + (sequence <var>u</var> tournament (score always-defect <var>u</var> 255))) (big 11 254))
-(= (apply + (sequence <var>u</var> tournament (score suspicious-tit-for-tat <var>u</var> 255))) (big 10 125))</code></pre>
+<span data-comment>; grim never forgives that first defection: 764 against 764</span>
+(= (cost grim suspicious-tit-for-tat 255) (big 2 252))  (= (cost suspicious-tit-for-tat grim 255) (big 2 252))</code></pre>
+  <p>A tournament: each strategy plays all six, itself included. Always-defect never loses more than the player it meets, yet it ends up second to last. Last of all is the strategy that follows the same rule as tit-for-tat but opens with a defection. Tit-for-tat, which opens in peace, loses least:</p>
+  <pre><code><span data-comment>; the total loss of each strategy over its six games: 2427, 2551, 2554, 2721, 3435, 3863</span>
+(= (apply + (sequence <var>u</var> tournament (cost tit-for-tat <var>u</var> 255))) (big 9 123))
+(= (apply + (sequence <var>u</var> tournament (cost grim <var>u</var> 255))) (big 9 247))
+(= (apply + (sequence <var>u</var> tournament (cost always-cooperate <var>u</var> 255))) (big 9 250))
+(= (apply + (sequence <var>u</var> tournament (cost pavlov <var>u</var> 255))) (big 10 161))
+(= (apply + (sequence <var>u</var> tournament (cost always-defect <var>u</var> 255))) (big 13 107))
+(= (apply + (sequence <var>u</var> tournament (cost suspicious-tit-for-tat <var>u</var> 255))) (big 15 23))</code></pre>
 
   <h4>Peace wins</h4>
-  <p>The message ends with what the tournament shows. Two players who keep the peace each get three times what two players at war get. The two strategies that defect first end with the lowest totals, and the four that never defect first all end above them. And tit-for-tat, which opens in peace, answers in kind and forgives as soon as the other returns to peace, ends with more than every other strategy. That is the last statement of the message.</p>
-  <pre><code><span data-comment>; two at peace get more, each, than two at war: 765 against 255</span>
-(&gt; (score tit-for-tat tit-for-tat 255) (score always-defect always-defect 255))
+  <p>The message ends with what the tournament shows. Two players at war each lose three times what two players who keep the peace lose. The two strategies that defect first end with the highest losses, and the four that never defect first all end below them. And tit-for-tat, which opens in peace, answers in kind and forgives as soon as the other returns to peace, loses less than every other strategy. That is the last statement of the message.</p>
+  <pre><code><span data-comment>; two at peace lose less, each, than two at war: 255 against 765</span>
+(&lt; (cost tit-for-tat tit-for-tat 255) (cost always-defect always-defect 255))
 
-<span data-comment>; the whole ranking, from last to first: the two that defect first are at the bottom</span>
-(&lt; (apply + (sequence <var>v</var> tournament (score suspicious-tit-for-tat <var>v</var> 255)))
-   (apply + (sequence <var>v</var> tournament (score always-defect <var>v</var> 255)))
-   (apply + (sequence <var>v</var> tournament (score grim <var>v</var> 255)))
-   (apply + (sequence <var>v</var> tournament (score pavlov <var>v</var> 255)))
-   (apply + (sequence <var>v</var> tournament (score always-cooperate <var>v</var> 255)))
-   (apply + (sequence <var>v</var> tournament (score tit-for-tat <var>v</var> 255))))
+<span data-comment>; the whole ranking, from the least loss to the most: the two that defect first are at the bottom</span>
+(&lt; (apply + (sequence <var>v</var> tournament (cost tit-for-tat <var>v</var> 255)))
+   (apply + (sequence <var>v</var> tournament (cost grim <var>v</var> 255)))
+   (apply + (sequence <var>v</var> tournament (cost always-cooperate <var>v</var> 255)))
+   (apply + (sequence <var>v</var> tournament (cost pavlov <var>v</var> 255)))
+   (apply + (sequence <var>v</var> tournament (cost always-defect <var>v</var> 255)))
+   (apply + (sequence <var>v</var> tournament (cost suspicious-tit-for-tat <var>v</var> 255))))
 
-<span data-comment>; tit-for-tat ends with more than every other strategy</span>
+<span data-comment>; tit-for-tat loses less than every other strategy</span>
 (∀ <var>u</var> tournament
   (<data value="implies">implies</data> (≠ <var>u</var> tit-for-tat)
-    (&gt; (apply + (sequence <var>v</var> tournament (score tit-for-tat <var>v</var> 255)))
-       (apply + (sequence <var>v</var> tournament (score <var>u</var> <var>v</var> 255))))))</code></pre>
+    (&lt; (apply + (sequence <var>v</var> tournament (cost tit-for-tat <var>v</var> 255)))
+       (apply + (sequence <var>v</var> tournament (cost <var>u</var> <var>v</var> 255))))))</code></pre>
 </article>
 </body>
 </html>
