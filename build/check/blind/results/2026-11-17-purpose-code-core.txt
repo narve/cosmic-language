@@ -1,0 +1,147 @@
+**Short answer:** the message is a self-contained mathematics primer that builds up to one result: in a repeated "prisoner's dilemma" game, the strategy that cooperates first and then mirrors the other player outscores every other strategy the sender lists. My best reading is that it is a statement of, or an invitation to, reciprocal cooperation. The message itself never says so — it contains no "we", no "you" and no request.
+
+I decoded all 95,960 bits and checked all 380 statements against my reading: 369 by a Python evaluator, the other 11 by hand or by a separate test. None is false.
+
+## 1. Format
+
+- **Frame:** the stream is 172 bits + 5,976 sixteen-bit words + 172 bits. The first and last 172 bits are identical: runs of 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31 ones separated by single zeros.
+- **Word length:** the first 12 words are those same numbers in binary (1, 2, 3, 5 … 31), which ties the unary header to the 16-bit words. The next 256 words count 0 to 255.
+- **Word classes:** the high byte is a type and the low byte an index.
+  - 0 = number 0–255.
+  - 1 = brackets (256 opens, 257 closes).
+  - 2 = operator (I write A-n).
+  - 3 = constant (B-n).
+  - 4 = variable (C-n).
+- **Statements:** after the counting sequence the brackets balance exactly 380 times with nothing left over. Each statement is prefix notation: `( operator arguments… )`.
+- **Vocabulary gap:** general operators are numbered 1–29 and general constants 1–4. Game operators start at 64 and game constants at 18, so the sender marks the last topic as a separate vocabulary.
+
+## 2. Contents, in order
+
+Shares are of the 5,976 words. Glosses after "i.e." are my translations.
+
+| Part | Statements | Share | What it teaches |
+|---|---|---|---|
+| Counting preamble | — | 4.5% | Primes, then 0–255 |
+| Arithmetic | 0–157 | 24% | =, ≠, <, >, ≤, ≥, +, ×, base-256 numbers, −, negation, fractions |
+| Truth values | 158–185 | 5% | True, false, not, and, or |
+| Lists | 186–202 | 4% | List, length, n-th element, count of occurrences |
+| Quantifiers and number sets | 203–273 | 19% | For all, exists, naturals, rationals, general laws |
+| Implication | 274–280 | 2% | "If … then" |
+| List tools | 281–318 | 13% | Fold, map, mean, probability, pairs, tail, if-then-else |
+| The game | 319–379 | 28% | Payoffs, strategies, matches, tournament, conclusion |
+
+Decoded examples from each part:
+
+- **Arithmetic**
+  - `( A1 ( A7 2 3 ) 5 )`, i.e. 2+3 = 5.
+  - `( A1 ( A8 15 17 ) 255 )`, i.e. 15×17 = 255.
+  - `( A1 ( A9 1 0 ) ( A7 255 1 ) )`, i.e. the two-digit number "1 0" is 255+1.
+  - `( A1 ( A7 (A12 1 2) (A12 1 3) ) (A12 5 6) )`, i.e. 1/2 + 1/3 = 5/6.
+- **Truth values**
+  - `( A1 ( A3 1 2 ) B1 )`, i.e. "1<2" is true.
+  - `( A1 (A13 (A14 B1 B2)) (A15 (A13 B1) (A13 B2)) )`, i.e. not(T and F) = (not T) or (not F).
+- **Lists**
+  - `( A1 ( A17 ( A16 4 7 9 ) ) 3 )`, i.e. the list has length 3.
+  - `( A1 ( A18 ( A16 4 7 9 ) 2 ) 7 )`, i.e. its second element is 7.
+- **Quantifiers and number sets**
+  - `( A20 C1 B3 ( A1 ( A7 C1 0 ) C1 ) )`, i.e. for every natural x, x+0 = x.
+  - Commutativity, associativity and distributivity are stated the same way.
+  - Statement 264 says every element of B4 is ±a/(b+1) for naturals a and b, which is what identifies B4 as the rationals.
+- **Implication**
+  - `( A20 C1 B4 ( A22 (A2 C1 0) (A1 (A8 C1 (A12 1 C1)) 1) ) )`, i.e. if x ≠ 0 then x·(1/x) = 1.
+- **List tools**
+  - `( A1 ( A25 ( A16 2 4 9 ) ) 5 )`, i.e. the mean is 5.
+  - `( A1 ( A26 6 ( A16 1 2 3 4 5 6 ) ) ( A12 1 6 ) )`, i.e. the chance of drawing 6 is 1/6.
+  - Statement 307 gives 1/36 for a pair of sixes.
+- **The game**
+  - *Payoffs (319–324):* two moves, B18 and B19. Mine/theirs: (B18,B18) = 3, (B18,B19) = 0, (B19,B18) = 5, (B19,B19) = 1. Then 5 > 3 > 1 > 0 and 2×3 > 5+0. This is the prisoner's dilemma, so B18 is "cooperate" and B19 is "defect".
+  - *Strategies (325–343):* each is a function of the history of (own, other) move pairs.
+    - B21: always cooperate.
+    - B22: always defect.
+    - B23: cooperate first, then copy the other's last move.
+    - B24: the same, but defect first.
+    - B25: cooperate until the other has defected once, then defect forever.
+    - B26: cooperate if both made the same move last round, otherwise defect.
+    - B27: like B23, but after a defection it draws from (cooperate, defect, defect), so it forgives one time in three.
+    - B28: random.
+  - *Matches (344–350):* B29 is defined as the set of B21–B26. A66 is the match history, built round by round. A67 is the summed payoff.
+  - *Results (351–376):* all over 255 rounds.
+
+    | Pairing | First player's score | Second player's score |
+    |---|---|---|
+    | Mirror vs mirror | 765 | 765 |
+    | Always-defect vs always-defect | 255 | 255 |
+    | Mirror vs always-defect | 254 | 259 |
+    | Always-cooperate vs always-defect | 0 | 1,275 |
+
+    Totals against all six, self included:
+
+    | Strategy | Total |
+    |---|---|
+    | B23, mirror | 3,949 |
+    | B21, always cooperate | 3,822 |
+    | B26, same-move rule | 3,697 |
+    | B25, never forgive | 3,572 |
+    | B22, always defect | 3,070 |
+    | B24, mirror starting with defect | 2,685 |
+
+    My own simulation reproduces every number.
+
+## 3. Design
+
+- **Almost everything exists to serve the game.**
+  - Base-256 numbers are needed for the scores.
+  - Lists and indexing are needed for histories.
+  - Quantifiers and implication are needed to define strategies for every history.
+  - Map and fold are needed to sum payoffs.
+  - If-then-else is needed to restate the strategies.
+  - Mean and probability are needed only for the two random strategies.
+- **Things that did not need saying:**
+  - `2×3 > 5+0`, the condition that taking turns exploiting each other is worse than steady cooperation.
+  - B27 (forgiving) and B28 (random) are defined and given expected payoffs but left out of the tournament.
+  - Both directions of each pairing are given. These show that the mirror strategy never beats any opponent head to head (254 < 259, 635 < 640) and that always-defect never loses one. The sender does not hide the temptation to defect.
+  - Statement 377: mutual cooperation (765) > mutual defection (255).
+- **The ending:** statement 378 ranks the six totals. The last statement is 379: for every strategy in the set other than B23, B23's total is greater than that strategy's total. The prime trailer follows immediately.
+
+## 4. Purpose
+
+- **What the message states:** in this game, among these six strategies, reciprocity earns the most, although it never wins an individual match. Mutual cooperation beats mutual defection.
+- **What I infer:** the message was built to deliver that result. The evidence is the 28% share, the separate vocabulary, the supporting tools and the final position.
+- **What I am guessing:** the sender is describing how it intends to deal with a receiver — open cooperatively, answer in kind — and recommending the same. It wants the receiver to see contact as a repeated game where reciprocal cooperation pays.
+
+## 5. Alternatives
+
+- **A language course whose last lesson happens to be game theory, perhaps the first instalment of more.**
+  - For: 72% is general mathematics, and there is no address to the receiver.
+  - Against: the general tools are nearly all used by the game, and the message closes on a conclusion, not an exercise.
+- **Deterrence.** "We retaliate; defecting against us gains you 259 instead of 765."
+  - For: the mirror strategy punishes, and those two numbers are both stated.
+  - Against: the forgiving variant and the cooperation inequalities are added without need.
+  - This is the same content as my main reading with a different emphasis; the bits cannot separate them.
+- **A lure,** to get the receiver to cooperate first and then exploit it.
+  - For: nothing in the bits can rule it out.
+  - Against: the message openly shows that defecting against a cooperator pays 5 and 1,275.
+- **A proof of intelligence, or a cultural artefact.**
+  - For: the prime framing.
+  - Against: primes alone would do that; the game would be superfluous.
+
+## 6. What the message does not say
+
+- It has no symbols for sender or receiver, and no statement of which strategy the sender plays.
+- It has no physics, chemistry, location, time or description of the sender.
+- It makes no request for a reply and gives no way to send one.
+- It does not say what "cooperate" and "defect" mean in practice.
+- It does not claim the result is general. The claim covers six chosen strategies, 255 rounds and self-play included; a different field could give a different winner.
+
+These absences could mean caution, a first instalment, or that the sender regards the principle itself as the whole message.
+
+## 7. Confidence
+
+| Point | Confidence | Reason |
+|---|---|---|
+| 1. Format | Very high | Exact bit accounting, balanced brackets |
+| 2. Contents | Very high | All 380 statements verify; the scores are reproduced by simulation |
+| 3. Design | High | The dependencies are visible; "what was unnecessary" is partly judgement |
+| 4. Purpose | High that the reciprocity result is the point; moderate (about 60%) that it signals the sender's own intent or an invitation | The second step is a guess about the sender |
+| 5. Alternatives | Deterrence and lure cannot be excluded from content alone | They differ only in the sender's intent |
+| 6. Absences | High that they are absent; low on what they mean | The message is silent on its own context |

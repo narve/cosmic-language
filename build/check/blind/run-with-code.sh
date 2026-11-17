@@ -5,11 +5,14 @@
 #
 #   npm run --silent blind:code [task] > answer.txt     task defaults to last-statement-code
 #   BLIND_MODEL=opus npm run --silent blind:code         with a named model
+#   BLIND_MESSAGE=docs/core/message.bin npm run --silent blind:code purpose-code
+#                                                        with another message than docs/message.bin (here the core)
 #
 # The answer goes to standard output. The full record (every piece of code the reader ran, as JSON lines) is
 # written to the file named on standard error.
 set -eu
 here=$(cd "$(dirname "$0")" && pwd)
+message=$(cd "$here/../../.." && realpath "${BLIND_MESSAGE:-docs/message.bin}")
 task=${1:-last-statement-code}
 dir=$(mktemp -d)
 box="blind-$$"
@@ -18,7 +21,7 @@ export BLIND_CONTAINER="$box"
 node -e '
   const bytes = require("fs").readFileSync(process.argv[1]);
   process.stdout.write(Array.from(bytes, (b) => b.toString(2).padStart(8, "0")).join("") + "\n");
-' "$here/../../../docs/message.bin" > "$dir/bits.txt"
+' "$message" > "$dir/bits.txt"
 
 docker run -d --rm --name "$box" --network none python:3.12-alpine sleep 7200 > /dev/null
 trap 'docker rm -f "$box" > /dev/null 2>&1' EXIT
