@@ -1,0 +1,124 @@
+I decoded the whole message: it is a self-teaching logical language that runs from counting through physics and chemistry and ends on a repeated two-player game, and its last statement is that the "cooperate first, then mirror the other player" strategy wins. I checked the game results by simulating them, and every stated figure matched. The purpose in section 4 is my inference; the message never states one.
+
+Symbol names below (`=`, `all`, `TFT` and so on) are my labels. In the stream every symbol is just a 16-bit number.
+
+## 1. Format
+
+- **Frame:** the stream opens with 172 bits giving 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31 as runs of 1s separated by 0s. The last 172 bits are identical to the first 172.
+- **Words:** in between are 12,114 words of 16 bits (172 + 12,114×16 + 172 = 194,168, exact). The first 12 words repeat the same primes in binary and the next 256 count 0 to 255, which fixes the word size and number format.
+- **Brackets:** words 256 and 257 act as open and close brackets. The remaining 11,846 words parse into exactly 702 balanced statements in prefix form, with nothing left over.
+- **Symbol classes:** the high byte of each word is a class and the low byte an index. The message confirms this itself: a "type" function returns 0 for numbers, 1 for lists, 2 for operators, 3 for constants, 4 for variables, 5 for particles, 6 for elements, 7 for dimensions, 8 for physical constants and 9 for molecules, matching the high bytes.
+- **Numbers above 255** are written in base 256, taught by `(= (num 1 0) (+ 255 1))` and `(= (num 1 0) (* 16 16))`.
+- **Empirical marker:** one operator (B36) wraps 64 statements, all physical facts and never arithmetic. I read it as "this is observed in nature" as opposed to "this follows by definition".
+
+## 2. Contents, in order
+
+Shares are of the statement words.
+
+**A. Arithmetic (about 12%).** Equality, inequality, order, addition, multiplication, subtraction, negatives and fractions, taught by examples.
+- `(= 1 1)`, `(!= 0 1)`, `(< 0 1)`
+- `(= (+ 2 3) 5)`, `(= (* 15 17) 255)`
+- `(= (+ (/ 1 2) (/ 1 3)) (/ 5 6))`
+
+**B. Logic and lists (about 5%).** True, false, not, and, or; lists with length, n-th element and count.
+- `(= (not T) F)`
+- `(= (len (list 1 2 3 5 7 11 13 17 19 23 29 31)) 12)`
+
+**C. Quantifiers, number sets, implication (about 12%).** "For all" and "there exists" over naturals, rationals and reals.
+- `(all x N (all y N (= (+ x y) (+ y x))))`
+- `(all x Q (!= (* x x) 2))`, then `(ex x R (and (> x 0) (= (* x x) 2)))`
+
+**D. Powers, complex numbers, exponential, e and π (about 10%).**
+- `(= (* i i) (neg 1))`
+- `(= (+ (exp (* i pi)) 1) 0)`, with `(< 3 pi 4)`
+
+**E. Folding, mapping, series, mean, probability (about 6%).**
+- `(= pi (* 4 (sum (map x N (/ (^ (neg 1) x) (+ (* 2 x) 1))))))`
+- `(= (prob 6 (list 1 2 3 4 5 6)) (/ 1 6))`
+- `(= (prob (list T T) (product (list T F) (list T F))) (/ 1 4))`
+
+**F. The language describing itself (about 9%).** Quote, type, tail of a list, if-then-else, evaluate.
+- `(= (+ 2 3) 5)` but `(!= (quote (+ 2 3)) 5)`
+- `(= (eval (quote (* 2 (+ 1 2)))) 6)`
+- `(= (if (< 2 3) 5 7) 5)`
+
+**G. Physics and chemistry (about 32%), almost all marked "observed".**
+- Three particles: masses in ratio 1836–1837 and 1838–1839 to the lightest, charges −q, +q and 0. These are the electron, proton and neutron.
+- Elements are numbered by proton count: `(= (count proton F6) 6)`. Isotopes are element plus neutron count.
+- Hydrogen energy levels, with level-spacing ratios stated as 27/5 and 32/27 (the 1/n² pattern).
+- Three independent dimensions (mass, length, time), later charge and temperature.
+- Light: all photons have one speed, wavelength × frequency = c, and energy = ħ·2π·frequency.
+- Inverse-square gravity and electric force; the electric coupling lies between 1/138 and 1/137; electric to gravitational force for proton–electron lies between 2^130 and 2^131.
+- Force between currents, with the ratio of the electric and magnetic constants equal to c².
+- Planck length, time, mass and temperature are defined, and everything is then expressed in them: `(< (/ 1 (^ 2 64)) (/ (mass proton) m_Planck) (/ 1 (^ 2 63)))`.
+- One particular photon is singled out, with wavelength 2^113 to 2^114 Planck lengths. The numbers fit the 21 cm hydrogen line.
+- Gas temperature and energy, black-body radiation growing as T⁴.
+- Neutron decay as exponential survival with a half-life, tied back to the coin-flip probability; a half-life ratio of 256–512 between carbon-14 and hydrogen-3.
+- Electron shells 2n² and a set of six elements (2, 10, 18, 36, 54, 86), the noble gases.
+- Four molecules with atoms and bonds: H₂O, CH₄, NH₃, CO₂.
+- Four more given only as atom counts: C₅H₅N₅, C₅H₆N₂O₂, C₅H₅N₅O, C₄H₅N₃O. These match adenine, thymine, guanine and cytosine.
+- One temperature attached to water, which works out at about 273 K, its freezing point.
+
+**H. A two-player game (about 14%, the largest single block and the last).**
+- Two moves, c and d, with payoffs: `(= (pay c c) 3)`, `(= (pay c d) 0)`, `(= (pay d c) 5)`, `(= (pay d d) 1)`.
+- Two inequalities follow: 5 > 3 > 1 > 0, and 2·3 > 5 + 0.
+- Strategies are functions from the history of play to a move. The six in the contest are: always c; always d; c first then copy the opponent's last move (TFT); d first then copy; c until the opponent ever plays d, then d forever; c when both players' last moves matched.
+- Two randomising strategies are defined but left out of the contest.
+- Round-by-round play and total score are defined recursively, then results over 255 rounds are stated: `(= (score TFT TFT 255) 765)`, `(= (score alwaysD alwaysD 255) 255)`, `(= (score alwaysD TFT 255) 259)`, `(= (score TFT alwaysD 255) 254)`.
+- Totals against the whole field: TFT 3949, always-c 3822, match-last 3697, grudge 3572, always-d 3070, d-first copier 2685.
+
+## 3. Design
+
+- **Taught only for later use:** lists, n-th element, length, map, fold, mean, probability and if-then-else are exactly the tools the strategy definitions and score sums need. Without section E the game could not be written.
+- **Physics is done in ratios only.** Planck units and powers of 2 mean no arbitrary unit is ever needed.
+- **Did not need saying for the ending:** the complex numbers and series for π, the nuclear and chemical detail, and above all the four base molecules, the water temperature and the 21 cm photon. Nothing later uses these. They read as common ground the receiver can check, and possibly as self-description (see Purpose).
+- **Evidence against the sender's own favourite is included.** Always-d beats TFT head to head, d earns more than c against a random player (3 against 3/2), and always-d scores 1275 off always-c.
+- **The game results are not marked "observed".** They are presented as computable consequences, to be checked rather than trusted.
+- **Where it ends:** on three comparisons.
+  - Mutual TFT beats mutual always-d.
+  - The full ranking of the six totals.
+  - The last statement: `(all x S (=> (!= x TFT) (> (sum (map y S (score TFT y 255))) (sum (map y S (score x y 255))))))`. In words: every other strategy in the set totals less than TFT.
+
+## 4. Purpose
+
+My best explanation is that the message is an argument for reciprocal cooperation, addressed to someone the sender expects to deal with repeatedly. It may also be a declaration of how the sender will behave: start by cooperating, answer defection with defection, return to cooperation when the other does.
+
+Evidence in the message:
+- The game is the final and largest block, and the mathematical toolkit is shaped to reach it.
+- The closing statements are comparative: cooperation that reciprocates does best, and mutual cooperation beats mutual defection threefold.
+- The condition 2·3 > 5 + 0 is stated although no later calculation uses it. Its natural role is to say that taking turns exploiting each other is worse than steady cooperation.
+- The sender shows the temptation openly instead of hiding it, which fits persuasion by proof.
+
+What is inference: the physics establishes shared reality and competence, and the base molecules and water temperature say "this is what we are made of".
+
+What is a guess: that the sender means itself and the receiver as the two players. The message has no symbol for "us", "you" or "this message".
+
+## 5. Alternatives
+
+- **A general primer where game theory is just the last chapter.** For: over 85% is mathematics and science, and nothing is addressed to the receiver. Against: the list machinery is tailored to the game, the game is the biggest block, and the ending is a ranking with a winner, not a survey.
+- **A warning or deterrent ("we retaliate").** For: TFT punishes, and the grudge strategy is also shown. Against: the grudge strategy ranks only fourth, and the emphasis is on TFT's total and on mutual cooperation.
+- **Manipulation: get the receiver to cooperate first so it can be exploited.** For: always-c is shown ranking second, and the field of six was picked by the sender, with four of the six never defecting first. Against: the message itself shows that defecting on a cooperator pays 5 and states always-d's 1275.
+- **A test of the receiver.** Nothing in the bits supports or excludes this.
+
+## 6. What the message does not say
+
+- No request, question or instruction, and no reply channel. The 21 cm photon is singled out but never called a frequency to use.
+- No location, date, distance, picture or description of the sender beyond the possible chemistry.
+- No statement of what the "game" between the two parties actually is or what cooperation would consist of.
+- Nothing on how the four bases pair or form a chain, so the self-description reading stays weak.
+- The game has a known length of 255 rounds, yet nothing addresses the fact that a known final round favours defecting.
+- The two randomising strategies are defined and never entered in the contest.
+
+These absences could mean the message is a first move with the specifics to follow, or that the sender wanted only a claim the receiver can verify alone. They also make the purpose an inference, not something the message states.
+
+## 7. Confidence
+
+| Point | Confidence | Note |
+|---|---|---|
+| 1. Format | Very high | Exact bit accounting; all 702 statements parse. |
+| 2. Mathematics and game | Very high | All six game totals and the twelve pairwise scores reproduced by simulation. |
+| 2. Physics | High | The stated numbers fit known ratios. The 21 cm line, freezing point, noble-gas and "stable isotope" readings are identifications from the numbers, at medium-high confidence. The base molecules match by formula only (medium). |
+| 3. Design | High on what depends on what | Medium on why the unused items are there. |
+| 4. Purpose | Medium-high that it argues for reciprocal cooperation | Medium-low that it is a commitment about the sender's own conduct. |
+| 5. Alternatives | Primer about 15–20% | Deterrent or manipulation lower, not excluded. |
+| 6. Omissions | High that they are absent | Low on what the absences mean. |
