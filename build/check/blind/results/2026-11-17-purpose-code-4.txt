@@ -1,0 +1,169 @@
+I've finished decoding: the whole stream parses, and I re-ran the game it ends on to check its numbers. Here is the report.
+
+## 1. Format
+
+- **Framing.** The stream is 194,168 bits: a 172-bit preamble, then 12,114 words of 16 bits, then the same 172 bits again as a trailer.
+- **Preamble.** It is runs of 1s of length 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31 separated by single 0s. The first 12 words then repeat those values as 16-bit binary numbers, which fixes the word size and bit order. (The sender includes 1 in this list.)
+- **Counting.** The next 256 words are 0, 1, 2, …, 255, so words below 256 are literal numbers.
+- **Brackets.** Word 256 opens and word 257 closes a group. Each occurs 2,767 times, and they balance into 702 top-level statements with nothing left over.
+- **Symbol classes.** The high byte of every other word is a class, and the low byte numbers the symbols in order of first use. The message later confirms the classes with its own "type-of" operator.
+
+| High byte | Class | My label |
+|---|---|---|
+| 2 | operators | C |
+| 3 | named constants and sets | D |
+| 4 | bound variables | E |
+| 5 | particles | F |
+| 6 | elements (low byte = proton count) | G |
+| 7 | dimensions | H |
+| 8 | physical constants | I |
+| 9 | molecules | J |
+
+- **Statements.** Each is prefix notation, `(operator arguments…)`. Every new symbol is introduced by a handful of examples, including deliberate negative ones such as `(≠ 2 5)` and `(> 16·16 255)`.
+- **Large numbers.** Numbers above 255 are written with a base-256 digit operator: `(C9 1 0) = 255+1 = 16·16`.
+
+## 2. Contents, in order
+
+Percentages are shares of the 12,124 words. I write statements in readable form; the readings are mine, fixed by the examples.
+
+**a. Numbers and arithmetic (about 12%).** Equality, inequality, ordering, addition, multiplication, base-256 numerals, subtraction, negation, division.
+- `(C1 (C7 2 3) 5)` reads 2+3 = 5.
+- `(C1 (C8 15 17) 255)` reads 15·17 = 255.
+- `1/2 + 1/3 = 5/6`.
+
+**b. Logic (about 2%).** True, false, not, and, or.
+- `(2=2) = True`.
+- `not(A and B) = (not A) or (not B)`.
+
+**c. Lists (about 2%).** List, length, index, count of occurrences.
+- `length(1 2 3 5 … 31) = 12`.
+- `count(3, (3 1 3)) = 2`.
+
+**d. Quantifiers, number sets, implication, powers (about 16%).** For-all and exists; the naturals, rationals and reals; implies; exponentiation.
+- `∀x∈N ∀y∈N: x+y = y+x`.
+- `∃x∈R: x>0 and x·x = 2`, followed by `∀x∈Q: x·x ≠ 2`.
+- `∀x∈R: (x+1)(x−1) = x²−1`.
+
+**e. Complex numbers, absolute value, exp, e, π (about 5%).**
+- `i·i = −1`.
+- `|3+4i| = 5`.
+- `0<π<4 and exp(iπ) = −1`.
+- `2<e<3`.
+
+**f. Fold, map, infinite series (about 3%).**
+- `fold(+, (1 2 3 4)) = 10`.
+- `π = 4·Σ (−1)ⁿ/(2n+1)`.
+- `Σ 1/(n+1)² = π²/6`.
+
+**g. Mean, probability, Cartesian product (about 3%).**
+- `P(True, (True False)) = 1/2`.
+- `P((6 6), dice×dice) = 1/36`.
+- `mean(2 4 9) = 5`.
+
+**h. Quote, type-of, rest, if-then-else, eval (about 9%).** The language describes itself.
+- `quote(2+3) ≠ 5`.
+- `type(quote(+)) = 2`.
+- `|x| = if(x<0, −x, x)`.
+- A general rule: evaluating an expression means applying its head to its evaluated arguments, except for the special forms quote, if, for-all, exists and map.
+
+**i. Physics and chemistry (about 31%).** Here 64 statements are wrapped in a marker (C36) that appears nowhere earlier. It is put on measured facts and laws and left off definitions and dimensions, so I read it as "this is observed". The topics, in order:
+- **Three particles.** They have mass and charge, with 1836 < m₂/m₁ < 1837, 1838 < m₃/m₁ < 1839, `charge(F2) = −charge(F1)` and `charge(F3) = 0`. These are the electron, proton and neutron.
+- **Elements.** Each has a proton count, electrons equal to protons, and zero net charge. Isotopes are given by neutron count, with a predicate I read as "stable" listed for ¹H, ²H, ³He, ⁴He, ¹²C, ¹³C, ¹⁶O.
+- **Hydrogen energy levels.** `(E₂−E₁)/(E₃−E₂) ≈ 27/5`.
+- **Dimensions.** Five base dimensions: mass, length, time, later charge and temperature.
+- **Photon.** Mass 0, speed c, `λ·f = c`, `E = ħ·2π·f`.
+- **Forces.** Gravity `G·m·m/r²`; the electric force, with `1/138 < k·e²/(ħc) < 1/137`; electric over gravitational force for proton–electron between 2¹³⁰ and 2¹³¹; the force between currents, and `k_electric/k_magnetic = c²`.
+- **Natural units.** Planck length, time and mass, with proton mass / Planck mass between 2⁻⁶⁴ and 2⁻⁶³.
+- **One particular photon.** Its energy is about 2⁻²¹ to 2⁻²⁰ of the hydrogen 2→1 energy, and its period is 2¹¹³ to 2¹¹⁴ Planck times. That fits the hydrogen hyperfine line.
+- **Heat.** `E = (3/2)kT`; black-body radiation ∝ T⁴ with coefficient `π²k⁴/(60ħ³c²)`.
+- **Decay.** `m(n) > m(p)+m(e)`; neutron lifetime 2¹⁵³ to 2¹⁵⁴ Planck times; `survival(t) = exp(−t/τ)`; half-life of ¹⁴C over that of ³H between 2⁸ and 2⁹.
+- **Shells.** Capacity 2n²; a class containing elements 2, 10, 18, 36, 54, 86.
+- **Molecules.** H₂O, CH₄, NH₃ and CO₂ with atom lists and bond lists. Then four molecules given by formula only: C₅H₅N₅, C₅H₆N₂O₂, C₅H₅N₅O, C₄H₅N₃O.
+- **A temperature of water.** `k·T/(E₂−E₁)` between 302/2¹⁷ and 303/2¹⁷, which is about 273 K.
+
+**j. A game between two players (about 14%, the last part).**
+- **Payoffs.** `pay(a,a)=3, pay(a,b)=0, pay(b,a)=5, pay(b,b)=1`, then `5 > 3 > 1 > 0` and `2·3 > 5+0`. With a = cooperate and b = defect this is a prisoner's dilemma.
+- **Strategies.** Each maps the history of play to the next move. Eight are defined:
+  - always a;
+  - always b;
+  - start with a, then copy the other's last move (reciprocator);
+  - start with b, then copy;
+  - a until the other ever plays b, then b forever;
+  - a if both moved alike last round, else b;
+  - a reciprocator that after a b answers from (a, b, b), so it forgives one time in three;
+  - a random player.
+- **Scoring.** Repeated play and total score are defined. A 255-round round-robin among the six deterministic strategies is then reported, for example `score(reciprocator, always-b) = 254` and `score(always-b, reciprocator) = 259`.
+- **Totals.** Reciprocator 3949, always-a 3822, alike-then-a 3697, unforgiving 3572, always-b 3070, b-first copier 2685.
+- **Check.** I simulated the tournament; all 12 quoted pair scores and all 6 totals are correct.
+
+## 3. Design
+
+- **Taught so that later things can be said.**
+  - Lists, indexing, if, map and fold are what the strategy definitions and tournament totals are written in.
+  - Probability and mean reappear in half-lives and in the random and forgiving strategies.
+  - Powers of two are used for every physical bound.
+  - π and exp are used in `E = ħ·2π·f`, the radiation law and decay.
+  - Type-of is used to announce each new class: `type(quote(F1)) = 5`, and so on up to 9.
+- **Not needed for what follows.**
+  - The game uses no physics at all, so the 31% on nature is there for another reason.
+  - Within physics, the four formula-only molecules, the water temperature, the hyperfine photon and the two radioactive half-lives are never used again.
+  - The eval rule and complex numbers go beyond anything later statements require.
+  - The forgiving and random strategies are defined and exemplified but left out of the tournament.
+- **The shift in subject.** The message moves from necessary truths, to observed facts carrying a special marker, to the only topic about choices made by agents.
+- **The end.** The last statements are:
+  - `score(reciprocator, reciprocator) > score(always-b, always-b)`, i.e. 765 > 255;
+  - the full ranking of the six totals;
+  - last of all, `∀x ∈ strategies: x ≠ reciprocator ⇒ total(reciprocator) > total(x)`.
+  
+  Then the prime preamble repeats and the stream stops.
+
+## 4. Purpose
+
+**Stated.** Mutual cooperation beats mutual defection. A defector outscores any single partner (259 against 254; 1275 against 0). Even so, the strategy that cooperates first and then returns what it receives has the highest total in the field.
+
+**Inferred.** The message is an argument for reciprocal cooperation, addressed to a stranger the sender expects to deal with more than once. The evidence:
+- it is the conclusion, and nothing follows it;
+- it is the only non-mathematical, non-physical subject, and takes a seventh of the message;
+- the message is candid that defection wins pairwise, which reads as "we know the temptation, and here is why not";
+- the mathematics and physics serve to build the language and to show the sender is competent and truthful, since everything is checkable.
+
+**Guess.** The sender is announcing its own policy: open cooperatively, answer in kind. It hopes the receiver adopts the same, most plausibly by answering. The four formula-only molecules and water at about 273 K may be a self-description of the sender's chemistry.
+
+## 5. Alternatives
+
+- **A primer or encyclopedia, proof of intelligence only.**
+  - For: 86% is mathematics and science, and there is no request.
+  - Against: an encyclopedia has no reason to end on a ranked tournament with a universally quantified conclusion.
+- **A warning or deterrent ("we retaliate").**
+  - For: the favoured strategy punishes defection, and an unforgiving strategy is included.
+  - Against: the unforgiving one is shown scoring worse, and a forgiving variant is defined.
+- **A lure.**
+  - For: the message itself shows that a defector does best against unconditional cooperators (1275), so talk of cooperation is cheap.
+  - Against: nothing in the bits; it cannot be excluded.
+- **The first part of a longer exchange.**
+  - For: the eval rule and the extensible type system go unused, and the trailer equals the header, so the stream may loop or continue.
+  - Against: nothing announces a sequel.
+
+## 6. What the message does not say
+
+- There is no symbol for "we" or "you", and no statement of which strategy the sender plays.
+- There is no request and no instruction on how or where to reply.
+- Nothing says what cooperating or defecting would mean in practice, or what the payoffs correspond to.
+- There is no location, star, planet, date, picture, body, number of senders, or history.
+- There is no error correction.
+
+The silence on location could be caution, consistent with a sender who has just shown it understands defection. It could mean more is to follow. Or the principle alone may be the message. The four molecules match the bases of terrestrial DNA by formula; I cannot tell from the bits whether that reflects shared chemistry, knowledge of us, or something about the message's origin.
+
+## 7. Confidence
+
+- **Format: very high.** The stream parses with no remainder.
+- **Mathematics and logic: very high.** Every statement is true under the reading.
+- **Physics: mixed.**
+  - High for particles, forces, constants and dimensions. These were identified by comparing the stated ratios with physical values I know, and I checked the bounds by hand, not in the sandbox.
+  - Moderate for "stable", the noble-gas class, the hyperfine line and the water temperature (melting versus triple point is not distinguishable).
+  - Moderate to low for the four bases, since a formula does not fix a structure.
+- **Game: very high.** I recomputed it.
+- **Design reading: high.**
+- **Purpose: moderate.** That the message argues for reciprocity is well supported; that it is a pledge or an invitation to reply is inference.
+- **Alternatives: the lure and first-instalment readings cannot be ruled out.**
+- **Absences: high** that the listed items are absent; low on why.
