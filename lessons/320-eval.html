@@ -15,7 +15,7 @@
   <pre><code>(= (eval (quote (+ 2 3))) 5)  (= (eval (quote (× 2 (+ 1 2)))) 6)  (= (eval 7) 7)
 (= (eval (quote (list 1 (+ 1 1)))) (list 1 2))
 (= (eval (quote (rest (list 4 7 9)))) (list 7 9))
-(= (eval (quote (if (&lt; 1 2) 10 20))) 10)
+(= (eval (quote (if (&lt; 1 2) 5 7))) 5)
 (= (eval (quote <data value="true">true</data>)) <data value="true">true</data>)  (= (eval (quote π)) π)
 
 <span data-comment>; the value of a sentence is true or false; a false sentence can now be evaluated without being claimed</span>

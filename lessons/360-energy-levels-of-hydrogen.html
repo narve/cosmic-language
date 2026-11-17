@@ -23,19 +23,18 @@
   <pre><code><span data-comment>; each level lies above the one before</span>
 (observed (&lt; (level hydrogen 1) (level hydrogen 2) (level hydrogen 3)))
 
-<span data-comment>; (level 2 − level 1) ÷ (level 3 − level 2) is between 5.39 and 5.41; 27/5 is 5.4</span>
-<span data-comment>; (539 is written (big 2 27) and 541 is (big 2 29))</span>
-(observed (&lt; (÷ (big 2 27) 100)
+<span data-comment>; (level 2 − level 1) ÷ (level 3 − level 2) is within 1/2⁷ of 27/5</span>
+(observed (&lt; (− (÷ 27 5) (÷ 1 (^ 2 7)))
               (÷ (− (level hydrogen 2) (level hydrogen 1))
                  (− (level hydrogen 3) (level hydrogen 2)))
-              (÷ (big 2 29) 100)))
+              (+ (÷ 27 5) (÷ 1 (^ 2 7)))))
 
-<span data-comment>; (level 3 − level 1) ÷ (level 2 − level 1) is between 1.18 and 1.19; 32/27 is about 1.185</span>
-(observed (&lt; (÷ 118 100)
+<span data-comment>; (level 3 − level 1) ÷ (level 2 − level 1) is within 1/2⁷ of 32/27</span>
+(observed (&lt; (− (÷ 32 27) (÷ 1 (^ 2 7)))
               (÷ (− (level hydrogen 3) (level hydrogen 1))
                  (− (level hydrogen 2) (level hydrogen 1)))
-              (÷ 119 100)))</code></pre>
-  <p>The first range contains 27/5, the second 32/27. These ratios are the pattern every spectroscopist finds first in the light from hydrogen.</p>
+              (+ (÷ 32 27) (÷ 1 (^ 2 7)))))</code></pre>
+  <p>Each range is written around the exact ratio: the measured value lies within 1/128 of it. These ratios are the pattern every spectroscopist finds first in the light from hydrogen.</p>
 </article>
 </body>
 </html>

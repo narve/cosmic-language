@@ -28,8 +28,8 @@
 (∀ <var>u</var> elements (= (count electron <var>u</var>) (count proton <var>u</var>)))
 (observed (∀ <var>u</var> elements (= (charge <var>u</var>) 0)))
 
-<span data-comment>; a hydrogen atom weighs only a little more than its proton: the electron adds very little</span>
-(observed (&lt; 1 (÷ (mass hydrogen) (mass proton)) (÷ 101 100)))
+<span data-comment>; a hydrogen atom weighs only a little more than its proton: the electron adds between 1/2¹¹ and 1/2⁹ of it</span>
+(observed (&lt; (+ 1 (÷ 1 (^ 2 11))) (÷ (mass hydrogen) (mass proton)) (+ 1 (÷ 1 (^ 2 9)))))
 
 <span data-comment>; an element is a token of a new type, 6</span>
 (= (type (quote hydrogen)) 6)</code></pre>
