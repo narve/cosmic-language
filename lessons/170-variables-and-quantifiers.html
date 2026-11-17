@@ -19,14 +19,16 @@
 (∀ <var>u</var> ℕ (= (+ <var>u</var> 0) <var>u</var>))</code></pre>
 
   <h4>More laws over ℕ</h4>
-  <pre><code>(∀ <var>u</var> ℕ (= (× <var>u</var> 1) <var>u</var>))  (∀ <var>u</var> ℕ (= (× <var>u</var> 0) 0))  (∀ <var>u</var> ℕ (= (− <var>u</var> <var>u</var>) 0))
+  <pre><code>(= (× 4 1) 4) (= (× 9 1) 9) (= (× 255 1) 255)
+(∀ <var>u</var> ℕ (= (× <var>u</var> 1) <var>u</var>))  (∀ <var>u</var> ℕ (= (× <var>u</var> 0) 0))  (∀ <var>u</var> ℕ (= (− <var>u</var> <var>u</var>) 0))
 (∀ <var>u</var> ℕ (&lt; <var>u</var> (+ <var>u</var> 1)))
 <span data-comment>nothing in ℕ is below 0</span>
 (∀ <var>u</var> ℕ (<data value="or">or</data> (= <var>u</var> 0) (&gt; <var>u</var> 0)))</code></pre>
 
   <h4>Two variables</h4>
   <p>Each quantifier binds one variable, so two variables need two nested quantifiers.</p>
-  <pre><code>(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (+ <var>u</var> <var>v</var>) (+ <var>v</var> <var>u</var>))))
+  <pre><code>(= (+ 2 5) (+ 5 2)) (= (+ 3 4) (+ 4 3)) (= (× 2 5) (× 5 2))
+(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (+ <var>u</var> <var>v</var>) (+ <var>v</var> <var>u</var>))))
 (∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (× <var>u</var> <var>v</var>) (× <var>v</var> <var>u</var>))))
 (∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (= (× <var>u</var> (+ <var>v</var> <var>w</var>)) (+ (× <var>u</var> <var>v</var>) (× <var>u</var> <var>w</var>))))))</code></pre>
 
@@ -56,6 +58,7 @@
   <pre><code>(= (<data value="implies">implies</data> <data value="true">true</data> <data value="true">true</data>) <data value="true">true</data>)   (= (<data value="implies">implies</data> <data value="true">true</data> <data value="false">false</data>) <data value="false">false</data>)
 (= (<data value="implies">implies</data> <data value="false">false</data> <data value="true">true</data>) <data value="true">true</data>)  (= (<data value="implies">implies</data> <data value="false">false</data> <data value="false">false</data>) <data value="true">true</data>)
 (∀ <var>u</var> ℚ (<data value="implies">implies</data> (&lt; <var>u</var> 2) (&lt; <var>u</var> 3)))
+(∀ <var>u</var> ℕ (<data value="implies">implies</data> (&gt; <var>u</var> 5) (&gt; <var>u</var> 2)))
 <span data-comment>only where <var>u</var> is not 0</span>
 (∀ <var>u</var> ℚ (<data value="implies">implies</data> (≠ <var>u</var> 0) (= (× <var>u</var> (÷ 1 <var>u</var>)) 1)))</code></pre>
   <p>Inside a quantifier, a relation such as <code>(&lt; <var>u</var> 2)</code> is an open statement: it holds for some values of <var>u</var> and not for others. This does not break the rule that nothing false is written, which applies to closed relations.</p>

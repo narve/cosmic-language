@@ -13,7 +13,7 @@
   <p>New: <code>list</code>, <code>length</code>, <code>item</code> and <code>count</code>. A list is several values in a fixed order, written <code>(list 4 7 9)</code>. The items are counted from 1.</p>
   <pre><code>(= (list 4 7 9) (list 4 7 9))
 <span data-comment>order matters</span>
-(≠ (list 1 2) (list 2 1))
+(≠ (list 1 2) (list 2 1))  (≠ (list 1 2) (list 1 2 3))
 (= (length (list 4 7 9)) 3)  (= (length (list 5)) 1)  (= (length (list)) 0)
 (= (item (list 4 7 9) 1) 4)  (= (item (list 4 7 9) 2) 7)  (= (item (list 4 7 9) 3) 9)
 <span data-comment>lists can contain lists</span>
@@ -28,7 +28,8 @@
 <span data-comment>the last item</span>
 (∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (item (list <var>u</var> <var>v</var>) (length (list <var>u</var> <var>v</var>))) <var>v</var>)))</code></pre>
   <p>The primes of the beacon, as a list:</p>
-  <pre><code>(= (length (list 1 2 3 5 7 11 13 17 19 23 29 31)) 12)</code></pre>
+  <pre><code>(= (length (list 1 2 3 5 7 11 13 17 19 23 29 31)) 12)
+(= (item (list 1 2 3 5 7 11 13 17 19 23 29 31) 4) 5)</code></pre>
 </article>
 </body>
 </html>

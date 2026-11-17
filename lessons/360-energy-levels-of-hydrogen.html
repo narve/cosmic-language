@@ -11,7 +11,8 @@
 <article class="lesson" data-topic="physics">
   <h3>the energy levels of hydrogen</h3>
   <p>New: the function <code>level</code>, the energy of a hydrogen atom in its 1st, 2nd, 3rd, … state. Again only ratios are given. First the mathematics: if the levels go as 1 − 1/n², the steps between them have exact ratios.</p>
-  <pre><code>(= (÷ (− 1 (÷ 1 4)) (− (÷ 1 4) (÷ 1 9))) (÷ 27 5))
+  <pre><code>(= (− 1 (÷ 1 4)) (÷ 3 4))  (= (− 1 (÷ 1 9)) (÷ 8 9))  (= (− (÷ 1 4) (÷ 1 9)) (÷ 5 36))
+(= (÷ (− 1 (÷ 1 4)) (− (÷ 1 4) (÷ 1 9))) (÷ 27 5))
 (= (÷ (− 1 (÷ 1 9)) (− 1 (÷ 1 4))) (÷ 32 27))</code></pre>
   <p>Then the measurements, which agree with these ratios:</p>
   <pre><code>(observed (&lt; (level hydrogen 1) (level hydrogen 2) (level hydrogen 3)))

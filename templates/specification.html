@@ -39,7 +39,7 @@
   <ol>
     <li>Every convention is either easy to spot (a period, primes) or taught by examples before it is used.</li>
     <li>A new symbol is introduced by its first appearance, followed by many true examples and contrasting examples. After that it can be used freely.</li>
-    <li>Every statement in the message must evaluate to true. The build fails otherwise. In addition, nothing false is written: no relation in the message is applied to arguments for which it does not hold (see §8.2).</li>
+    <li>Every statement in the message must evaluate to true (checked by hand for now; automatic checks are planned, §10). In addition, nothing false is written: no relation in the message is applied to arguments for which it does not hold (see §8.2).</li>
     <li>Concrete concepts come before abstractions.</li>
     <li>Clarity takes priority over compactness. This applies to message size and also to the vocabulary: a minimal, non-redundant set of symbols is not a goal. For example, <code>−</code> is included even though <code>(− <var>u</var> <var>v</var>)</code> could be written <code>(+ <var>u</var> (neg <var>v</var>))</code>, because subtraction is familiar and easy to show by example.</li>
     <li>The format starts simple and is extended in stages by the message itself.</li>
@@ -455,7 +455,7 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
 
 <section id="validation">
   <h2>10. Validation rules</h2>
-  <p>The build fails if any of these rules are broken:</p>
+  <p>The rules the message must follow. Today the build checks only what it needs to encode the message: every symbol is in the registry (§9), every number fits in a chunk, every message block has balanced brackets, and no name or sign is used twice. It stops if one of these fails. The other rules below are checked by hand for now; automatic checks are planned.</p>
   <dl>
     <dt>Bootstrap order</dt>
     <dd>No symbol is used before its introducing lesson, and every symbol has at least <var>k</var> examples when it is introduced.</dd>
@@ -465,8 +465,8 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
     <dd>No closed relation is applied to arguments for which it does not hold, not even inside another expression. No closed expression divides by zero (§8.2).</dd>
     <dt>Measurements</dt>
     <dd>Every <code>observed</code> statement holds for the reference data (CODATA, nuclide tables), and its bounds contain the reference uncertainty. No measured value is written with <code>=</code> unless the fact is exact.</dd>
-    <dt>Brackets</dt>
-    <dd>Every sentence is balanced.</dd>
+    <dt>Brackets (checked by the build)</dt>
+    <dd>Every message block is a sequence of complete sentences or single tokens: no <code>)</code> without a matching <code>(</code>, none left open.</dd>
     <dt>Period</dt>
     <dd>Autocorrelation of the raw stream finds the chunk and token period, also with added noise.</dd>
     <dt>Noise</dt>

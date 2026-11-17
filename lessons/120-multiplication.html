@@ -11,7 +11,10 @@
 <article class="lesson" data-topic="math">
   <h3>multiplication</h3>
   <p>New symbol: <code>×</code>.</p>
-  <pre><code>(= (× 2 3) 6) (= (× 3 2) 6) (= (× 0 5) 0) (= (× 1 9) 9)
+  <pre><code>(= (× 2 1) 2) (= (× 2 2) 4) (= (× 2 3) 6) (= (× 2 4) 8) (= (× 2 5) 10)
+<span data-comment>multiplying adds the same number again and again</span>
+(= (× 2 3) (+ 3 3) 6) (= (× 3 2) (+ 2 2 2) 6) (= (× 4 5) (+ 5 5 5 5) 20)
+(= (× 2 3) 6) (= (× 3 2) 6) (= (× 0 5) 0) (= (× 1 9) 9)
 <span data-comment>nesting two levels deep</span>
 (= (× 2 (+ 1 2)) 6)
 <span data-comment>× multiplies any number of factors</span>

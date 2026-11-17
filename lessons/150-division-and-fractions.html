@@ -11,11 +11,14 @@
 <article class="lesson" data-topic="math">
   <h3>division and fractions</h3>
   <p>New symbol: <code>÷</code>. It follows the same pattern as subtraction. First, only divisions that come out even:</p>
-  <pre><code>(= (÷ 6 3) 2) (= (÷ 8 2) 4) (= (÷ 9 9) 1) (= (÷ 0 5) 0) (= (÷ 7 1) 7)
+  <pre><code>(= (÷ 2 2) 1) (= (÷ 4 2) 2) (= (÷ 6 2) 3) (= (÷ 8 2) 4)
+(= (÷ 6 3) 2) (= (÷ 8 2) 4) (= (÷ 9 9) 1) (= (÷ 0 5) 0) (= (÷ 7 1) 7)
 <span data-comment>÷ undoes ×</span>
 (= (× (÷ 6 3) 3) 6)</code></pre>
   <p>Then divisions that do not come out even. No new symbol is needed: the result is simply written as a division, reduced to lowest terms.</p>
-  <pre><code>(= (× (÷ 1 3) 3) 1) (= (+ (÷ 1 3) (÷ 1 3) (÷ 1 3)) 1)
+  <pre><code><span data-comment>two halves make 1</span>
+(= (+ (÷ 1 2) (÷ 1 2)) 1) (= (× (÷ 1 2) 2) 1) (&lt; 0 (÷ 1 2) 1)
+(= (× (÷ 1 3) 3) 1) (= (+ (÷ 1 3) (÷ 1 3) (÷ 1 3)) 1)
 <span data-comment>the same value, in lowest terms</span>
 (= (÷ 2 6) (÷ 1 3)) (= (÷ 4 6) (÷ 2 3))
 (= (+ (÷ 1 2) (÷ 1 3)) (÷ 5 6))

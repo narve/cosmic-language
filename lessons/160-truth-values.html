@@ -14,7 +14,9 @@
   <p>Nothing false is written. Every relation in the message still holds, and <data value="false">false</data> only appears as the value of an expression built with <data value="not">not</data>, <data value="and">and</data> or <data value="or">or</data>.</p>
 
   <h4>Relations have the value <data value="true">true</data></h4>
-  <pre><code>(= (= 2 2) <data value="true">true</data>) (= (&lt; 1 2) <data value="true">true</data>) (= (≠ 3 4) <data value="true">true</data>) (= (&gt; 5 1 0) <data value="true">true</data>)
+  <pre><code><span data-comment>two new constants: each equals itself, and they differ</span>
+(= <data value="true">true</data> <data value="true">true</data>) (= <data value="false">false</data> <data value="false">false</data>) (≠ <data value="true">true</data> <data value="false">false</data>) (≠ <data value="false">false</data> <data value="true">true</data>)
+(= (= 2 2) <data value="true">true</data>) (= (&lt; 1 2) <data value="true">true</data>) (= (≠ 3 4) <data value="true">true</data>) (= (&gt; 5 1 0) <data value="true">true</data>)
 <span data-comment>all three are equal</span>
 (= <data value="true">true</data> (= 7 7) (&lt; 0 255))
 <span data-comment>false is something other than true</span>

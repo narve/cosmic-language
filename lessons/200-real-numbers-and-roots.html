@@ -12,7 +12,8 @@
   <h3>real numbers and roots</h3>
   <p>The rational numbers are not enough to answer simple questions such as "which number squares to 2?". The next three lessons add the real numbers, powers, and the numbers that solve polynomial equations.</p>
   <p>New: the domain <code>ℝ</code> (real numbers). Every rational number is real, and the familiar laws still hold:</p>
-  <pre><code>(∀ <var>u</var> ℚ (∃ <var>v</var> ℝ (= <var>u</var> <var>v</var>)))
+  <pre><code>(∃ <var>u</var> ℝ (= <var>u</var> 2))  (∃ <var>u</var> ℝ (= <var>u</var> (÷ 1 3)))  (∃ <var>u</var> ℝ (= <var>u</var> (neg 5)))
+(∀ <var>u</var> ℚ (∃ <var>v</var> ℝ (= <var>u</var> <var>v</var>)))
 (∀ <var>u</var> ℝ (= (+ <var>u</var> 0) <var>u</var>))  (∀ <var>u</var> ℝ (∀ <var>v</var> ℝ (= (× <var>u</var> <var>v</var>) (× <var>v</var> <var>u</var>))))</code></pre>
   <p>ℝ has numbers that ℚ lacks, such as a square root of 2:</p>
   <pre><code>(∃ <var>u</var> ℝ (<data value="and">and</data> (&gt; <var>u</var> 0) (= (× <var>u</var> <var>u</var>) 2)))
