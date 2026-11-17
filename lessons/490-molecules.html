@@ -57,19 +57,20 @@
 
 <span data-comment>; cytosine: 4 carbon, 5 hydrogen, 3 nitrogen, 1 oxygen</span>
 (= (count carbon cytosine) 4)  (= (count hydrogen cytosine) 5)  (= (count nitrogen cytosine) 3)  (= (count oxygen cytosine) 1)</code></pre>
-  <p>New: <code>triple-point</code>. Now that water is known, the message can name a temperature that is the same everywhere: water's triple point, where ice, liquid water and vapour exist together. Its thermal energy is compared with hydrogen's step from level 1 to level 2:</p>
+  <p>New: <code>triple-point</code>. Now that water is known, the message can name a temperature that is the same everywhere: water's triple point, where ice, liquid water and vapour exist together. Its thermal energy is compared with hydrogen's step from level 1 to level 2. The range is narrow on purpose, about one part in 300 (roughly a kelvin wide): a wide range would also fit water's boiling, or any other temperature in between.</p>
   <pre><code><span data-comment>; kB × the triple point of water, divided by hydrogen's step from level 1 to level 2:</span>
-<span data-comment>; about 2.3 × 10⁻³ (between 1/2⁹ and 1/2⁸)</span>
-(observed (&lt; (÷ 1 (^ 2 9))
+<span data-comment>; between 302/2¹⁷ and 303/2¹⁷, which pins the temperature down to one part in 300</span>
+<span data-comment>; (302 is written (big 1 46), because 256 + 46 = 302)</span>
+(observed (&lt; (÷ (big 1 46) (^ 2 17))
               (÷ (× kB (triple-point water)) (− (level hydrogen 2) (level hydrogen 1)))
-              (÷ 1 (^ 2 8))))
+              (÷ (big 1 47) (^ 2 17))))
 
 <span data-comment>; the triple point is a temperature</span>
 (= (dim (triple-point water)) Θ)
-<span data-comment>; in Planck units: about 1.9 × 10⁻³⁰ Planck temperatures (between 1/2⁹⁹ and 1/2⁹⁸)</span>
-(observed (&lt; (÷ 1 (^ 2 99))
+<span data-comment>; in Planck units: between 156/2¹⁰⁶ and 157/2¹⁰⁶ Planck temperatures</span>
+(observed (&lt; (÷ 156 (^ 2 106))
               (÷ (triple-point water) planck-temperature)
-              (÷ 1 (^ 2 98))))</code></pre>
+              (÷ 157 (^ 2 106))))</code></pre>
 </article>
 </body>
 </html>
