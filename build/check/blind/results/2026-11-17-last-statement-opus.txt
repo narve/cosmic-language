@@ -1,0 +1,72 @@
+# Decoding the last statement of the bit stream: partial result
+
+I got the framing, the unit size and the statement syntax with good confidence. I also read the tokens at the end of the stream. I could not work out what the specific symbols near the end mean, and I could not give absolute bit offsets for the end of the message. The details of what blocked me are in section 5.
+
+## 1. Structure
+
+**Header (bits 0–171).** The stream opens with runs of 1s separated by single 0s. The run lengths are 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31: 1 followed by the primes up to 31. That is 161 ones plus 11 separator zeros, so 172 bits. A pattern this unlikely to occur by chance reads as a "this is a deliberate signal" marker.
+
+**Trailer.** The stream ends with the same 172-bit run pattern: 1, 2, 3, …, 29, 31 ones, finishing exactly on the last bit.
+
+**Units are 16-bit words, starting at bit 172.** The evidence:
+- The data opens with the same primes again, each in a 16-bit word: 1, 2, 3, 5, 7, 11, …, 31.
+- Then come the words 0, 1, 2, …, 255, each value in its own 16-bit word. Each 1-bit in this run sits exactly 16 bits after the corresponding bit of the previous value.
+- This counting section teaches positional binary.
+
+**Each word splits into a type byte and an index byte.** All of the counting words have a high byte of 0. Every later word has a small high byte (0, 1, 2, 3 or 4) and an arbitrary low byte. I read the high byte as a type and the low byte as an index:
+- **0:n** is the number n.
+- **1:0** and **1:1** behave as an opening and closing bracket.
+- **2:n** behaves as a named operator or concept.
+- **4:n** behaves as a variable.
+- **3:n** appears but I did not establish its role.
+
+## 2. How statements are delimited
+
+**Brackets.** The first data after the count is:
+
+(1:0 2:1 0:1 0:1 1:1) (1:0 2:1 0:2 0:2 1:1) (1:0 2:1 0:3 0:3 1:1) …
+
+These are prefix lists, `(R n n)`, and they teach that 2:1 means "equals". A statement is a top-level list: it opens with 1:0 and ends at the matching 1:1, and lists can nest.
+
+**Where the last statement sits.**
+- **End:** the last statement ends on the last data word. That is the bit just before the trailer, so offset L−173, where L is the total message length.
+- **Start:** the start lies some way earlier, at the 1:0 that matches the final 1:1.
+
+I cannot give absolute offsets. Both depend on counting more than a thousand 100-bit lines exactly, and I could not do that reliably by hand.
+
+## 3. The tail of the last statement, as I read it
+
+Reading the words immediately before the trailer:
+
+`… 2:1 ( 2:67 ( 2:19 ( 2:63 2:66 ) 4:1 4:2 4:3 ) ) ( 2:66 ( 2:67 4:1 ) ( 2:67 4:2 ) ( 2:67 4:3 ) ) ) ) ) ) )`
+
+What each part means, and where I learned it:
+- **( and )** are 1:0 and 1:1, learned from the opening (= n n) statements.
+- **2:1 is "equals"**, learned from the same opening statements.
+- **4:1, 4:2, 4:3 are three variables.** I infer this because they are reused in parallel positions on both sides of the equals sign.
+- **2:19, 2:63, 2:66 and 2:67 are operators whose meanings I did not determine.** I did not locate where the message defines them.
+
+The structure itself is clear: a statement of the form `(= (67 (19 (63 66) a b c)) (66 (67 a) (67 b) (67 c)))`. It sits inside at least three further enclosing lists that I did not resolve.
+
+## 4. Meaning (tentative)
+
+"Applying 67 to the result of combining a, b, c with the operator built from 66 by 63 equals 66 applied to 67-of-each."
+
+This has the shape of a distribution or duality law. One guess is a De Morgan law: not(dual-of-and(a, b, c)) = and(not a, not b, not c). That guess is speculation; nothing in what I verified supports it.
+
+## 5. Confidence and limits
+
+| Point | Confidence |
+|---|---|
+| Prime header and trailer, 172 bits each | High |
+| 16-bit words; prime list then counting 0–255; type/index split | High |
+| Brackets and (= n n) statements | High |
+| Exact tokens of the final statement | Medium |
+| Meaning of 19, 63, 66, 67, the outer wrapping, and the plain-language reading | Low |
+| Absolute bit offsets | Not determined |
+
+**Why the final tokens are only medium confidence.** When I re-read the last few lines, the 16-bit pairing slipped by one byte in two places. That means I probably mis-transcribed at least one line there. Under the bracket syntax, the token sequence I report is the only consistent repair.
+
+**Why the absolute offsets are missing.** The trailer occupies the last 172 bits, so the statement ends at L−173. I could not count the lines exactly, so I cannot convert that into absolute offsets for either end of the statement.
+
+**Why the outer meaning is missing.** Fixing it would mean finding the earlier statements that introduce symbols 19, 63, 66 and 67, and matching the three extra closing brackets back to their openers. By hand, without tools, I could not do either reliably.
