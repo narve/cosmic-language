@@ -3,27 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cosmic Language Blind Tests</title>
+  <title>Cosmic Language Blind Test</title>
   <link rel="stylesheet" href="assets/style.css">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
 <body>
 
 <header>
-  <small>Test record · 2026-11-17</small>
-  <h1>Blind Tests</h1>
-  <p>Can a reader who gets nothing but the bits work out what the message says, and why it was sent? This page records what happened when a language model was given only the bit stream. The results are encouraging and they are also thin: four runs, one kind of reader. Read the <a href="#caveats">caveats</a> before drawing conclusions.</p>
+  <small>Test record · latest run: 2026-11-17</small>
+  <h1>Blind Test</h1>
+  <p>Can a reader who gets nothing but the bits work out what the message says, and why it was sent? This page records the latest run, in which a language model was given only the bit stream. The result is encouraging and it is also thin: one run, one kind of reader. Read the <a href="#caveats">caveats</a> before drawing conclusions.</p>
 </header>
 
 <nav aria-label="Contents">
   <ol>
     <li><a href="#setup">The setup</a></li>
-    <li><a href="#runs">The runs</a></li>
-    <li><a href="#last-statement">What the last statement means</a></li>
-    <li><a href="#purpose">Why the message was sent</a></li>
+    <li><a href="#result">What the reader concluded</a></li>
     <li><a href="#gaps">What the reader could not find</a></li>
     <li><a href="#caveats">Caveats</a></li>
-    <li><a href="#rerun">Running the tests again</a></li>
+    <li><a href="#rerun">Running the test again</a></li>
   </ol>
 </nav>
 
@@ -31,62 +29,19 @@
 
 <section id="setup">
   <h2>1. The setup</h2>
-  <p>The reader is a language model started with no knowledge of this project: no files, no instructions, no settings, no network, in an empty directory. It gets a short task text and the message as a stream of 0s and 1s. The task text describes the situation and what to report. It contains none of the project's vocabulary: no "token", "chunk" or "prime", and nothing about games or peace.</p>
-  <p>There are two settings:</p>
-  <dl>
-    <dt>No tools</dt>
-    <dd>The bits are part of the prompt, and the reader can only read and reason.</dd>
-    <dt>A code tool</dt>
-    <dd>The reader can run Python inside a sealed container that has no network and holds a single file, the bits. This is closer to a real receiver, who would certainly have a computer.</dd>
-  </dl>
-  <p>And two tasks:</p>
-  <dl>
-    <dt>Last statement</dt>
-    <dd>"Work out the meaning of the last statement in the message." The reader has to find out for itself what a statement is.</dd>
-    <dt>Purpose</dt>
-    <dd>The bits are presented as an artificial radio signal from outside the solar system, sender unknown. "Work out why this message was sent. What does the sender want the receiver to understand, believe or do?" The reader must also give other explanations and say what the message leaves out.</dd>
-  </dl>
-</section>
-
-<section id="runs">
-  <h2>2. The runs</h2>
-  <p>All four runs were made on 2026-11-17. The message changed between them, as noted.</p>
-  <table>
-    <thead><tr><th>Run</th><th>Task</th><th>Reader</th><th>Tools</th><th>The message then</th><th>Outcome</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>Last statement</td><td>Claude Opus</td><td>None</td><td>Ended with the rule for evaluating <code>if</code></td><td>Format right, the inner equation right, meaning not found</td></tr>
-      <tr><td>2</td><td>Last statement</td><td>Claude Fable 5.2</td><td>Python</td><td>The same ending; quantifiers now taught on short lists first</td><td>Fully correct</td></tr>
-      <tr><td>3</td><td>Last statement</td><td>Claude Fable 5.2</td><td>Python</td><td>New order; ends with the tit-for-tat theorem</td><td>Fully correct; the reader also re-computed the tournament</td></tr>
-      <tr><td>4</td><td>Purpose</td><td>Claude Fable 5.2</td><td>Python</td><td>As in run 3</td><td>"An opening move plus a statement of policy"</td></tr>
-    </tbody>
-  </table>
-  <p>Runs 2 to 4 each took between one and two minutes and six or seven pieces of code. One further attempt gave no answer at all: without tools, Claude Fable 5.2 refused the prompt, because its safety filter flagged the long block of bits.</p>
-</section>
-
-<section id="last-statement">
-  <h2>3. What the last statement means</h2>
-
-  <h3>Without tools (run 1)</h3>
-  <p>Reading 176,000 bits by eye, the reader found the beacon and the terminator, the 16-bit tokens, calibration and counting, the split into a type and a value, the brackets, and <code>=</code> from the first sentences. It worked out that a statement is a top-level bracket group. It read the inner equation of the last statement correctly, token for token, as numbers:</p>
-  <pre data-illustration><code>(= (67 (19 (63 66) a b c)) (66 (67 a) (67 b) (67 c)))</code></pre>
-  <p>It did not get further. It never looked at the three quantifiers around the equation, and it could not search the message for where the four symbols are introduced. Its guess at the meaning, a De Morgan law, was wrong, and it said itself that the guess was speculation.</p>
-
-  <h3>With a code tool (runs 2 and 3)</h3>
-  <p>With Python, the reader decoded the whole message and explained every symbol of the last statement from the sentences that introduce it. In run 3, after the message had been reordered to end with the prisoner's dilemma, its rendering of the last statement was:</p>
-  <pre data-illustration><code>( ∀ v1 ∈ SIX
-   ( ⇒ ( ≠ v1 TFT )
-       ( &gt; ( fold + ( map v2 SIX ( score TFT v2 10 ) ) )
-           ( fold + ( map v2 SIX ( score v1  v2 10 ) ) ) ) ) )</code></pre>
-  <p>The names are the reader's own labels; it only ever saw numbers. In its words:</p>
+  <p>The reader was Claude Fable 5.2, started with no knowledge of this project: no files, no instructions, no settings, no network, in an empty directory. It got a task text and one tool. The tool runs Python inside a sealed container that has no network and holds a single file: the message as one line of 0s and 1s. A real receiver would certainly have a computer, so this is the fair setting.</p>
+  <p>The task text presents the bits as an artificial radio signal from outside the solar system, sender unknown, and asks:</p>
   <blockquote>
-    <p>For every one of the six listed strategies other than the "cooperate first, then copy the opponent's previous move" strategy, that strategy's total payoff is strictly greater than theirs. The total is summed over 10-round games against all six strategies, including itself: it scores 154 against 147, 143, 142, 128 and 113.</p>
+    <p>Work out WHY this message was sent. Nobody builds and transmits something this elaborate without a reason. What does the sender want the receiver to understand, believe or do?</p>
   </blockquote>
-  <p>Two things stand out. The reader named the sentence that taught it "for all": the one that sets a statement about every item of the list 1, 2, 3 equal to the <data value="and">and</data> of its three instances. And without being asked, it wrote its own simulation of the six strategies from the message's definitions and reproduced all 18 scores and totals the message states.</p>
+  <p>The reader also had to describe the format and the contents, give at least two other explanations, and say what the message leaves out. The task text contains none of the project's vocabulary: no "token", "chunk" or "prime", and nothing about games, strategies or peace.</p>
+  <p>The run took about two minutes and seven pieces of code. The message was the version of 2026-11-17 that ends with the prisoner's dilemma and the tit-for-tat theorem (11,815 tokens).</p>
 </section>
 
-<section id="purpose">
-  <h2>4. Why the message was sent (run 4)</h2>
-  <p>Asked for the purpose, the reader decoded all parts of the message. It identified the electron, proton and neutron from their mass ratios, the fine-structure constant, the Planck units, the 21 cm line of hydrogen, and the four bases of DNA from their formulas. Its conclusion:</p>
+<section id="result">
+  <h2>2. What the reader concluded</h2>
+  <p>The reader decoded all parts of the message. It found the beacon and the terminator, the 16-bit tokens, the token types and the brackets, and split the message into 696 statements. It identified the electron, proton and neutron from their mass ratios, the fine-structure constant, the Planck units, the 21 cm line of hydrogen, and the four bases of DNA from their formulas. It recognised the payoffs as a prisoner's dilemma and worked out each of the eight strategies from its rule. Without being asked, it wrote its own simulation of the tournament from the message's definitions and reproduced every score and total the message states.</p>
+  <p>It read the last statement of the message as: tit-for-tat's total is strictly greater than that of every other strategy in the set. Its conclusion about the purpose:</p>
   <blockquote>
     <p>The message is an opening move plus a statement of policy. It reads as: "We know contact is a repeated dilemma. We know defection can win a single encounter. Here is a checkable reason why we reciprocate — cooperate first, answer in kind — and why you should too." What it wants from the receiver is a cooperative reply, and an understanding that cooperation will be returned and defection also returned.</p>
   </blockquote>
@@ -110,7 +65,7 @@
 </section>
 
 <section id="gaps">
-  <h2>5. What the reader could not find</h2>
+  <h2>3. What the reader could not find</h2>
   <p>These are the most useful results: each is something the message does not yet say, or says badly.</p>
   <ul>
     <li><strong>No "us" and no "you".</strong> Nothing says that the sender plays tit-for-tat, or that the game is about sender and receiver. The reading "a statement of policy" is the reader's inference. The message is meant to say "we come in peace"; so far it proves that peace wins a game.</li>
@@ -120,40 +75,29 @@
     <li><strong>A narrow result.</strong> The theorem holds for six strategies and ten rounds. It is an illustration, not a general proof.</li>
     <li><strong>Water's temperature is ambiguous.</strong> The bounds the message gives allow roughly 230 to 460 K, so the reader could not tell which temperature of water is meant.</li>
     <li><strong>The rational numbers were read as the integers.</strong> What the message says about <code>ℚ</code> did not set it clearly apart.</li>
-    <li><strong>From run 2:</strong> the domain <code>expressions</code> is never shown by example; nothing that is sent says that <code>if</code> computes only the branch it picks; and there are no rules for evaluating <code>∀</code>, <code>∃</code> and <code>sequence</code>.</li>
+    <li><strong>The four large molecules are unexplained.</strong> The reader matched their formulas to the bases of DNA, but the message gives no structures or roles and says nothing about life.</li>
   </ul>
 </section>
 
 <section id="caveats">
-  <h2>6. Caveats</h2>
+  <h2>4. Caveats</h2>
   <ul>
-    <li><strong>The reader is not an alien.</strong> It is a model trained on human writing. It knows prefix notation, the prisoner's dilemma and what tit-for-tat is taken to mean, and it knows the masses of the particles. A real receiver shares none of that. These tests show that the message is consistent and can be decoded by a mind with human mathematics. They do not show that it can be decoded by a mind without it.</li>
-    <li><strong>Few runs.</strong> One run per setting. A second run could go differently.</li>
-    <li><strong>The runs cannot be compared with each other.</strong> Runs 1 and 2 differ in the tools, in the model and in the message at the same time, so they do not show which change helped.</li>
-    <li><strong>The reader skipped what it did not need.</strong> For the last statement it passed over physics and chemistry. Only run 4 looked at them, and briefly.</li>
-    <li><strong>The reader made mistakes</strong> that did not affect its conclusions: a wrong count of tokens in one place, and the integers for the rationals.</li>
-    <li><strong>The task text is part of the experiment.</strong> Run 4 was told that the signal is artificial, that it is a message and that it was sent for a reason. A real receiver has to reach that by itself.</li>
-    <li><strong>The message is a draft.</strong> It has changed since these runs and will change again.</li>
+    <li><strong>The reader is not an alien.</strong> It is a model trained on human writing. It knows prefix notation, the prisoner's dilemma and what tit-for-tat is taken to mean, and it knows the masses of the particles. A real receiver shares none of that. The test shows that the message is consistent and can be decoded by a mind with human mathematics. It does not show that it can be decoded by a mind without it.</li>
+    <li><strong>One run.</strong> A second run could go differently.</li>
+    <li><strong>The task text is part of the experiment.</strong> The reader was told that the signal is artificial, that it is a message and that it was sent for a reason. A real receiver has to reach that by itself.</li>
+    <li><strong>The reader skimmed.</strong> It read the beginning and the end of the message closely and the middle only as far as it needed.</li>
+    <li><strong>The reader made mistakes</strong> that did not affect its conclusion: a wrong count of tokens in one place, and the integers for the rationals.</li>
+    <li><strong>The message is a draft.</strong> It has changed since this run and will change again; this page is replaced when the test is run again.</li>
   </ul>
 </section>
 
 <section id="rerun">
-  <h2>7. Running the tests again</h2>
-  <p>The task texts, the tool and the reader's full answers, with the code it ran, are in <a href="https://github.com/narve/cosmic-language/tree/main/build/check/blind"><code>build/check/blind/</code></a> in the repository. After <code>npm run build</code>:</p>
-  <dl>
-    <dt><code>npm run --silent blind:prompt</code></dt>
-    <dd>Prints the task and the bits, to give to any reader, model or person.</dd>
-    <dt><code>npm run --silent blind</code></dt>
-    <dd>The last-statement task, without tools.</dd>
-    <dt><code>npm run --silent blind:code</code></dt>
-    <dd>The last-statement task with the code tool. Needs Docker.</dd>
-    <dt><code>npm run --silent blind:code purpose-code</code></dt>
-    <dd>The purpose task with the code tool.</dd>
-  </dl>
+  <h2>5. Running the test again</h2>
+  <p>The task text, the tool and the reader's full answer, with the code it ran, are in <a href="https://github.com/narve/cosmic-language/tree/main/build/check/blind"><code>build/check/blind/</code></a> in the repository, together with earlier runs and a second task about the meaning of the last statement. After <code>npm run build</code>, with Docker available, the command is <code>npm run --silent blind:code purpose-code</code>.</p>
 </section>
 
 </main>
 
-<footer>cosmic-language · blind tests · draft</footer>
+<footer>cosmic-language · blind test · draft</footer>
 </body>
 </html>
