@@ -110,6 +110,17 @@
 (∃ <var>u</var> ℕ (&gt; <var>u</var> 255))      (&gt; (big 1 0) 255)</code></pre>
 
   <h4>ℚ: the rational numbers</h4>
+  <p><code>ℚ</code> holds every quotient of two natural numbers, and the opposite of each. So it contains the natural numbers, the fractions between them, and the negative numbers:</p>
+  <pre><code><span data-comment>; 1/2, 2/3 and neg 3 are in ℚ</span>
+(∃ <var>u</var> ℚ (= <var>u</var> (÷ 1 2)))  (∃ <var>u</var> ℚ (= <var>u</var> (÷ 2 3)))  (∃ <var>u</var> ℚ (= <var>u</var> (neg 3)))
+<span data-comment>; every natural number is in ℚ</span>
+(∀ <var>u</var> ℕ (∃ <var>v</var> ℚ (= <var>u</var> <var>v</var>)))
+
+<span data-comment>; every quotient of two natural numbers is in ℚ (<var>v</var> + 1 is never 0)</span>
+(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (∃ <var>w</var> ℚ (= <var>w</var> (÷ <var>u</var> (+ <var>v</var> 1))))))
+<span data-comment>; and nothing else is: every number in ℚ is such a quotient, or the neg of one</span>
+(∀ <var>w</var> ℚ (∃ <var>u</var> ℕ (∃ <var>v</var> ℕ
+  (<data value="or">or</data> (= <var>w</var> (÷ <var>u</var> (+ <var>v</var> 1))) (= <var>w</var> (neg (÷ <var>u</var> (+ <var>v</var> 1))))))))</code></pre>
   <p>The same laws hold over ℚ:</p>
   <pre><code><span data-comment>; adding 0 changes nothing, and the order of a sum does not matter</span>
 (∀ <var>u</var> ℚ (= (+ <var>u</var> 0) <var>u</var>))  (∀ <var>u</var> ℚ (∀ <var>v</var> ℚ (= (+ <var>u</var> <var>v</var>) (+ <var>v</var> <var>u</var>))))</code></pre>
