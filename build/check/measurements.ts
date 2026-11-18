@@ -87,20 +87,20 @@ const QUANTITIES: Record<string, Q> = {
     const a = constant("charge asymmetry of the long-lived neutral kaon");
     return q((1 + a.v) / (1 - a.v), (2 * a.u) / (1 - a.v) ** 2);
   })(),
-  "(÷ (mass galaxy-centre) (mass sun))": constant("mass of the Galactic centre"),
-  "(÷ (distance sun galaxy-centre) (axis earth sun))": div(mul(constant("distance from the Sun to the Galactic centre"), q(1000 * (648000 / Math.PI) * 149597870700)), constant("semimajor axis of the Earth")),
+  "(÷ (mass galaxy-centre) (mass proton))": mul(constant("mass of the Galactic centre"), div(div(constant("GM of the Sun"), G), mp)),
+  "(÷ (distance sun galaxy-centre) planck-length)": div(mul(constant("distance from the Sun to the Galactic centre"), q(1000 * (648000 / Math.PI) * 149597870700)), constant("Planck length")),
   "(÷ (speed sun) c)": div(mul(constant("circular velocity at the Sun"), q(1000)), c),
   // one round of a circle: 2π × distance ÷ speed
-  "(÷ (period sun galaxy-centre) (period earth sun))": div(div(mul(q(2 * Math.PI * 1000 * (648000 / Math.PI) * 149597870700), constant("distance from the Sun to the Galactic centre")), mul(constant("circular velocity at the Sun"), q(1000))), constant("sidereal year")),
+  "(÷ (period sun galaxy-centre) planck-time)": div(div(mul(q(2 * Math.PI * 1000 * (648000 / Math.PI) * 149597870700), constant("distance from the Sun to the Galactic centre")), mul(constant("circular velocity at the Sun"), q(1000))), planckTime),
   ...pulsarQuantities(),
   "(÷ (mass sun) (mass proton))": div(div(constant("GM of the Sun"), G), mp),
   "(÷ (radius sun) planck-length)": div(constant("radius of the Sun"), constant("Planck length")),
   "(÷ (temperature sun) (triple-point water))": div(constant("effective temperature of the Sun"), tWater),
   "(÷ (luminosity sun) (÷ (^ c 5) G))": div(constant("luminosity of the Sun"), div(pow(c, 5), G)),
   "(÷ (count helium sun) (count hydrogen sun))": constant("helium per hydrogen atom in the Sun"),
-  "(÷ (axis earth sun) (radius sun))": div(constant("semimajor axis of the Earth"), constant("radius of the Sun")),
-  "(× (period earth sun) (frequency hydrogen-line))": mul(constant("sidereal year"), div(line21, h)),
-  "(÷ (mass sun) (mass earth))": div(constant("GM of the Sun"), constant("GM of the Earth")),
+  "(÷ (axis earth sun) planck-length)": div(constant("semimajor axis of the Earth"), constant("Planck length")),
+  "(÷ (period earth sun) planck-time)": div(constant("sidereal year"), planckTime),
+  "(÷ (mass earth) (mass proton))": div(div(constant("GM of the Earth"), G), mp),
   "(÷ (triple-pressure dihydrogen) (triple-pressure water))": div(constant("triple-point pressure of hydrogen"), pWater),
   "(÷ (triple-pressure neon) (triple-pressure water))": div(constant("triple-point pressure of neon"), pWater),
   "(÷ (triple-pressure argon) (triple-pressure water))": div(constant("triple-point pressure of argon"), pWater),
@@ -123,8 +123,8 @@ function pulsarQuantities(): Record<string, Q> {
     const p = ref.pulsars[j];
     const P0 = Number(p.period.value), P0u = Number(p.period.uncertainty), P1 = Number(p.slowing.value);
     const l = (Number(p.longitude) * Math.PI) / 180, b = (Number(p.latitude) * Math.PI) / 180;
-    out[`(× (pulse-period ${name}) (frequency hydrogen-line))`] = q(P0 * nu, Math.hypot(P0u, P1 * 40 * year) * nu);
-    out[`(÷ (× (slowing ${name}) (period earth sun)) (pulse-period ${name}))`] = widen(q((P1 * year) / P0), 0.02);
+    out[`(÷ (pulse-period ${name}) planck-time)`] = div(q(P0, Math.hypot(P0u, P1 * 40 * year)), planckTime);
+    out[`(slowing ${name})`] = widen(q(P1), 0.02);
     const dir = [Math.cos(b) * Math.cos(l), Math.cos(b) * Math.sin(l), Math.sin(b)];
     ["toward-centre", "along-rotation", "galactic-pole"].forEach((axis, i) => {
       out[`(dot (direction-from sun ${name}) ${axis})`] = q(dir[i], 0.01);

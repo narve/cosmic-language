@@ -28,16 +28,16 @@
 <span data-comment>; at its surface, between 1/16 and 1/8 helium atom for every</span>
 <span data-comment>; hydrogen atom</span>
 (observed (&lt; (÷ 1 (^ 2 4)) (÷ (count helium sun) (count hydrogen sun)) (÷ 1 (^ 2 3))))</code></pre>
-  <p>The Earth goes round the Sun. Its orbit is given against the Sun itself and against the hydrogen line, which a receiver can measure.</p>
+  <p>The Earth goes round the Sun. Its orbit and its mass are given in units that any reader has: Planck lengths, Planck times and proton masses.</p>
   <pre><code><span data-comment>; the Earth orbits the Sun</span>
 (observed (orbits earth sun))
-<span data-comment>; the size of its orbit: between 214 and 216 times the Sun's radius</span>
-(observed (&lt; 214 (÷ (axis earth sun) (radius sun)) 216))
-<span data-comment>; one round takes between 2⁵⁵ and 2⁵⁶ periods of the hydrogen line</span>
-(observed (&lt; (^ 2 55) (× (period earth sun) (frequency hydrogen-line)) (^ 2 56)))
-<span data-comment>; the Sun is between 2¹⁸ and 2¹⁹ times heavier than the Earth</span>
-(observed (&lt; (^ 2 18) (÷ (mass sun) (mass earth)) (^ 2 19)))</code></pre>
-  <p><small>Sources: NASA Sun and Earth fact sheets (2024), CODATA 2022, JPL catalog (the 21 cm line), BIPM (water's triple point). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+<span data-comment>; the size of its orbit: between 2¹⁵² and 2¹⁵³ Planck lengths</span>
+(observed (&lt; (^ 2 152) (÷ (axis earth sun) planck-length) (^ 2 153)))
+<span data-comment>; one round takes between 2¹⁶⁸ and 2¹⁶⁹ Planck times</span>
+(observed (&lt; (^ 2 168) (÷ (period earth sun) planck-time) (^ 2 169)))
+<span data-comment>; the Earth's mass: between 2¹⁷¹ and 2¹⁷² proton masses</span>
+(observed (&lt; (^ 2 171) (÷ (mass earth) (mass proton)) (^ 2 172)))</code></pre>
+  <p><small>Sources: NASA Sun and Earth fact sheets (2024), CODATA 2022 (the Planck units and the proton mass), BIPM (water's triple point). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
 </article>
 </body>
 </html>
