@@ -199,7 +199,7 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
     <li><strong>Strategies</strong> (for games) are named constants. <code>(move <var>s</var> <var>h</var>)</code> gives a list to pick the next move from: one item for a fixed choice, repeated items for a chance. <code>rounds</code> and <code>cost</code> are defined by general rules for the strategies in <code>tournament</code>, and shown with worked examples.</li>
     <li><strong>Quoting.</strong> <code>(quote <var>X</var>)</code> is the expression <var>X</var> itself: nothing inside it is computed or asserted, and variables inside it are not bound (a quoted <var>u</var> is a symbol of type 4). A quoted bracket group is the list of its parts, e.g. <code>(= (quote (+ 2 3)) (list (quote +) 2 3))</code>; a number is its own quote. <code>type</code> gives an atom's token type, and 1 for a list.</li>
     <li><strong><code>if</code></strong> computes only the branch it picks, so the other branch may be undefined (e.g. divide by zero) for that case.</li>
-    <li><strong><code>eval</code></strong> gives the value of an expression. Numbers and operators are their own values; a named thing (constant, particle, element …) has the thing it names as its value. An operation applies its operator to the values of its arguments, except for the special forms <code>quote</code>, <code>if</code>, <code>∀</code>, <code>∃</code> and <code>sequence</code>, which have their own rules. <code>eval</code> is not the same as truth: it computes, and cannot settle a sentence about infinitely many cases.</li>
+    <li><strong><code>eval</code></strong> gives the value of an expression. Numbers and operators are their own values; a named thing (constant, particle, element …) has the thing it names as its value. An operation applies its operator to the values of its arguments, except for the special forms <code>quote</code>, <code>if</code>, <code>∀</code>, <code>∃</code>, <code>sequence</code> and <code>let</code>, which have their own rules. <code>eval</code> is not the same as truth: it computes, and cannot settle a sentence about infinitely many cases.</li>
     <li><code>≠</code> takes exactly two arguments. <em>Justification:</em> <code>(≠ 1 2 1)</code> has three plausible readings that disagree. "All different" (false), "not all equal" (true), and "each differs from the next" as a chain (true). <code>≠</code> is not transitive, so the chain reading does not give "all different" as it does for <code>&lt;</code>. Rather than make the receiver guess, <code>≠</code> is kept to two arguments. "All different" can be defined later if needed.</li>
   </ul>
   <p>Example: <code>(= (+ 2 3) 5)</code> becomes 9 tokens:</p>
@@ -386,63 +386,66 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
       <tr><td>37</td><td><code>average</code></td><td></td><td>3</td><td>variable, domain, expression: the mean of the expression over the domain (all directions)</td></tr>
       <tr><td>38</td><td><code>quote</code></td><td></td><td>1</td><td>the expression itself, not computed: a bracket group is the list of its parts (§7)</td></tr>
       <tr><td>39</td><td><code>type</code></td><td></td><td>1</td><td>the token type of an atom (0 number, 2 operator, 3 constant …); 1 for a list</td></tr>
-      <tr><td>40</td><td><code>eval</code></td><td></td><td>1</td><td>the value of an expression (§7)</td></tr>
-      <tr><td>41</td><td><code>observed</code></td><td></td><td>1</td><td>the statement is a measurement (§8.3)</td></tr>
-      <tr><td>42</td><td><code>mass</code></td><td></td><td>1</td><td>mass of a particle or atom (a quantity)</td></tr>
-      <tr><td>43</td><td><code>charge</code></td><td></td><td>1</td><td>electric charge (a quantity)</td></tr>
-      <tr><td>44</td><td><code>isotope</code></td><td></td><td>2</td><td>an element with a given number of neutrons</td></tr>
-      <tr><td>45</td><td><code>stable</code></td><td></td><td>1+</td><td>all are stable isotopes (observed property)</td></tr>
-      <tr><td>46</td><td><code>level</code></td><td></td><td>2</td><td>energy of the <var>n</var>th state of an atom (a quantity)</td></tr>
-      <tr><td>47</td><td><code>dim</code></td><td></td><td>1</td><td>the dimension of a quantity</td></tr>
-      <tr><td>48</td><td><code>speed</code></td><td></td><td>1</td><td>speed (a quantity)</td></tr>
-      <tr><td>49</td><td><code>wavelength</code></td><td></td><td>1</td><td>wavelength of a photon (a quantity)</td></tr>
-      <tr><td>50</td><td><code>frequency</code></td><td></td><td>1</td><td>frequency of a photon (a quantity)</td></tr>
-      <tr><td>51</td><td><code>energy</code></td><td></td><td>1</td><td>energy (a quantity)</td></tr>
-      <tr><td>52</td><td><code>emitted</code></td><td></td><td>3</td><td>the photon an atom emits falling from one level to another</td></tr>
-      <tr><td>53</td><td><code>distance</code></td><td></td><td>2</td><td>the distance between two bodies or two wires (a quantity)</td></tr>
-      <tr><td>54</td><td><code>gravity</code></td><td></td><td>2</td><td>the force of gravity between two bodies (a quantity)</td></tr>
-      <tr><td>55</td><td><code>electric</code></td><td></td><td>2</td><td>the electric force between two bodies (a quantity)</td></tr>
-      <tr><td>56</td><td><code>current</code></td><td></td><td>1</td><td>the charge flowing along a wire per time, signed by its direction (a quantity)</td></tr>
-      <tr><td>57</td><td><code>magnetic</code></td><td></td><td>2</td><td>the magnetic force between two wires, per length of wire (a quantity)</td></tr>
-      <tr><td>58</td><td><code>kinetic</code></td><td></td><td>1</td><td>the average energy of motion of a gas's particles (a quantity)</td></tr>
-      <tr><td>59</td><td><code>temperature</code></td><td></td><td>1</td><td>temperature (a quantity)</td></tr>
-      <tr><td>60</td><td><code>radiance</code></td><td></td><td>1</td><td>power radiated per area (a quantity)</td></tr>
-      <tr><td>61</td><td><code>lifetime</code></td><td></td><td>1</td><td>the mean lifetime of an unstable particle or isotope (a quantity)</td></tr>
-      <tr><td>62</td><td><code>survival</code></td><td></td><td>2</td><td>the chance that something has not decayed after a duration</td></tr>
-      <tr><td>63</td><td><code>half-life</code></td><td></td><td>1</td><td>the duration after which the chance of survival is 1/2 (a quantity)</td></tr>
-      <tr><td>64</td><td><code>spin</code></td><td></td><td>1</td><td>the size of a particle's spin (a quantity, a multiple of ħ)</td></tr>
-      <tr><td>65</td><td><code>turns</code></td><td></td><td>3</td><td>a particle turns from the first direction toward the second</td></tr>
-      <tr><td>66</td><td><code>spin-axis</code></td><td></td><td>1</td><td>the direction of a particle's spin axis: the cross of the directions it turns from and toward</td></tr>
-      <tr><td>67</td><td><code>emitted-along</code></td><td></td><td>2</td><td>the average dot of the direction a particle leaves in with the spin axis of the particle that decays</td></tr>
-      <tr><td>68</td><td><code>spin-along-motion</code></td><td></td><td>2</td><td>the average dot of a particle's spin axis with its direction of motion, for particles from a decay</td></tr>
-      <tr><td>69</td><td><code>radius</code></td><td></td><td>1</td><td>the radius of a ring, a star or another round body (a quantity)</td></tr>
-      <tr><td>70</td><td><code>field-strength</code></td><td></td><td>1</td><td>the strength of the magnetic field at the centre of a ring (a quantity)</td></tr>
-      <tr><td>71</td><td><code>circulates</code></td><td></td><td>3</td><td>the current of a ring goes round from the first direction toward the second</td></tr>
-      <tr><td>72</td><td><code>field-direction</code></td><td></td><td>1</td><td>the direction of the magnetic field at the centre of a ring or of a particle</td></tr>
-      <tr><td>73</td><td><code>yields</code></td><td></td><td>2</td><td>the chance that a decay of the second particle gives the first</td></tr>
-      <tr><td>74</td><td><code>states</code></td><td></td><td>2</td><td>number of electron states at the <var>n</var>th level of an atom</td></tr>
-      <tr><td>75</td><td><code>noble</code></td><td></td><td>1+</td><td>all are noble gases (observed property)</td></tr>
-      <tr><td>76</td><td><code>atoms</code></td><td></td><td>1</td><td>the atoms of a molecule, as a list of elements</td></tr>
-      <tr><td>77</td><td><code>bonds</code></td><td></td><td>1</td><td>the bonds of a molecule, as a list of (position, position, shared pairs)</td></tr>
-      <tr><td>78</td><td><code>triple-point</code></td><td></td><td>1</td><td>the temperature at which a substance's solid, liquid and gas exist together</td></tr>
-      <tr><td>79</td><td><code>triple-pressure</code></td><td></td><td>1</td><td>the pressure at the triple point of a substance (a quantity)</td></tr>
-      <tr><td>80</td><td><code>fill</code></td><td></td><td>2</td><td>the quoted sentence with every <code>?</code> replaced by the value</td></tr>
-      <tr><td>81</td><td><code>sender</code></td><td></td><td>1</td><td>the party that sends a message</td></tr>
-      <tr><td>82</td><td><code>receiver</code></td><td></td><td>1</td><td>the party a message is sent to</td></tr>
-      <tr><td>83</td><td><code>luminosity</code></td><td></td><td>1</td><td>the power a star sends out as light (a quantity)</td></tr>
-      <tr><td>84</td><td><code>orbits</code></td><td></td><td>2</td><td>the first body goes round the second under gravity</td></tr>
-      <tr><td>85</td><td><code>period</code></td><td></td><td>2</td><td>the time one round of an orbit takes (a quantity)</td></tr>
-      <tr><td>86</td><td><code>axis</code></td><td></td><td>2</td><td>the size of an orbit: half the sum of the smallest and the largest distance (a quantity)</td></tr>
-      <tr><td>87</td><td><code>background</code></td><td></td><td>1</td><td>the temperature of the background radiation seen in a direction, by an observer at rest relative to it (a quantity)</td></tr>
-      <tr><td>88</td><td><code>direction-from</code></td><td></td><td>2</td><td>the direction in which the second body is seen from the first</td></tr>
-      <tr><td>89</td><td><code>pulse-period</code></td><td></td><td>1</td><td>the time one turn of a pulsar takes (a quantity)</td></tr>
-      <tr><td>90</td><td><code>slowing</code></td><td></td><td>1</td><td>how much a pulsar's period grows per time (a plain number)</td></tr>
-      <tr><td>91</td><td><code>loss</code></td><td></td><td>2</td><td>what a round costs a player: one's own move, then the other's</td></tr>
-      <tr><td>92</td><td><code>move</code></td><td></td><td>2</td><td>a strategy's next move given a history: a list to pick from</td></tr>
-      <tr><td>93</td><td><code>rounds</code></td><td></td><td>3</td><td>the history after a number of rounds of two strategies playing each other</td></tr>
-      <tr><td>94</td><td><code>cost</code></td><td></td><td>3</td><td>the sum of one strategy's losses over a number of rounds</td></tr>
-      <tr><td>95</td><td><code>stated</code></td><td></td><td>1</td><td>the sentence is said by the sender about itself: neither proved nor measured (§8.4)</td></tr>
-      <tr><td>96</td><td><code>strategy</code></td><td></td><td>2</td><td>the strategy the first party plays toward the second</td></tr>
+      <tr><td>40</td><td><code>let</code></td><td></td><td>3</td><td><code>(let <var>u</var> <var>x</var> <var>S</var>)</code>: <var>S</var>, with the variable <var>u</var> standing for the value <var>x</var> (a binder)</td></tr>
+      <tr><td>41</td><td><code>eval</code></td><td></td><td>1</td><td>the value of an expression (§7)</td></tr>
+      <tr><td>42</td><td><code>fill</code></td><td></td><td>2</td><td>the quoted sentence with every <code>?</code> replaced by the value</td></tr>
+      <tr><td>43</td><td><code>sender</code></td><td></td><td>1</td><td>the party that sends a message</td></tr>
+      <tr><td>44</td><td><code>receiver</code></td><td></td><td>1</td><td>the party a message is sent to</td></tr>
+      <tr><td>45</td><td><code>good</code></td><td></td><td>2</td><td>the party finds the conversation good (a conversation: a list of messages, each a list of sentences)</td></tr>
+      <tr><td>46</td><td><code>bad</code></td><td></td><td>2</td><td>the party finds the conversation bad</td></tr>
+      <tr><td>47</td><td><code>observed</code></td><td></td><td>1</td><td>the statement is a measurement (§8.3)</td></tr>
+      <tr><td>48</td><td><code>mass</code></td><td></td><td>1</td><td>mass of a particle or atom (a quantity)</td></tr>
+      <tr><td>49</td><td><code>charge</code></td><td></td><td>1</td><td>electric charge (a quantity)</td></tr>
+      <tr><td>50</td><td><code>isotope</code></td><td></td><td>2</td><td>an element with a given number of neutrons</td></tr>
+      <tr><td>51</td><td><code>stable</code></td><td></td><td>1+</td><td>all are stable isotopes (observed property)</td></tr>
+      <tr><td>52</td><td><code>level</code></td><td></td><td>2</td><td>energy of the <var>n</var>th state of an atom (a quantity)</td></tr>
+      <tr><td>53</td><td><code>dim</code></td><td></td><td>1</td><td>the dimension of a quantity</td></tr>
+      <tr><td>54</td><td><code>speed</code></td><td></td><td>1</td><td>speed (a quantity)</td></tr>
+      <tr><td>55</td><td><code>wavelength</code></td><td></td><td>1</td><td>wavelength of a photon (a quantity)</td></tr>
+      <tr><td>56</td><td><code>frequency</code></td><td></td><td>1</td><td>frequency of a photon (a quantity)</td></tr>
+      <tr><td>57</td><td><code>energy</code></td><td></td><td>1</td><td>energy (a quantity)</td></tr>
+      <tr><td>58</td><td><code>emitted</code></td><td></td><td>3</td><td>the photon an atom emits falling from one level to another</td></tr>
+      <tr><td>59</td><td><code>distance</code></td><td></td><td>2</td><td>the distance between two bodies or two wires (a quantity)</td></tr>
+      <tr><td>60</td><td><code>gravity</code></td><td></td><td>2</td><td>the force of gravity between two bodies (a quantity)</td></tr>
+      <tr><td>61</td><td><code>electric</code></td><td></td><td>2</td><td>the electric force between two bodies (a quantity)</td></tr>
+      <tr><td>62</td><td><code>current</code></td><td></td><td>1</td><td>the charge flowing along a wire per time, signed by its direction (a quantity)</td></tr>
+      <tr><td>63</td><td><code>magnetic</code></td><td></td><td>2</td><td>the magnetic force between two wires, per length of wire (a quantity)</td></tr>
+      <tr><td>64</td><td><code>kinetic</code></td><td></td><td>1</td><td>the average energy of motion of a gas's particles (a quantity)</td></tr>
+      <tr><td>65</td><td><code>temperature</code></td><td></td><td>1</td><td>temperature (a quantity)</td></tr>
+      <tr><td>66</td><td><code>radiance</code></td><td></td><td>1</td><td>power radiated per area (a quantity)</td></tr>
+      <tr><td>67</td><td><code>lifetime</code></td><td></td><td>1</td><td>the mean lifetime of an unstable particle or isotope (a quantity)</td></tr>
+      <tr><td>68</td><td><code>survival</code></td><td></td><td>2</td><td>the chance that something has not decayed after a duration</td></tr>
+      <tr><td>69</td><td><code>half-life</code></td><td></td><td>1</td><td>the duration after which the chance of survival is 1/2 (a quantity)</td></tr>
+      <tr><td>70</td><td><code>spin</code></td><td></td><td>1</td><td>the size of a particle's spin (a quantity, a multiple of ħ)</td></tr>
+      <tr><td>71</td><td><code>turns</code></td><td></td><td>3</td><td>a particle turns from the first direction toward the second</td></tr>
+      <tr><td>72</td><td><code>spin-axis</code></td><td></td><td>1</td><td>the direction of a particle's spin axis: the cross of the directions it turns from and toward</td></tr>
+      <tr><td>73</td><td><code>emitted-along</code></td><td></td><td>2</td><td>the average dot of the direction a particle leaves in with the spin axis of the particle that decays</td></tr>
+      <tr><td>74</td><td><code>spin-along-motion</code></td><td></td><td>2</td><td>the average dot of a particle's spin axis with its direction of motion, for particles from a decay</td></tr>
+      <tr><td>75</td><td><code>radius</code></td><td></td><td>1</td><td>the radius of a ring, a star or another round body (a quantity)</td></tr>
+      <tr><td>76</td><td><code>field-strength</code></td><td></td><td>1</td><td>the strength of the magnetic field at the centre of a ring (a quantity)</td></tr>
+      <tr><td>77</td><td><code>circulates</code></td><td></td><td>3</td><td>the current of a ring goes round from the first direction toward the second</td></tr>
+      <tr><td>78</td><td><code>field-direction</code></td><td></td><td>1</td><td>the direction of the magnetic field at the centre of a ring or of a particle</td></tr>
+      <tr><td>79</td><td><code>yields</code></td><td></td><td>2</td><td>the chance that a decay of the second particle gives the first</td></tr>
+      <tr><td>80</td><td><code>states</code></td><td></td><td>2</td><td>number of electron states at the <var>n</var>th level of an atom</td></tr>
+      <tr><td>81</td><td><code>noble</code></td><td></td><td>1+</td><td>all are noble gases (observed property)</td></tr>
+      <tr><td>82</td><td><code>atoms</code></td><td></td><td>1</td><td>the atoms of a molecule, as a list of elements</td></tr>
+      <tr><td>83</td><td><code>bonds</code></td><td></td><td>1</td><td>the bonds of a molecule, as a list of (position, position, shared pairs)</td></tr>
+      <tr><td>84</td><td><code>triple-point</code></td><td></td><td>1</td><td>the temperature at which a substance's solid, liquid and gas exist together</td></tr>
+      <tr><td>85</td><td><code>triple-pressure</code></td><td></td><td>1</td><td>the pressure at the triple point of a substance (a quantity)</td></tr>
+      <tr><td>86</td><td><code>luminosity</code></td><td></td><td>1</td><td>the power a star sends out as light (a quantity)</td></tr>
+      <tr><td>87</td><td><code>orbits</code></td><td></td><td>2</td><td>the first body goes round the second under gravity</td></tr>
+      <tr><td>88</td><td><code>period</code></td><td></td><td>2</td><td>the time one round of an orbit takes (a quantity)</td></tr>
+      <tr><td>89</td><td><code>axis</code></td><td></td><td>2</td><td>the size of an orbit: half the sum of the smallest and the largest distance (a quantity)</td></tr>
+      <tr><td>90</td><td><code>background</code></td><td></td><td>1</td><td>the temperature of the background radiation seen in a direction, by an observer at rest relative to it (a quantity)</td></tr>
+      <tr><td>91</td><td><code>direction-from</code></td><td></td><td>2</td><td>the direction in which the second body is seen from the first</td></tr>
+      <tr><td>92</td><td><code>pulse-period</code></td><td></td><td>1</td><td>the time one turn of a pulsar takes (a quantity)</td></tr>
+      <tr><td>93</td><td><code>slowing</code></td><td></td><td>1</td><td>how much a pulsar's period grows per time (a plain number)</td></tr>
+      <tr><td>94</td><td><code>loss</code></td><td></td><td>2</td><td>what a round costs a player: one's own move, then the other's</td></tr>
+      <tr><td>95</td><td><code>move</code></td><td></td><td>2</td><td>a strategy's next move given a history: a list to pick from</td></tr>
+      <tr><td>96</td><td><code>rounds</code></td><td></td><td>3</td><td>the history after a number of rounds of two strategies playing each other</td></tr>
+      <tr><td>97</td><td><code>cost</code></td><td></td><td>3</td><td>the sum of one strategy's losses over a number of rounds</td></tr>
+      <tr><td>98</td><td><code>stated</code></td><td></td><td>1</td><td>the sentence is said by the sender about itself: neither proved nor measured (§8.4)</td></tr>
+      <tr><td>99</td><td><code>strategy</code></td><td></td><td>2</td><td>the strategy the first party plays toward the second</td></tr>
     </tbody>
   </table>
   <h3>9.2 Constants (type 3)</h3>
@@ -461,20 +464,20 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
       <tr><td>10</td><td><code>vectors</code></td><td></td><td>domain: lists of three real numbers</td></tr>
       <tr><td>11</td><td><code>directions</code></td><td></td><td>domain: vectors whose dot with themselves is 1</td></tr>
       <tr><td>12</td><td><code>expressions</code></td><td></td><td>domain: numbers, symbols, and lists of expressions</td></tr>
-      <tr><td>13</td><td><code>elements</code></td><td></td><td>domain: the chemical elements</td></tr>
-      <tr><td>14</td><td><code>photons</code></td><td></td><td>domain: all individual photons</td></tr>
-      <tr><td>15</td><td><code>bodies</code></td><td></td><td>domain: bodies with mass, moving slowly in weak gravity</td></tr>
-      <tr><td>16</td><td><code>wires</code></td><td></td><td>domain: long, straight, parallel wires carrying steady currents</td></tr>
-      <tr><td>17</td><td><code>gases</code></td><td></td><td>domain: thin gases of single atoms</td></tr>
-      <tr><td>18</td><td><code>black-bodies</code></td><td></td><td>domain: bodies that absorb all light falling on them</td></tr>
-      <tr><td>19</td><td><code>durations</code></td><td></td><td>domain: durations (quantities of dimension T)</td></tr>
-      <tr><td>20</td><td><code>rings</code></td><td></td><td>domain: round loops of wire carrying a steady current</td></tr>
-      <tr><td>21</td><td><code>message</code></td><td></td><td>this message: the list of everything sent between the two beacons, numbers and sentences, in order</td></tr>
-      <tr><td>22</td><td><code>?</code></td><td></td><td>the hole in a question; only mentioned, inside <code>quote</code></td></tr>
-      <tr><td>23</td><td><code>we</code></td><td></td><td>the speakers of this message</td></tr>
-      <tr><td>24</td><td><code>you</code></td><td></td><td>the receiver of this message, a party other than its sender</td></tr>
-      <tr><td>25</td><td><code>parties</code></td><td></td><td>domain: those who can send and receive messages</td></tr>
-      <tr><td>26</td><td><code>conversations</code></td><td></td><td>domain: lists of messages in which every message is a reply to the one before (its sender is the receiver of the one before, and the other way round)</td></tr>
+      <tr><td>13</td><td><code>message</code></td><td></td><td>this message: the list of everything sent between the two beacons, numbers and sentences, in order</td></tr>
+      <tr><td>14</td><td><code>?</code></td><td></td><td>the hole in a question; only mentioned, inside <code>quote</code></td></tr>
+      <tr><td>15</td><td><code>we</code></td><td></td><td>the speakers of this message</td></tr>
+      <tr><td>16</td><td><code>you</code></td><td></td><td>the receiver of this message, a party other than its sender</td></tr>
+      <tr><td>17</td><td><code>parties</code></td><td></td><td>domain: those who can send and receive messages</td></tr>
+      <tr><td>18</td><td><code>conversations</code></td><td></td><td>domain: lists of messages in which every message is a reply to the one before (its sender is the receiver of the one before, and the other way round)</td></tr>
+      <tr><td>19</td><td><code>elements</code></td><td></td><td>domain: the chemical elements</td></tr>
+      <tr><td>20</td><td><code>photons</code></td><td></td><td>domain: all individual photons</td></tr>
+      <tr><td>21</td><td><code>bodies</code></td><td></td><td>domain: bodies with mass, moving slowly in weak gravity</td></tr>
+      <tr><td>22</td><td><code>wires</code></td><td></td><td>domain: long, straight, parallel wires carrying steady currents</td></tr>
+      <tr><td>23</td><td><code>gases</code></td><td></td><td>domain: thin gases of single atoms</td></tr>
+      <tr><td>24</td><td><code>black-bodies</code></td><td></td><td>domain: bodies that absorb all light falling on them</td></tr>
+      <tr><td>25</td><td><code>durations</code></td><td></td><td>domain: durations (quantities of dimension T)</td></tr>
+      <tr><td>26</td><td><code>rings</code></td><td></td><td>domain: round loops of wire carrying a steady current</td></tr>
       <tr><td>27</td><td><code>stars</code></td><td></td><td>domain: stars that shine by turning hydrogen into helium</td></tr>
       <tr><td>28</td><td><code>first-axis</code></td><td></td><td>the direction along which the background radiation is most uneven (one of its two ends)</td></tr>
       <tr><td>29</td><td><code>second-axis</code></td><td></td><td>the same among the directions at right angles to the first axis</td></tr>
@@ -607,7 +610,7 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
     <dt>Operators and arity</dt>
     <dd>Every bracket group starts with an operator (type 2) and has a number of arguments that the operator's arity allows (§9.1). An empty group <code>()</code> is not allowed. The inside of a <code>quote</code> is exempt: a quoted group is a list, not an operation.</dd>
     <dt>Closed sentences</dt>
-    <dd>The first argument of <code>∀</code>, <code>∃</code>, <code>sequence</code> and <code>average</code> is a variable, which is bound in the third argument (the body) only. Every variable outside a <code>quote</code> is bound, so every sentence is closed.</dd>
+    <dd>The first argument of <code>∀</code>, <code>∃</code>, <code>sequence</code>, <code>average</code> and <code>let</code> is a variable, which is bound in the third argument (the body) only. Every variable outside a <code>quote</code> is bound, so every sentence is closed.</dd>
     <dt>Bootstrap order</dt>
     <dd>Within each type, ids follow the order in which the symbols first appear in the message: the first new symbol has id 1, the next id 2, with no gaps. So the lesson of a symbol's first appearance is the lesson that introduces it, and nothing is used before it is introduced. Elements are the exception: their id is the atomic number. Every symbol in the registry appears in the message.</dd>
     <dt>Enough examples</dt>

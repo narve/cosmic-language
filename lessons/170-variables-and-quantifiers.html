@@ -11,7 +11,7 @@
 <body>
 <article class="lesson" data-topic="math logic minimal">
   <h3>variables and quantifiers</h3>
-  <p>New: variables (<var>u</var>, <var>v</var>, <var>w</var>), the quantifiers <code>∀</code> ("for all") and <code>∃</code> ("there exists"), the domains <code>ℕ</code> (natural numbers) and <code>ℚ</code> (rational numbers), and <data value="implies">implies</data>.</p>
+  <p>New: variables (<var>u</var>, <var>v</var>, <var>w</var>, <var>z</var>), the quantifiers <code>∀</code> ("for all") and <code>∃</code> ("there exists"), the domains <code>ℕ</code> (natural numbers) and <code>ℚ</code> (rational numbers), and <data value="implies">implies</data>.</p>
   <p>A quantifier binds one variable to the values it runs through: <code>(∀ <var>u</var> (list 1 2 3) …)</code> means "for every <var>u</var> among 1, 2 and 3, …". Every variable is bound in the sentence where it appears, and a variable in one sentence has nothing to do with the same variable in the next.</p>
 
   <h4>For all, over a list</h4>
@@ -111,7 +111,13 @@
 <span data-comment>; three variables: <var>u</var> × (<var>v</var> + <var>w</var>) = <var>u</var> × <var>v</var> + <var>u</var> × <var>w</var></span>
 (∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (= (× <var>u</var> (+ <var>v</var> <var>w</var>)) (+ (× <var>u</var> <var>v</var>) (× <var>u</var> <var>w</var>))))))
 <span data-comment>; and (<var>u</var> + <var>v</var>) + <var>w</var> = <var>u</var> + (<var>v</var> + <var>w</var>)</span>
-(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (= (+ (+ <var>u</var> <var>v</var>) <var>w</var>) (+ <var>u</var> (+ <var>v</var> <var>w</var>))))))</code></pre>
+(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (= (+ (+ <var>u</var> <var>v</var>) <var>w</var>) (+ <var>u</var> (+ <var>v</var> <var>w</var>))))))
+
+<span data-comment>; four variables: the order of a sum does not matter</span>
+(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (∀ <var>z</var> ℕ (= (+ <var>u</var> <var>v</var> <var>w</var> <var>z</var>) (+ <var>z</var> <var>w</var> <var>v</var> <var>u</var>))))))
+<span data-comment>; and (<var>u</var> + <var>v</var>) × (<var>w</var> + <var>z</var>) = <var>u</var> × <var>w</var> + <var>u</var> × <var>z</var> + <var>v</var> × <var>w</var> + <var>v</var> × <var>z</var></span>
+(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (∀ <var>z</var> ℕ
+  (= (× (+ <var>u</var> <var>v</var>) (+ <var>w</var> <var>z</var>)) (+ (× <var>u</var> <var>w</var>) (× <var>u</var> <var>z</var>) (× <var>v</var> <var>w</var>) (× <var>v</var> <var>z</var>)))))))</code></pre>
 
   <h4>Laws about lists</h4>
   <p>With variables, what the lesson on lists showed by examples can be stated in general:</p>
@@ -124,10 +130,11 @@
 (∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (item (list <var>u</var> <var>v</var>) (length (list <var>u</var> <var>v</var>))) <var>v</var>)))</code></pre>
 
   <h4>The name does not matter</h4>
-  <pre><code><span data-comment>; the same law three times, with three different variables</span>
+  <pre><code><span data-comment>; the same law four times, with four different variables</span>
 (∀ <var>u</var> ℕ (= (+ <var>u</var> 0) <var>u</var>))
 (∀ <var>v</var> ℕ (= (+ <var>v</var> 0) <var>v</var>))
-(∀ <var>w</var> ℕ (= (+ <var>w</var> 0) <var>w</var>))</code></pre>
+(∀ <var>w</var> ℕ (= (+ <var>w</var> 0) <var>w</var>))
+(∀ <var>z</var> ℕ (= (+ <var>z</var> 0) <var>z</var>))</code></pre>
 
   <h4>There exists, in ℕ</h4>
   <p>Each example is followed by the number that makes it true.</p>

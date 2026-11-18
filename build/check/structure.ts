@@ -13,7 +13,7 @@ export const EXAMPLES = 3; // k in the specification
 const OPERATOR = 2;
 const VARIABLE = 4;
 const ELEMENT = 6; // an element's id is its atomic number, not its order of appearance
-const BINDERS = new Set(["∀", "∃", "sequence", "average"]); // (binder variable values body): the variable is bound in the body
+const BINDERS = new Set(["∀", "∃", "sequence", "average", "let"]); // (binder variable values body): the variable is bound in the body
 
 // A token, or a bracket group with the tokens and groups inside it.
 export interface Node {
@@ -55,7 +55,7 @@ function checkNode(node: Node, registry: Registry, bound: Set<string>): void {
     // a quoted expression is not checked (below), so a hole reached here is outside every quote
     if (node.token.text === "?") throw new BuildError(`${node.where}: a question (a sentence with ?) can only be mentioned, inside quote`);
     if (node.token.type === VARIABLE && !bound.has(node.token.text)) {
-      throw new BuildError(`${node.where}: the variable ${node.token.text} is not bound by ∀, ∃ or sequence`);
+      throw new BuildError(`${node.where}: the variable ${node.token.text} is not bound by ∀, ∃, sequence, average or let`);
     }
     return;
   }
