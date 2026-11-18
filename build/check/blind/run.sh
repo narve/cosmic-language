@@ -3,11 +3,11 @@
 # Docker container without network that holds nothing but the message (as /work/bits.txt). No built-in tools, no
 # settings, no project instructions; started in an empty temporary directory. Run `npm run build` first.
 #
-#   npm run --silent blind:code [task] > answer.txt     task defaults to last-statement-code
-#   BLIND_MODEL=opus npm run --silent blind:code         with a named model
-#   BLIND_MESSAGE=docs/minimal/message.bin npm run --silent blind:code purpose-code
-#                                                        with another message than docs/message.bin (here the core)
-#   npm run --silent blind:code interpretation-code       the whole interpretation: format, vocabulary (a table that
+#   npm run --silent blind [task] > answer.txt          task defaults to purpose; the tasks are the .txt files here
+#   BLIND_MODEL=opus npm run --silent blind              with a named model
+#   BLIND_MESSAGE=docs/minimal/message.bin npm run --silent blind purpose
+#                                                        with another message than docs/message.bin (here the minimal one)
+#   npm run --silent blind interpretation                 the whole interpretation: format, vocabulary (a table that
 #                                                        can be scored against spec §9) and the knowledge in the message
 #
 # The answer goes to standard output. The full record (every piece of code the reader ran, as JSON lines) is
@@ -15,7 +15,7 @@
 set -eu
 here=$(cd "$(dirname "$0")" && pwd)
 message=$(cd "$here/../../.." && realpath "${BLIND_MESSAGE:-docs/message.bin}")
-task=${1:-last-statement-code}
+task=${1:-purpose}
 dir=$(mktemp -d)
 box="blind-$$"
 export BLIND_CONTAINER="$box"

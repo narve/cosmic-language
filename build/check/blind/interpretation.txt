@@ -22,6 +22,4 @@ Report, in this order:
 
 6. Gaps and problems: statements you could not decode, statements that seem false, inconsistent or ambiguous, places where the message teaches something badly or skips a step, and anything you would add for a receiver like you.
 
-7. Confidence: an overall estimate of how much of the message you understood, and your confidence in each of the sections above.
-
-The message is long. Cover all of it at some depth before going deep into any one part; if you cannot finish, say exactly how far you got and what blocked you. An honest partial result is more useful than a confident guess.
+7. Confidence: an overall estimate of how much of the message you understood, and your confidence in each o

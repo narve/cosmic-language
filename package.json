@@ -5,9 +5,7 @@
   "scripts": {
     "build": "tsx build/build.ts",
     "reference": "tsx build/check/reference/extract.ts",
-    "blind:prompt": "tsx build/check/blind/prompt.ts",
-    "blind": "tsx build/check/blind/prompt.ts | (cd \"$(mktemp -d)\" && claude -p ${BLIND_MODEL:+--model $BLIND_MODEL} --tools \"\" --strict-mcp-config --setting-sources \"\" --system-prompt \"You are a careful analyst. You have no tools. Work only from the text you are given.\")",
-    "blind:code": "sh build/check/blind/run-with-code.sh",
+    "blind": "sh build/check/blind/run.sh",
     "check:measurements": "tsx build/check/measurements.ts"
   },
   "engines": {
