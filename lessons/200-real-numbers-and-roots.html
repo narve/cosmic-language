@@ -14,12 +14,17 @@
   <p>The rational numbers are not enough to answer simple questions such as "which number squares to 2?". The next three lessons add the real numbers, powers, and the numbers that solve polynomial equations.</p>
   <p>New: the domain <code>ℝ</code> (real numbers). Every rational number is real, and the familiar laws still hold:</p>
   <pre><code><span data-comment>; 2, 1/3 and neg 5 are real numbers</span>
-(∃ <var>u</var> ℝ (= <var>u</var> 2))  (∃ <var>u</var> ℝ (= <var>u</var> (÷ 1 3)))  (∃ <var>u</var> ℝ (= <var>u</var> (neg 5)))
+(∃ <var>u</var> ℝ (= <var>u</var> 2))
+(∃ <var>u</var> ℝ (= <var>u</var> (÷ 1 3)))
+(∃ <var>u</var> ℝ (= <var>u</var> (neg 5)))
+
 <span data-comment>; every rational number is a real number</span>
 (∀ <var>u</var> ℚ (∃ <var>v</var> ℝ (= <var>u</var> <var>v</var>)))
 
-<span data-comment>; the familiar laws: adding 0 changes nothing, the order of a product does not matter</span>
-(∀ <var>u</var> ℝ (= (+ <var>u</var> 0) <var>u</var>))  (∀ <var>u</var> ℝ (∀ <var>v</var> ℝ (= (× <var>u</var> <var>v</var>) (× <var>v</var> <var>u</var>))))</code></pre>
+<span data-comment>; the familiar laws: adding 0 changes nothing, the order of a</span>
+<span data-comment>; product does not matter</span>
+(∀ <var>u</var> ℝ (= (+ <var>u</var> 0) <var>u</var>))
+(∀ <var>u</var> ℝ (∀ <var>v</var> ℝ (= (× <var>u</var> <var>v</var>) (× <var>v</var> <var>u</var>))))</code></pre>
   <p>ℝ has numbers that ℚ lacks, such as a square root of 2:</p>
   <pre><code><span data-comment>; there is a positive real number whose square is 2 …</span>
 (∃ <var>u</var> ℝ (<data value="and">and</data> (&gt; <var>u</var> 0) (= (× <var>u</var> <var>u</var>) 2)))

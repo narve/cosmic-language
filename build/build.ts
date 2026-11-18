@@ -8,7 +8,7 @@ import { findArticle, loadArticles, loadTopics } from "./lessons.ts";
 import { binaryDump, messageBinary, messageBits, messageStream, messageCode, messageText, readBlock, type Message } from "./message.ts";
 import { loadRegistry } from "./registry.ts";
 import { addViews, VIEWS } from "./views.ts";
-import { checkMinimal, checkOptional, checkStructure } from "./check/structure.ts";
+import { checkMinimal, checkOptional, checkSelfReference, checkStructure } from "./check/structure.ts";
 import { checkMeasurements, MARGIN } from "./check/measurements.ts";
 
 const root = resolve(import.meta.dirname, "..");
@@ -48,6 +48,8 @@ async function build(): Promise<void> {
   const minimalBinary = messageBinary(messageStream(minimal));
   const cautious: Message = { articles: message.articles.filter(({ article }) => !optional.has(article.slug)), topics };
   const cautiousBinary = messageBinary(messageStream(cautious));
+  // What each version says about itself must hold for that version.
+  const selfReferences = [checkSelfReference(message, "full"), checkSelfReference(cautious, "cautious"), checkSelfReference(minimal, "minimal")];
   const bits = messageBits(message);
   const binary = messageBinary(messageStream(message));
   // A byte order mark, so browsers read these plain-text files as UTF-8 (≠, ∀, π …) instead of guessing.
@@ -96,6 +98,7 @@ async function build(): Promise<void> {
   console.log(`${articles.length} articles, ${tokens} tokens, ${binary.length} bits (${binary.bytes.length} bytes)`);
   const minimalTokens = minimal.articles.reduce((n, a) => n + a.blocks.reduce((m, b) => m + b.tokens.length, 0), 0);
   console.log(`measurements: ${measurements.checked} ranges, all at least ${MARGIN} standard uncertainties inside their bounds`);
+  console.log(`about itself: ${selfReferences.join(", ")} sentences checked (full, cautious, minimal)`);
   console.log(`cautious: ${cautious.articles.length} articles, ${cautiousBinary.length} bits (${cautiousBinary.bytes.length} bytes)`);
   console.log(`minimal: ${minimal.articles.length} articles, ${minimalTokens} tokens, ${minimalBinary.length} bits (${minimalBinary.bytes.length} bytes)`);
 }

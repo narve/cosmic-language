@@ -12,7 +12,8 @@
 <article class="lesson" data-topic="physics">
   <h3>temperature</h3>
   <p>New: the dimension <code>Θ</code> (temperature), the constant <code>kB</code>, the domains <code>gases</code> (thin gases of single atoms) and <code>black-bodies</code> (bodies that absorb all light falling on them), and the functions <code>temperature</code>, <code>kinetic</code> (the average energy of motion of a gas's particles) and <code>radiance</code> (the power a body radiates per area). Again <code>kB</code> is introduced through a law:</p>
-  <pre><code><span data-comment>; the law: the particles of a gas move with an average energy of 3/2 × kB × its temperature</span>
+  <pre><code><span data-comment>; the law: the particles of a gas move with an average energy of 3/2</span>
+<span data-comment>; × kB × its temperature</span>
 (observed (∀ <var>u</var> gases (= (kinetic <var>u</var>) (× (÷ 3 2) kB (temperature <var>u</var>)))))
 <span data-comment>; the dimension of kB: energy ÷ temperature</span>
 (= (dim kB) (÷ (× M (^ L 2)) (× (^ T 2) Θ)))
@@ -22,7 +23,8 @@
 <span data-comment>; the energy of motion is an energy: mass × length² ÷ time²</span>
 (∀ <var>u</var> gases (= (dim (kinetic <var>u</var>)) (÷ (× M (^ L 2)) (^ T 2))))
 
-<span data-comment>; the same law turned around, read as what temperature is: 2 × energy of motion ÷ (3 × kB)</span>
+<span data-comment>; the same law turned around, read as what temperature is: 2 ×</span>
+<span data-comment>; energy of motion ÷ (3 × kB)</span>
 (observed (∀ <var>u</var> gases (= (temperature <var>u</var>) (÷ (× 2 (kinetic <var>u</var>)) (× 3 kB)))))</code></pre>
   <p>A black body radiates power that grows with the fourth power of its temperature. The factor in front is made only of constants the message has already introduced, and π²/60 is the signature of the spectrum of thermal light:</p>
   <pre><code><span data-comment>; the law: radiance = π²/60 × kB⁴ ÷ (ħ³ × c²) × temperature⁴</span>
@@ -47,7 +49,8 @@
 <span data-comment>; it is a temperature</span>
 (= (dim planck-temperature) Θ)
 
-<span data-comment>; at the Planck temperature, the thermal energy (kB × temperature) is the energy of the Planck mass (mass × c²)</span>
+<span data-comment>; at the Planck temperature, the thermal energy (kB × temperature)</span>
+<span data-comment>; is the energy of the Planck mass (mass × c²)</span>
 (= (× kB planck-temperature) (× planck-mass (^ c 2)))</code></pre>
 </article>
 </body>

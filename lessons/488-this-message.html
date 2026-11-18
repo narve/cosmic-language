@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>This message · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson" data-topic="logic">
+  <h3>this message</h3>
+  <p>Until now the message has spoken about numbers, logic and the world. Now it speaks about itself. New: <code>message</code>, this message, as the list of everything sent between the beacon at its start and the beacon at its end: numbers and sentences, in order. What is in it can be counted with <code>count</code>, and a sentence is named with <code>quote</code>, so that it is mentioned and not claimed.</p>
+  <pre><code><span data-comment>; the message starts with the numbers of the calibration: 1, 2, 3, 5</span>
+<span data-comment>; …</span>
+(= (item message 1) 1)
+(= (item message 2) 2)
+(= (item message 4) 5)
+
+<span data-comment>; these sentences are in the message, once each</span>
+(= (count (quote (= 1 1)) message) 1)
+(= (count (quote (= 3 3)) message) 1)
+(= (count (quote (≠ 0 1)) message) 1)
+<span data-comment>; this one is in it twice</span>
+(= (count (quote (= 5 5)) message) 2)
+
+<span data-comment>; these are not in the message, and they are false</span>
+(= (count (quote (= 2 3)) message) 0)
+(= (count (quote (&lt; 3 2)) message) 0)
+(= (count (quote (= (+ 2 2) 5)) message) 0)
+
+<span data-comment>; these are not in the message either, although they are true: being</span>
+<span data-comment>; in it and being true are different things</span>
+(= (count (quote (= 6 6)) message) 0)
+(= (count (quote (&lt; 5 6)) message) 0)
+(= (count (quote (= (+ 3 3) 6)) message) 0)</code></pre>
+</article>
+</body>
+</html>

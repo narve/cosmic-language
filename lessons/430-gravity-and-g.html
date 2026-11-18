@@ -17,7 +17,8 @@
 (∀ <var>u</var> bodies (∀ <var>v</var> bodies (= (dim (distance <var>u</var> <var>v</var>)) L)))
 
 <span data-comment>; Newton's law: gravity = G × mass × mass ÷ distance²</span>
-<span data-comment>; (only where the distance is above 0: a body does not pull on itself)</span>
+<span data-comment>; (only where the distance is above 0: a body does not pull on</span>
+<span data-comment>; itself)</span>
 (observed (∀ <var>u</var> bodies (∀ <var>v</var> bodies
   (<data value="implies">implies</data> (&gt; (distance <var>u</var> <var>v</var>) 0)
     (= (gravity <var>u</var> <var>v</var>)
@@ -25,13 +26,15 @@
 
 <span data-comment>; the dimension of a force: mass × length ÷ time²</span>
 (∀ <var>u</var> bodies (∀ <var>v</var> bodies (= (dim (gravity <var>u</var> <var>v</var>)) (÷ (× M L) (^ T 2)))))
-<span data-comment>; the dimension of G, which makes the law come out as a force: length³ ÷ (mass × time²)</span>
+<span data-comment>; the dimension of G, which makes the law come out as a force:</span>
+<span data-comment>; length³ ÷ (mass × time²)</span>
 (= (dim G) (÷ (^ L 3) (× M (^ T 2))))
 
 <span data-comment>; each body pulls the other with the same force</span>
 (observed (∀ <var>u</var> bodies (∀ <var>v</var> bodies (= (gravity <var>u</var> <var>v</var>) (gravity <var>v</var> <var>u</var>)))))
 
-<span data-comment>; G × mass² ÷ (ħ × c) is a plain number: it measures the strength of gravity between two protons</span>
+<span data-comment>; G × mass² ÷ (ħ × c) is a plain number: it measures the strength of</span>
+<span data-comment>; gravity between two protons</span>
 (= (dim (÷ (× G (^ (mass proton) 2)) (× ħ c))) 1)</code></pre>
 </article>
 </body>

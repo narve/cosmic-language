@@ -13,28 +13,34 @@
   <h3>radioactive decay</h3>
   <p>Chance was introduced as a proportion of a list. Nature has chances of its own: an unstable atom or particle decays at a moment that nothing can predict.</p>
   <p>New: the domain <code>durations</code> and the functions <code>lifetime</code>, <code>survival</code> (the chance that something has not yet decayed after a given duration) and <code>half-life</code>. The example is the free neutron: on its own, it turns into a proton, an electron and one more very light particle without charge.</p>
-  <pre><code><span data-comment>; a neutron turns into a proton and an electron: the charge before equals the charge after</span>
+  <pre><code><span data-comment>; a neutron turns into a proton and an electron: the charge before</span>
+<span data-comment>; equals the charge after</span>
 (observed (= (charge neutron) (+ (charge proton) (charge electron))))
-<span data-comment>; the neutron is heavier than the proton and the electron together, so it has mass to spare</span>
+<span data-comment>; the neutron is heavier than the proton and the electron together,</span>
+<span data-comment>; so it has mass to spare</span>
 (observed (&gt; (mass neutron) (+ (mass proton) (mass electron))))
 
-<span data-comment>; its mean lifetime: about 880 seconds, or about 1.6 × 10⁴⁶ Planck times (between 2¹⁵³ and 2¹⁵⁴)</span>
+<span data-comment>; its mean lifetime: about 880 seconds, or about 1.6 × 10⁴⁶ Planck</span>
+<span data-comment>; times (between 2¹⁵³ and 2¹⁵⁴)</span>
 (observed (&lt; (^ 2 153) (÷ (lifetime neutron) planck-time) (^ 2 154)))
 <span data-comment>; a lifetime is a time, and so is every duration</span>
 (= (dim (lifetime neutron)) T)
 (∀ <var>u</var> durations (= (dim <var>u</var>) T))</code></pre>
   <p>The half-life is the duration after which the chance of survival is one half. That is exactly the chance of <data value="true">true</data> when picking from <data value="true">true</data> and <data value="false">false</data>:</p>
-  <pre><code><span data-comment>; after one half-life, the chance that the neutron is still there is 1/2</span>
+  <pre><code><span data-comment>; after one half-life, the chance that the neutron is still there is</span>
+<span data-comment>; 1/2</span>
 (= (survival neutron (half-life neutron)) (÷ 1 2))
 <span data-comment>; 1/2 is also the chance of true when picking from true and false</span>
 (= (÷ 1 2) (chance <data value="true">true</data> (list <data value="true">true</data> <data value="false">false</data>)))</code></pre>
   <p>A neutron has no memory: its chance of decaying does not depend on how long it has existed. So each half-life is a new, independent pick, and the chances multiply:</p>
-  <pre><code><span data-comment>; no memory: surviving <var>u</var> and then <var>v</var> is the same as surviving <var>u</var> + <var>v</var>, and the two chances multiply</span>
+  <pre><code><span data-comment>; no memory: surviving <var>u</var> and then <var>v</var> is the same as surviving <var>u</var> + <var>v</var>,</span>
+<span data-comment>; and the two chances multiply</span>
 (observed (∀ <var>u</var> durations (∀ <var>v</var> durations
   (= (survival neutron (+ <var>u</var> <var>v</var>))
      (× (survival neutron <var>u</var>) (survival neutron <var>v</var>))))))
 
-<span data-comment>; surviving <var>u</var> half-lives is like picking true <var>u</var> times in a row: the chance is 1/2 to the power <var>u</var></span>
+<span data-comment>; surviving <var>u</var> half-lives is like picking true <var>u</var> times in a row: the</span>
+<span data-comment>; chance is 1/2 to the power <var>u</var></span>
 (observed (∀ <var>u</var> ℕ
   (= (survival neutron (× <var>u</var> (half-life neutron)))
      (^ (chance <data value="true">true</data> (list <data value="true">true</data> <data value="false">false</data>)) <var>u</var>))))</code></pre>
@@ -45,7 +51,8 @@
      (exp (neg (÷ <var>u</var> (lifetime neutron)))))))</code></pre>
   <p>These laws give the chance for a single neutron. In a real sample of many neutrons, the part that survives is close to this chance, but the message makes no claim about any particular sample.</p>
   <p>Some isotopes decay in the same way, unlike the stable ones among the isotopes: hydrogen with two neutrons, and carbon with eight. Carbon's half-life is between 256 and 512 times that of hydrogen:</p>
-  <pre><code><span data-comment>; the half-life of carbon with 8 neutrons, divided by that of hydrogen with 2 neutrons: between 2⁸ and 2⁹</span>
+  <pre><code><span data-comment>; the half-life of carbon with 8 neutrons, divided by that of</span>
+<span data-comment>; hydrogen with 2 neutrons: between 2⁸ and 2⁹</span>
 (observed (&lt; (^ 2 8)
               (÷ (half-life (isotope carbon 8)) (half-life (isotope hydrogen 2)))
               (^ 2 9)))</code></pre>

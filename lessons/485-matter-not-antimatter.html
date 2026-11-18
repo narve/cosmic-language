@@ -15,11 +15,13 @@
   <pre><code><span data-comment>; a decaying neutron always gives an electron</span>
 (observed (= (yields electron neutron) 1))
 
-<span data-comment>; the kaon has no charge and weighs between 973 and 975 electron masses</span>
+<span data-comment>; the kaon has no charge and weighs between 973 and 975 electron</span>
+<span data-comment>; masses</span>
 (observed (= (charge kaon) 0))
 (observed (&lt; (big 3 205) (÷ (mass kaon) (mass electron)) (big 3 207)))
 
-<span data-comment>; some of its decays give an electron, some a positron, and positrons come more often:</span>
+<span data-comment>; some of its decays give an electron, some a positron, and</span>
+<span data-comment>; positrons come more often:</span>
 <span data-comment>; between 1 + 1/2⁸ and 1 + 1/2⁷ times as often</span>
 (observed (&gt; (yields positron kaon) (yields electron kaon)))
 (observed (&lt; (+ 1 (÷ 1 (^ 2 8)))

@@ -12,8 +12,11 @@
 <article class="lesson" data-topic="math minimal">
   <h3>mean and chance</h3>
   <p>New: <code>mean</code>, <code>chance</code> and <code>pairs</code>. The mean of a list is the sum of its items divided by how many there are:</p>
-  <pre><code><span data-comment>; the mean of 2, 4 and 9 is 5; the mean of a single item is that item</span>
-(= (mean (list 2 4 9)) 5)  (= (mean (list 7)) 7)
+  <pre><code><span data-comment>; the mean of 2, 4 and 9 is 5; the mean of a single item is that</span>
+<span data-comment>; item</span>
+(= (mean (list 2 4 9)) 5)
+(= (mean (list 7)) 7)
+
 <span data-comment>; the mean need not be a whole number: 7/2</span>
 (= (mean (list 1 2 3 4 5 6)) (÷ 7 2))
 
@@ -34,12 +37,14 @@
 <span data-comment>; the chances of all the different items add up to 1</span>
 (= (+ (chance 1 (list 1 2 2)) (chance 2 (list 1 2 2))) 1)</code></pre>
   <p><code>pairs</code> makes every pair of an item from one list with an item from another. The chance of a pair is the product of the two chances:</p>
-  <pre><code><span data-comment>; every pair of an item from the first list with an item from the second</span>
+  <pre><code><span data-comment>; every pair of an item from the first list with an item from the</span>
+<span data-comment>; second</span>
 (= (pairs (list 1 2) (list 3 4)) (list (list 1 3) (list 1 4) (list 2 3) (list 2 4)))
 <span data-comment>; 3 items and 2 items give 6 pairs</span>
 (= (length (pairs (list 1 2 3) (list 4 5))) 6)
 
-<span data-comment>; two picks from true and false: the chance that both are true is 1/4 …</span>
+<span data-comment>; two picks from true and false: the chance that both are true is</span>
+<span data-comment>; 1/4 …</span>
 (= (chance (list <data value="true">true</data> <data value="true">true</data>) (pairs (list <data value="true">true</data> <data value="false">false</data>) (list <data value="true">true</data> <data value="false">false</data>))) (÷ 1 4))
 <span data-comment>; … which is the chance of one true times the chance of the other</span>
 (= (chance (list <data value="true">true</data> <data value="true">true</data>) (pairs (list <data value="true">true</data> <data value="false">false</data>) (list <data value="true">true</data> <data value="false">false</data>)))

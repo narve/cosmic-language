@@ -12,7 +12,8 @@
 <article class="lesson" data-topic="physics">
   <h3>three particles</h3>
   <p>New: the particles <code>electron</code>, <code>proton</code> and <code>neutron</code> (a new type), the functions <code>mass</code> and <code>charge</code>, and the marker <code>observed</code>. Only ratios of masses are given, never a mass on its own, because a mass on its own needs a unit.</p>
-  <pre><code><span data-comment>; the three masses in order: the electron is the lightest, the neutron the heaviest</span>
+  <pre><code><span data-comment>; the three masses in order: the electron is the lightest, the</span>
+<span data-comment>; neutron the heaviest</span>
 (observed (&lt; (mass electron) (mass proton) (mass neutron)))
 
 <span data-comment>; proton ÷ electron: between 1836 and 1837</span>
@@ -20,16 +21,20 @@
 (observed (&lt; (big 7 44) (÷ (mass proton) (mass electron)) (big 7 45)))
 <span data-comment>; neutron ÷ electron: between 1838 and 1839</span>
 (observed (&lt; (big 7 46) (÷ (mass neutron) (mass electron)) (big 7 47)))
-<span data-comment>; neutron ÷ proton: just above 1, so the neutron is slightly heavier: between 1 + 1/2¹¹ and 1 + 1/2⁹</span>
+<span data-comment>; neutron ÷ proton: just above 1, so the neutron is slightly</span>
+<span data-comment>; heavier: between 1 + 1/2¹¹ and 1 + 1/2⁹</span>
 (observed (&lt; (+ 1 (÷ 1 (^ 2 11))) (÷ (mass neutron) (mass proton)) (+ 1 (÷ 1 (^ 2 9)))))
 
 <span data-comment>; the proton and the electron have opposite charges</span>
 (observed (= (charge proton) (neg (charge electron))))
 <span data-comment>; the electron's charge is not zero; the neutron's is</span>
-(observed (≠ (charge electron) 0))  (observed (= (charge neutron) 0))
+(observed (≠ (charge electron) 0))
+(observed (= (charge neutron) 0))
 
 <span data-comment>; the three are tokens of a new type, 5</span>
-(= (type (quote electron)) 5)  (= (type (quote proton)) 5)  (= (type (quote neutron)) 5)</code></pre>
+(= (type (quote electron)) 5)
+(= (type (quote proton)) 5)
+(= (type (quote neutron)) 5)</code></pre>
   <p>Three particles, two of them about 1836 and 1839 times heavier than the third, with charges that are opposite and zero. A receiver who knows physics will recognize them.</p>
   <p><small>Sources: CODATA 2022 (mass ratios). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
 </article>

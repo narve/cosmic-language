@@ -14,19 +14,29 @@
   <p>Until now, every sentence in the message has been <em>asserted</em>: written down, it claims to be true. The next lessons let the message <em>mention</em> a sentence without claiming it, take sentences apart like lists, and compute their values. The last of them is <code>eval</code>, the value of any expression, written in a few sentences of the message itself. This is the idea at the heart of Lisp, published by John McCarthy in 1960, and the first step towards a message that can describe itself.</p>
   <p>New: <code>quote</code> and <code>type</code>. <code>(quote <var>S</var>)</code> is the expression <var>S</var> itself, not its value: nothing inside it is computed or claimed. A quoted expression in brackets is a list of its parts, so everything from the lesson on lists works on it.</p>
   <pre><code>(= (quote (+ 2 3)) (list (quote +) 2 3))
-(= (length (quote (+ 2 3))) 3)  (= (rest (quote (+ 2 3))) (list 2 3))
-<span data-comment>; everything that works on lists works on a quoted expression: its length, its items, the rest of it</span>
-(= (item (quote (+ 2 3)) 1) (quote +))  (= (item (quote (+ 2 3)) 2) 2)  (= (item (quote (+ 2 3)) 3) 3)
+(= (length (quote (+ 2 3))) 3)
+(= (rest (quote (+ 2 3))) (list 2 3))
+
+<span data-comment>; everything that works on lists works on a quoted expression: its</span>
+<span data-comment>; length, its items, the rest of it</span>
+(= (item (quote (+ 2 3)) 1) (quote +))
+(= (item (quote (+ 2 3)) 2) 2)
+(= (item (quote (+ 2 3)) 3) 3)
 
 <span data-comment>; a symbol can be quoted on its own</span>
-(= (quote +) (quote +))  (≠ (quote +) (quote ×))
+(= (quote +) (quote +))
+(≠ (quote +) (quote ×))
 
 <span data-comment>; numbers are their own quotes</span>
 (= (quote 5) 5)
 
-<span data-comment>; an expression is not its value, and two expressions with the same value are still different</span>
-(= (+ 2 3) 5)  (≠ (quote (+ 2 3)) 5)
-(= (+ 2 3) (+ 3 2))  (≠ (quote (+ 2 3)) (quote (+ 3 2)))
+<span data-comment>; an expression is not its value, and two expressions with the same</span>
+<span data-comment>; value are still different</span>
+(= (+ 2 3) 5)
+(≠ (quote (+ 2 3)) 5)
+
+(= (+ 2 3) (+ 3 2))
+(≠ (quote (+ 2 3)) (quote (+ 3 2)))
 
 <span data-comment>; quoted expressions can be nested</span>
 (= (item (quote (= (+ 2 3) 5)) 2) (quote (+ 2 3)))
@@ -38,10 +48,17 @@
 (= (item (quote (= 2 3)) 3) 3)
 (≠ (quote (= 2 3)) (quote (= 3 3)))</code></pre>
   <p><code>type</code> tells what kind of thing a part of an expression is. Its values are the token types the message has used from the start, the first chunk of every token: 0 for a number, 2 for an operator, 3 for a constant, and so on. A list in brackets has type 1, the type of the brackets. Later lessons bring new kinds of token (particles, elements, dimensions, physical constants, molecules), and each states the type of its tokens in the same way.</p>
-  <pre><code>(= (type 5) 0)  (= (type (quote (+ 2 3))) 1)  (= (type (quote +)) 2)  (= (type (quote <data value="true">true</data>)) 3)
-(= (type (quote <var>u</var>)) 4)  (= (type (list 1 2)) 1)
+  <pre><code>(= (type 5) 0)
+(= (type (quote (+ 2 3))) 1)
+(= (type (quote +)) 2)
+(= (type (quote <data value="true">true</data>)) 3)
+
+(= (type (quote <var>u</var>)) 4)
+(= (type (list 1 2)) 1)
+
 <span data-comment>; an operator in a quoted expression is a symbol like any other</span>
-(= (type (item (quote (+ 2 3)) 1)) 2)  (= (type (item (quote (+ 2 3)) 2)) 0)</code></pre>
+(= (type (item (quote (+ 2 3)) 1)) 2)
+(= (type (item (quote (+ 2 3)) 2)) 0)</code></pre>
   <p>Inside a quote, <var>u</var> is just a symbol of type 4, not a variable standing for a number.</p>
 </article>
 </body>

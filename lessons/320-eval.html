@@ -12,13 +12,18 @@
 <article class="lesson" data-topic="logic">
   <h3>eval</h3>
   <p>New: <code>eval</code>, the value of a quoted expression, and the domain <code>expressions</code>: numbers, symbols, and lists of expressions. First examples, then the rules that give the value of every expression without variables.</p>
-  <pre><code>(= (eval (quote (+ 2 3))) 5)  (= (eval (quote (× 2 (+ 1 2)))) 6)  (= (eval 7) 7)
+  <pre><code>(= (eval (quote (+ 2 3))) 5)
+(= (eval (quote (× 2 (+ 1 2)))) 6)
+(= (eval 7) 7)
+
 (= (eval (quote (list 1 (+ 1 1)))) (list 1 2))
 (= (eval (quote (rest (list 4 7 9)))) (list 7 9))
 (= (eval (quote (if (&lt; 1 2) 5 7))) 5)
-(= (eval (quote <data value="true">true</data>)) <data value="true">true</data>)  (= (eval (quote π)) π)
+(= (eval (quote <data value="true">true</data>)) <data value="true">true</data>)
+(= (eval (quote π)) π)
 
-<span data-comment>; the value of a sentence is true or false; a false sentence can now be evaluated without being claimed</span>
+<span data-comment>; the value of a sentence is true or false; a false sentence can now</span>
+<span data-comment>; be evaluated without being claimed</span>
 (= (eval (quote (= 2 2))) <data value="true">true</data>)
 (= (eval (quote (= 2 3))) <data value="false">false</data>)
 (= (eval (quote (&lt; 3 2))) <data value="false">false</data>)
@@ -29,6 +34,19 @@
 
 <span data-comment>; eval can be applied to itself</span>
 (= (eval (quote (eval (quote (+ 1 2))))) 3)</code></pre>
+  <h4>Expressions</h4>
+  <p>The rules below speak of all <code>expressions</code>. These are numbers, symbols, and lists of expressions, which is everything a quoted sentence can be made of.</p>
+  <pre><code><span data-comment>; numbers, symbols and quoted sentences are expressions</span>
+(∃ <var>u</var> expressions (= <var>u</var> 5))
+(∃ <var>u</var> expressions (= <var>u</var> (quote +)))
+(∃ <var>u</var> expressions (= <var>u</var> (quote (+ 2 3))))
+<span data-comment>; a list of expressions is an expression</span>
+(∀ <var>u</var> expressions (∀ <var>v</var> expressions (∃ <var>w</var> expressions (= <var>w</var> (list <var>u</var> <var>v</var>)))))
+<span data-comment>; every expression is a number, a symbol or a list: its type is one</span>
+<span data-comment>; of the token types, from 0 to 9</span>
+<span data-comment>; (fragile: 10 is only the number of token types the message has</span>
+<span data-comment>; today)</span>
+(∀ <var>u</var> expressions (&lt; (neg 1) (type <var>u</var>) 10))</code></pre>
   <h4>The rules</h4>
   <p>A number is its own value, and so is an operator: it is passed on as it is, the way <code>apply</code> takes <code>+</code>.</p>
   <pre><code>(∀ <var>u</var> expressions (<data value="implies">implies</data> (= (type <var>u</var>) 0) (= (eval <var>u</var>) <var>u</var>)))

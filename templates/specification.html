@@ -258,6 +258,7 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
     <li><strong>Forces</strong> have their own functions (<code>gravity</code>, <code>electric</code>, <code>magnetic</code>), each introduced by its law. A positive electric or magnetic force pushes apart, a negative one pulls together; <code>gravity</code> gives the strength of the attraction.</li>
     <li><strong>Chance in nature.</strong> Physical chances, such as <code>(survival neutron <var>t</var>)</code>, are tied to the mathematical <code>chance</code> by equating them with proportions of lists, e.g. the chance of survival after one half-life with <code>(chance true (list true false))</code>. Such laws state the chance for a single particle or atom. The message makes no claim about the outcome in any particular sample.</li>
     <li><strong>Laws are stated in their idealized form</strong> and restricted by their domain, e.g. Newton's law of gravitation for <code>bodies</code> (slow, weakly gravitating bodies). A law that divides by a distance is stated only where that distance is above 0, with <data value="implies">implies</data>: the two variables of the law may stand for the same body.</li>
+    <li><strong>Statements about the sender</strong> are marked with <code>stated</code>: <code>(stated <var>S</var>)</code> asserts that the sender says <var>S</var> about itself. Its truth value is that of <var>S</var>; the marker tells the receiver that <var>S</var> can be neither proved nor measured, only believed or tested.</li>
     <li><strong>Units:</strong> the message uses Planck units. <code>planck-length</code>, <code>planck-time</code> and <code>planck-mass</code> are defined from <code>c</code>, <code>ħ</code> and <code>G</code>, and <code>planck-temperature</code> also from <code>kB</code>, and the hydrogen 21 cm line is the observational anchor. The transmission itself is never used as a unit or anchor.</li>
   </ul>
   <h3 id="reference">8.4 Reference data</h3>
@@ -425,18 +426,23 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
       <tr><td>77</td><td><code>bonds</code></td><td></td><td>1</td><td>the bonds of a molecule, as a list of (position, position, shared pairs)</td></tr>
       <tr><td>78</td><td><code>triple-point</code></td><td></td><td>1</td><td>the temperature at which a substance's solid, liquid and gas exist together</td></tr>
       <tr><td>79</td><td><code>triple-pressure</code></td><td></td><td>1</td><td>the pressure at the triple point of a substance (a quantity)</td></tr>
-      <tr><td>80</td><td><code>luminosity</code></td><td></td><td>1</td><td>the power a star sends out as light (a quantity)</td></tr>
-      <tr><td>81</td><td><code>orbits</code></td><td></td><td>2</td><td>the first body goes round the second under gravity</td></tr>
-      <tr><td>82</td><td><code>period</code></td><td></td><td>2</td><td>the time one round of an orbit takes (a quantity)</td></tr>
-      <tr><td>83</td><td><code>axis</code></td><td></td><td>2</td><td>the size of an orbit: half the sum of the smallest and the largest distance (a quantity)</td></tr>
-      <tr><td>84</td><td><code>background</code></td><td></td><td>1</td><td>the temperature of the background radiation seen in a direction, by an observer at rest relative to it (a quantity)</td></tr>
-      <tr><td>85</td><td><code>direction-from</code></td><td></td><td>2</td><td>the direction in which the second body is seen from the first</td></tr>
-      <tr><td>86</td><td><code>pulse-period</code></td><td></td><td>1</td><td>the time one turn of a pulsar takes (a quantity)</td></tr>
-      <tr><td>87</td><td><code>slowing</code></td><td></td><td>1</td><td>how much a pulsar's period grows per time (a plain number)</td></tr>
-      <tr><td>88</td><td><code>loss</code></td><td></td><td>2</td><td>what a round costs a player: one's own move, then the other's</td></tr>
-      <tr><td>89</td><td><code>move</code></td><td></td><td>2</td><td>a strategy's next move given a history: a list to pick from</td></tr>
-      <tr><td>90</td><td><code>rounds</code></td><td></td><td>3</td><td>the history after a number of rounds of two strategies playing each other</td></tr>
-      <tr><td>91</td><td><code>cost</code></td><td></td><td>3</td><td>the sum of one strategy's losses over a number of rounds</td></tr>
+      <tr><td>80</td><td><code>fill</code></td><td></td><td>2</td><td>the quoted sentence with every <code>?</code> replaced by the value</td></tr>
+      <tr><td>81</td><td><code>sender</code></td><td></td><td>1</td><td>the party that sends a message</td></tr>
+      <tr><td>82</td><td><code>receiver</code></td><td></td><td>1</td><td>the party a message is sent to</td></tr>
+      <tr><td>83</td><td><code>luminosity</code></td><td></td><td>1</td><td>the power a star sends out as light (a quantity)</td></tr>
+      <tr><td>84</td><td><code>orbits</code></td><td></td><td>2</td><td>the first body goes round the second under gravity</td></tr>
+      <tr><td>85</td><td><code>period</code></td><td></td><td>2</td><td>the time one round of an orbit takes (a quantity)</td></tr>
+      <tr><td>86</td><td><code>axis</code></td><td></td><td>2</td><td>the size of an orbit: half the sum of the smallest and the largest distance (a quantity)</td></tr>
+      <tr><td>87</td><td><code>background</code></td><td></td><td>1</td><td>the temperature of the background radiation seen in a direction, by an observer at rest relative to it (a quantity)</td></tr>
+      <tr><td>88</td><td><code>direction-from</code></td><td></td><td>2</td><td>the direction in which the second body is seen from the first</td></tr>
+      <tr><td>89</td><td><code>pulse-period</code></td><td></td><td>1</td><td>the time one turn of a pulsar takes (a quantity)</td></tr>
+      <tr><td>90</td><td><code>slowing</code></td><td></td><td>1</td><td>how much a pulsar's period grows per time (a plain number)</td></tr>
+      <tr><td>91</td><td><code>loss</code></td><td></td><td>2</td><td>what a round costs a player: one's own move, then the other's</td></tr>
+      <tr><td>92</td><td><code>move</code></td><td></td><td>2</td><td>a strategy's next move given a history: a list to pick from</td></tr>
+      <tr><td>93</td><td><code>rounds</code></td><td></td><td>3</td><td>the history after a number of rounds of two strategies playing each other</td></tr>
+      <tr><td>94</td><td><code>cost</code></td><td></td><td>3</td><td>the sum of one strategy's losses over a number of rounds</td></tr>
+      <tr><td>95</td><td><code>stated</code></td><td></td><td>1</td><td>the sentence is said by the sender about itself: neither proved nor measured (§8.4)</td></tr>
+      <tr><td>96</td><td><code>strategy</code></td><td></td><td>2</td><td>the strategy the first party plays toward the second</td></tr>
     </tbody>
   </table>
   <h3>9.2 Constants (type 3)</h3>
@@ -463,36 +469,42 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
       <tr><td>18</td><td><code>black-bodies</code></td><td></td><td>domain: bodies that absorb all light falling on them</td></tr>
       <tr><td>19</td><td><code>durations</code></td><td></td><td>domain: durations (quantities of dimension T)</td></tr>
       <tr><td>20</td><td><code>rings</code></td><td></td><td>domain: round loops of wire carrying a steady current</td></tr>
-      <tr><td>21</td><td><code>stars</code></td><td></td><td>domain: stars that shine by turning hydrogen into helium</td></tr>
-      <tr><td>22</td><td><code>first-axis</code></td><td></td><td>the direction along which the background radiation is most uneven (one of its two ends)</td></tr>
-      <tr><td>23</td><td><code>second-axis</code></td><td></td><td>the same among the directions at right angles to the first axis</td></tr>
-      <tr><td>24</td><td><code>third-axis</code></td><td></td><td>the cross of the first and second axis</td></tr>
-      <tr><td>25</td><td><code>sun</code></td><td></td><td>the star the Earth goes round</td></tr>
-      <tr><td>26</td><td><code>earth</code></td><td></td><td>the body that goes round the Sun at about 215 times its radius</td></tr>
-      <tr><td>27</td><td><code>galaxy-centre</code></td><td></td><td>the dark body of great mass at the centre of the Galaxy</td></tr>
-      <tr><td>28</td><td><code>toward-centre</code></td><td></td><td>the direction from the Sun to the centre of the Galaxy</td></tr>
-      <tr><td>29</td><td><code>along-rotation</code></td><td></td><td>the direction in which the stars around the Sun go round the centre</td></tr>
-      <tr><td>30</td><td><code>galactic-pole</code></td><td></td><td>the cross of toward-centre and along-rotation</td></tr>
-      <tr><td>31</td><td><code>pulsars</code></td><td></td><td>domain: turning neutron stars that send a pulse each turn</td></tr>
-      <tr><td>32</td><td><code>crab-pulsar</code></td><td></td><td>a pulsar: the Crab pulsar, the remnant of a star seen to explode</td></tr>
-      <tr><td>33</td><td><code>vela-pulsar</code></td><td></td><td>a pulsar: the Vela pulsar</td></tr>
-      <tr><td>34</td><td><code>pulsar-j0437</code></td><td></td><td>a pulsar: a millisecond pulsar close to the Sun</td></tr>
-      <tr><td>35</td><td><code>pulsar-j1939</code></td><td></td><td>a pulsar: one of the fastest pulsars known</td></tr>
-      <tr><td>36</td><td><code>pulsar-j0332</code></td><td></td><td>a pulsar: one of the brightest pulsars</td></tr>
-      <tr><td>37</td><td><code>pulsar-j1921</code></td><td></td><td>a pulsar: the first pulsar to be found</td></tr>
-      <tr><td>38</td><td><code>cooperate</code></td><td></td><td>a move in the prisoner's dilemma</td></tr>
-      <tr><td>39</td><td><code>defect</code></td><td></td><td>a move in the prisoner's dilemma</td></tr>
-      <tr><td>40</td><td><code>moves</code></td><td></td><td>the list of the two moves</td></tr>
-      <tr><td>41</td><td><code>histories</code></td><td></td><td>domain: lists of rounds, each round a list of two moves (one's own, the other's)</td></tr>
-      <tr><td>42</td><td><code>always-cooperate</code></td><td></td><td>strategy</td></tr>
-      <tr><td>43</td><td><code>always-defect</code></td><td></td><td>strategy</td></tr>
-      <tr><td>44</td><td><code>tit-for-tat</code></td><td></td><td>strategy</td></tr>
-      <tr><td>45</td><td><code>suspicious-tit-for-tat</code></td><td></td><td>strategy (tit-for-tat with a defection as its first move)</td></tr>
-      <tr><td>46</td><td><code>grim</code></td><td></td><td>strategy</td></tr>
-      <tr><td>47</td><td><code>pavlov</code></td><td></td><td>strategy</td></tr>
-      <tr><td>48</td><td><code>generous-tit-for-tat</code></td><td></td><td>strategy (picks by chance after a defection)</td></tr>
-      <tr><td>49</td><td><code>random</code></td><td></td><td>strategy (picks either move by chance, every time)</td></tr>
-      <tr><td>50</td><td><code>tournament</code></td><td></td><td>the list of the six fixed strategies</td></tr>
+      <tr><td>21</td><td><code>message</code></td><td></td><td>this message: the list of everything sent between the two beacons, numbers and sentences, in order</td></tr>
+      <tr><td>22</td><td><code>?</code></td><td></td><td>the hole in a question; only mentioned, inside <code>quote</code></td></tr>
+      <tr><td>23</td><td><code>we</code></td><td></td><td>the speakers of this message</td></tr>
+      <tr><td>24</td><td><code>you</code></td><td></td><td>the receiver of this message, a party other than its sender</td></tr>
+      <tr><td>25</td><td><code>parties</code></td><td></td><td>domain: those who can send and receive messages</td></tr>
+      <tr><td>26</td><td><code>conversations</code></td><td></td><td>domain: lists of messages in which every message is a reply to the one before (its sender is the receiver of the one before, and the other way round)</td></tr>
+      <tr><td>27</td><td><code>stars</code></td><td></td><td>domain: stars that shine by turning hydrogen into helium</td></tr>
+      <tr><td>28</td><td><code>first-axis</code></td><td></td><td>the direction along which the background radiation is most uneven (one of its two ends)</td></tr>
+      <tr><td>29</td><td><code>second-axis</code></td><td></td><td>the same among the directions at right angles to the first axis</td></tr>
+      <tr><td>30</td><td><code>third-axis</code></td><td></td><td>the cross of the first and second axis</td></tr>
+      <tr><td>31</td><td><code>sun</code></td><td></td><td>the star the Earth goes round</td></tr>
+      <tr><td>32</td><td><code>earth</code></td><td></td><td>the body that goes round the Sun at about 215 times its radius</td></tr>
+      <tr><td>33</td><td><code>galaxy-centre</code></td><td></td><td>the dark body of great mass at the centre of the Galaxy</td></tr>
+      <tr><td>34</td><td><code>toward-centre</code></td><td></td><td>the direction from the Sun to the centre of the Galaxy</td></tr>
+      <tr><td>35</td><td><code>along-rotation</code></td><td></td><td>the direction in which the stars around the Sun go round the centre</td></tr>
+      <tr><td>36</td><td><code>galactic-pole</code></td><td></td><td>the cross of toward-centre and along-rotation</td></tr>
+      <tr><td>37</td><td><code>pulsars</code></td><td></td><td>domain: turning neutron stars that send a pulse each turn</td></tr>
+      <tr><td>38</td><td><code>crab-pulsar</code></td><td></td><td>a pulsar: the Crab pulsar, the remnant of a star seen to explode</td></tr>
+      <tr><td>39</td><td><code>vela-pulsar</code></td><td></td><td>a pulsar: the Vela pulsar</td></tr>
+      <tr><td>40</td><td><code>pulsar-j0437</code></td><td></td><td>a pulsar: a millisecond pulsar close to the Sun</td></tr>
+      <tr><td>41</td><td><code>pulsar-j1939</code></td><td></td><td>a pulsar: one of the fastest pulsars known</td></tr>
+      <tr><td>42</td><td><code>pulsar-j0332</code></td><td></td><td>a pulsar: one of the brightest pulsars</td></tr>
+      <tr><td>43</td><td><code>pulsar-j1921</code></td><td></td><td>a pulsar: the first pulsar to be found</td></tr>
+      <tr><td>44</td><td><code>cooperate</code></td><td></td><td>a move in the prisoner's dilemma</td></tr>
+      <tr><td>45</td><td><code>defect</code></td><td></td><td>a move in the prisoner's dilemma</td></tr>
+      <tr><td>46</td><td><code>moves</code></td><td></td><td>the list of the two moves</td></tr>
+      <tr><td>47</td><td><code>histories</code></td><td></td><td>domain: lists of rounds, each round a list of two moves (one's own, the other's)</td></tr>
+      <tr><td>48</td><td><code>always-cooperate</code></td><td></td><td>strategy</td></tr>
+      <tr><td>49</td><td><code>always-defect</code></td><td></td><td>strategy</td></tr>
+      <tr><td>50</td><td><code>tit-for-tat</code></td><td></td><td>strategy</td></tr>
+      <tr><td>51</td><td><code>suspicious-tit-for-tat</code></td><td></td><td>strategy (tit-for-tat with a defection as its first move)</td></tr>
+      <tr><td>52</td><td><code>grim</code></td><td></td><td>strategy</td></tr>
+      <tr><td>53</td><td><code>pavlov</code></td><td></td><td>strategy</td></tr>
+      <tr><td>54</td><td><code>generous-tit-for-tat</code></td><td></td><td>strategy (picks by chance after a defection)</td></tr>
+      <tr><td>55</td><td><code>random</code></td><td></td><td>strategy (picks either move by chance, every time)</td></tr>
+      <tr><td>56</td><td><code>tournament</code></td><td></td><td>the list of the six fixed strategies</td></tr>
     </tbody>
   </table>
   <h3>9.3 Variables (type 4)</h3>
@@ -602,6 +614,10 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
     <dd>A symbol appears in at least <var>k</var> = 3 sentences of the lesson that introduces it. A sentence here is a top-level bracket group, and a sentence that uses the symbol twice counts once. Where a law introduces several symbols at once, the lesson adds sentences about each of them (its dimension, a symmetry, the law turned around, a second measurement).</dd>
     <dt>Measurements</dt>
     <dd>Every <code>observed</code> range holds for the reference data (§8.4), and each bound lies at least five standard uncertainties from the reference value. The uncertainty includes a model uncertainty where the message's simple law leaves something out, such as the fine structure of hydrogen. Each kind of range needs a formula in <code>build/check/measurements.ts</code> that computes it from the reference data; a range without one stops the build too. No measured value is written with <code>=</code> unless the fact is exact. A law that introduces a constant cannot be checked against data; it is checked for its dimensions and, where the constant has a reference value, for its number.</dd>
+    <dt>Questions</dt>
+    <dd>The hole <code>?</code> appears only inside <code>quote</code>: a sentence with a hole is a question, neither true nor false, so it is mentioned and never claimed. A reply <var>v</var> to a question <var>Q</var> is right when <code>(eval (fill <var>Q</var> <var>v</var>))</code> is <code>true</code>.</dd>
+    <dt>The message about itself</dt>
+    <dd>Every sentence <code>(= (count (quote <var>S</var>) message) <var>n</var>)</code> and <code>(= (item message <var>k</var>) <var>x</var>)</code> holds for the version of the message it is in: <var>S</var> occurs exactly <var>n</var> times among its items, and its <var>k</var>th item is <var>x</var>. The build checks this for all three versions.</dd>
     <dt>Optional lessons</dt>
     <dd>A lesson marked <code>data-optional</code> may be left out of a message. No other lesson may use a symbol that it introduces. Today one lesson is optional: the Sun.</dd>
     <dt>Lesson files</dt>

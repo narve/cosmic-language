@@ -12,12 +12,15 @@
 <article class="lesson" data-topic="astronomy" data-optional>
   <h3>pulsars</h3>
   <p>Some stars end as neutron stars: a ball of neutrons the width of a city, turning many times each second and sending out a beam of radio light that sweeps past the Sun once each turn. These pulsars keep time better than almost anything, and each has its own period, so they serve as landmarks. New: the domain <code>pulsars</code>, <code>pulse-period</code> (the time of one turn), <code>slowing</code> (how much longer each turn gets per time), and six pulsars by name. This lesson can be left out of a message.</p>
-  <pre><code><span data-comment>; a pulsar is a body; its period is a time, and the period grows a little all the time</span>
+  <pre><code><span data-comment>; a pulsar is a body; its period is a time, and the period grows a</span>
+<span data-comment>; little all the time</span>
 (∀ <var>u</var> pulsars (∃ <var>v</var> bodies (= <var>u</var> <var>v</var>)))
 (∀ <var>u</var> pulsars (= (dim (pulse-period <var>u</var>)) T))
 (observed (∀ <var>u</var> pulsars (&gt; (slowing <var>u</var>) 0)))</code></pre>
   <p>Each pulsar is given by its period, by how fast it slows, and by its direction from the Sun in the three directions of the Galaxy. Seen from anywhere else, the same pulsars lie in other directions; from the directions of several of them, a reader can find the place they were seen from. And since every period grows at its own known rate, the periods a reader measures tell how long ago the message was sent.</p>
-  <pre><code><span data-comment>; the Crab pulsar, the remnant of a star seen to explode: one turn takes about 4.74e+07 periods of the hydrogen line, and the turn slows by about 0.000398 of itself each Earth year</span>
+  <pre><code><span data-comment>; the Crab pulsar, the remnant of a star seen to explode: one turn</span>
+<span data-comment>; takes about 4.74e+07 periods of the hydrogen line, and the turn</span>
+<span data-comment>; slows by about 0.000398 of itself each Earth year</span>
 (∃ <var>u</var> pulsars (= <var>u</var> crab-pulsar))
 (observed (&lt; (× 166 (^ 2 18)) (× (pulse-period crab-pulsar) (frequency hydrogen-line)) (× 196 (^ 2 18))))
 (observed (&lt; (÷ 187 (^ 2 19)) (÷ (× (slowing crab-pulsar) (period earth sun)) (pulse-period crab-pulsar)) (÷ 115 (^ 2 18))))
@@ -26,7 +29,9 @@
 (observed (&lt; (neg (÷ 5 32)) (dot (direction-from sun crab-pulsar) along-rotation) 0))
 (observed (&lt; (neg (÷ 5 32)) (dot (direction-from sun crab-pulsar) galactic-pole) (neg (÷ 1 32))))
 
-<span data-comment>; the Vela pulsar: one turn takes about 1.27e+08 periods of the hydrogen line, and the turn slows by about 4.42e-05 of itself each Earth year</span>
+<span data-comment>; the Vela pulsar: one turn takes about 1.27e+08 periods of the</span>
+<span data-comment>; hydrogen line, and the turn slows by about 4.42e-05 of itself each</span>
+<span data-comment>; Earth year</span>
 (∃ <var>u</var> pulsars (= <var>u</var> vela-pulsar))
 (observed (&lt; (× 239 (^ 2 19)) (× (pulse-period vela-pulsar) (frequency hydrogen-line)) (× 245 (^ 2 19))))
 (observed (&lt; (÷ 83 (^ 2 21)) (÷ (× (slowing vela-pulsar) (period earth sun)) (pulse-period vela-pulsar)) (÷ 51 (^ 2 20))))
@@ -35,7 +40,9 @@
 (observed (&lt; (neg 1) (dot (direction-from sun vela-pulsar) along-rotation) (neg (÷ 15 16))))
 (observed (&lt; (neg (÷ 1 8)) (dot (direction-from sun vela-pulsar) galactic-pole) (÷ 1 32)))
 
-<span data-comment>; a millisecond pulsar close to the Sun: one turn takes about 8.18e+06 periods of the hydrogen line, and the turn slows by about 3.14e-10 of itself each Earth year</span>
+<span data-comment>; a millisecond pulsar close to the Sun: one turn takes about</span>
+<span data-comment>; 8.18e+06 periods of the hydrogen line, and the turn slows by about</span>
+<span data-comment>; 3.14e-10 of itself each Earth year</span>
 (∃ <var>u</var> pulsars (= <var>u</var> pulsar-j0437))
 (observed (&lt; (× 249 (^ 2 15)) (× (pulse-period pulsar-j0437) (frequency hydrogen-line)) (× 250 (^ 2 15))))
 (observed (&lt; (÷ 155 (^ 2 39)) (÷ (× (slowing pulsar-j0437) (period earth sun)) (pulse-period pulsar-j0437)) (÷ 95 (^ 2 38))))
@@ -44,7 +51,9 @@
 (observed (&lt; (neg (÷ 25 32)) (dot (direction-from sun pulsar-j0437) along-rotation) (neg (÷ 21 32))))
 (observed (&lt; (neg (÷ 23 32)) (dot (direction-from sun pulsar-j0437) galactic-pole) (neg (÷ 19 32))))
 
-<span data-comment>; one of the fastest pulsars known: one turn takes about 2.21e+06 periods of the hydrogen line, and the turn slows by about 2.13e-09 of itself each Earth year</span>
+<span data-comment>; one of the fastest pulsars known: one turn takes about 2.21e+06</span>
+<span data-comment>; periods of the hydrogen line, and the turn slows by about 2.13e-09</span>
+<span data-comment>; of itself each Earth year</span>
 (∃ <var>u</var> pulsars (= <var>u</var> pulsar-j1939))
 (observed (&lt; (× 135 (^ 2 14)) (× (pulse-period pulsar-j1939) (frequency hydrogen-line)) (× 136 (^ 2 14))))
 (observed (&lt; (÷ 131 (^ 2 36)) (÷ (× (slowing pulsar-j1939) (period earth sun)) (pulse-period pulsar-j1939)) (÷ 161 (^ 2 36))))
@@ -53,7 +62,9 @@
 (observed (&lt; (÷ 25 32) (dot (direction-from sun pulsar-j1939) along-rotation) (÷ 29 32)))
 (observed (&lt; (neg (÷ 1 16)) (dot (direction-from sun pulsar-j1939) galactic-pole) (÷ 1 16)))
 
-<span data-comment>; one of the brightest pulsars: one turn takes about 1.01e+09 periods of the hydrogen line, and the turn slows by about 9.05e-08 of itself each Earth year</span>
+<span data-comment>; one of the brightest pulsars: one turn takes about 1.01e+09</span>
+<span data-comment>; periods of the hydrogen line, and the turn slows by about 9.05e-08</span>
+<span data-comment>; of itself each Earth year</span>
 (∃ <var>u</var> pulsars (= <var>u</var> pulsar-j0332))
 (observed (&lt; (× 241 (^ 2 22)) (× (pulse-period pulsar-j0332) (frequency hydrogen-line)) (× 242 (^ 2 22))))
 (observed (&lt; (÷ 87 (^ 2 30)) (÷ (× (slowing pulsar-j0332) (period earth sun)) (pulse-period pulsar-j0332)) (÷ 107 (^ 2 30))))
@@ -62,7 +73,9 @@
 (observed (&lt; (÷ 1 2) (dot (direction-from sun pulsar-j0332) along-rotation) (÷ 5 8)))
 (observed (&lt; (neg (÷ 3 32)) (dot (direction-from sun pulsar-j0332) galactic-pole) (÷ 1 32)))
 
-<span data-comment>; the first pulsar to be found: one turn takes about 1.9e+09 periods of the hydrogen line, and the turn slows by about 3.18e-08 of itself each Earth year</span>
+<span data-comment>; the first pulsar to be found: one turn takes about 1.9e+09 periods</span>
+<span data-comment>; of the hydrogen line, and the turn slows by about 3.18e-08 of</span>
+<span data-comment>; itself each Earth year</span>
 (∃ <var>u</var> pulsars (= <var>u</var> pulsar-j1921))
 (observed (&lt; (× 226 (^ 2 23)) (× (pulse-period pulsar-j1921) (frequency hydrogen-line)) (× 227 (^ 2 23))))
 (observed (&lt; (÷ 61 (^ 2 31)) (÷ (× (slowing pulsar-j1921) (period earth sun)) (pulse-period pulsar-j1921)) (÷ 151 (^ 2 32))))

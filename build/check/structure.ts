@@ -1,4 +1,5 @@
 // The structure rules of the specification (§10.1), checked on the parsed message. All are hard errors:
+// - the hole ? of a question appears only inside quote;
 // - an unquoted group starts with an operator and has the number of arguments its arity allows;
 // - ∀, ∃ and sequence bind a variable, and every variable is bound (sentences are closed);
 // - every symbol in the registry is used, and ids follow the order of first appearance in each type;
@@ -51,6 +52,8 @@ function allowed(arity: string, count: number): boolean {
 
 function checkNode(node: Node, registry: Registry, bound: Set<string>): void {
   if (node.token) {
+    // a quoted expression is not checked (below), so a hole reached here is outside every quote
+    if (node.token.text === "?") throw new BuildError(`${node.where}: a question (a sentence with ?) can only be mentioned, inside quote`);
     if (node.token.type === VARIABLE && !bound.has(node.token.text)) {
       throw new BuildError(`${node.where}: the variable ${node.token.text} is not bound by ∀, ∃ or sequence`);
     }
@@ -86,6 +89,36 @@ interface First {
   name: string;
   lesson: string; // the lesson that introduces the symbol
   sentences: number; // sentences of that lesson that use it
+}
+
+// What the message says about itself must hold for the version it is in: every (= (count (quote S) message) n) and
+// (= (item message k) x) is checked against the message's own items (its numbers and sentences, in order).
+export function checkSelfReference(message: Message, version: string): number {
+  const items: Node[] = [];
+  for (const { article, blocks } of message.articles) {
+    blocks.forEach((block, index) => {
+      if (block.bits === undefined) items.push(...parseBlock(block.lines, `${article.slug}, block ${index + 1}`));
+    });
+  }
+  const shown = items.map(show);
+  const word = (n: Node | undefined) => n?.token?.text;
+  let checked = 0;
+  for (const node of items) {
+    const [eq, left, right] = node.items ?? [];
+    if (word(eq) !== "=" || !left?.items || !right) continue;
+    const [op, a, b] = left.items;
+    if (word(op) === "count" && word(b) === "message" && a?.items && word(a.items[0]) === "quote") {
+      const expected = Number(word(right));
+      const actual = shown.filter((s) => s === show(a.items[1])).length;
+      if (actual !== expected) throw new BuildError(`${node.where}: in the ${version} version, ${show(a.items[1])} is in the message ${actual} times, not ${expected}`);
+      checked++;
+    } else if (word(op) === "item" && word(a) === "message") {
+      const k = Number(word(b));
+      if (shown[k - 1] !== show(right)) throw new BuildError(`${node.where}: in the ${version} version, item ${k} of the message is ${shown[k - 1]}, not ${show(right)}`);
+      checked++;
+    }
+  }
+  return checked;
 }
 
 // An optional lesson may be left out of a message: no lesson that is not optional may use a symbol that it introduces.

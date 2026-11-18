@@ -13,17 +13,29 @@
   <h3>powers</h3>
   <p>New symbol: <code>^</code>, raising to a natural-number power. Like <code>−</code> and <code>÷</code> it takes exactly two arguments, and the lesson shows why: grouping matters.</p>
   <pre><code><span data-comment>; the powers of 2</span>
-(= (^ 2 1) 2)  (= (^ 2 2) 4)  (= (^ 2 3) 8)  (= (^ 2 4) 16)  (= (^ 2 5) 32)
+(= (^ 2 1) 2)
+(= (^ 2 2) 4)
+(= (^ 2 3) 8)
+(= (^ 2 4) 16)
+(= (^ 2 5) 32)
+
 <span data-comment>; a power multiplies the same number again and again: 2³ = 2 × 2 × 2</span>
-(= (^ 2 3) (× 2 2 2) 8)  (= (^ 3 2) (× 3 3) 9)  (= (^ 7 2) (× 7 7) 49)
+(= (^ 2 3) (× 2 2 2) 8)
+(= (^ 3 2) (× 3 3) 9)
+(= (^ 7 2) (× 7 7) 49)
+
 <span data-comment>; power 1 changes nothing; power 0 gives 1</span>
-(= (^ 5 1) 5)  (= (^ 0 5) 0)  (= (^ 5 0) 1)
+(= (^ 5 1) 5)
+(= (^ 0 5) 0)
+(= (^ 5 0) 1)
 
 <span data-comment>; 2⁸ is 256, the first number that needs two digits</span>
 (= (^ 2 8) (big 1 0))
 
 <span data-comment>; grouping matters: (2³)² is 64, but 2 to the power 3² is 512</span>
-(= (^ (^ 2 3) 2) 64)  (= (^ 2 (^ 3 2)) (big 2 0))  (≠ (^ (^ 2 3) 2) (^ 2 (^ 3 2)))
+(= (^ (^ 2 3) 2) 64)
+(= (^ 2 (^ 3 2)) (big 2 0))
+(≠ (^ (^ 2 3) 2) (^ 2 (^ 3 2)))
 
 <span data-comment>; the laws: u² = <var>u</var> × <var>u</var></span>
 (∀ <var>u</var> ℝ (= (^ <var>u</var> 2) (× <var>u</var> <var>u</var>)))

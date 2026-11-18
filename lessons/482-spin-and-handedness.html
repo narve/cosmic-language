@@ -14,40 +14,49 @@
   <p>The particles of the message turn, as if each were a tiny spinning top. New: <code>spin</code>, the size of that turning, which is a multiple of ħ.</p>
   <pre><code><span data-comment>; electron, proton and neutron spin with ħ/2, the photon with ħ</span>
 (observed (= (spin electron) (× (÷ 1 2) ħ)))
-(observed (= (spin proton) (× (÷ 1 2) ħ)))  (observed (= (spin neutron) (× (÷ 1 2) ħ)))
+(observed (= (spin proton) (× (÷ 1 2) ħ)))
+(observed (= (spin neutron) (× (÷ 1 2) ħ)))
+
 (observed (= (spin photon) ħ))
 <span data-comment>; spin has the dimension of ħ</span>
 (∀ <var>u</var> (list electron proton neutron photon) (= (dim (spin <var>u</var>)) (dim ħ)))</code></pre>
   <p>A turning has an axis and a sense. New: <code>turns</code>, a particle turning from one direction toward another at right angles, and <code>spin-axis</code>, the direction of its axis. The axis is tied to the turning by <code>cross</code>, from the lesson on geometry.</p>
-  <pre><code><span data-comment>; a particle that turns from <var>v</var> toward <var>w</var> has its spin axis along the cross of <var>v</var> and <var>w</var></span>
+  <pre><code><span data-comment>; a particle that turns from <var>v</var> toward <var>w</var> has its spin axis along the</span>
+<span data-comment>; cross of <var>v</var> and <var>w</var></span>
 (∀ <var>u</var> (list electron proton neutron) (∀ <var>v</var> directions (∀ <var>w</var> directions
   (<data value="implies">implies</data> (<data value="and">and</data> (= (dot <var>v</var> <var>w</var>) 0) (turns <var>u</var> <var>v</var> <var>w</var>))
            (= (spin-axis <var>u</var>) (cross <var>v</var> <var>w</var>))))))
-<span data-comment>; for example: turning from (1 0 0) toward (0 1 0), the axis is (0 0 1)</span>
+<span data-comment>; for example: turning from (1 0 0) toward (0 1 0), the axis is (0 0</span>
+<span data-comment>; 1)</span>
 (∀ <var>u</var> (list electron proton neutron)
   (<data value="implies">implies</data> (turns <var>u</var> (list 1 0 0) (list 0 1 0)) (= (spin-axis <var>u</var>) (list 0 0 1))))
-<span data-comment>; a particle that turns from <var>v</var> toward <var>w</var> does not turn from <var>w</var> toward <var>v</var></span>
+<span data-comment>; a particle that turns from <var>v</var> toward <var>w</var> does not turn from <var>w</var> toward</span>
+<span data-comment>; <var>v</var></span>
 (∀ <var>u</var> (list electron proton neutron) (∀ <var>v</var> directions (∀ <var>w</var> directions
   (<data value="implies">implies</data> (turns <var>u</var> <var>v</var> <var>w</var>) (<data value="not">not</data> (turns <var>u</var> <var>w</var> <var>v</var>))))))
 <span data-comment>; the spin axis is a direction</span>
 (∀ <var>u</var> (list electron proton neutron) (∃ <var>v</var> directions (= <var>v</var> (spin-axis <var>u</var>))))</code></pre>
   <p>Is the hand of <code>cross</code> only a convention? For gravity, electricity, magnetism and light it is: their laws stay true in a mirror. But one force does not: the weak force, which makes a free neutron decay. So a decaying neutron can show which hand is meant. Three ways to see it, each in the decay of a neutron into a proton, an electron and a third, very light particle without charge, the <code>antineutrino</code>.</p>
   <p>New: <code>emitted-along</code>, the average, over many decays, of the dot of the direction in which a particle leaves with the spin axis of the neutron it comes from; and <code>spin-along-motion</code>, the average dot of a particle's own spin axis with the direction in which it moves.</p>
-  <pre><code><span data-comment>; 1. the electron leaves more often against the neutron's spin axis than along it</span>
+  <pre><code><span data-comment>; 1. the electron leaves more often against the neutron's spin axis</span>
+<span data-comment>; than along it</span>
 (observed (&lt; (emitted-along electron neutron) 0))
 (observed (&gt; (emitted-along electron neutron) (neg 1)))
-<span data-comment>; the antineutrino does the opposite: it leaves more often along the spin axis</span>
+<span data-comment>; the antineutrino does the opposite: it leaves more often along the</span>
+<span data-comment>; spin axis</span>
 (observed (&gt; (emitted-along antineutrino neutron) 0))
 
 <span data-comment>; 2. the electron itself spins against its motion, on average</span>
 (observed (&lt; (spin-along-motion electron neutron) 0))
 (observed (&gt; (spin-along-motion electron neutron) (neg 1)))
 
-<span data-comment>; 3. the antineutrino spins along its motion: always, or so nearly that no difference has been seen</span>
+<span data-comment>; 3. the antineutrino spins along its motion: always, or so nearly</span>
+<span data-comment>; that no difference has been seen</span>
 (observed (&gt; (spin-along-motion antineutrino neutron) (− 1 (÷ 1 (^ 2 16)))))
 (observed (≤ (spin-along-motion antineutrino neutron) 1))
 <span data-comment>; it has no charge, and much less mass than the electron</span>
-(observed (= (charge antineutrino) 0))  (observed (&lt; (mass antineutrino) (mass electron)))</code></pre>
+(observed (= (charge antineutrino) 0))
+(observed (&lt; (mass antineutrino) (mass electron)))</code></pre>
   <p>In a mirror, each of these would come out the other way. So a reader who has used the other hand for <code>cross</code> finds out by watching neutrons decay: with its hand, the electrons would leave more often along the spin axis, which this lesson says they do not. All three ways come from the weak force; nothing else in physics, as far as is known, tells left from right. (Living things on Earth also prefer one hand in their molecules, but that is a fact about us, not about nature.)</p>
   <p><small>Sources: C. S. Wu and others, Phys. Rev. 105, 1413 (1957) (the first such observation, in cobalt-60); B. Märkisch and others, Phys. Rev. Lett. 122, 242501 (2019) (the electron asymmetry in neutron decay, −0.1199); H. Frauenfelder and others, Phys. Rev. 106, 386 (1957) (electrons spin against their motion); M. Goldhaber, L. Grodzins and A. W. Sunyar, Phys. Rev. 109, 1015 (1958) (the hand of neutrinos). Only signs are used here, no values.</small></p>
 </article>
