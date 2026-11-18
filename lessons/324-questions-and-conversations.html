@@ -62,6 +62,14 @@
   (<data value="implies">implies</data> (<data value="and">and</data> (= (item <var>u</var> 1) message) (&gt; (length <var>u</var>) 1))
     (<data value="and">and</data> (= (sender (item <var>u</var> 2)) you)
          (= (receiver (item <var>u</var> 2)) we))))</code></pre>
+  <p>Some things about us only we can say: you can neither prove nor measure them. New: <code>stated</code>, which marks such a sentence. It is a third kind of sentence, next to those that are proved (unmarked) and those that are measured. A stated sentence is true or false like any other; the mark says only how you can know it: by believing us, or by testing us over time.</p>
+  <pre><code><span data-comment>; we are a party: you can see that we send, but not that we can</span>
+<span data-comment>; also receive</span>
+(stated (∃ <var>u</var> parties (= <var>u</var> we)))
+<span data-comment>; this is not the first message we have sent</span>
+(stated (∃ <var>u</var> expressions (<data value="and">and</data> (≠ <var>u</var> message) (= (sender <var>u</var>) we))))
+<span data-comment>; we hold every sentence of this message to be true</span>
+(stated (∀ <var>u</var> message (<data value="implies">implies</data> (= (type <var>u</var>) 1) (= (eval <var>u</var>) true))))</code></pre>
 </article>
 </body>
 </html>

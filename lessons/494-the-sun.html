@@ -37,6 +37,12 @@
 (observed (&lt; (^ 2 168) (÷ (period earth sun) planck-time) (^ 2 169)))
 <span data-comment>; the Earth's mass: between 2¹⁷¹ and 2¹⁷² proton masses</span>
 (observed (&lt; (^ 2 171) (÷ (mass earth) (mass proton)) (^ 2 172)))</code></pre>
+  <p>This is where we are. New: <code>at</code>, a party living on a body. Like everything we say about ourselves, it is <code>stated</code>: the Sun is our star.</p>
+  <pre><code><span data-comment>; we live on the Earth, which goes round Sun</span>
+(stated (at we earth))
+(stated (∃ <var>u</var> bodies (<data value="and">and</data> (at we <var>u</var>) (orbits <var>u</var> sun))))
+<span data-comment>; we do not live on the star itself</span>
+(stated (<data value="not">not</data> (at we sun)))</code></pre>
   <p><small>Sources: NASA Sun and Earth fact sheets (2024), CODATA 2022 (the Planck units and the proton mass), BIPM (water's triple point). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
 </article>
 </body>

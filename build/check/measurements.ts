@@ -89,7 +89,13 @@ const QUANTITIES: Record<string, Q> = {
   })(),
   "(÷ (mass galaxy-centre) (mass proton))": mul(constant("mass of the Galactic centre"), div(div(constant("GM of the Sun"), G), mp)),
   "(÷ (distance sun galaxy-centre) planck-length)": div(mul(constant("distance from the Sun to the Galactic centre"), q(1000 * (648000 / Math.PI) * 149597870700)), constant("Planck length")),
-  "(÷ (speed sun) c)": div(mul(constant("circular velocity at the Sun"), q(1000)), c),
+  // the Sun's velocity relative to the centre: the circular speed plus the Sun's own motion (U, V, W)
+  "(÷ (dot (velocity sun galaxy-centre) along-rotation) c)": (() => {
+    const v0 = constant("circular velocity at the Sun"), V = constant("Sun's motion along the Galactic rotation (V)");
+    return div(q((v0.v + V.v) * 1000, Math.hypot(v0.u, V.u) * 1000), c);
+  })(),
+  "(÷ (dot (velocity sun galaxy-centre) toward-centre) c)": div(mul(constant("Sun's motion toward the Galactic centre (U)"), q(1000)), c),
+  "(÷ (dot (velocity sun galaxy-centre) galactic-pole) c)": div(mul(constant("Sun's motion toward the north Galactic pole (W)"), q(1000)), c),
   // one round of a circle: 2π × distance ÷ speed
   "(÷ (period sun galaxy-centre) planck-time)": div(div(mul(q(2 * Math.PI * 1000 * (648000 / Math.PI) * 149597870700), constant("distance from the Sun to the Galactic centre")), mul(constant("circular velocity at the Sun"), q(1000))), planckTime),
   ...pulsarQuantities(),

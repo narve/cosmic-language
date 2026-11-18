@@ -11,12 +11,18 @@
 <body>
 <article class="lesson" data-topic="conversations">
   <h3>this message</h3>
-  <p>Until now the message has spoken about numbers, logic and the world. Now it speaks about itself. New: <code>message</code>, this message, as the list of everything sent between the beacon at its start and the beacon at its end: numbers and sentences, in order. What is in it can be counted with <code>count</code>, and a sentence is named with <code>quote</code>, so that it is mentioned and not claimed.</p>
+  <p>Until now the message has spoken about numbers, logic and the world. Now it speaks about itself. New: <code>message</code>, this message, as the list of everything sent in tokens after the beacon at its start and before the bits at its end: numbers and sentences, in order. The beacon itself, written in runs of 1s, is not an item: the list starts with the primes sent again as tokens, and the counting from 0 follows them. What is in it can be counted with <code>count</code>, and a sentence is named with <code>quote</code>, so that it is mentioned and not claimed.</p>
   <pre><code><span data-comment>; the message starts with the numbers of the calibration: 1, 2, 3, 5</span>
 <span data-comment>; …</span>
 (= (item message 1) 1)
 (= (item message 2) 2)
 (= (item message 4) 5)
+
+<span data-comment>; the twelfth is 31, the last prime of the calibration, and the</span>
+<span data-comment>; thirteenth is 0, where the counting starts: the beacon in 1s is</span>
+<span data-comment>; not counted</span>
+(= (item message 12) 31)
+(= (item message 13) 0)
 
 <span data-comment>; these sentences are in the message, once each</span>
 (= (count (quote (= 1 1)) message) 1)

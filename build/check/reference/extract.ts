@@ -73,6 +73,13 @@ const SOURCES = {
     file: "fixsen2009-cmb-temperature.pdf",
     retrieved: "2026-11-18",
   },
+  schoenrich2010: {
+    title: "Local kinematics and the local standard of rest",
+    citation: "R. Schönrich, J. Binney and W. Dehnen, Mon. Not. R. Astron. Soc. 403, 1829 (2010); arXiv:0912.3693",
+    url: "https://arxiv.org/abs/0912.3693",
+    file: "schoenrich2010-solar-motion.pdf",
+    retrieved: "2026-11-18",
+  },
   "nasa-factsheets": {
     title: "NASA Sun Fact Sheet and Earth Fact Sheet",
     citation: "D. R. Williams, NASA Space Science Data Coordinated Archive, Goddard Space Flight Center (Sun: 2024; Earth: 2024)",

@@ -321,6 +321,12 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
         <td>2026-11-18</td>
       </tr>
       <tr>
+        <td>R. Schönrich, J. Binney and W. Dehnen, <cite>Local kinematics and the local standard of rest</cite>, Mon. Not. R. Astron. Soc. 403, 1829 (2010); <a href="https://arxiv.org/abs/0912.3693">arXiv:0912.3693</a>.</td>
+        <td>The Sun's own motion relative to circular orbits: (U, V, W) = (11.1, 12.24, 7.25) km/s, with statistical and systematic uncertainties added in quadrature (abstract, page 1). Added to the circular speed of the Particle Data Group, it gives the Sun's velocity relative to the centre.</td>
+        <td><code>schoenrich2010-solar-motion.pdf</code></td>
+        <td>2026-11-18</td>
+      </tr>
+      <tr>
         <td>Full-sky maps of the background radiation: the WMAP 9-year ILC map, C. L. Bennett and others, Astrophys. J. Suppl. 208, 20 (2013), from <a href="https://lambda.gsfc.nasa.gov/product/wmap/dr5/ilc_map_info.html">LAMBDA</a>; and the Planck 2015 Commander and SMICA maps, Planck Collaboration, Astron. Astrophys. 594, A9 (2016), from <a href="https://irsa.ipac.caltech.edu/Missions/planck.html">IRSA</a>. The Sun's dipole from Planck 2018 I, Astron. Astrophys. 641, A1 (2020).</td>
         <td>The axes of the background radiation, computed from each map with and without the Doppler quadrupole of the Sun's motion, and the Galaxy's directions in them; the spread of the nine results is taken as the uncertainty. The maps are too large to keep: the script and its result are kept, with each map's SHA-256.</td>
         <td><code>cmb-quadrupole.py</code>, <code>cmb-quadrupole.json</code></td>
@@ -421,61 +427,63 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
       <tr><td>42</td><td><code>fill</code></td><td></td><td>2</td><td>the quoted sentence with every <code>?</code> replaced by the value</td></tr>
       <tr><td>43</td><td><code>sender</code></td><td></td><td>1</td><td>the party that sends a message</td></tr>
       <tr><td>44</td><td><code>receiver</code></td><td></td><td>1</td><td>the party a message is sent to</td></tr>
-      <tr><td>45</td><td><code>good</code></td><td></td><td>2</td><td>the party finds the conversation good (a conversation: a list of messages, each a list of sentences)</td></tr>
-      <tr><td>46</td><td><code>bad</code></td><td></td><td>2</td><td>the party finds the conversation bad</td></tr>
-      <tr><td>47</td><td><code>observed</code></td><td></td><td>1</td><td>the statement is a measurement (§8.3)</td></tr>
-      <tr><td>48</td><td><code>mass</code></td><td></td><td>1</td><td>mass of a particle or atom (a quantity)</td></tr>
-      <tr><td>49</td><td><code>charge</code></td><td></td><td>1</td><td>electric charge (a quantity)</td></tr>
-      <tr><td>50</td><td><code>isotope</code></td><td></td><td>2</td><td>an element with a given number of neutrons</td></tr>
-      <tr><td>51</td><td><code>stable</code></td><td></td><td>1+</td><td>all are stable isotopes (observed property)</td></tr>
-      <tr><td>52</td><td><code>level</code></td><td></td><td>2</td><td>energy of the <var>n</var>th state of an atom (a quantity)</td></tr>
-      <tr><td>53</td><td><code>dim</code></td><td></td><td>1</td><td>the dimension of a quantity</td></tr>
-      <tr><td>54</td><td><code>speed</code></td><td></td><td>1</td><td>speed (a quantity)</td></tr>
-      <tr><td>55</td><td><code>wavelength</code></td><td></td><td>1</td><td>wavelength of a photon (a quantity)</td></tr>
-      <tr><td>56</td><td><code>frequency</code></td><td></td><td>1</td><td>frequency of a photon (a quantity)</td></tr>
-      <tr><td>57</td><td><code>energy</code></td><td></td><td>1</td><td>energy (a quantity)</td></tr>
-      <tr><td>58</td><td><code>emitted</code></td><td></td><td>3</td><td>the photon an atom emits falling from one level to another</td></tr>
-      <tr><td>59</td><td><code>distance</code></td><td></td><td>2</td><td>the distance between two bodies or two wires (a quantity)</td></tr>
-      <tr><td>60</td><td><code>gravity</code></td><td></td><td>2</td><td>the force of gravity between two bodies (a quantity)</td></tr>
-      <tr><td>61</td><td><code>electric</code></td><td></td><td>2</td><td>the electric force between two bodies (a quantity)</td></tr>
-      <tr><td>62</td><td><code>current</code></td><td></td><td>1</td><td>the charge flowing along a wire per time, signed by its direction (a quantity)</td></tr>
-      <tr><td>63</td><td><code>magnetic</code></td><td></td><td>2</td><td>the magnetic force between two wires, per length of wire (a quantity)</td></tr>
-      <tr><td>64</td><td><code>kinetic</code></td><td></td><td>1</td><td>the average energy of motion of a gas's particles (a quantity)</td></tr>
-      <tr><td>65</td><td><code>temperature</code></td><td></td><td>1</td><td>temperature (a quantity)</td></tr>
-      <tr><td>66</td><td><code>radiance</code></td><td></td><td>1</td><td>power radiated per area (a quantity)</td></tr>
-      <tr><td>67</td><td><code>lifetime</code></td><td></td><td>1</td><td>the mean lifetime of an unstable particle or isotope (a quantity)</td></tr>
-      <tr><td>68</td><td><code>survival</code></td><td></td><td>2</td><td>the chance that something has not decayed after a duration</td></tr>
-      <tr><td>69</td><td><code>half-life</code></td><td></td><td>1</td><td>the duration after which the chance of survival is 1/2 (a quantity)</td></tr>
-      <tr><td>70</td><td><code>spin</code></td><td></td><td>1</td><td>the size of a particle's spin (a quantity, a multiple of ħ)</td></tr>
-      <tr><td>71</td><td><code>turns</code></td><td></td><td>3</td><td>a particle turns from the first direction toward the second</td></tr>
-      <tr><td>72</td><td><code>spin-axis</code></td><td></td><td>1</td><td>the direction of a particle's spin axis: the cross of the directions it turns from and toward</td></tr>
-      <tr><td>73</td><td><code>emitted-along</code></td><td></td><td>2</td><td>the average dot of the direction a particle leaves in with the spin axis of the particle that decays</td></tr>
-      <tr><td>74</td><td><code>spin-along-motion</code></td><td></td><td>2</td><td>the average dot of a particle's spin axis with its direction of motion, for particles from a decay</td></tr>
-      <tr><td>75</td><td><code>radius</code></td><td></td><td>1</td><td>the radius of a ring, a star or another round body (a quantity)</td></tr>
-      <tr><td>76</td><td><code>field-strength</code></td><td></td><td>1</td><td>the strength of the magnetic field at the centre of a ring (a quantity)</td></tr>
-      <tr><td>77</td><td><code>circulates</code></td><td></td><td>3</td><td>the current of a ring goes round from the first direction toward the second</td></tr>
-      <tr><td>78</td><td><code>field-direction</code></td><td></td><td>1</td><td>the direction of the magnetic field at the centre of a ring or of a particle</td></tr>
-      <tr><td>79</td><td><code>yields</code></td><td></td><td>2</td><td>the chance that a decay of the second particle gives the first</td></tr>
-      <tr><td>80</td><td><code>states</code></td><td></td><td>2</td><td>number of electron states at the <var>n</var>th level of an atom</td></tr>
-      <tr><td>81</td><td><code>noble</code></td><td></td><td>1+</td><td>all are noble gases (observed property)</td></tr>
-      <tr><td>82</td><td><code>atoms</code></td><td></td><td>1</td><td>the atoms of a molecule, as a list of elements</td></tr>
-      <tr><td>83</td><td><code>bonds</code></td><td></td><td>1</td><td>the bonds of a molecule, as a list of (position, position, shared pairs)</td></tr>
-      <tr><td>84</td><td><code>triple-point</code></td><td></td><td>1</td><td>the temperature at which a substance's solid, liquid and gas exist together</td></tr>
-      <tr><td>85</td><td><code>triple-pressure</code></td><td></td><td>1</td><td>the pressure at the triple point of a substance (a quantity)</td></tr>
-      <tr><td>86</td><td><code>luminosity</code></td><td></td><td>1</td><td>the power a star sends out as light (a quantity)</td></tr>
-      <tr><td>87</td><td><code>orbits</code></td><td></td><td>2</td><td>the first body goes round the second under gravity</td></tr>
-      <tr><td>88</td><td><code>period</code></td><td></td><td>2</td><td>the time one round of an orbit takes (a quantity)</td></tr>
-      <tr><td>89</td><td><code>axis</code></td><td></td><td>2</td><td>the size of an orbit: half the sum of the smallest and the largest distance (a quantity)</td></tr>
-      <tr><td>90</td><td><code>background</code></td><td></td><td>1</td><td>the temperature of the background radiation seen in a direction, by an observer at rest relative to it (a quantity)</td></tr>
-      <tr><td>91</td><td><code>direction-from</code></td><td></td><td>2</td><td>the direction in which the second body is seen from the first</td></tr>
-      <tr><td>92</td><td><code>pulse-period</code></td><td></td><td>1</td><td>the time one turn of a pulsar takes (a quantity)</td></tr>
-      <tr><td>93</td><td><code>slowing</code></td><td></td><td>1</td><td>how much a pulsar's period grows per time (a plain number)</td></tr>
-      <tr><td>94</td><td><code>loss</code></td><td></td><td>2</td><td>what a round costs a player: one's own move, then the other's</td></tr>
-      <tr><td>95</td><td><code>move</code></td><td></td><td>2</td><td>a strategy's next move given a history: a list to pick from</td></tr>
-      <tr><td>96</td><td><code>rounds</code></td><td></td><td>3</td><td>the history after a number of rounds of two strategies playing each other</td></tr>
-      <tr><td>97</td><td><code>cost</code></td><td></td><td>3</td><td>the sum of one strategy's losses over a number of rounds</td></tr>
-      <tr><td>98</td><td><code>stated</code></td><td></td><td>1</td><td>the sentence is said by the sender about itself: neither proved nor measured (§8.4)</td></tr>
-      <tr><td>99</td><td><code>strategy</code></td><td></td><td>2</td><td>the strategy the first party plays toward the second</td></tr>
+      <tr><td>45</td><td><code>stated</code></td><td></td><td>1</td><td>the sentence is said by the sender about itself: neither proved nor measured (§8.4)</td></tr>
+      <tr><td>46</td><td><code>good</code></td><td></td><td>2</td><td>the party finds the conversation good (a conversation: a list of messages, each a list of sentences)</td></tr>
+      <tr><td>47</td><td><code>bad</code></td><td></td><td>2</td><td>the party finds the conversation bad</td></tr>
+      <tr><td>48</td><td><code>observed</code></td><td></td><td>1</td><td>the statement is a measurement (§8.3)</td></tr>
+      <tr><td>49</td><td><code>mass</code></td><td></td><td>1</td><td>mass of a particle or atom (a quantity)</td></tr>
+      <tr><td>50</td><td><code>charge</code></td><td></td><td>1</td><td>electric charge (a quantity)</td></tr>
+      <tr><td>51</td><td><code>isotope</code></td><td></td><td>2</td><td>an element with a given number of neutrons</td></tr>
+      <tr><td>52</td><td><code>stable</code></td><td></td><td>1+</td><td>all are stable isotopes (observed property)</td></tr>
+      <tr><td>53</td><td><code>level</code></td><td></td><td>2</td><td>energy of the <var>n</var>th state of an atom (a quantity)</td></tr>
+      <tr><td>54</td><td><code>dim</code></td><td></td><td>1</td><td>the dimension of a quantity</td></tr>
+      <tr><td>55</td><td><code>speed</code></td><td></td><td>1</td><td>speed (a quantity)</td></tr>
+      <tr><td>56</td><td><code>wavelength</code></td><td></td><td>1</td><td>wavelength of a photon (a quantity)</td></tr>
+      <tr><td>57</td><td><code>frequency</code></td><td></td><td>1</td><td>frequency of a photon (a quantity)</td></tr>
+      <tr><td>58</td><td><code>energy</code></td><td></td><td>1</td><td>energy (a quantity)</td></tr>
+      <tr><td>59</td><td><code>emitted</code></td><td></td><td>3</td><td>the photon an atom emits falling from one level to another</td></tr>
+      <tr><td>60</td><td><code>distance</code></td><td></td><td>2</td><td>the distance between two bodies or two wires (a quantity)</td></tr>
+      <tr><td>61</td><td><code>gravity</code></td><td></td><td>2</td><td>the force of gravity between two bodies (a quantity)</td></tr>
+      <tr><td>62</td><td><code>electric</code></td><td></td><td>2</td><td>the electric force between two bodies (a quantity)</td></tr>
+      <tr><td>63</td><td><code>current</code></td><td></td><td>1</td><td>the charge flowing along a wire per time, signed by its direction (a quantity)</td></tr>
+      <tr><td>64</td><td><code>magnetic</code></td><td></td><td>2</td><td>the magnetic force between two wires, per length of wire (a quantity)</td></tr>
+      <tr><td>65</td><td><code>kinetic</code></td><td></td><td>1</td><td>the average energy of motion of a gas's particles (a quantity)</td></tr>
+      <tr><td>66</td><td><code>temperature</code></td><td></td><td>1</td><td>temperature (a quantity)</td></tr>
+      <tr><td>67</td><td><code>radiance</code></td><td></td><td>1</td><td>power radiated per area (a quantity)</td></tr>
+      <tr><td>68</td><td><code>lifetime</code></td><td></td><td>1</td><td>the mean lifetime of an unstable particle or isotope (a quantity)</td></tr>
+      <tr><td>69</td><td><code>survival</code></td><td></td><td>2</td><td>the chance that something has not decayed after a duration</td></tr>
+      <tr><td>70</td><td><code>half-life</code></td><td></td><td>1</td><td>the duration after which the chance of survival is 1/2 (a quantity)</td></tr>
+      <tr><td>71</td><td><code>spin</code></td><td></td><td>1</td><td>the size of a particle's spin (a quantity, a multiple of ħ)</td></tr>
+      <tr><td>72</td><td><code>turns</code></td><td></td><td>3</td><td>a particle turns from the first direction toward the second</td></tr>
+      <tr><td>73</td><td><code>spin-axis</code></td><td></td><td>1</td><td>the direction of a particle's spin axis: the cross of the directions it turns from and toward</td></tr>
+      <tr><td>74</td><td><code>emitted-along</code></td><td></td><td>2</td><td>the average dot of the direction a particle leaves in with the spin axis of the particle that decays</td></tr>
+      <tr><td>75</td><td><code>spin-along-motion</code></td><td></td><td>2</td><td>the average dot of a particle's spin axis with its direction of motion, for particles from a decay</td></tr>
+      <tr><td>76</td><td><code>radius</code></td><td></td><td>1</td><td>the radius of a ring, a star or another round body (a quantity)</td></tr>
+      <tr><td>77</td><td><code>field-strength</code></td><td></td><td>1</td><td>the strength of the magnetic field at the centre of a ring (a quantity)</td></tr>
+      <tr><td>78</td><td><code>circulates</code></td><td></td><td>3</td><td>the current of a ring goes round from the first direction toward the second</td></tr>
+      <tr><td>79</td><td><code>field-direction</code></td><td></td><td>1</td><td>the direction of the magnetic field at the centre of a ring or of a particle</td></tr>
+      <tr><td>80</td><td><code>yields</code></td><td></td><td>2</td><td>the chance that a decay of the second particle gives the first</td></tr>
+      <tr><td>81</td><td><code>states</code></td><td></td><td>2</td><td>number of electron states at the <var>n</var>th level of an atom</td></tr>
+      <tr><td>82</td><td><code>noble</code></td><td></td><td>1+</td><td>all are noble gases (observed property)</td></tr>
+      <tr><td>83</td><td><code>atoms</code></td><td></td><td>1</td><td>the atoms of a molecule, as a list of elements</td></tr>
+      <tr><td>84</td><td><code>bonds</code></td><td></td><td>1</td><td>the bonds of a molecule, as a list of (position, position, shared pairs)</td></tr>
+      <tr><td>85</td><td><code>triple-point</code></td><td></td><td>1</td><td>the temperature at which a substance's solid, liquid and gas exist together</td></tr>
+      <tr><td>86</td><td><code>triple-pressure</code></td><td></td><td>1</td><td>the pressure at the triple point of a substance (a quantity)</td></tr>
+      <tr><td>87</td><td><code>luminosity</code></td><td></td><td>1</td><td>the power a star sends out as light (a quantity)</td></tr>
+      <tr><td>88</td><td><code>orbits</code></td><td></td><td>2</td><td>the first body goes round the second under gravity</td></tr>
+      <tr><td>89</td><td><code>period</code></td><td></td><td>2</td><td>the time one round of an orbit takes (a quantity)</td></tr>
+      <tr><td>90</td><td><code>axis</code></td><td></td><td>2</td><td>the size of an orbit: half the sum of the smallest and the largest distance (a quantity)</td></tr>
+      <tr><td>91</td><td><code>background</code></td><td></td><td>1</td><td>the temperature of the background radiation seen in a direction, by an observer at rest relative to it (a quantity)</td></tr>
+      <tr><td>92</td><td><code>at</code></td><td></td><td>2</td><td>the party lives on the body</td></tr>
+      <tr><td>93</td><td><code>direction-from</code></td><td></td><td>2</td><td>the direction in which the second body is seen from the first</td></tr>
+      <tr><td>94</td><td><code>velocity</code></td><td></td><td>2</td><td>the velocity of the first body relative to the second: a vector whose dot with a direction is the speed in that direction</td></tr>
+      <tr><td>95</td><td><code>pulse-period</code></td><td></td><td>1</td><td>the time one turn of a pulsar takes (a quantity)</td></tr>
+      <tr><td>96</td><td><code>slowing</code></td><td></td><td>1</td><td>how much a pulsar's period grows per time (a plain number)</td></tr>
+      <tr><td>97</td><td><code>loss</code></td><td></td><td>2</td><td>what a round costs a player: one's own move, then the other's</td></tr>
+      <tr><td>98</td><td><code>move</code></td><td></td><td>2</td><td>a strategy's next move given a history: a list to pick from</td></tr>
+      <tr><td>99</td><td><code>rounds</code></td><td></td><td>3</td><td>the history after a number of rounds of two strategies playing each other</td></tr>
+      <tr><td>100</td><td><code>cost</code></td><td></td><td>3</td><td>the sum of one strategy's losses over a number of rounds</td></tr>
+      <tr><td>101</td><td><code>strategy</code></td><td></td><td>2</td><td>the strategy the first party plays toward the second</td></tr>
     </tbody>
   </table>
   <h3>9.2 Constants (type 3)</h3>

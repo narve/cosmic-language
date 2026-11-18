@@ -74,6 +74,13 @@
       "file": "fixsen2009-cmb-temperature.pdf",
       "retrieved": "2026-11-18"
     },
+    "schoenrich2010": {
+      "title": "Local kinematics and the local standard of rest",
+      "citation": "R. Schönrich, J. Binney and W. Dehnen, Mon. Not. R. Astron. Soc. 403, 1829 (2010); arXiv:0912.3693",
+      "url": "https://arxiv.org/abs/0912.3693",
+      "file": "schoenrich2010-solar-motion.pdf",
+      "retrieved": "2026-11-18"
+    },
     "nasa-factsheets": {
       "title": "NASA Sun Fact Sheet and Earth Fact Sheet",
       "citation": "D. R. Williams, NASA Space Science Data Coordinated Archive, Goddard Space Flight Center (Sun: 2024; Earth: 2024)",
@@ -748,6 +755,39 @@
       "page": 5,
       "quote": "\"M• = (4.297±0.012)×10^6 M⊙ (statistical errors ...)\"",
       "note": "The uncertainty is taken as the difference from the 2019 value, 4.152 × 10^6 (gravity2019-r0.pdf, page 4), much larger than the statistical error."
+    },
+    "Sun's motion toward the Galactic centre (U)": {
+      "value": "11.1",
+      "uncertainty": "1.25",
+      "exact": false,
+      "unit": "km/s",
+      "source": "schoenrich2010",
+      "file": "schoenrich2010-solar-motion.pdf",
+      "sha256": "e5d74d488b955faa175630fa4b8f5929ce7f53bed5baa2489c5767232011c305",
+      "page": 1,
+      "quote": "\"we obtain (U, V, W)⊙ = (11.1+0.69 −0.75, 12.24+0.47 −0.47, 7.25+0.37 −0.36) km s−1, with additional systematic uncertainties ∼ (1, 2, 0.5) km s−1.\" The uncertainty is the larger statistical one and the systematic one, added in quadrature."
+    },
+    "Sun's motion along the Galactic rotation (V)": {
+      "value": "12.24",
+      "uncertainty": "2.05",
+      "exact": false,
+      "unit": "km/s",
+      "source": "schoenrich2010",
+      "file": "schoenrich2010-solar-motion.pdf",
+      "sha256": "e5d74d488b955faa175630fa4b8f5929ce7f53bed5baa2489c5767232011c305",
+      "page": 1,
+      "quote": "\"we obtain (U, V, W)⊙ = (11.1+0.69 −0.75, 12.24+0.47 −0.47, 7.25+0.37 −0.36) km s−1, with additional systematic uncertainties ∼ (1, 2, 0.5) km s−1.\" The uncertainty is the larger statistical one and the systematic one, added in quadrature."
+    },
+    "Sun's motion toward the north Galactic pole (W)": {
+      "value": "7.25",
+      "uncertainty": "0.62",
+      "exact": false,
+      "unit": "km/s",
+      "source": "schoenrich2010",
+      "file": "schoenrich2010-solar-motion.pdf",
+      "sha256": "e5d74d488b955faa175630fa4b8f5929ce7f53bed5baa2489c5767232011c305",
+      "page": 1,
+      "quote": "\"we obtain (U, V, W)⊙ = (11.1+0.69 −0.75, 12.24+0.47 −0.47, 7.25+0.37 −0.36) km s−1, with additional systematic uncertainties ∼ (1, 2, 0.5) km s−1.\" The uncertainty is the larger statistical one and the systematic one, added in quadrature."
     }
   },
   "pulsars": {
