@@ -10,16 +10,16 @@
 <body>
 
 <header>
-  <small>Test record · run of 2026-11-17</small>
+  <small>Test record · run of 2026-11-18</small>
   <h1>Blind Test</h1>
-  <p>Can a reader who gets nothing but the bits work out what the message says, and why it was sent? This page records one run, in which a language model was given only the bit stream. The result is encouraging and it is also thin: one run, one kind of reader. Read the <a href="#caveats">caveats</a> before drawing conclusions.</p>
+  <p>Can a reader who gets nothing but the bits work out what the message says? This page records one run, in which a language model was given only the bit stream and asked to interpret all of it: its format, its vocabulary, what it tells, and its sender. The result is strong, and it is also thin: one run, one kind of reader. Read the <a href="#caveats">caveats</a> before drawing conclusions.</p>
 </header>
 
 <nav aria-label="Contents">
   <ol>
     <li><a href="#setup">The setup</a></li>
-    <li><a href="#result">What the reader concluded</a></li>
-    <li><a href="#gaps">What the reader could not find</a></li>
+    <li><a href="#result">What the reader found</a></li>
+    <li><a href="#gaps">What the reader found wrong or unclear</a></li>
     <li><a href="#caveats">Caveats</a></li>
     <li><a href="#rerun">Running the test again</a></li>
   </ol>
@@ -29,77 +29,64 @@
 
 <section id="setup">
   <h2>1. The setup</h2>
-  <p>The reader was Claude Fable 5.2, started with no knowledge of this project: no files, no instructions, no settings, no network, in an empty directory. It got a task text and one tool. The tool runs Python inside a sealed container that has no network and holds a single file: the message as one line of 0s and 1s. A real receiver would certainly have a computer, so this is the fair setting.</p>
-  <p>The task text presents the bits as an artificial radio signal from outside the solar system, sender unknown, and asks:</p>
+  <p>The reader was Claude Opus 5.5, started with no knowledge of this project: no files, no instructions, no settings, no network, in an empty directory. It got a task text and one tool. The tool runs Python inside a sealed container that has no network and holds a single file: the message as one line of 0s and 1s. A real receiver would certainly have a computer, so this is the fair setting.</p>
+  <p>The task text tells the reader nothing about the message except that it is presumably of non-human origin:</p>
   <blockquote>
-    <p>Work out WHY this message was sent. Nobody builds and transmits something this elaborate without a reason. What does the sender want the receiver to understand, believe or do?</p>
+    <p>A message of presumably non-human origin has been received as a stream of bits. You know nothing else about it. […] Your task: interpret the whole message as completely as you can. Work out its format, every word of its vocabulary if any, and its sender.</p>
   </blockquote>
-  <p>The reader also had to describe the format and the contents, give at least two other explanations, and say what the message leaves out. The task text contains none of the project's vocabulary: no "token", "chunk" or "prime", and nothing about games, strategies or peace.</p>
-  <p>The run took about two and a half minutes and six pieces of code. The message was the version of 2026-11-17 that ends with the prisoner's dilemma, played over 255 rounds, and the tit-for-tat theorem (12,114 tokens).</p>
+  <p>It asks for the format, an interpretation from beginning to end, a table of the vocabulary if there is one, what the message tells, what it says about its sender, what seems wrong or unclear, and the reader's confidence. It does not say that the message has words, statements, subjects or a purpose.</p>
+  <p>The message was the full version of 2026-11-18 (299,656 bits): mathematics, logic, conversations and morals, physics, chemistry, astronomy with the Sun, the Galaxy and six pulsars, and the prisoner's dilemma. The run took about six minutes and eighteen pieces of code.</p>
 </section>
 
 <section id="result">
-  <h2>2. What the reader concluded</h2>
-  <p>The reader decoded the whole message: 194,168 bits, 702 statements, "with nothing left over". It found the beacon and the terminator, the 16-bit tokens, the token types and the brackets. It identified the electron, proton and neutron from their mass ratios, the fine-structure constant, the Planck units, the 21 cm line of hydrogen, and the four bases of DNA from their formulas. It recognised the payoffs as a prisoner's dilemma and worked out each of the eight strategies from its rule. Without being asked, it simulated the tournament from the message's definitions and found all 12 scores and all 6 totals the message states to be correct.</p>
-  <p>It read the last statement of the message as: for every strategy other than the one that cooperates first and then returns what it receives, that strategy's total is greater. It kept three things apart, as the task asked.</p>
+  <h2>2. What the reader found</h2>
+  <p>"I decoded essentially all of the message. It is a self-teaching formal language: it builds up arithmetic, logic and its own grammar, then physics, chemistry and astronomy."</p>
   <dl>
-    <dt>What the message states</dt>
-    <dd>Mutual cooperation beats mutual defection. A defector outscores any single partner (259 against 254; 1275 against 0). Even so, the strategy that cooperates first and then returns what it receives has the highest total in the field.</dd>
-    <dt>What the reader infers</dt>
-    <dd>"The message is an argument for reciprocal cooperation, addressed to a stranger the sender expects to deal with more than once."</dd>
-    <dt>What the reader guesses</dt>
-    <dd>"The sender is announcing its own policy: open cooperatively, answer in kind. It hopes the receiver adopts the same, most plausibly by answering."</dd>
+    <dt>Format</dt>
+    <dd>Every bit accounted for: the beacon of 1 and the primes up to 31, its repeat in 16-bit words, the counting from 0 to 255, 967 statements in balanced brackets, and the terminator. It worked out the token types, and noted that the message itself states them.</dd>
+    <dt>Vocabulary</dt>
+    <dd>A meaning for every one of about 200 symbols: "Nothing is completely uninterpreted." About 85 % with high confidence. Among them <code>let</code>, <code>eval</code>, the hole and <code>fill</code>, <code>sender</code> and <code>receiver</code>, conversations, <code>observed</code> ("marks an empirical (measured) claim"), the particles, ten elements by atomic number, five dimensions, the Planck units, the molecules and the four bases of DNA from their formulas.</dd>
+    <dt>Knowledge</dt>
+    <dd>It checked dozens of measured ranges against values it knows (the mass ratios of the particles, the fine-structure constant, the neutron's lifetime, the 21 cm line, the triple points, the background radiation, the kaon) and found all of them inside their bounds but one (below). It replayed the 255-round tournament and found all 18 stated numbers exact.</dd>
+    <dt>Where the message comes from</dt>
+    <dd>It matched the star and its planet to the Sun and the Earth (mass, radius, temperature, luminosity, orbit, year), the central body to Sagittarius A*, and the six pulsars to the Crab, Vela, J0437−4715, B1937+21, B0329+54 and B1919+21, with all 18 direction bounds fitting when the three axes point to the Galactic centre, along the Galactic rotation and to the north Galactic pole.</dd>
+    <dt>Conversations and morals</dt>
+    <dd>It read the sender and the receiver, the rule that a reply goes back from receiver to sender, and good and bad as the sender accepting or rejecting a reply. It saw that a right reply can be rejected: "'accept' probably means 'the complete or canonical answer', not just 'makes it true'".</dd>
+    <dt>The ending</dt>
+    <dd>The sender "plays tit-for-tat toward every other agent", and the closing comparisons show that tit-for-tat costs least: "a statement of intent: cooperative, but retaliates against defection".</dd>
   </dl>
-  <p>Its evidence for the inference:</p>
-  <ul>
-    <li><strong>It is the conclusion,</strong> and nothing follows it.</li>
-    <li><strong>It is the only subject that is neither mathematics nor physics,</strong> and it takes a seventh of the message.</li>
-    <li><strong>The message is candid</strong> that defection wins a single game, which the reader took as "we know the temptation, and here is why not".</li>
-    <li><strong>The mathematics and the physics build the language</strong> and show that the sender is competent and truthful, since everything can be checked.</li>
-  </ul>
-  <p>It also described a shift in subject: from necessary truths, to observed facts that carry a marker of their own (<code>observed</code>), to the only topic about choices made by agents.</p>
-  <p>Its confidence in the purpose was "moderate": that the message argues for reciprocity is well supported, that it is a pledge or an invitation to reply is inference. It weighed four other readings:</p>
-  <table>
-    <thead><tr><th>Other reading</th><th>For</th><th>Against</th></tr></thead>
-    <tbody>
-      <tr><td>A primer or encyclopedia: proof of intelligence only</td><td>86 % is mathematics and science, and there is no request</td><td>An encyclopedia has no reason to end on a ranked tournament with a conclusion about every strategy</td></tr>
-      <tr><td>A warning or deterrent: "we retaliate"</td><td>The favoured strategy punishes defection, and an unforgiving strategy is included</td><td>The unforgiving one is shown scoring worse, and a forgiving variant is defined</td></tr>
-      <tr><td>A lure</td><td>The message itself shows that a defector does best against those who always cooperate, "so talk of cooperation is cheap"</td><td>Nothing in the bits; "it cannot be excluded"</td></tr>
-      <tr><td>The first part of a longer exchange</td><td><code>eval</code> and the extensible token types go unused, and the terminator equals the beacon, so the stream may loop or continue</td><td>Nothing announces a sequel</td></tr>
-    </tbody>
-  </table>
+  <p>On the sender it kept apart what is stated and what it infers. The message never says that the star is the sender's. But "giving a detailed home system and a pulsar map from that star […] strongly suggests that star is the sender's home, or else the receiver's", and since it is the Sun, "either the message was made on Earth (despite the 'presumably non-human' framing) or it was made by someone who has mapped us in detail. The bits cannot decide between these."</p>
+  <p>Its own estimate: "roughly 90–95 % of the content".</p>
 </section>
 
 <section id="gaps">
-  <h2>3. What the reader could not find</h2>
-  <p>These are the most useful results: each is something the message does not yet say, or says badly.</p>
+  <h2>3. What the reader found wrong or unclear</h2>
+  <p>These are the most useful results: each is something the message says wrongly, vaguely or not at all.</p>
   <ul>
-    <li><strong>No "we" and no "you",</strong> and no statement of which strategy the sender plays. The message is meant to say "we come in peace"; so far it proves that peace wins a game.</li>
-    <li><strong>No request,</strong> and no instruction on how or where to reply.</li>
-    <li><strong>No stakes.</strong> Nothing says what cooperating or defecting would mean in practice, or what the payoffs correspond to.</li>
-    <li><strong>Nothing about the sender:</strong> no location, star, planet, date, picture, body or history. (Whether to say where the message comes from is a deliberate open question, see the <a href="specification.html#open">specification</a>.) The reader noted that this silence "could be caution, consistent with a sender who has just shown it understands defection".</li>
-    <li><strong>Parts that lead nowhere.</strong> The game uses no physics at all, so the reader concluded that the 31 % on nature "is there for another reason". The four large molecules, the temperature of water, the 21 cm line and the two half-lives are never used again; <code>eval</code> and the complex numbers go beyond anything later statements need; the two strategies that pick at random are left out of the tournament.</li>
-    <li><strong>The four bases are only formulas.</strong> The reader matched them to DNA, but could not tell whether they reflect shared chemistry, knowledge of the receiver, or something about the message's origin.</li>
-    <li><strong>The triple point is not understood as one.</strong> The reader found the temperature of water to be about 273 K and noted that melting and the triple point cannot be told apart.</li>
-    <li><strong>No error correction.</strong></li>
+    <li><strong>One claim seems false.</strong> The background radiation is said to differ by less than 2⁻¹⁰ between any two directions, but seen from the Sun its dipole, caused by our motion, is about ±0.12 %. The claim only holds once the dipole is removed, and the message does not say so.</li>
+    <li><strong>The direction along the Galactic rotation is defined only as perpendicular</strong> to the direction to the centre. The pulsars fit the intended direction, but no sentence says which perpendicular it is.</li>
+    <li><strong>The three axes of the background radiation</strong> are defined and never used again.</li>
+    <li><strong>The Sun's speed</strong> is not said to be relative to anything. The value fits its motion around the centre, not its motion against the background radiation.</li>
+    <li><strong>Nothing links the sender to the star.</strong> The reader inferred it, but the message never says "our star".</li>
+    <li><strong><code>stated</code> was read only as "commitment or declared intention"</strong>, with low to medium confidence.</li>
+    <li><strong>What the message counts as its own items</strong> is unclear: the reader could not tell whether "this message" includes the beacon's numbers in unary or in 16-bit words.</li>
+    <li><strong>The names are the reader's.</strong> "Adenine", "Crab" or "Sgr A*" are identifications from matching numbers; the bits give only formulas and values.</li>
   </ul>
 </section>
 
 <section id="caveats">
   <h2>4. Caveats</h2>
   <ul>
-    <li><strong>The reader is not an alien.</strong> It is a model trained on human writing. It knows prefix notation, the prisoner's dilemma and what tit-for-tat is taken to mean, and it knows the masses of the particles. A real receiver shares none of that. The test shows that the message is consistent and can be decoded by a mind with human mathematics. It does not show that it can be decoded by a mind without it.</li>
+    <li><strong>The reader is not an alien.</strong> It is a model trained on human writing. It knows prefix notation, the prisoner's dilemma and the values of the physical constants, and it says its checks were made "from standard figures". A real receiver shares none of that. The test shows that the message is consistent and can be decoded by a mind with human science. It does not show that it can be decoded by a mind without it.</li>
     <li><strong>One run.</strong> Another run could go differently.</li>
-    <li><strong>The task text is part of the experiment.</strong> The reader was told that the signal is artificial, that it is a message and that it was sent for a reason. A real receiver has to reach that by itself.</li>
-    <li><strong>The reader skimmed.</strong> It read the beginning and the end of the message closely and the middle only as far as it needed.</li>
-    <li><strong>The reader leans on what it knows.</strong> It says itself that its identifications in physics "rest on the stated numbers matching values I know from memory".</li>
+    <li><strong>The task text is part of the experiment.</strong> It says little, but it does call the stream a message, and it gives the reader a computer.</li>
     <li><strong>The message is a draft.</strong> It has changed since this run and will change again; this page is replaced when the test is run again.</li>
   </ul>
 </section>
 
 <section id="rerun">
   <h2>5. Running the test again</h2>
-  <p>The task text, the tool and the reader's full answer, with the code it ran, are in <a href="https://github.com/narve/cosmic-language/tree/main/build/check/blind"><code>build/check/blind/</code></a> in the repository. After <code>npm run build</code>, with Docker available, the command is <code>npm run --silent blind purpose</code>.</p>
+  <p>The task texts, the tool and the reader's full answer, with the code it ran, are in <a href="https://github.com/narve/cosmic-language/tree/main/build/check/blind"><code>build/check/blind/</code></a> in the repository. After <code>npm run build</code>, with Docker available, the command is <code>npm run --silent blind interpretation</code>; <code>purpose</code> asks instead why the message was sent, and <code>BLIND_MESSAGE=docs/decoy/message.bin</code> gives the reader the decoy version.</p>
 </section>
 
 </main>
