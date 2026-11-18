@@ -7,6 +7,8 @@
 #   BLIND_MODEL=opus npm run --silent blind:code         with a named model
 #   BLIND_MESSAGE=docs/minimal/message.bin npm run --silent blind:code purpose-code
 #                                                        with another message than docs/message.bin (here the core)
+#   npm run --silent blind:code interpretation-code       the whole interpretation: format, vocabulary (a table that
+#                                                        can be scored against spec §9) and the knowledge in the message
 #
 # The answer goes to standard output. The full record (every piece of code the reader ran, as JSON lines) is
 # written to the file named on standard error.
