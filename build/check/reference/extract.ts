@@ -45,6 +45,13 @@ const SOURCES = {
     file: "iapws-g5-01.pdf",
     retrieved: "2026-11-18",
   },
+  fixsen2009: {
+    title: "The Temperature of the Cosmic Microwave Background",
+    citation: "D. J. Fixsen, Astrophys. J. 707, 916 (2009); arXiv:0911.1955",
+    url: "https://arxiv.org/abs/0911.1955",
+    file: "fixsen2009-cmb-temperature.pdf",
+    retrieved: "2026-11-18",
+  },
   "nasa-factsheets": {
     title: "NASA Sun Fact Sheet and Earth Fact Sheet",
     citation: "D. R. Williams, NASA Space Science Data Coordinated Archive, Goddard Space Flight Center (Sun: 2024; Earth: 2024)",

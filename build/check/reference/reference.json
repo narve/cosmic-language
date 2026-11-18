@@ -40,6 +40,13 @@
       "file": "iapws-g5-01.pdf",
       "retrieved": "2026-11-18"
     },
+    "fixsen2009": {
+      "title": "The Temperature of the Cosmic Microwave Background",
+      "citation": "D. J. Fixsen, Astrophys. J. 707, 916 (2009); arXiv:0911.1955",
+      "url": "https://arxiv.org/abs/0911.1955",
+      "file": "fixsen2009-cmb-temperature.pdf",
+      "retrieved": "2026-11-18"
+    },
     "nasa-factsheets": {
       "title": "NASA Sun Fact Sheet and Earth Fact Sheet",
       "citation": "D. R. Williams, NASA Space Science Data Coordinated Archive, Goddard Space Flight Center (Sun: 2024; Earth: 2024)",
@@ -638,6 +645,17 @@
       "page": 1,
       "quote": "Orbital parameters: Sidereal orbit period (days) 365.256; the value is 365.256 × 86400 s.",
       "note": "The fact sheet gives no uncertainty; taken as one unit in the last digit."
+    },
+    "temperature of the background radiation": {
+      "value": "2.72548",
+      "uncertainty": "0.00057",
+      "exact": false,
+      "unit": "K",
+      "source": "fixsen2009",
+      "file": "fixsen2009-cmb-temperature.pdf",
+      "sha256": "36cbaee69b8106ca45d007f46a2e002f9f593b67c310f6d808007a5c3d998f85",
+      "page": 1,
+      "quote": "Abstract: \"... a CMB background temperature of 2.72548±0.00057 K.\""
     }
   }
 }

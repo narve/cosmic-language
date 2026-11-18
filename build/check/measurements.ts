@@ -80,6 +80,7 @@ const QUANTITIES: Record<string, Q> = {
   // the Planck unit of pressure, c⁷ / (ħ G²)
   "(÷ (triple-pressure water) (÷ planck-mass (× planck-length (^ planck-time 2))))": div(pWater, div(pow(c, 7), mul(hbar, pow(G, 2)))),
   "(÷ (mass (isotope helium 2)) (× 4 (mass (isotope hydrogen 0))))": div(nuclide("4He"), mul(q(4), nuclide("1H"))),
+  "(÷ (average v directions (background v)) (triple-point water))": div(constant("temperature of the background radiation"), tWater),
   "(÷ (mass sun) (mass proton))": div(div(constant("GM of the Sun"), G), mp),
   "(÷ (radius sun) planck-length)": div(constant("radius of the Sun"), constant("Planck length")),
   "(÷ (temperature sun) (triple-point water))": div(constant("effective temperature of the Sun"), tWater),

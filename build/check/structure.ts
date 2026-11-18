@@ -12,7 +12,7 @@ export const EXAMPLES = 3; // k in the specification
 const OPERATOR = 2;
 const VARIABLE = 4;
 const ELEMENT = 6; // an element's id is its atomic number, not its order of appearance
-const BINDERS = new Set(["∀", "∃", "sequence"]); // (binder variable values body): the variable is bound in the body
+const BINDERS = new Set(["∀", "∃", "sequence", "average"]); // (binder variable values body): the variable is bound in the body
 
 // A token, or a bracket group with the tokens and groups inside it.
 export interface Node {
