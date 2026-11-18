@@ -1,25 +1,22 @@
-A message has been received as a stream of bits. It was designed to be understood by a receiver who shares no language and no conventions with the sender. You know nothing else about it: not its format, not its vocabulary, not its subject.
+A message of presumably non-human origin has been received as a stream of bits. You know nothing else about it.
 
 The bits are in the file /work/bits.txt in your sandbox: one line of the characters 0 and 1, from the first bit received to the last. That file is all there is. Your only tool is run_python, which runs Python code in that sandbox. There is no network and nothing else to look up.
 
-Your task: interpret the whole message as completely as you can. Work out its format, every word of its vocabulary, and everything it says about mathematics, logic, the physical world and its sender. The question is not only why it was sent, but what a receiver could learn from it.
+Your task: interpret the whole message as completely as you can. Work out its format, every word of its vocabulary if any, and its sender. The question is not only why it was sent, but what a receiver could learn from it.
 
-Work only from the bits. Do not rely on a memory of similar messages or projects; if you recognise a convention, say what in the bits supports it. For every claim, keep apart what the message states, what you infer from it, and what you are guessing. Be specific: quote decoded statements as evidence.
+Work only from the bits. Do not rely on a memory of similar messages or projects; if you recognise a convention, say what in the bits supports it. For every claim, keep apart what the bits show, what you infer from them, and what you are guessing. Be specific: quote what you decoded as evidence.
 
 Report, in this order:
+1. Format: how the bits are organised, if they are, with the evidence.
+2. Interpretation: the message from beginning to end: what it says or does, and the evidence.
+3. Vocabulary: if the message has words or symbols, a table of every one, in this form:
+   how it is written in the bits | proposed meaning | where it first appears | evidence | confidence (high, medium, low)
+   Give a meaning for every one, even if only a guess, and mark guesses as low confidence. Say which you could not interpret at all.
+4. Knowledge: whatever the message tells, if anything, grouped as you see fit, each item in plain words with its evidence. Where you can relate what it says to what you know, do so, show how, and say how well the two agree.
+5. The sender: what the message tells or implies about its sender, if anything, keeping apart what it states and what you infer.
+6. Gaps and problems: what you could not decode, what seems false, inconsistent or ambiguous, and what you would have needed to understand more.
+7. Confidence: an overall estimate of how much of the message you understood, and your confidence in each of the points above.
 
-1. Format: how the stream is organised (framing, units, how numbers, symbols and structure are written), with the evidence.
+Cover all of the bits at some depth before going deep into any one stretch of them.
 
-2. Interpretation: the message part by part, in order. For each part, what it teaches, how it teaches it (examples, rules, definitions), which new words it introduces, and roughly how much of the message it takes. Quote a few decoded statements from each part.
-
-3. Vocabulary: a table of every distinct symbol in the message, one row each, in this form:
-   kind | code | proposed meaning | first part where it appears | evidence | confidence (high, medium, low)
-   "kind" and "code" are however the message itself writes the symbol (for example, the values that identify it in the stream). Include numbers only as a single row describing how numbers are written. Give a meaning for every symbol, even if only a guess, and mark guesses as low confidence. Say which symbols you could not interpret at all.
-
-4. Knowledge: everything the message asserts about the world, grouped by subject. For each statement, give it in plain words and say whether the message proves it, presents it as measured, or presents it as something the sender says about itself, if it marks such differences. Where the message gives measured values as ranges or ratios, convert them into quantities you know (for example, a mass in kilograms or a temperature in kelvin) if you can, show the calculation, and say how close the result is to what you know.
-
-5. The sender: everything the message says or implies about who sent it, where they are, what they are made of, and what they want, separating what is stated from what you infer.
-
-6. Gaps and problems: statements you could not decode, statements that seem false, inconsistent or ambiguous, places where the message teaches something badly or skips a step, and anything you would add for a receiver like you.
-
-7. Confidence: an overall estimate of how much of the message you understood, and your confidence in each o
+If you cannot finish, say exactly how far you got and what blocked you. An honest partial result is more useful than a confident guess.

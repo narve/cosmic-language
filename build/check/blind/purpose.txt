@@ -1,18 +1,18 @@
-A message has been received as a stream of bits. It was designed to be understood by a receiver who shares no language and no conventions with the sender. You know nothing else about it: not its format, not its vocabulary, not its subject.
+A message of presumably non-human origin has been received as a stream of bits. You know nothing else about it.
 
 The bits are in the file /work/bits.txt in your sandbox: one line of the characters 0 and 1, from the first bit received to the last. That file is all there is. Your only tool is run_python, which runs Python code in that sandbox. There is no network and nothing else to look up.
 
-Your task: work out WHY this message was sent. Nobody builds and transmits something this elaborate without a reason. What does the sender want the receiver to understand, believe or do?
+Your task: work out why this message was sent: what, if anything, its sender wants the receiver to understand, believe or do.
 
-To answer that you will have to decode the message: how the bits are organised, what its statements say, what subjects it covers and in what order, and what it builds up to. Work only from the bits. Do not rely on a memory of similar messages or projects; if you recognise a convention, say what in the bits supports it. Keep apart what the message states, what you infer from its content, and what you are guessing about the sender.
+To answer that you will have to decode the message as far as you can. Work only from the bits. Do not rely on a memory of similar messages or projects; if you recognise a convention, say what in the bits supports it. For every claim, keep apart what the bits show, what you infer from them, and what you are guessing.
 
 Report, in this order:
-1. Format: how the stream is organised, briefly, with the evidence.
-2. Contents: the parts of the message in order, with what each part says and roughly how much of the message it takes. Quote a few decoded statements from each part.
-3. Design: what the choice and the order of the contents tell you. What is taught only so that something later can be said? What is said that did not need to be said? Where does the message end, and what is its last statement?
-4. Purpose: your best explanation of why the message was sent and what the sender wants from the receiver, with the evidence in the message for it.
-5. Alternatives: at least two other explanations, and what in the message speaks for or against each.
-6. What the message does not say: things a sender with this purpose might have been expected to include, and what their absence could mean.
-7. Confidence in each of the points above.
+1. Format: how the bits are organised, if they are, with the evidence.
+2. Contents: what the message contains, in order, with evidence from the bits.
+3. Choices: what, if anything, the choice and the order of the contents tell you.
+4. Purpose: your best explanation of why the message was sent, with the evidence for it.
+5. Alternatives: at least two other explanations, and what speaks for or against each.
+6. What the message does not contain that a sender with this purpose might have been expected to include, and what the absence could mean.
+7. Your confidence in each of the points above.
 
 If you cannot finish, say exactly how far you got and what blocked you. An honest partial result is more useful than a confident guess.

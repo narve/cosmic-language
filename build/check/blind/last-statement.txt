@@ -1,12 +1,16 @@
-A message has been received as a stream of bits. It was designed to be understood by a receiver who shares no language and no conventions with the sender. You know nothing else about it: not its format, not its vocabulary, not its subject.
+A message of presumably non-human origin has been received as a stream of bits. You know nothing else about it.
 
 The bits are in the file /work/bits.txt in your sandbox: one line of the characters 0 and 1, from the first bit received to the last. That file is all there is. Your only tool is run_python, which runs Python code in that sandbox. There is no network and nothing else to look up.
 
-Your task: work out the meaning of the LAST STATEMENT in the message.
+Your task: work out what the end of the message means, if it means anything.
 
-You will first have to work out what a statement is in this message, and for that, how the bits are organised. To understand the last statement you will probably have to work out what its parts mean from how they are used earlier in the message. Work only from the bits. Do not rely on a memory of similar messages or projects; if you recognise a convention, say what in the bits supports it.
+You will probably have to decode much of the message to get there. Work only from the bits. Do not rely on a memory of similar messages or projects; if you recognise a convention, say what in the bits supports it. For every claim, keep apart what the bits show, what you infer from them, and what you are guessing.
 
 Report, in this order:
-1. Structure: how the stream is organised (any framing at the start or end, the unit sizes, how units combine), with the evidence for each claim.
-2. How statements are delimited, and where the last statement starts and ends (bit offsets, counted from 0).
-3. The last statement, written out unit by unit in a notation of your choice, with the meaning you assign to each unit, and for each one 
+1. Structure: how the bits are organised, if they are, with the evidence for each claim.
+2. Which bits you take to be the end of the message (bit offsets, counted from 0), and why.
+3. Those bits, written out in a notation of your choice, with the meaning you assign to them and what in the rest of the message led you to it.
+4. Its meaning in plain words, in one or two sentences.
+5. Your confidence in each of the points above, and what you could not determine.
+
+If you cannot finish, say exactly how far you got and what blocked you. An honest partial result is more useful than a confident guess.
