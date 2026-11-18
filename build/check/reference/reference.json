@@ -450,6 +450,17 @@
       "sha256": "1b510e855eb86b77adcd6d5a42d201667df07b2072f3fec5d841b77b86862452",
       "page": 2,
       "quote": "Table 1: T90 = 83.8058 K (Ar), T-T90 = -4.21 mK, u = 0.15 mK. The value is T90 plus the difference; 83.8058 K is the triple point of argon on the ITS-90."
+    },
+    "triple point of hydrogen": {
+      "value": "13.80366",
+      "uncertainty": "0.00019",
+      "exact": false,
+      "unit": "K",
+      "source": "bipm-t90",
+      "file": "Estimates_Differences_T-T90.pdf",
+      "sha256": "1b510e855eb86b77adcd6d5a42d201667df07b2072f3fec5d841b77b86862452",
+      "page": 2,
+      "quote": "Table 1: T90 = 13.8033 K (e-H2), T-T90 = 0.36 mK, u = 0.19 mK. The value is T90 plus the difference; 13.8033 K is the triple point of equilibrium hydrogen on the ITS-90."
     }
   }
 }
