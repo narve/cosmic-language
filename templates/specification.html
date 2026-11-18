@@ -558,6 +558,8 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
     <dd>A symbol appears in at least <var>k</var> = 3 sentences of the lesson that introduces it. A sentence here is a top-level bracket group, and a sentence that uses the symbol twice counts once. Where a law introduces several symbols at once, the lesson adds sentences about each of them (its dimension, a symmetry, the law turned around, a second measurement).</dd>
     <dt>Measurements</dt>
     <dd>Every <code>observed</code> range holds for the reference data (§8.4), and each bound lies at least five standard uncertainties from the reference value. The uncertainty includes a model uncertainty where the message's simple law leaves something out, such as the fine structure of hydrogen. Each kind of range needs a formula in <code>build/check/measurements.ts</code> that computes it from the reference data; a range without one stops the build too. No measured value is written with <code>=</code> unless the fact is exact. A law that introduces a constant cannot be checked against data; it is checked for its dimensions and, where the constant has a reference value, for its number.</dd>
+    <dt>Optional lessons</dt>
+    <dd>A lesson marked <code>data-optional</code> may be left out of a message. No other lesson may use a symbol that it introduces. Today one lesson is optional: the Sun.</dd>
     <dt>Lesson files</dt>
     <dd>Each lesson file holds exactly one lesson, and each of its topics is defined.</dd>
   </dl>
