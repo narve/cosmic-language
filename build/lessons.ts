@@ -9,6 +9,7 @@ export interface Article {
   title: string; // text of the first heading
   topics: string[]; // from data-topic; the first one groups the lesson in runs
   optional: boolean; // data-optional: may be left out of a message, so no other lesson may use what it introduces
+  replaces?: string; // data-replaces: the slug of the lesson this one stands in for, in the decoy version only
   number: number; // position in the message
   source: string; // the whole file
 }
@@ -32,7 +33,7 @@ export function loadArticles(window: Window, dir: string, topics: Topic[]): Arti
   const files = readdirSync(dir)
     .filter((file) => file.endsWith(".html"))
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
-  return files.map((file, index) => {
+  const loaded = files.map((file) => {
     const source = readFileSync(join(dir, file), "utf8");
     const article = findArticle(parse(window, source), file);
     const heading = article.querySelector("h1, h2, h3, h4, h5, h6");
@@ -46,10 +47,21 @@ export function loadArticles(window: Window, dir: string, topics: Topic[]): Arti
       title: heading ? heading.textContent!.trim() : file,
       topics,
       optional: article.hasAttribute("data-optional"),
-      number: index + 1,
+      replaces: article.getAttribute("data-replaces") ?? undefined,
+      number: 0,
       source,
     };
   });
+  // Lessons are numbered by their place in the message; a lesson that replaces another takes that one's number.
+  let number = 0;
+  for (const article of loaded) if (!article.replaces) article.number = ++number;
+  for (const article of loaded) {
+    if (!article.replaces) continue;
+    const original = loaded.find((other) => other.slug === article.replaces && !other.replaces);
+    if (!original) throw new BuildError(`${article.slug}: data-replaces names "${article.replaces}", which is not a lesson`);
+    article.number = original.number;
+  }
+  return loaded;
 }
 
 export function loadTopics(window: Window, html: string): Topic[] {

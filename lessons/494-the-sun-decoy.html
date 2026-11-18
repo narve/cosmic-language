@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Sun (decoy) · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson" data-topic="astronomy" data-optional data-replaces="494-the-sun">
+  <h3>the Sun (decoy)</h3>
+  <p>This lesson is not in the message. It stands in for the lesson on the Sun in the decoy version only, which is made for fun: to see whether a blind reader places the sender at another star. Here <code>sun</code> and <code>earth</code> are Proxima Centauri, the nearest star, and its planet Proxima b. It is near enough that the lessons on the Galaxy and on pulsars still hold as they are: seen from it, no pulsar's direction changes by more than about half a degree.</p>
+  <pre><code><span data-comment>; our star is a star, and our planet is a body</span>
+(∃ <var>u</var> stars (= <var>u</var> sun))
+(∃ <var>u</var> bodies (= <var>u</var> earth))
+
+<span data-comment>; our star's mass: between 2¹⁸⁶ and 2¹⁸⁷ proton masses</span>
+(observed (&lt; (^ 2 186) (÷ (mass sun) (mass proton)) (^ 2 187)))
+<span data-comment>; its radius: between 35 × 2¹³⁵ and 244 × 2¹³⁵ Planck lengths</span>
+(observed (&lt; (× 35 (^ 2 135)) (÷ (radius sun) planck-length) (× 244 (^ 2 135))))
+<span data-comment>; its temperature: between 2³ and 2⁴ times the triple point of water</span>
+(observed (&lt; (^ 2 3) (÷ (temperature sun) (triple-point water)) (^ 2 4)))
+<span data-comment>; its luminosity: between 117/2¹⁰³ and 206/2¹⁰³ of the Planck unit</span>
+<span data-comment>; of power, c⁵ ÷ G</span>
+(observed (&lt; (÷ 117 (^ 2 103)) (÷ (luminosity sun) (÷ (^ c 5) G)) (÷ 206 (^ 2 103))))</code></pre>
+  <p>Our planet goes round our star. Its orbit and its mass are given in units that any reader has: Planck lengths, Planck times and proton masses.</p>
+  <pre><code><span data-comment>; our planet orbits our star</span>
+(observed (orbits earth sun))
+<span data-comment>; the size of its orbit: between 2¹⁴⁸ and 2¹⁴⁹ Planck lengths</span>
+(observed (&lt; (^ 2 148) (÷ (axis earth sun) planck-length) (^ 2 149)))
+<span data-comment>; one round takes between 2¹⁶³ and 2¹⁶⁴ Planck times</span>
+(observed (&lt; (^ 2 163) (÷ (period earth sun) planck-time) (^ 2 164)))
+<span data-comment>; its mass is more than 2¹⁷⁰ proton masses: only a lower bound</span>
+<span data-comment>; is known, as the true mass depends on the tilt of its orbit</span>
+(observed (&lt; (^ 2 170) (÷ (mass earth) (mass proton))))</code></pre>
+  <p><small>Sources: NASA Exoplanet Archive, composite parameters of Proxima Cen b, from A. Suárez Mascareño and others (2025); NASA Sun and Earth fact sheets (the units of the archive); CODATA 2022 (the Planck units and the proton mass). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+</article>
+</body>
+</html>

@@ -19,20 +19,25 @@ async function build(): Promise<void> {
   const window = createWindow();
   const registry = loadRegistry(window, readFileSync(join(dir("templates"), "specification.html"), "utf8"));
   const topics = loadTopics(window, readFileSync(join(dir("templates"), "topics.html"), "utf8"));
-  const articles = loadArticles(window, dir("lessons"), topics);
+  const all = loadArticles(window, dir("lessons"), topics);
+  // Lessons that replace another (data-replaces) are only in the decoy version.
+  const articles = all.filter((article) => !article.replaces);
+  const replacements = new Map(all.filter((article) => article.replaces).map((article) => [article.replaces!, article]));
 
   for (const entry of readdirSync(docs)) if (entry !== ".gitkeep") rmSync(join(docs, entry), { recursive: true });
   cpSync(dir("assets"), join(docs, "assets"), { recursive: true });
 
   // The message, from the message blocks in file order.
-  const message: Message = {
-    articles: articles.map((article) => {
-      const element = findArticle(parse(window, article.source), article.slug);
-      const blocks = messageCode(element).map((code, i) => readBlock(code, registry, `${article.slug}, block ${i + 1}`));
-      return { article, blocks };
-    }),
-    topics,
+  const read = (article: (typeof all)[number]) => {
+    const element = findArticle(parse(window, article.source), article.slug);
+    const blocks = messageCode(element).map((code, i) => readBlock(code, registry, `${article.slug}, block ${i + 1}`));
+    return { article, blocks };
   };
+  const message: Message = { articles: articles.map(read), topics };
+  // Decoy: the full message with each replaced lesson swapped for its replacement, in the same place: for fun, to see
+  // whether a blind reader places the sender at another star. Its measured ranges are not checked.
+  const decoy: Message = { articles: articles.map((article) => read(replacements.get(article.slug) ?? article)), topics };
+  checkStructure(decoy, registry);
   // The structure rules of the specification (§10.1): hard errors.
   checkStructure(message, registry);
 
@@ -49,7 +54,8 @@ async function build(): Promise<void> {
   const cautious: Message = { articles: message.articles.filter(({ article }) => !optional.has(article.slug)), topics };
   const cautiousBinary = messageBinary(messageStream(cautious));
   // What each version says about itself must hold for that version.
-  const selfReferences = [checkSelfReference(message, "full"), checkSelfReference(cautious, "cautious"), checkSelfReference(minimal, "minimal")];
+  const selfReferences = [checkSelfReference(message, "full"), checkSelfReference(cautious, "cautious"), checkSelfReference(minimal, "minimal"), checkSelfReference(decoy, "decoy")];
+  const decoyBinary = messageBinary(messageStream(decoy));
   const bits = messageBits(message);
   const binary = messageBinary(messageStream(message));
   // A byte order mark, so browsers read these plain-text files as UTF-8 (≠, ∀, π …) instead of guessing.
@@ -74,10 +80,15 @@ async function build(): Promise<void> {
   writeFileSync(join(docs, "cautious", "message.bits"), BOM + messageBits(cautious));
   writeFileSync(join(docs, "cautious", "message.bin"), cautiousBinary.bytes);
   writeFileSync(join(docs, "cautious", "message.bin.txt"), binaryDump(cautiousBinary));
+  mkdirSync(join(docs, "decoy"));
+  writeFileSync(join(docs, "decoy", "message.txt"), BOM + messageText(decoy));
+  writeFileSync(join(docs, "decoy", "message.bits"), BOM + messageBits(decoy));
+  writeFileSync(join(docs, "decoy", "message.bin"), decoyBinary.bytes);
+  writeFileSync(join(docs, "decoy", "message.bin.txt"), binaryDump(decoyBinary));
 
   // Each lesson page as written, with the generated views added.
   mkdirSync(join(docs, "lessons"));
-  for (const article of articles) {
+  for (const article of all) {
     const document = parse(window, article.source);
     addViews(findArticle(document, article.slug), registry, [...VIEWS], article.slug);
     writeFileSync(join(docs, "lessons", `${article.slug}.html`), serialize(document));
@@ -98,7 +109,8 @@ async function build(): Promise<void> {
   console.log(`${articles.length} articles, ${tokens} tokens, ${binary.length} bits (${binary.bytes.length} bytes)`);
   const minimalTokens = minimal.articles.reduce((n, a) => n + a.blocks.reduce((m, b) => m + b.tokens.length, 0), 0);
   console.log(`measurements: ${measurements.checked} ranges, all at least ${MARGIN} standard uncertainties inside their bounds`);
-  console.log(`about itself: ${selfReferences.join(", ")} sentences checked (full, cautious, minimal)`);
+  console.log(`about itself: ${selfReferences.join(", ")} sentences checked (full, cautious, minimal, decoy)`);
+  console.log(`decoy: ${decoy.articles.length} articles, ${decoyBinary.length} bits (${decoyBinary.bytes.length} bytes), ${replacements.size} lesson replaced`);
   console.log(`cautious: ${cautious.articles.length} articles, ${cautiousBinary.length} bits (${cautiousBinary.bytes.length} bytes)`);
   console.log(`minimal: ${minimal.articles.length} articles, ${minimalTokens} tokens, ${minimalBinary.length} bits (${minimalBinary.bytes.length} bytes)`);
 }
