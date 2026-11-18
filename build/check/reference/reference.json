@@ -40,12 +40,18 @@
       "file": "iapws-g5-01.pdf",
       "retrieved": "2026-11-18"
     },
+    "bipm-cryogenic": {
+      "title": "Guide to the Realization of the ITS-90: Cryogenic Fixed Points",
+      "citation": "Consultative Committee for Thermometry, BIPM (2018), table 1",
+      "url": "https://www.bipm.org/en/committees/cc/cct/guides-to-thermometry",
+      "file": "bipm-guide-its90-cryogenic-fixed-points.pdf",
+      "retrieved": "2026-11-18"
+    },
     "nist-webbook": {
-      "title": "NIST Chemistry WebBook, SRD 69: phase change data for hydrogen, neon and argon",
+      "title": "NIST Chemistry WebBook, SRD 69: phase change data for neon and argon (a cross-check of the pressures)",
       "citation": "P. J. Linstrom and W. G. Mallard (eds.), National Institute of Standards and Technology; values compiled by the Thermodynamics Research Center (TRC)",
       "url": "https://webbook.nist.gov/chemistry/",
       "files": [
-        "nist-webbook-hydrogen.html",
         "nist-webbook-neon.html",
         "nist-webbook-argon.html"
       ],
@@ -492,37 +498,40 @@
       "quote": "4.2 Triple Point: \"For the triple-point pressure, we recommend the value measured by Guildner et al. [17], which is (611.657 ± 0.010) Pa.\""
     },
     "triple-point pressure of hydrogen": {
-      "value": "7210",
-      "uncertainty": "40",
+      "value": "7034",
+      "uncertainty": "1",
       "exact": false,
       "unit": "Pa",
-      "source": "nist-webbook",
-      "file": "nist-webbook-hydrogen.html",
-      "sha256": "07609e874aa7ee314337b5815570297e481d2d7f6c4318411bee529b00d0260e",
-      "page": 1,
-      "quote": "Phase change data, table row: Ptriple 0.0721 bar, Henning and Otto 1936, uncertainty assigned by TRC 0.0004 bar (normal hydrogen)"
+      "source": "bipm-cryogenic",
+      "file": "bipm-guide-its90-cryogenic-fixed-points.pdf",
+      "sha256": "f72ead644b77763898ebb4837ff702a4177ee6ab8d43b14a9466b34fda07beec",
+      "page": 5,
+      "quote": "Table 1, row \"p / kPa\": 7.034 for (equilibrium) hydrogen.",
+      "note": "The table gives no uncertainty; taken as one unit in the last digit."
     },
     "triple-point pressure of neon": {
-      "value": "43370",
-      "uncertainty": "1.6",
+      "value": "43379",
+      "uncertainty": "9",
       "exact": false,
       "unit": "Pa",
-      "source": "nist-webbook",
-      "file": "nist-webbook-neon.html",
-      "sha256": "4d3986cc3bb9d4cc1e3afd495eb14edb694a913cf6322717e699cb1f86395eb6",
-      "page": 1,
-      "quote": "Phase change data, table row: Ptriple 0.4337 bar, Ancsin 1978, uncertainty assigned by TRC 0.000016 bar"
+      "source": "bipm-cryogenic",
+      "file": "bipm-guide-its90-cryogenic-fixed-points.pdf",
+      "sha256": "f72ead644b77763898ebb4837ff702a4177ee6ab8d43b14a9466b34fda07beec",
+      "page": 5,
+      "quote": "Table 1, row \"p / kPa\": 43.379 for neon.",
+      "note": "The table gives no uncertainty; taken as the difference from the NIST Chemistry WebBook value, 43.370 kPa (nist-webbook-neon.html)."
     },
     "triple-point pressure of argon": {
-      "value": "68900",
-      "uncertainty": "10",
+      "value": "68892",
+      "uncertainty": "8",
       "exact": false,
       "unit": "Pa",
-      "source": "nist-webbook",
-      "file": "nist-webbook-argon.html",
-      "sha256": "14656631a4630c252a4d195e2bf7715945755b1ad5de5a90db15c2fe0ce9b1a4",
-      "page": 1,
-      "quote": "Phase change data, table row: Ptriple 0.689 bar, Gosman, McCarty et al. 1969, uncertainty assigned by TRC 0.0001 bar"
+      "source": "bipm-cryogenic",
+      "file": "bipm-guide-its90-cryogenic-fixed-points.pdf",
+      "sha256": "f72ead644b77763898ebb4837ff702a4177ee6ab8d43b14a9466b34fda07beec",
+      "page": 5,
+      "quote": "Table 1, row \"p / kPa\": 68.892 for argon.",
+      "note": "The table gives no uncertainty; taken as the difference from the NIST Chemistry WebBook value, 68.900 kPa (nist-webbook-argon.html)."
     }
   }
 }

@@ -308,9 +308,15 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
         <td>2026-11-18</td>
       </tr>
       <tr>
+        <td><cite>Guide to the Realization of the ITS-90: Cryogenic Fixed Points</cite>. Consultative Committee for Thermometry, <a href="https://www.bipm.org/en/committees/cc/cct/guides-to-thermometry">BIPM</a> (2018).</td>
+        <td>The pressures at the triple points of equilibrium hydrogen (7.034 kPa), neon (43.379 kPa) and argon (68.892 kPa) (table 1, page 5). The table gives no uncertainties: for hydrogen one unit in the last digit is used, for neon and argon the difference from the NIST values below.</td>
+        <td><code>bipm-guide-its90-cryogenic-fixed-points.pdf</code></td>
+        <td>2026-11-18</td>
+      </tr>
+      <tr>
         <td><cite>NIST Chemistry WebBook</cite>, SRD 69, phase change data. National Institute of Standards and Technology, <a href="https://webbook.nist.gov/chemistry/">NIST</a>, with values compiled by the Thermodynamics Research Center.</td>
-        <td>The pressures at the triple points of hydrogen gas (7.21 kPa ± 0.04, for normal hydrogen), neon (43.370 kPa ± 0.0016) and argon (68.90 kPa ± 0.01).</td>
-        <td><code>nist-webbook-hydrogen.html</code>, <code>nist-webbook-neon.html</code>, <code>nist-webbook-argon.html</code></td>
+        <td>A second measurement of the triple-point pressures of neon (43.370 kPa) and argon (68.900 kPa), used to set their uncertainty.</td>
+        <td><code>nist-webbook-neon.html</code>, <code>nist-webbook-argon.html</code></td>
         <td>2026-11-18</td>
       </tr>
     </tbody>
@@ -536,6 +542,8 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
     <dd>Within each type, ids follow the order in which the symbols first appear in the message: the first new symbol has id 1, the next id 2, with no gaps. So the lesson of a symbol's first appearance is the lesson that introduces it, and nothing is used before it is introduced. Elements are the exception: their id is the atomic number. Every symbol in the registry appears in the message.</dd>
     <dt>Enough examples</dt>
     <dd>A symbol appears in at least <var>k</var> = 3 sentences of the lesson that introduces it. A sentence here is a top-level bracket group, and a sentence that uses the symbol twice counts once. Where a law introduces several symbols at once, the lesson adds sentences about each of them (its dimension, a symmetry, the law turned around, a second measurement).</dd>
+    <dt>Measurements</dt>
+    <dd>Every <code>observed</code> range holds for the reference data (§8.4), and each bound lies at least five standard uncertainties from the reference value. The uncertainty includes a model uncertainty where the message's simple law leaves something out, such as the fine structure of hydrogen. Each kind of range needs a formula in <code>build/check/measurements.ts</code> that computes it from the reference data; a range without one stops the build too. No measured value is written with <code>=</code> unless the fact is exact. A law that introduces a constant cannot be checked against data; it is checked for its dimensions and, where the constant has a reference value, for its number.</dd>
     <dt>Lesson files</dt>
     <dd>Each lesson file holds exactly one lesson, and each of its topics is defined.</dd>
   </dl>
@@ -548,8 +556,6 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
     <dd>No closed relation is applied to arguments for which it does not hold, not even inside another expression, except inside <code>quote</code>. No closed expression divides by zero, except in the branch of an <code>if</code> that is not picked (§8.2).</dd>
     <dt>Dimensions</dt>
     <dd>Every <code>dim</code> statement holds, and quantities are only compared, added or subtracted when they have the same dimension (§8.3).</dd>
-    <dt>Measurements</dt>
-    <dd>Every <code>observed</code> range holds for the reference data (§8.4), and each bound lies at least ten standard uncertainties from the reference value. The uncertainty includes a model uncertainty where the message's simple law leaves something out, such as the fine structure of hydrogen. <code>npm run check:measurements</code> checks this for every range; it is not yet part of the build. No measured value is written with <code>=</code> unless the fact is exact. A law that introduces a constant cannot be checked against data; it is checked for its dimensions and, where the constant has a reference value, for its number.</dd>
     <dt>Round trip</dt>
     <dd>Decoding the encoded message (finding the beacon, cutting chunks and tokens, looking up the registry) gives back exactly the tokens that were encoded.</dd>
     <dt>Period</dt>

@@ -45,11 +45,18 @@ const SOURCES = {
     file: "iapws-g5-01.pdf",
     retrieved: "2026-11-18",
   },
+  "bipm-cryogenic": {
+    title: "Guide to the Realization of the ITS-90: Cryogenic Fixed Points",
+    citation: "Consultative Committee for Thermometry, BIPM (2018), table 1",
+    url: "https://www.bipm.org/en/committees/cc/cct/guides-to-thermometry",
+    file: "bipm-guide-its90-cryogenic-fixed-points.pdf",
+    retrieved: "2026-11-18",
+  },
   "nist-webbook": {
-    title: "NIST Chemistry WebBook, SRD 69: phase change data for hydrogen, neon and argon",
+    title: "NIST Chemistry WebBook, SRD 69: phase change data for neon and argon (a cross-check of the pressures)",
     citation: "P. J. Linstrom and W. G. Mallard (eds.), National Institute of Standards and Technology; values compiled by the Thermodynamics Research Center (TRC)",
     url: "https://webbook.nist.gov/chemistry/",
-    files: ["nist-webbook-hydrogen.html", "nist-webbook-neon.html", "nist-webbook-argon.html"],
+    files: ["nist-webbook-neon.html", "nist-webbook-argon.html"],
     retrieved: "2026-11-18",
   },
   "bipm-t90": {

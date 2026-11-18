@@ -9,6 +9,7 @@ import { binaryDump, messageBinary, messageBits, messageStream, messageCode, mes
 import { loadRegistry } from "./registry.ts";
 import { addViews, VIEWS } from "./views.ts";
 import { checkCore, checkStructure } from "./check/structure.ts";
+import { checkMeasurements, MARGIN } from "./check/measurements.ts";
 
 const root = resolve(import.meta.dirname, "..");
 const dir = (name: string) => join(root, name);
@@ -46,6 +47,12 @@ async function build(): Promise<void> {
   // A byte order mark, so browsers read these plain-text files as UTF-8 (≠, ∀, π …) instead of guessing.
   const BOM = "\ufeff";
   writeFileSync(join(docs, "message.txt"), BOM + messageText(message));
+  // Every measured range must hold for the reference data, with room to spare (§10.1).
+  const measurements = checkMeasurements(messageText(message));
+  if (measurements.failures > 0) {
+    const failing = measurements.report.filter((line) => !line.startsWith("ok"));
+    throw new BuildError(`${measurements.failures} measured ranges fail (each bound must be at least ${MARGIN} standard uncertainties from the reference value):\n${failing.join("\n")}`);
+  }
   writeFileSync(join(docs, "message.bits"), BOM + bits);
   writeFileSync(join(docs, "message.bin"), binary.bytes);
   writeFileSync(join(docs, "message.bin.txt"), binaryDump(binary));
@@ -77,6 +84,7 @@ async function build(): Promise<void> {
   const tokens = message.articles.reduce((n, a) => n + a.blocks.reduce((m, b) => m + b.tokens.length, 0), 0);
   console.log(`${articles.length} articles, ${tokens} tokens, ${binary.length} bits (${binary.bytes.length} bytes)`);
   const coreTokens = core.articles.reduce((n, a) => n + a.blocks.reduce((m, b) => m + b.tokens.length, 0), 0);
+  console.log(`measurements: ${measurements.checked} ranges, all at least ${MARGIN} standard uncertainties inside their bounds`);
   console.log(`core: ${core.articles.length} articles, ${coreTokens} tokens, ${coreBinary.length} bits (${coreBinary.bytes.length} bytes)`);
 }
 

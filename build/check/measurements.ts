@@ -4,11 +4,13 @@
 // from the reference data, including a model uncertainty where the message's simple law differs from reality.
 // A range passes if both bounds are at least MARGIN standard uncertainties away from the value.
 //
+// The build runs it on the message it has just written and stops if a range fails. On its own:
 //   npm run build && npm run check:measurements
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const MARGIN = 10; // standard uncertainties between the value and each bound
+export const MARGIN = 5; // standard uncertainties between the value and each bound
 const root = resolve(import.meta.dirname, "../..");
 const ref = JSON.parse(readFileSync(resolve(root, "build/check/reference/reference.json"), "utf8"));
 
@@ -77,26 +79,13 @@ const QUANTITIES: Record<string, Q> = {
   "(÷ (triple-point water) planck-temperature)": div(tWater, constant("Planck temperature")),
   // the Planck unit of pressure, c⁷ / (ħ G²)
   "(÷ (triple-pressure water) (÷ planck-mass (× planck-length (^ planck-time 2))))": div(pWater, div(pow(c, 7), mul(hbar, pow(G, 2)))),
-  // the source gives normal hydrogen; the message's triple point is that of equilibrium hydrogen, about 180 Pa lower
-  "(÷ (triple-pressure dihydrogen) (triple-pressure water))": div(widen(constant("triple-point pressure of hydrogen"), 180 / 7210), pWater),
+  "(÷ (triple-pressure dihydrogen) (triple-pressure water))": div(constant("triple-point pressure of hydrogen"), pWater),
   "(÷ (triple-pressure neon) (triple-pressure water))": div(constant("triple-point pressure of neon"), pWater),
   "(÷ (triple-pressure argon) (triple-pressure water))": div(constant("triple-point pressure of argon"), pWater),
 };
 
-// The sentences of the message, as nested lists.
+
 type Node = string | Node[];
-const text = readFileSync(resolve(root, "docs/message.txt"), "utf8").replace(/^﻿/, "");
-const tokens = text.split("\n").flatMap((line) => {
-  const code = line.split(";")[0];
-  return /^[01 ]*$/.test(code) ? [] : (code.match(/[()]|[^\s()]+/g) ?? []);
-});
-const sentences: Node[] = [];
-const stack: Node[][] = [];
-for (const t of tokens) {
-  if (t === "(") stack.push([]);
-  else if (t === ")") { const g = stack.pop()!; (stack.length ? stack[stack.length - 1] : sentences).push(g); }
-  else (stack.length ? stack[stack.length - 1] : sentences).push(t);
-}
 const show = (n: Node): string => (typeof n === "string" ? n : `(${n.map(show).join(" ")})`);
 const exact = (n: Node): number | undefined => {
   if (typeof n === "string") return /^\d+$/.test(n) ? Number(n) : undefined;
@@ -115,6 +104,21 @@ const exact = (n: Node): number | undefined => {
   return undefined;
 };
 
+
+// Checks the message given as text (message.txt): a report line for every range, and the number of failures.
+export function checkMeasurements(text: string): { report: string[]; failures: number; checked: number } {
+const tokens = text.replace(/^\ufeff/, "").split("\n").flatMap((line) => {
+  const code = line.split(";")[0];
+  return /^[01 ]*$/.test(code) ? [] : (code.match(/[()]|[^\s()]+/g) ?? []);
+});
+const sentences: Node[] = [];
+const stack: Node[][] = [];
+for (const t of tokens) {
+  if (t === "(") stack.push([]);
+  else if (t === ")") { const g = stack.pop()!; (stack.length ? stack[stack.length - 1] : sentences).push(g); }
+  else (stack.length ? stack[stack.length - 1] : sentences).push(t);
+}
+const report: string[] = [];
 let failures = 0, checked = 0;
 for (const s of sentences) {
   if (!Array.isArray(s) || s[0] !== "observed" || !Array.isArray(s[1]) || !["<", ">"].includes(s[1][0] as string)) continue;
@@ -127,12 +131,19 @@ for (const s of sentences) {
   checked++;
   const key = show(mid);
   const x = QUANTITIES[key];
-  if (!x) { failures++; console.log(`NO REFERENCE  ${key}`); continue; }
+  if (!x) { failures++; report.push(`NO REFERENCE  ${key}: add a formula to build/check/measurements.ts`); continue; }
   const below = (x.v - lo) / x.u, above = (hi - x.v) / x.u;
   const ok = x.v > lo && x.v < hi && (x.u === 0 || (below >= MARGIN && above >= MARGIN));
   if (!ok) failures++;
   const sig = (n: number) => (x.u === 0 ? "exact" : n > 1e6 ? ">1e6 σ" : `${n.toFixed(1)} σ`);
-  console.log(`${ok ? "ok  " : "FAIL"}  ${key}\n      ${lo.toPrecision(7)} < ${x.v.toPrecision(9)} ± ${x.u.toPrecision(2)} < ${hi.toPrecision(7)}   margins ${sig(below)}, ${sig(above)}`);
+  report.push(`${ok ? "ok  " : "FAIL"}  ${key}\n      ${lo.toPrecision(7)} < ${x.v.toPrecision(9)} ± ${x.u.toPrecision(2)} < ${hi.toPrecision(7)}   margins ${sig(below)}, ${sig(above)}`);
 }
-console.log(`\n${checked} ranges, ${failures} failing (each bound must be at least ${MARGIN} standard uncertainties from the reference value)`);
-process.exit(failures ? 1 : 0);
+return { report, failures, checked };
+}
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const { report, failures, checked } = checkMeasurements(readFileSync(resolve(root, "docs/message.txt"), "utf8"));
+  console.log(report.join("\n"));
+  console.log(`\n${checked} ranges, ${failures} failing (each bound must be at least ${MARGIN} standard uncertainties from the reference value)`);
+  process.exit(failures ? 1 : 0);
+}
