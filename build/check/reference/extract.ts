@@ -45,6 +45,27 @@ const SOURCES = {
     file: "iapws-g5-01.pdf",
     retrieved: "2026-11-18",
   },
+  pdg2024: {
+    title: "Review of Particle Physics 2024: summary table of strange mesons; table of astrophysical constants",
+    citation: "S. Navas and others (Particle Data Group), Phys. Rev. D 110, 030001 (2024)",
+    url: "https://pdg.lbl.gov/2024/",
+    files: ["pdg2024-mesons-strange.pdf", "pdg2024-astrophysical-constants.pdf"],
+    retrieved: "2026-11-18",
+  },
+  gravity: {
+    title: "Mass distribution in the Galactic Center (2022); geometric distance to the Galactic Center (2019)",
+    citation: "GRAVITY Collaboration, Astron. Astrophys. 657, L12 (2022), arXiv:2112.07478; Astron. Astrophys. 625, L10 (2019), arXiv:1904.05721",
+    url: "https://arxiv.org/abs/2112.07478",
+    files: ["gravity2022-sgr-a-star.pdf", "gravity2019-r0.pdf"],
+    retrieved: "2026-11-18",
+  },
+  atnf: {
+    title: "ATNF Pulsar Catalogue, version 2.6.1",
+    citation: "R. N. Manchester, G. B. Hobbs, A. Teoh and M. Hobbs, Astron. J. 129, 1993 (2005)",
+    url: "https://www.atnf.csiro.au/research/pulsar/psrcat/",
+    file: "atnf-psrcat-table.html",
+    retrieved: "2026-11-18",
+  },
   fixsen2009: {
     title: "The Temperature of the Cosmic Microwave Background",
     citation: "D. J. Fixsen, Astrophys. J. 707, 916 (2009); arXiv:0911.1955",
@@ -110,6 +131,7 @@ const CONSTANTS = [
   "deuteron mass",
   "atomic mass constant",
   "electron mass energy equivalent",
+  "electron mass energy equivalent in MeV",
   "proton-electron mass ratio",
   "neutron-electron mass ratio",
   "neutron-proton mass ratio",
@@ -212,6 +234,20 @@ function hydrogenLine() {
   return { value, truncated: false, uncertainty, exact: false, unit: "MHz", source: "jpl" };
 }
 
+// ATNF pulsar catalogue: one row per pulsar in a <pre> table: name, P0 and its error, P1 and its error,
+// Galactic longitude and latitude, distance. The reference codes are links; they are removed first.
+function pulsars() {
+  const text = readFileSync(join(dir, SOURCES.atnf.file), "utf8").replace(/<a [^>]*>[^<]*<\/a>/g, "").replace(/&nbsp;?/g, " ");
+  const found: Record<string, object> = {};
+  for (const line of text.split("\n")) {
+    const m = line.match(/^\d+\s+(J\d{4}[+-]\d{4})\s+([\d.]+)\s+([\d.e+-]+)\s+([\d.E+-]+)\s+([\d.e+-]+)\s+([\d.-]+)\s+([\d.-]+)\s+([\d.]+)/);
+    if (!m) continue;
+    found[m[1]] = { period: { value: m[2], uncertainty: m[3], unit: "s" }, slowing: { value: m[4], uncertainty: m[5] }, longitude: m[6], latitude: m[7], distance: { value: m[8], unit: "kpc" } };
+  }
+  if (Object.keys(found).length !== 6) fail(`expected 6 pulsars in the ATNF table, found ${Object.keys(found).length}`);
+  return found;
+}
+
 // Values read by hand from PDF documents (transcribed.json): accepted only while the document is unchanged.
 function transcribed() {
   const { values } = JSON.parse(readFileSync(join(dir, "transcribed.json"), "utf8"));
@@ -242,6 +278,7 @@ const out = {
   constants: codata(),
   nuclides,
   other: { "hydrogen 21 cm line frequency": hydrogenLine(), ...transcribed() },
+  pulsars: pulsars(),
 };
 writeFileSync(join(dir, "reference.json"), JSON.stringify(out, null, 2) + "\n");
-console.log(`reference.json: ${CONSTANTS.length} constants, ${NUCLIDES.length} nuclides, ${Object.keys(out.other).length} other values`);
+console.log(`reference.json: ${CONSTANTS.length} constants, ${NUCLIDES.length} nuclides, ${Object.keys(out.other).length} other values, ${Object.keys(out.pulsars).length} pulsars`);

@@ -81,6 +81,18 @@ const QUANTITIES: Record<string, Q> = {
   "(÷ (triple-pressure water) (÷ planck-mass (× planck-length (^ planck-time 2))))": div(pWater, div(pow(c, 7), mul(hbar, pow(G, 2)))),
   "(÷ (mass (isotope helium 2)) (× 4 (mass (isotope hydrogen 0))))": div(nuclide("4He"), mul(q(4), nuclide("1H"))),
   "(÷ (average v directions (background v)) (triple-point water))": div(constant("temperature of the background radiation"), tWater),
+  "(÷ (mass kaon) (mass electron))": div(constant("mass of the long-lived neutral kaon"), constant("electron mass energy equivalent in MeV")),
+  // AL is (positron − electron) ÷ (positron + electron), so their ratio is (1 + AL) ÷ (1 − AL)
+  "(÷ (yields positron kaon) (yields electron kaon))": (() => {
+    const a = constant("charge asymmetry of the long-lived neutral kaon");
+    return q((1 + a.v) / (1 - a.v), (2 * a.u) / (1 - a.v) ** 2);
+  })(),
+  "(÷ (mass galaxy-centre) (mass sun))": constant("mass of the Galactic centre"),
+  "(÷ (distance sun galaxy-centre) (axis earth sun))": div(mul(constant("distance from the Sun to the Galactic centre"), q(1000 * (648000 / Math.PI) * 149597870700)), constant("semimajor axis of the Earth")),
+  "(÷ (speed sun) c)": div(mul(constant("circular velocity at the Sun"), q(1000)), c),
+  // one round of a circle: 2π × distance ÷ speed
+  "(÷ (period sun galaxy-centre) (period earth sun))": div(div(mul(q(2 * Math.PI * 1000 * (648000 / Math.PI) * 149597870700), constant("distance from the Sun to the Galactic centre")), mul(constant("circular velocity at the Sun"), q(1000))), constant("sidereal year")),
+  ...pulsarQuantities(),
   "(÷ (mass sun) (mass proton))": div(div(constant("GM of the Sun"), G), mp),
   "(÷ (radius sun) planck-length)": div(constant("radius of the Sun"), constant("Planck length")),
   "(÷ (temperature sun) (triple-point water))": div(constant("effective temperature of the Sun"), tWater),
@@ -94,6 +106,32 @@ const QUANTITIES: Record<string, Q> = {
   "(÷ (triple-pressure argon) (triple-pressure water))": div(constant("triple-point pressure of argon"), pWater),
 };
 
+
+// The pulsars of the pulsar lesson, by the names the message gives them. Their periods are those of the catalogue's
+// epochs (the 1980s to the 2010s); a model uncertainty of 40 years of slowing covers the change since. The slowing
+// itself is given 2 % model uncertainty, and every direction 0.01 in each component (the frame of the Galaxy is
+// defined only to about half a degree).
+function pulsarQuantities(): Record<string, Q> {
+  const NAMES: Record<string, string> = {
+    "J0534+2200": "crab-pulsar", "J0835-4510": "vela-pulsar", "J0437-4715": "pulsar-j0437",
+    "J1939+2134": "pulsar-j1939", "J0332+5434": "pulsar-j0332", "J1921+2153": "pulsar-j1921",
+  };
+  const year = constant("sidereal year").v;
+  const nu = div(line21, h).v;
+  const out: Record<string, Q> = {};
+  for (const [j, name] of Object.entries(NAMES)) {
+    const p = ref.pulsars[j];
+    const P0 = Number(p.period.value), P0u = Number(p.period.uncertainty), P1 = Number(p.slowing.value);
+    const l = (Number(p.longitude) * Math.PI) / 180, b = (Number(p.latitude) * Math.PI) / 180;
+    out[`(× (pulse-period ${name}) (frequency hydrogen-line))`] = q(P0 * nu, Math.hypot(P0u, P1 * 40 * year) * nu);
+    out[`(÷ (× (slowing ${name}) (period earth sun)) (pulse-period ${name}))`] = widen(q((P1 * year) / P0), 0.02);
+    const dir = [Math.cos(b) * Math.cos(l), Math.cos(b) * Math.sin(l), Math.sin(b)];
+    ["toward-centre", "along-rotation", "galactic-pole"].forEach((axis, i) => {
+      out[`(dot (direction-from sun ${name}) ${axis})`] = q(dir[i], 0.01);
+    });
+  }
+  return out;
+}
 
 type Node = string | Node[];
 const show = (n: Node): string => (typeof n === "string" ? n : `(${n.map(show).join(" ")})`);

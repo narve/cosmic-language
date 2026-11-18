@@ -88,7 +88,8 @@ interface First {
   sentences: number; // sentences of that lesson that use it
 }
 
-// An optional lesson may be left out of a message: no other lesson may use a symbol that it introduces.
+// An optional lesson may be left out of a message: no lesson that is not optional may use a symbol that it introduces.
+// Optional lessons may build on each other: they are all in the full version and all left out of the others.
 export function checkOptional(message: Message, isOptional: (slug: string) => boolean): void {
   const introducedIn = new Map<string, string>();
   for (const { article, blocks } of message.articles) {
@@ -96,23 +97,23 @@ export function checkOptional(message: Message, isOptional: (slug: string) => bo
       if (token.type < OPERATOR) continue;
       if (!introducedIn.has(token.text)) introducedIn.set(token.text, article.slug);
       const home = introducedIn.get(token.text)!;
-      if (home !== article.slug && isOptional(home)) {
+      if (home !== article.slug && isOptional(home) && !isOptional(article.slug)) {
         throw new BuildError(`${article.slug} uses "${token.text}", which the optional lesson ${home} introduces; an optional lesson must be possible to leave out`);
       }
     }
   }
 }
 
-// The core is a message of its own: a core lesson may only use symbols that a core lesson introduces.
-export function checkCore(message: Message, isCore: (slug: string) => boolean): void {
+// The minimal version is a message of its own: a minimal lesson may only use symbols that a minimal lesson introduces.
+export function checkMinimal(message: Message, isMinimal: (slug: string) => boolean): void {
   const introducedIn = new Map<string, string>();
   for (const { article, blocks } of message.articles) {
     for (const block of blocks) for (const token of block.tokens) {
       if (token.type < OPERATOR) continue;
       if (!introducedIn.has(token.text)) introducedIn.set(token.text, article.slug);
       const home = introducedIn.get(token.text)!;
-      if (isCore(article.slug) && !isCore(home)) {
-        throw new BuildError(`${article.slug} is a core lesson but uses "${token.text}", which ${home} introduces and which is not in the core`);
+      if (isMinimal(article.slug) && !isMinimal(home)) {
+        throw new BuildError(`${article.slug} is in the minimal version but uses "${token.text}", which ${home} introduces and which is not`);
       }
     }
   }

@@ -8,7 +8,7 @@ import { findArticle, loadArticles, loadTopics } from "./lessons.ts";
 import { binaryDump, messageBinary, messageBits, messageStream, messageCode, messageText, readBlock, type Message } from "./message.ts";
 import { loadRegistry } from "./registry.ts";
 import { addViews, VIEWS } from "./views.ts";
-import { checkCore, checkOptional, checkStructure } from "./check/structure.ts";
+import { checkMinimal, checkOptional, checkStructure } from "./check/structure.ts";
 import { checkMeasurements, MARGIN } from "./check/measurements.ts";
 
 const root = resolve(import.meta.dirname, "..");
@@ -36,14 +36,18 @@ async function build(): Promise<void> {
   // The structure rules of the specification (§10.1): hard errors.
   checkStructure(message, registry);
 
-  // The core (lessons with the topic "core") is a shorter message of its own, written to docs/core/.
-  const CORE = "core";
-  const inCore = new Set(articles.filter((article) => article.topics.includes(CORE)).map((article) => article.slug));
-  checkCore(message, (slug) => inCore.has(slug));
+  // Three versions of the message. Full: every lesson (docs/message.*). Cautious: everything except the optional
+  // lessons, which reveal where and who we are (docs/cautious/). Minimal: only the game and what it needs, the lessons
+  // with the topic "minimal" (docs/minimal/).
+  const MINIMAL = "minimal";
+  const inMinimal = new Set(articles.filter((article) => article.topics.includes(MINIMAL)).map((article) => article.slug));
+  checkMinimal(message, (slug) => inMinimal.has(slug));
   const optional = new Set(articles.filter((article) => article.optional).map((article) => article.slug));
   checkOptional(message, (slug) => optional.has(slug));
-  const core: Message = { articles: message.articles.filter(({ article }) => inCore.has(article.slug)), topics };
-  const coreBinary = messageBinary(messageStream(core));
+  const minimal: Message = { articles: message.articles.filter(({ article }) => inMinimal.has(article.slug)), topics };
+  const minimalBinary = messageBinary(messageStream(minimal));
+  const cautious: Message = { articles: message.articles.filter(({ article }) => !optional.has(article.slug)), topics };
+  const cautiousBinary = messageBinary(messageStream(cautious));
   const bits = messageBits(message);
   const binary = messageBinary(messageStream(message));
   // A byte order mark, so browsers read these plain-text files as UTF-8 (≠, ∀, π …) instead of guessing.
@@ -58,11 +62,16 @@ async function build(): Promise<void> {
   writeFileSync(join(docs, "message.bits"), BOM + bits);
   writeFileSync(join(docs, "message.bin"), binary.bytes);
   writeFileSync(join(docs, "message.bin.txt"), binaryDump(binary));
-  mkdirSync(join(docs, CORE));
-  writeFileSync(join(docs, CORE, "message.txt"), BOM + messageText(core));
-  writeFileSync(join(docs, CORE, "message.bits"), BOM + messageBits(core));
-  writeFileSync(join(docs, CORE, "message.bin"), coreBinary.bytes);
-  writeFileSync(join(docs, CORE, "message.bin.txt"), binaryDump(coreBinary));
+  mkdirSync(join(docs, MINIMAL));
+  writeFileSync(join(docs, MINIMAL, "message.txt"), BOM + messageText(minimal));
+  writeFileSync(join(docs, MINIMAL, "message.bits"), BOM + messageBits(minimal));
+  writeFileSync(join(docs, MINIMAL, "message.bin"), minimalBinary.bytes);
+  writeFileSync(join(docs, MINIMAL, "message.bin.txt"), binaryDump(minimalBinary));
+  mkdirSync(join(docs, "cautious"));
+  writeFileSync(join(docs, "cautious", "message.txt"), BOM + messageText(cautious));
+  writeFileSync(join(docs, "cautious", "message.bits"), BOM + messageBits(cautious));
+  writeFileSync(join(docs, "cautious", "message.bin"), cautiousBinary.bytes);
+  writeFileSync(join(docs, "cautious", "message.bin.txt"), binaryDump(cautiousBinary));
 
   // Each lesson page as written, with the generated views added.
   mkdirSync(join(docs, "lessons"));
@@ -85,9 +94,10 @@ async function build(): Promise<void> {
 
   const tokens = message.articles.reduce((n, a) => n + a.blocks.reduce((m, b) => m + b.tokens.length, 0), 0);
   console.log(`${articles.length} articles, ${tokens} tokens, ${binary.length} bits (${binary.bytes.length} bytes)`);
-  const coreTokens = core.articles.reduce((n, a) => n + a.blocks.reduce((m, b) => m + b.tokens.length, 0), 0);
+  const minimalTokens = minimal.articles.reduce((n, a) => n + a.blocks.reduce((m, b) => m + b.tokens.length, 0), 0);
   console.log(`measurements: ${measurements.checked} ranges, all at least ${MARGIN} standard uncertainties inside their bounds`);
-  console.log(`core: ${core.articles.length} articles, ${coreTokens} tokens, ${coreBinary.length} bits (${coreBinary.bytes.length} bytes)`);
+  console.log(`cautious: ${cautious.articles.length} articles, ${cautiousBinary.length} bits (${cautiousBinary.bytes.length} bytes)`);
+  console.log(`minimal: ${minimal.articles.length} articles, ${minimalTokens} tokens, ${minimalBinary.length} bits (${minimalBinary.bytes.length} bytes)`);
 }
 
 try {

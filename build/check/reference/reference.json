@@ -40,6 +40,33 @@
       "file": "iapws-g5-01.pdf",
       "retrieved": "2026-11-18"
     },
+    "pdg2024": {
+      "title": "Review of Particle Physics 2024: summary table of strange mesons; table of astrophysical constants",
+      "citation": "S. Navas and others (Particle Data Group), Phys. Rev. D 110, 030001 (2024)",
+      "url": "https://pdg.lbl.gov/2024/",
+      "files": [
+        "pdg2024-mesons-strange.pdf",
+        "pdg2024-astrophysical-constants.pdf"
+      ],
+      "retrieved": "2026-11-18"
+    },
+    "gravity": {
+      "title": "Mass distribution in the Galactic Center (2022); geometric distance to the Galactic Center (2019)",
+      "citation": "GRAVITY Collaboration, Astron. Astrophys. 657, L12 (2022), arXiv:2112.07478; Astron. Astrophys. 625, L10 (2019), arXiv:1904.05721",
+      "url": "https://arxiv.org/abs/2112.07478",
+      "files": [
+        "gravity2022-sgr-a-star.pdf",
+        "gravity2019-r0.pdf"
+      ],
+      "retrieved": "2026-11-18"
+    },
+    "atnf": {
+      "title": "ATNF Pulsar Catalogue, version 2.6.1",
+      "citation": "R. N. Manchester, G. B. Hobbs, A. Teoh and M. Hobbs, Astron. J. 129, 1993 (2005)",
+      "url": "https://www.atnf.csiro.au/research/pulsar/psrcat/",
+      "file": "atnf-psrcat-table.html",
+      "retrieved": "2026-11-18"
+    },
     "fixsen2009": {
       "title": "The Temperature of the Cosmic Microwave Background",
       "citation": "D. J. Fixsen, Astrophys. J. 707, 916 (2009); arXiv:0911.1955",
@@ -222,6 +249,13 @@
       "uncertainty": "0.0000000026e-14",
       "exact": false,
       "unit": "J"
+    },
+    "electron mass energy equivalent in MeV": {
+      "value": "0.51099895069",
+      "truncated": false,
+      "uncertainty": "0.00000000016",
+      "exact": false,
+      "unit": "MeV"
     },
     "proton-electron mass ratio": {
       "value": "1836.152673426",
@@ -656,6 +690,168 @@
       "sha256": "36cbaee69b8106ca45d007f46a2e002f9f593b67c310f6d808007a5c3d998f85",
       "page": 1,
       "quote": "Abstract: \"... a CMB background temperature of 2.72548±0.00057 K.\""
+    },
+    "mass of the long-lived neutral kaon": {
+      "value": "497.611",
+      "uncertainty": "0.013",
+      "exact": false,
+      "unit": "MeV",
+      "source": "pdg2024",
+      "file": "pdg2024-mesons-strange.pdf",
+      "sha256": "4674284d485fc839144ddb5190e12166a73dd54f0a4ca74c56a7d32baf975b18",
+      "page": 4,
+      "quote": "K0L: \"Mass m = 497.611 ± 0.013 MeV (S = 1.2)\""
+    },
+    "charge asymmetry of the long-lived neutral kaon": {
+      "value": "0.00332",
+      "uncertainty": "0.00006",
+      "exact": false,
+      "unit": "",
+      "source": "pdg2024",
+      "file": "pdg2024-mesons-strange.pdf",
+      "sha256": "4674284d485fc839144ddb5190e12166a73dd54f0a4ca74c56a7d32baf975b18",
+      "page": 7,
+      "quote": "K0L CP-violation parameters: \"AL = (0.332 ± 0.006)%\"",
+      "note": "AL is the difference between decays with a positron and with an electron, divided by their sum."
+    },
+    "distance from the Sun to the Galactic centre": {
+      "value": "8.275",
+      "uncertainty": "0.034",
+      "exact": false,
+      "unit": "kpc",
+      "source": "pdg2024",
+      "file": "pdg2024-astrophysical-constants.pdf",
+      "sha256": "b8b6a21286f09e77e5fa98afa3226bac216c8e5ed8bfe32b5ea59f325375d669",
+      "page": 1,
+      "quote": "\"Solar distance from Galactic center R0 8.275 ± 0.009(stat.) ± 0.033(sys.) kpc\"",
+      "note": "The two uncertainties are combined in quadrature."
+    },
+    "circular velocity at the Sun": {
+      "value": "233.4",
+      "uncertainty": "8.0",
+      "exact": false,
+      "unit": "km/s",
+      "source": "pdg2024",
+      "file": "pdg2024-astrophysical-constants.pdf",
+      "sha256": "b8b6a21286f09e77e5fa98afa3226bac216c8e5ed8bfe32b5ea59f325375d669",
+      "page": 1,
+      "quote": "\"circular velocity at R0 v0 or Θ0 233.4 ± 0.3(stat.) ± 8.0(sys.) km s−1\""
+    },
+    "mass of the Galactic centre": {
+      "value": "4.297e6",
+      "uncertainty": "0.145e6",
+      "exact": false,
+      "unit": "solar masses",
+      "source": "gravity",
+      "file": "gravity2022-sgr-a-star.pdf",
+      "sha256": "541a6bcd46fdcb76a399e166f01742abafa3f3afbb528013a00c7e91d37651e4",
+      "page": 5,
+      "quote": "\"M• = (4.297±0.012)×10^6 M⊙ (statistical errors ...)\"",
+      "note": "The uncertainty is taken as the difference from the 2019 value, 4.152 × 10^6 (gravity2019-r0.pdf, page 4), much larger than the statistical error."
+    }
+  },
+  "pulsars": {
+    "J0332+5434": {
+      "period": {
+        "value": "0.714519699726",
+        "uncertainty": "4.0e-12",
+        "unit": "s"
+      },
+      "slowing": {
+        "value": "2.048265E-15",
+        "uncertainty": "8.0e-21"
+      },
+      "longitude": "144.995",
+      "latitude": "-1.221",
+      "distance": {
+        "value": "1.680",
+        "unit": "kpc"
+      }
+    },
+    "J0437-4715": {
+      "period": {
+        "value": "0.005757451941593399",
+        "uncertainty": "1.4e-17",
+        "unit": "s"
+      },
+      "slowing": {
+        "value": "5.729235E-20",
+        "uncertainty": "1.0e-25"
+      },
+      "longitude": "253.395",
+      "latitude": "-41.963",
+      "distance": {
+        "value": "0.157",
+        "unit": "kpc"
+      }
+    },
+    "J0534+2200": {
+      "period": {
+        "value": "0.0333924123",
+        "uncertainty": "1.2e-09",
+        "unit": "s"
+      },
+      "slowing": {
+        "value": "4.20972E-13",
+        "uncertainty": "3.0e-18"
+      },
+      "longitude": "184.557",
+      "latitude": "-5.784",
+      "distance": {
+        "value": "2.000",
+        "unit": "kpc"
+      }
+    },
+    "J0835-4510": {
+      "period": {
+        "value": "0.089328385024",
+        "uncertainty": "4.0e-12",
+        "unit": "s"
+      },
+      "slowing": {
+        "value": "1.25008E-13",
+        "uncertainty": "1.6e-17"
+      },
+      "longitude": "263.552",
+      "latitude": "-2.787",
+      "distance": {
+        "value": "0.280",
+        "unit": "kpc"
+      }
+    },
+    "J1921+2153": {
+      "period": {
+        "value": "1.3373021601895",
+        "uncertainty": "9.0e-13",
+        "unit": "s"
+      },
+      "slowing": {
+        "value": "1.348207E-15",
+        "uncertainty": "8.0e-21"
+      },
+      "longitude": "55.777",
+      "latitude": "3.501",
+      "distance": {
+        "value": "0.300",
+        "unit": "kpc"
+      }
+    },
+    "J1939+2134": {
+      "period": {
+        "value": "0.001557806567041489",
+        "uncertainty": "2.0e-17",
+        "unit": "s"
+      },
+      "slowing": {
+        "value": "1.0510272E-19",
+        "uncertainty": "1.0e-25"
+      },
+      "longitude": "57.509",
+      "latitude": "-0.290",
+      "distance": {
+        "value": "3.500",
+        "unit": "kpc"
+      }
     }
   }
 }

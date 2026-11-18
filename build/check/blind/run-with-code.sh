@@ -5,7 +5,7 @@
 #
 #   npm run --silent blind:code [task] > answer.txt     task defaults to last-statement-code
 #   BLIND_MODEL=opus npm run --silent blind:code         with a named model
-#   BLIND_MESSAGE=docs/core/message.bin npm run --silent blind:code purpose-code
+#   BLIND_MESSAGE=docs/minimal/message.bin npm run --silent blind:code purpose-code
 #                                                        with another message than docs/message.bin (here the core)
 #
 # The answer goes to standard output. The full record (every piece of code the reader ran, as JSON lines) is

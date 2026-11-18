@@ -12,7 +12,7 @@ import { readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 
 const task = process.argv[2] ?? "last-statement";
-// BLIND_MESSAGE names another message than docs/message.bin, e.g. docs/core/message.bin.
+// BLIND_MESSAGE names another message than docs/message.bin, e.g. docs/minimal/message.bin.
 const bytes = readFileSync(resolve(import.meta.dirname, "../../..", process.env.BLIND_MESSAGE ?? "docs/message.bin"));
 // message.bin has no padding today (the stream is a whole number of bytes); if that changes, the last byte's
 // padding bits would be included here.

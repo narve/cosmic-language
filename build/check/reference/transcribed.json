@@ -198,6 +198,64 @@
       "sha256": "36cbaee69b8106ca45d007f46a2e002f9f593b67c310f6d808007a5c3d998f85",
       "page": 1,
       "quote": "Abstract: \"... a CMB background temperature of 2.72548±0.00057 K.\""
+    },
+    "mass of the long-lived neutral kaon": {
+      "value": "497.611",
+      "uncertainty": "0.013",
+      "exact": false,
+      "unit": "MeV",
+      "source": "pdg2024",
+      "file": "pdg2024-mesons-strange.pdf",
+      "sha256": "4674284d485fc839144ddb5190e12166a73dd54f0a4ca74c56a7d32baf975b18",
+      "page": 4,
+      "quote": "K0L: \"Mass m = 497.611 ± 0.013 MeV (S = 1.2)\""
+    },
+    "charge asymmetry of the long-lived neutral kaon": {
+      "value": "0.00332",
+      "uncertainty": "0.00006",
+      "exact": false,
+      "unit": "",
+      "source": "pdg2024",
+      "file": "pdg2024-mesons-strange.pdf",
+      "sha256": "4674284d485fc839144ddb5190e12166a73dd54f0a4ca74c56a7d32baf975b18",
+      "page": 7,
+      "quote": "K0L CP-violation parameters: \"AL = (0.332 ± 0.006)%\"",
+      "note": "AL is the difference between decays with a positron and with an electron, divided by their sum."
+    },
+    "distance from the Sun to the Galactic centre": {
+      "value": "8.275",
+      "uncertainty": "0.034",
+      "exact": false,
+      "unit": "kpc",
+      "source": "pdg2024",
+      "file": "pdg2024-astrophysical-constants.pdf",
+      "sha256": "b8b6a21286f09e77e5fa98afa3226bac216c8e5ed8bfe32b5ea59f325375d669",
+      "page": 1,
+      "quote": "\"Solar distance from Galactic center R0 8.275 ± 0.009(stat.) ± 0.033(sys.) kpc\"",
+      "note": "The two uncertainties are combined in quadrature."
+    },
+    "circular velocity at the Sun": {
+      "value": "233.4",
+      "uncertainty": "8.0",
+      "exact": false,
+      "unit": "km/s",
+      "source": "pdg2024",
+      "file": "pdg2024-astrophysical-constants.pdf",
+      "sha256": "b8b6a21286f09e77e5fa98afa3226bac216c8e5ed8bfe32b5ea59f325375d669",
+      "page": 1,
+      "quote": "\"circular velocity at R0 v0 or Θ0 233.4 ± 0.3(stat.) ± 8.0(sys.) km s−1\""
+    },
+    "mass of the Galactic centre": {
+      "value": "4.297e6",
+      "uncertainty": "0.145e6",
+      "exact": false,
+      "unit": "solar masses",
+      "source": "gravity",
+      "file": "gravity2022-sgr-a-star.pdf",
+      "sha256": "541a6bcd46fdcb76a399e166f01742abafa3f3afbb528013a00c7e91d37651e4",
+      "page": 5,
+      "quote": "\"M• = (4.297±0.012)×10^6 M⊙ (statistical errors ...)\"",
+      "note": "The uncertainty is taken as the difference from the 2019 value, 4.152 × 10^6 (gravity2019-r0.pdf, page 4), much larger than the statistical error."
     }
   }
 }

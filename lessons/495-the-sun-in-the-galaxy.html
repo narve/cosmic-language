@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Sun in the Galaxy · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson" data-topic="astronomy" data-optional>
+  <h3>the Sun in the Galaxy</h3>
+  <p>The Sun is one of many stars that together go round a common centre: the Galaxy. At the centre is a dark body of great mass. New: <code>galaxy-centre</code>, and <code>direction-from</code>, the direction in which one body is seen from another. This lesson can be left out of a message.</p>
+  <pre><code><span data-comment>; the centre is a body: between 3 × 2²⁰ and 5 × 2²⁰ times the mass of the Sun (about 4.3 million)</span>
+(∃ <var>u</var> bodies (= <var>u</var> galaxy-centre))
+(observed (&lt; (× 3 (^ 2 20)) (÷ (mass galaxy-centre) (mass sun)) (× 5 (^ 2 20))))
+
+<span data-comment>; it is between 2³⁰ and 2³¹ times as far from the Sun as the Earth is</span>
+(observed (&lt; (^ 2 30) (÷ (distance sun galaxy-centre) (axis earth sun)) (^ 2 31)))
+<span data-comment>; the Sun goes round it at between 1/2¹¹ and 1/2¹⁰ of the speed of light</span>
+(observed (&lt; (÷ 1 (^ 2 11)) (÷ (speed sun) c) (÷ 1 (^ 2 10))))
+<span data-comment>; one round takes between 2²⁷ and 2²⁸ Earth years</span>
+(observed (&lt; (^ 2 27) (÷ (period sun galaxy-centre) (period earth sun)) (^ 2 28)))</code></pre>
+  <p>The Galaxy gives three directions, which any reader near us can find. New: <code>toward-centre</code>, the direction from the Sun to the centre; <code>along-rotation</code>, the direction in which the stars around the Sun go round the centre, on average; and <code>galactic-pole</code>, the cross of the two. With the hand of <code>cross</code> fixed by the lessons on spin and on antimatter, these three name every direction.</p>
+  <pre><code><span data-comment>; from one body, another is seen in a direction; seen from the other, the first lies in the opposite direction</span>
+(∀ <var>u</var> bodies (∀ <var>v</var> bodies
+  (<data value="implies">implies</data> (> (distance <var>u</var> <var>v</var>) 0) (= (dot (direction-from <var>u</var> <var>v</var>) (direction-from <var>u</var> <var>v</var>)) 1))))
+(∀ <var>u</var> bodies (∀ <var>v</var> bodies
+  (<data value="implies">implies</data> (> (distance <var>u</var> <var>v</var>) 0) (= (dot (direction-from <var>u</var> <var>v</var>) (direction-from <var>v</var> <var>u</var>)) (neg 1)))))
+
+<span data-comment>; toward the centre, and along the rotation: two directions at right angles</span>
+(= toward-centre (direction-from sun galaxy-centre))
+(∃ <var>u</var> directions (= <var>u</var> toward-centre))  (∃ <var>u</var> directions (= <var>u</var> along-rotation))
+(= (dot toward-centre along-rotation) 0)
+
+<span data-comment>; the third: their cross</span>
+(= galactic-pole (cross toward-centre along-rotation))
+(= (dot galactic-pole galactic-pole) 1)
+(= (dot galactic-pole toward-centre) 0)  (= (dot galactic-pole along-rotation) 0)</code></pre>
+  <p><small>Sources: Particle Data Group 2024, table of astrophysical constants (the Sun's distance from the centre, 8.275 kpc, and its speed, 233.4 km/s); GRAVITY Collaboration 2022 and 2019 (the mass of the centre); NASA Earth fact sheet. Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+</article>
+</body>
+</html>

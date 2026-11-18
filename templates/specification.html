@@ -409,22 +409,34 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
       <tr><td>61</td><td><code>lifetime</code></td><td></td><td>1</td><td>the mean lifetime of an unstable particle or isotope (a quantity)</td></tr>
       <tr><td>62</td><td><code>survival</code></td><td></td><td>2</td><td>the chance that something has not decayed after a duration</td></tr>
       <tr><td>63</td><td><code>half-life</code></td><td></td><td>1</td><td>the duration after which the chance of survival is 1/2 (a quantity)</td></tr>
-      <tr><td>64</td><td><code>states</code></td><td></td><td>2</td><td>number of electron states at the <var>n</var>th level of an atom</td></tr>
-      <tr><td>65</td><td><code>noble</code></td><td></td><td>1+</td><td>all are noble gases (observed property)</td></tr>
-      <tr><td>66</td><td><code>atoms</code></td><td></td><td>1</td><td>the atoms of a molecule, as a list of elements</td></tr>
-      <tr><td>67</td><td><code>bonds</code></td><td></td><td>1</td><td>the bonds of a molecule, as a list of (position, position, shared pairs)</td></tr>
-      <tr><td>68</td><td><code>triple-point</code></td><td></td><td>1</td><td>the temperature at which a substance's solid, liquid and gas exist together</td></tr>
-      <tr><td>69</td><td><code>triple-pressure</code></td><td></td><td>1</td><td>the pressure at the triple point of a substance (a quantity)</td></tr>
-      <tr><td>70</td><td><code>radius</code></td><td></td><td>1</td><td>the radius of a star or other round body (a quantity)</td></tr>
-      <tr><td>71</td><td><code>luminosity</code></td><td></td><td>1</td><td>the power a star sends out as light (a quantity)</td></tr>
-      <tr><td>72</td><td><code>orbits</code></td><td></td><td>2</td><td>the first body goes round the second under gravity</td></tr>
-      <tr><td>73</td><td><code>period</code></td><td></td><td>2</td><td>the time one round of an orbit takes (a quantity)</td></tr>
-      <tr><td>74</td><td><code>axis</code></td><td></td><td>2</td><td>the size of an orbit: half the sum of the smallest and the largest distance (a quantity)</td></tr>
-      <tr><td>75</td><td><code>background</code></td><td></td><td>1</td><td>the temperature of the background radiation seen in a direction, by an observer at rest relative to it (a quantity)</td></tr>
-      <tr><td>76</td><td><code>loss</code></td><td></td><td>2</td><td>what a round costs a player: one's own move, then the other's</td></tr>
-      <tr><td>77</td><td><code>move</code></td><td></td><td>2</td><td>a strategy's next move given a history: a list to pick from</td></tr>
-      <tr><td>78</td><td><code>rounds</code></td><td></td><td>3</td><td>the history after a number of rounds of two strategies playing each other</td></tr>
-      <tr><td>79</td><td><code>cost</code></td><td></td><td>3</td><td>the sum of one strategy's losses over a number of rounds</td></tr>
+      <tr><td>64</td><td><code>spin</code></td><td></td><td>1</td><td>the size of a particle's spin (a quantity, a multiple of ħ)</td></tr>
+      <tr><td>65</td><td><code>turns</code></td><td></td><td>3</td><td>a particle turns from the first direction toward the second</td></tr>
+      <tr><td>66</td><td><code>spin-axis</code></td><td></td><td>1</td><td>the direction of a particle's spin axis: the cross of the directions it turns from and toward</td></tr>
+      <tr><td>67</td><td><code>emitted-along</code></td><td></td><td>2</td><td>the average dot of the direction a particle leaves in with the spin axis of the particle that decays</td></tr>
+      <tr><td>68</td><td><code>spin-along-motion</code></td><td></td><td>2</td><td>the average dot of a particle's spin axis with its direction of motion, for particles from a decay</td></tr>
+      <tr><td>69</td><td><code>radius</code></td><td></td><td>1</td><td>the radius of a ring, a star or another round body (a quantity)</td></tr>
+      <tr><td>70</td><td><code>field-strength</code></td><td></td><td>1</td><td>the strength of the magnetic field at the centre of a ring (a quantity)</td></tr>
+      <tr><td>71</td><td><code>circulates</code></td><td></td><td>3</td><td>the current of a ring goes round from the first direction toward the second</td></tr>
+      <tr><td>72</td><td><code>field-direction</code></td><td></td><td>1</td><td>the direction of the magnetic field at the centre of a ring or of a particle</td></tr>
+      <tr><td>73</td><td><code>yields</code></td><td></td><td>2</td><td>the chance that a decay of the second particle gives the first</td></tr>
+      <tr><td>74</td><td><code>states</code></td><td></td><td>2</td><td>number of electron states at the <var>n</var>th level of an atom</td></tr>
+      <tr><td>75</td><td><code>noble</code></td><td></td><td>1+</td><td>all are noble gases (observed property)</td></tr>
+      <tr><td>76</td><td><code>atoms</code></td><td></td><td>1</td><td>the atoms of a molecule, as a list of elements</td></tr>
+      <tr><td>77</td><td><code>bonds</code></td><td></td><td>1</td><td>the bonds of a molecule, as a list of (position, position, shared pairs)</td></tr>
+      <tr><td>78</td><td><code>triple-point</code></td><td></td><td>1</td><td>the temperature at which a substance's solid, liquid and gas exist together</td></tr>
+      <tr><td>79</td><td><code>triple-pressure</code></td><td></td><td>1</td><td>the pressure at the triple point of a substance (a quantity)</td></tr>
+      <tr><td>80</td><td><code>luminosity</code></td><td></td><td>1</td><td>the power a star sends out as light (a quantity)</td></tr>
+      <tr><td>81</td><td><code>orbits</code></td><td></td><td>2</td><td>the first body goes round the second under gravity</td></tr>
+      <tr><td>82</td><td><code>period</code></td><td></td><td>2</td><td>the time one round of an orbit takes (a quantity)</td></tr>
+      <tr><td>83</td><td><code>axis</code></td><td></td><td>2</td><td>the size of an orbit: half the sum of the smallest and the largest distance (a quantity)</td></tr>
+      <tr><td>84</td><td><code>background</code></td><td></td><td>1</td><td>the temperature of the background radiation seen in a direction, by an observer at rest relative to it (a quantity)</td></tr>
+      <tr><td>85</td><td><code>direction-from</code></td><td></td><td>2</td><td>the direction in which the second body is seen from the first</td></tr>
+      <tr><td>86</td><td><code>pulse-period</code></td><td></td><td>1</td><td>the time one turn of a pulsar takes (a quantity)</td></tr>
+      <tr><td>87</td><td><code>slowing</code></td><td></td><td>1</td><td>how much a pulsar's period grows per time (a plain number)</td></tr>
+      <tr><td>88</td><td><code>loss</code></td><td></td><td>2</td><td>what a round costs a player: one's own move, then the other's</td></tr>
+      <tr><td>89</td><td><code>move</code></td><td></td><td>2</td><td>a strategy's next move given a history: a list to pick from</td></tr>
+      <tr><td>90</td><td><code>rounds</code></td><td></td><td>3</td><td>the history after a number of rounds of two strategies playing each other</td></tr>
+      <tr><td>91</td><td><code>cost</code></td><td></td><td>3</td><td>the sum of one strategy's losses over a number of rounds</td></tr>
     </tbody>
   </table>
   <h3>9.2 Constants (type 3)</h3>
@@ -450,25 +462,37 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
       <tr><td>17</td><td><code>gases</code></td><td></td><td>domain: thin gases of single atoms</td></tr>
       <tr><td>18</td><td><code>black-bodies</code></td><td></td><td>domain: bodies that absorb all light falling on them</td></tr>
       <tr><td>19</td><td><code>durations</code></td><td></td><td>domain: durations (quantities of dimension T)</td></tr>
-      <tr><td>20</td><td><code>stars</code></td><td></td><td>domain: stars that shine by turning hydrogen into helium</td></tr>
-      <tr><td>21</td><td><code>first-axis</code></td><td></td><td>the direction along which the background radiation is most uneven (one of its two ends)</td></tr>
-      <tr><td>22</td><td><code>second-axis</code></td><td></td><td>the same among the directions at right angles to the first axis</td></tr>
-      <tr><td>23</td><td><code>third-axis</code></td><td></td><td>the cross of the first and second axis</td></tr>
-      <tr><td>24</td><td><code>sun</code></td><td></td><td>the star the Earth goes round</td></tr>
-      <tr><td>25</td><td><code>earth</code></td><td></td><td>the body that goes round the Sun at about 215 times its radius</td></tr>
-      <tr><td>26</td><td><code>cooperate</code></td><td></td><td>a move in the prisoner's dilemma</td></tr>
-      <tr><td>27</td><td><code>defect</code></td><td></td><td>a move in the prisoner's dilemma</td></tr>
-      <tr><td>28</td><td><code>moves</code></td><td></td><td>the list of the two moves</td></tr>
-      <tr><td>29</td><td><code>histories</code></td><td></td><td>domain: lists of rounds, each round a list of two moves (one's own, the other's)</td></tr>
-      <tr><td>30</td><td><code>always-cooperate</code></td><td></td><td>strategy</td></tr>
-      <tr><td>31</td><td><code>always-defect</code></td><td></td><td>strategy</td></tr>
-      <tr><td>32</td><td><code>tit-for-tat</code></td><td></td><td>strategy</td></tr>
-      <tr><td>33</td><td><code>suspicious-tit-for-tat</code></td><td></td><td>strategy (tit-for-tat with a defection as its first move)</td></tr>
-      <tr><td>34</td><td><code>grim</code></td><td></td><td>strategy</td></tr>
-      <tr><td>35</td><td><code>pavlov</code></td><td></td><td>strategy</td></tr>
-      <tr><td>36</td><td><code>generous-tit-for-tat</code></td><td></td><td>strategy (picks by chance after a defection)</td></tr>
-      <tr><td>37</td><td><code>random</code></td><td></td><td>strategy (picks either move by chance, every time)</td></tr>
-      <tr><td>38</td><td><code>tournament</code></td><td></td><td>the list of the six fixed strategies</td></tr>
+      <tr><td>20</td><td><code>rings</code></td><td></td><td>domain: round loops of wire carrying a steady current</td></tr>
+      <tr><td>21</td><td><code>stars</code></td><td></td><td>domain: stars that shine by turning hydrogen into helium</td></tr>
+      <tr><td>22</td><td><code>first-axis</code></td><td></td><td>the direction along which the background radiation is most uneven (one of its two ends)</td></tr>
+      <tr><td>23</td><td><code>second-axis</code></td><td></td><td>the same among the directions at right angles to the first axis</td></tr>
+      <tr><td>24</td><td><code>third-axis</code></td><td></td><td>the cross of the first and second axis</td></tr>
+      <tr><td>25</td><td><code>sun</code></td><td></td><td>the star the Earth goes round</td></tr>
+      <tr><td>26</td><td><code>earth</code></td><td></td><td>the body that goes round the Sun at about 215 times its radius</td></tr>
+      <tr><td>27</td><td><code>galaxy-centre</code></td><td></td><td>the dark body of great mass at the centre of the Galaxy</td></tr>
+      <tr><td>28</td><td><code>toward-centre</code></td><td></td><td>the direction from the Sun to the centre of the Galaxy</td></tr>
+      <tr><td>29</td><td><code>along-rotation</code></td><td></td><td>the direction in which the stars around the Sun go round the centre</td></tr>
+      <tr><td>30</td><td><code>galactic-pole</code></td><td></td><td>the cross of toward-centre and along-rotation</td></tr>
+      <tr><td>31</td><td><code>pulsars</code></td><td></td><td>domain: turning neutron stars that send a pulse each turn</td></tr>
+      <tr><td>32</td><td><code>crab-pulsar</code></td><td></td><td>a pulsar: the Crab pulsar, the remnant of a star seen to explode</td></tr>
+      <tr><td>33</td><td><code>vela-pulsar</code></td><td></td><td>a pulsar: the Vela pulsar</td></tr>
+      <tr><td>34</td><td><code>pulsar-j0437</code></td><td></td><td>a pulsar: a millisecond pulsar close to the Sun</td></tr>
+      <tr><td>35</td><td><code>pulsar-j1939</code></td><td></td><td>a pulsar: one of the fastest pulsars known</td></tr>
+      <tr><td>36</td><td><code>pulsar-j0332</code></td><td></td><td>a pulsar: one of the brightest pulsars</td></tr>
+      <tr><td>37</td><td><code>pulsar-j1921</code></td><td></td><td>a pulsar: the first pulsar to be found</td></tr>
+      <tr><td>38</td><td><code>cooperate</code></td><td></td><td>a move in the prisoner's dilemma</td></tr>
+      <tr><td>39</td><td><code>defect</code></td><td></td><td>a move in the prisoner's dilemma</td></tr>
+      <tr><td>40</td><td><code>moves</code></td><td></td><td>the list of the two moves</td></tr>
+      <tr><td>41</td><td><code>histories</code></td><td></td><td>domain: lists of rounds, each round a list of two moves (one's own, the other's)</td></tr>
+      <tr><td>42</td><td><code>always-cooperate</code></td><td></td><td>strategy</td></tr>
+      <tr><td>43</td><td><code>always-defect</code></td><td></td><td>strategy</td></tr>
+      <tr><td>44</td><td><code>tit-for-tat</code></td><td></td><td>strategy</td></tr>
+      <tr><td>45</td><td><code>suspicious-tit-for-tat</code></td><td></td><td>strategy (tit-for-tat with a defection as its first move)</td></tr>
+      <tr><td>46</td><td><code>grim</code></td><td></td><td>strategy</td></tr>
+      <tr><td>47</td><td><code>pavlov</code></td><td></td><td>strategy</td></tr>
+      <tr><td>48</td><td><code>generous-tit-for-tat</code></td><td></td><td>strategy (picks by chance after a defection)</td></tr>
+      <tr><td>49</td><td><code>random</code></td><td></td><td>strategy (picks either move by chance, every time)</td></tr>
+      <tr><td>50</td><td><code>tournament</code></td><td></td><td>the list of the six fixed strategies</td></tr>
     </tbody>
   </table>
   <h3>9.3 Variables (type 4)</h3>
@@ -489,6 +513,9 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
       <tr><td>2</td><td><code>proton</code></td><td>p</td></tr>
       <tr><td>3</td><td><code>neutron</code></td><td>n</td></tr>
       <tr><td>4</td><td><code>photon</code></td><td>γ</td></tr>
+      <tr><td>5</td><td><code>antineutrino</code></td><td>ν̄ₑ</td></tr>
+      <tr><td>6</td><td><code>positron</code></td><td>e⁺</td></tr>
+      <tr><td>7</td><td><code>kaon</code></td><td>K⁰L</td></tr>
     </tbody>
   </table>
   <h3>9.5 Elements (type 6)</h3>

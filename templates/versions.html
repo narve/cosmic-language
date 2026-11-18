@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cosmic Language Versions</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<header>
+  <small>Draft · design phase · 2026-11-18</small>
+  <h1>Three Versions</h1>
+  <p>The message comes in three versions. All three are made from the same lessons, by leaving whole lessons out; nothing is rewritten. They differ in how much they say about who sends them and where from.</p>
+</header>
+
+<main>
+  <section>
+    <h2>Full</h2>
+    <p>Every lesson, including those that say where the message comes from: our star and our planet, and later where they are in the Galaxy and who we are. It reveals as much as possible.</p>
+    <p>Files: <a href="message.txt">message.txt</a>, <a href="message.bits">message.bits</a>, <a href="message.bin">message.bin</a>, <a href="message.bin.txt">message.bin.txt</a>.</p>
+  </section>
+  <section>
+    <h2>Cautious</h2>
+    <p>Everything except the lessons that reveal where and who we are: these are marked optional, and the build checks that no other lesson depends on them. Mathematics, logic, physics, chemistry, stars in general, the background radiation and the game are all there; our Sun and our Earth are not.</p>
+    <p>Files: <a href="cautious/message.txt">message.txt</a>, <a href="cautious/message.bits">message.bits</a>, <a href="cautious/message.bin">message.bin</a>, <a href="cautious/message.bin.txt">message.bin.txt</a>.</p>
+  </section>
+  <section>
+    <h2>Minimal</h2>
+    <p>Only the game and what it needs: how the signal is read, arithmetic, truth values, lists, quantifiers, sequences, chance and <code>if</code>, and then the prisoner's dilemma, which ends with the statement that the strategy which opens in peace and answers in kind loses least. No lesson in it uses a symbol introduced outside it, and the build checks that.</p>
+    <p>Files: <a href="minimal/message.txt">message.txt</a>, <a href="minimal/message.bits">message.bits</a>, <a href="minimal/message.bin">message.bin</a>, <a href="minimal/message.bin.txt">message.bin.txt</a>.</p>
+    <h3>Its lessons</h3>
+    <cl-lessons as="links" topic="minimal"></cl-lessons>
+  </section>
+  <section>
+    <h2>A note on numbering</h2>
+    <p>The symbols keep the numbers they have in the full message, so a shorter version has gaps between them. A reader of an earlier minimal version took such a gap for a deliberate signal. Renumbering per version is a possible improvement.</p>
+  </section>
+</main>
+
+<footer>cosmic-language · versions · draft</footer>
+</body>
+</html>

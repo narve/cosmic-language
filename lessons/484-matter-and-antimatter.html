@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Matter and antimatter · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson" data-topic="physics">
+  <h3>matter and antimatter</h3>
+  <p>Every particle has a twin of opposite charge: its antiparticle. New: <code>positron</code>, the electron's twin.</p>
+  <pre><code><span data-comment>; the positron has the electron's mass and spin, and the opposite charge</span>
+(observed (= (mass positron) (mass electron)))
+(observed (= (spin positron) (spin electron)))
+(observed (= (charge positron) (neg (charge electron))))
+
+<span data-comment>; the atoms of the elements hold electrons, and no positrons</span>
+(∀ <var>u</var> elements (&gt; (count electron <var>u</var>) 0))
+(observed (∀ <var>u</var> elements (= (count positron <var>u</var>) 0)))</code></pre>
+  <p>A world could be built of antiparticles instead: antiatoms, with positrons round antiprotons. Its light, its chemistry and its gravity would be exactly like ours, so nothing so far tells a reader which of the two it lives in. That matters for the lesson on spin: in such a world every decay there comes out reversed, and a reader would take left for right. The next lesson tells the two worlds apart.</p>
+</article>
+</body>
+</html>
