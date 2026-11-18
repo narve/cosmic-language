@@ -314,6 +314,12 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
         <td>2026-11-18</td>
       </tr>
       <tr>
+        <td><cite>Sun Fact Sheet</cite> and <cite>Earth Fact Sheet</cite>. D. R. Williams, <a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/">NASA Space Science Data Coordinated Archive</a> (2024).</td>
+        <td>The Sun's mass (from GM), radius, luminosity, temperature and surface helium per hydrogen atom; the Earth's mass (from GM), the size of its orbit and its period. The fact sheets give no uncertainties: one unit in the last digit is used, and 5 % for helium.</td>
+        <td><code>nasa-sunfact.html</code>, <code>nasa-earthfact.html</code></td>
+        <td>2026-11-18</td>
+      </tr>
+      <tr>
         <td><cite>NIST Chemistry WebBook</cite>, SRD 69, phase change data. National Institute of Standards and Technology, <a href="https://webbook.nist.gov/chemistry/">NIST</a>, with values compiled by the Thermodynamics Research Center.</td>
         <td>A second measurement of the triple-point pressures of neon (43.370 kPa) and argon (68.900 kPa), used to set their uncertainty.</td>
         <td><code>nist-webbook-neon.html</code>, <code>nist-webbook-argon.html</code></td>
@@ -398,10 +404,15 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
       <tr><td>62</td><td><code>bonds</code></td><td></td><td>1</td><td>the bonds of a molecule, as a list of (position, position, shared pairs)</td></tr>
       <tr><td>63</td><td><code>triple-point</code></td><td></td><td>1</td><td>the temperature at which a substance's solid, liquid and gas exist together</td></tr>
       <tr><td>64</td><td><code>triple-pressure</code></td><td></td><td>1</td><td>the pressure at the triple point of a substance (a quantity)</td></tr>
-      <tr><td>65</td><td><code>loss</code></td><td></td><td>2</td><td>what a round costs a player: one's own move, then the other's</td></tr>
-      <tr><td>66</td><td><code>move</code></td><td></td><td>2</td><td>a strategy's next move given a history: a list to pick from</td></tr>
-      <tr><td>67</td><td><code>rounds</code></td><td></td><td>3</td><td>the history after a number of rounds of two strategies playing each other</td></tr>
-      <tr><td>68</td><td><code>cost</code></td><td></td><td>3</td><td>the sum of one strategy's losses over a number of rounds</td></tr>
+      <tr><td>65</td><td><code>radius</code></td><td></td><td>1</td><td>the radius of a star or other round body (a quantity)</td></tr>
+      <tr><td>66</td><td><code>luminosity</code></td><td></td><td>1</td><td>the power a star sends out as light (a quantity)</td></tr>
+      <tr><td>67</td><td><code>orbits</code></td><td></td><td>2</td><td>the first body goes round the second under gravity</td></tr>
+      <tr><td>68</td><td><code>period</code></td><td></td><td>2</td><td>the time one round of an orbit takes (a quantity)</td></tr>
+      <tr><td>69</td><td><code>axis</code></td><td></td><td>2</td><td>the size of an orbit: half the sum of the smallest and the largest distance (a quantity)</td></tr>
+      <tr><td>70</td><td><code>loss</code></td><td></td><td>2</td><td>what a round costs a player: one's own move, then the other's</td></tr>
+      <tr><td>71</td><td><code>move</code></td><td></td><td>2</td><td>a strategy's next move given a history: a list to pick from</td></tr>
+      <tr><td>72</td><td><code>rounds</code></td><td></td><td>3</td><td>the history after a number of rounds of two strategies playing each other</td></tr>
+      <tr><td>73</td><td><code>cost</code></td><td></td><td>3</td><td>the sum of one strategy's losses over a number of rounds</td></tr>
     </tbody>
   </table>
   <h3>9.2 Constants (type 3)</h3>
@@ -425,19 +436,22 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
       <tr><td>15</td><td><code>gases</code></td><td></td><td>domain: thin gases of single atoms</td></tr>
       <tr><td>16</td><td><code>black-bodies</code></td><td></td><td>domain: bodies that absorb all light falling on them</td></tr>
       <tr><td>17</td><td><code>durations</code></td><td></td><td>domain: durations (quantities of dimension T)</td></tr>
-      <tr><td>18</td><td><code>cooperate</code></td><td></td><td>a move in the prisoner's dilemma</td></tr>
-      <tr><td>19</td><td><code>defect</code></td><td></td><td>a move in the prisoner's dilemma</td></tr>
-      <tr><td>20</td><td><code>moves</code></td><td></td><td>the list of the two moves</td></tr>
-      <tr><td>21</td><td><code>histories</code></td><td></td><td>domain: lists of rounds, each round a list of two moves (one's own, the other's)</td></tr>
-      <tr><td>22</td><td><code>always-cooperate</code></td><td></td><td>strategy</td></tr>
-      <tr><td>23</td><td><code>always-defect</code></td><td></td><td>strategy</td></tr>
-      <tr><td>24</td><td><code>tit-for-tat</code></td><td></td><td>strategy</td></tr>
-      <tr><td>25</td><td><code>suspicious-tit-for-tat</code></td><td></td><td>strategy (tit-for-tat with a defection as its first move)</td></tr>
-      <tr><td>26</td><td><code>grim</code></td><td></td><td>strategy</td></tr>
-      <tr><td>27</td><td><code>pavlov</code></td><td></td><td>strategy</td></tr>
-      <tr><td>28</td><td><code>generous-tit-for-tat</code></td><td></td><td>strategy (picks by chance after a defection)</td></tr>
-      <tr><td>29</td><td><code>random</code></td><td></td><td>strategy (picks either move by chance, every time)</td></tr>
-      <tr><td>30</td><td><code>tournament</code></td><td></td><td>the list of the six fixed strategies</td></tr>
+      <tr><td>18</td><td><code>stars</code></td><td></td><td>domain: stars that shine by turning hydrogen into helium</td></tr>
+      <tr><td>19</td><td><code>sun</code></td><td></td><td>the star the Earth goes round</td></tr>
+      <tr><td>20</td><td><code>earth</code></td><td></td><td>the body that goes round the Sun at about 215 times its radius</td></tr>
+      <tr><td>21</td><td><code>cooperate</code></td><td></td><td>a move in the prisoner's dilemma</td></tr>
+      <tr><td>22</td><td><code>defect</code></td><td></td><td>a move in the prisoner's dilemma</td></tr>
+      <tr><td>23</td><td><code>moves</code></td><td></td><td>the list of the two moves</td></tr>
+      <tr><td>24</td><td><code>histories</code></td><td></td><td>domain: lists of rounds, each round a list of two moves (one's own, the other's)</td></tr>
+      <tr><td>25</td><td><code>always-cooperate</code></td><td></td><td>strategy</td></tr>
+      <tr><td>26</td><td><code>always-defect</code></td><td></td><td>strategy</td></tr>
+      <tr><td>27</td><td><code>tit-for-tat</code></td><td></td><td>strategy</td></tr>
+      <tr><td>28</td><td><code>suspicious-tit-for-tat</code></td><td></td><td>strategy (tit-for-tat with a defection as its first move)</td></tr>
+      <tr><td>29</td><td><code>grim</code></td><td></td><td>strategy</td></tr>
+      <tr><td>30</td><td><code>pavlov</code></td><td></td><td>strategy</td></tr>
+      <tr><td>31</td><td><code>generous-tit-for-tat</code></td><td></td><td>strategy (picks by chance after a defection)</td></tr>
+      <tr><td>32</td><td><code>random</code></td><td></td><td>strategy (picks either move by chance, every time)</td></tr>
+      <tr><td>33</td><td><code>tournament</code></td><td></td><td>the list of the six fixed strategies</td></tr>
     </tbody>
   </table>
   <h3>9.3 Variables (type 4)</h3>

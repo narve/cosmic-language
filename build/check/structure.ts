@@ -88,6 +88,21 @@ interface First {
   sentences: number; // sentences of that lesson that use it
 }
 
+// An optional lesson may be left out of a message: no other lesson may use a symbol that it introduces.
+export function checkOptional(message: Message, isOptional: (slug: string) => boolean): void {
+  const introducedIn = new Map<string, string>();
+  for (const { article, blocks } of message.articles) {
+    for (const block of blocks) for (const token of block.tokens) {
+      if (token.type < OPERATOR) continue;
+      if (!introducedIn.has(token.text)) introducedIn.set(token.text, article.slug);
+      const home = introducedIn.get(token.text)!;
+      if (home !== article.slug && isOptional(home)) {
+        throw new BuildError(`${article.slug} uses "${token.text}", which the optional lesson ${home} introduces; an optional lesson must be possible to leave out`);
+      }
+    }
+  }
+}
+
 // The core is a message of its own: a core lesson may only use symbols that a core lesson introduces.
 export function checkCore(message: Message, isCore: (slug: string) => boolean): void {
   const introducedIn = new Map<string, string>();

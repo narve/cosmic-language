@@ -8,6 +8,7 @@ export interface Article {
   slug: string; // file name without .html
   title: string; // text of the first heading
   topics: string[]; // from data-topic; the first one groups the lesson in runs
+  optional: boolean; // data-optional: may be left out of a message, so no other lesson may use what it introduces
   number: number; // position in the message
   source: string; // the whole file
 }
@@ -44,6 +45,7 @@ export function loadArticles(window: Window, dir: string, topics: Topic[]): Arti
       slug: file.slice(0, -".html".length),
       title: heading ? heading.textContent!.trim() : file,
       topics,
+      optional: article.hasAttribute("data-optional"),
       number: index + 1,
       source,
     };

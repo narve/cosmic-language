@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Sun · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson" data-topic="astronomy" data-optional>
+  <h3>the Sun</h3>
+  <p>One particular star, and one body that goes round it. New: the constants <code>sun</code> and <code>earth</code>. This lesson can be left out of a message: no other lesson uses what it introduces.</p>
+  <pre><code><span data-comment>; the Sun is a star, and the Earth is a body</span>
+(∃ <var>u</var> stars (= <var>u</var> sun))
+(∃ <var>u</var> bodies (= <var>u</var> earth))
+
+<span data-comment>; the Sun's mass: between 2¹⁸⁹ and 2¹⁹⁰ proton masses</span>
+(observed (&lt; (^ 2 189) (÷ (mass sun) (mass proton)) (^ 2 190)))
+<span data-comment>; its radius: between 2¹⁴⁴ and 2¹⁴⁵ Planck lengths</span>
+(observed (&lt; (^ 2 144) (÷ (radius sun) planck-length) (^ 2 145)))
+<span data-comment>; its temperature: between 21 and 22 times the triple point of water</span>
+(observed (&lt; 21 (÷ (temperature sun) (triple-point water)) 22))
+<span data-comment>; its luminosity: between 2⁻⁸⁷ and 2⁻⁸⁶ of the Planck unit of power, c⁵ ÷ G</span>
+(observed (&lt; (÷ 1 (^ 2 87)) (÷ (luminosity sun) (÷ (^ c 5) G)) (÷ 1 (^ 2 86))))
+<span data-comment>; at its surface, between 1/16 and 1/8 helium atom for every hydrogen atom</span>
+(observed (&lt; (÷ 1 (^ 2 4)) (÷ (count helium sun) (count hydrogen sun)) (÷ 1 (^ 2 3))))</code></pre>
+  <p>The Earth goes round the Sun. Its orbit is given against the Sun itself and against the hydrogen line, which a receiver can measure.</p>
+  <pre><code><span data-comment>; the Earth orbits the Sun</span>
+(observed (orbits earth sun))
+<span data-comment>; the size of its orbit: between 214 and 216 times the Sun's radius</span>
+(observed (&lt; 214 (÷ (axis earth sun) (radius sun)) 216))
+<span data-comment>; one round takes between 2⁵⁵ and 2⁵⁶ periods of the hydrogen line</span>
+(observed (&lt; (^ 2 55) (× (period earth sun) (frequency hydrogen-line)) (^ 2 56)))
+<span data-comment>; the Sun is between 2¹⁸ and 2¹⁹ times heavier than the Earth</span>
+(observed (&lt; (^ 2 18) (÷ (mass sun) (mass earth)) (^ 2 19)))</code></pre>
+  <p><small>Sources: NASA Sun and Earth fact sheets (2024), CODATA 2022, JPL catalog (the 21 cm line), BIPM (water's triple point). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+</article>
+</body>
+</html>

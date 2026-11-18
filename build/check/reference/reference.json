@@ -40,6 +40,16 @@
       "file": "iapws-g5-01.pdf",
       "retrieved": "2026-11-18"
     },
+    "nasa-factsheets": {
+      "title": "NASA Sun Fact Sheet and Earth Fact Sheet",
+      "citation": "D. R. Williams, NASA Space Science Data Coordinated Archive, Goddard Space Flight Center (Sun: 2024; Earth: 2024)",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/",
+      "files": [
+        "nasa-sunfact.html",
+        "nasa-earthfact.html"
+      ],
+      "retrieved": "2026-11-18"
+    },
     "bipm-cryogenic": {
       "title": "Guide to the Realization of the ITS-90: Cryogenic Fixed Points",
       "citation": "Consultative Committee for Thermometry, BIPM (2018), table 1",
@@ -532,6 +542,102 @@
       "page": 5,
       "quote": "Table 1, row \"p / kPa\": 68.892 for argon.",
       "note": "The table gives no uncertainty; taken as the difference from the NIST Chemistry WebBook value, 68.900 kPa (nist-webbook-argon.html)."
+    },
+    "GM of the Sun": {
+      "value": "1.32712e20",
+      "uncertainty": "1e15",
+      "exact": false,
+      "unit": "m^3 s^-2",
+      "source": "nasa-factsheets",
+      "file": "nasa-sunfact.html",
+      "sha256": "bcc186a518298636340e7975bf5a32da660cd656b90081f2e7c8aa7ec2b6561a",
+      "page": 1,
+      "quote": "Bulk parameters: GM (x 10^6 km^3/s^2) 132,712.",
+      "note": "The fact sheet gives no uncertainty; taken as one unit in the last digit."
+    },
+    "radius of the Sun": {
+      "value": "6.957e8",
+      "uncertainty": "1e5",
+      "exact": false,
+      "unit": "m",
+      "source": "nasa-factsheets",
+      "file": "nasa-sunfact.html",
+      "sha256": "bcc186a518298636340e7975bf5a32da660cd656b90081f2e7c8aa7ec2b6561a",
+      "page": 1,
+      "quote": "Bulk parameters: Volumetric mean radius (km) 695,700.",
+      "note": "The fact sheet gives no uncertainty; taken as one unit in the last digit."
+    },
+    "luminosity of the Sun": {
+      "value": "3.828e26",
+      "uncertainty": "1e23",
+      "exact": false,
+      "unit": "W",
+      "source": "nasa-factsheets",
+      "file": "nasa-sunfact.html",
+      "sha256": "bcc186a518298636340e7975bf5a32da660cd656b90081f2e7c8aa7ec2b6561a",
+      "page": 1,
+      "quote": "Bulk parameters: Luminosity (10^24 J/s) 382.8",
+      "note": "The fact sheet gives no uncertainty; taken as one unit in the last digit."
+    },
+    "effective temperature of the Sun": {
+      "value": "5772",
+      "uncertainty": "1",
+      "exact": false,
+      "unit": "K",
+      "source": "nasa-factsheets",
+      "file": "nasa-sunfact.html",
+      "sha256": "bcc186a518298636340e7975bf5a32da660cd656b90081f2e7c8aa7ec2b6561a",
+      "page": 1,
+      "quote": "Solar Atmosphere: Effective temperature: 5772 K",
+      "note": "The fact sheet gives no uncertainty; taken as one unit in the last digit."
+    },
+    "helium per hydrogen atom in the Sun": {
+      "value": "0.0977189",
+      "uncertainty": "0.0049",
+      "exact": false,
+      "unit": "",
+      "source": "nasa-factsheets",
+      "file": "nasa-sunfact.html",
+      "sha256": "bcc186a518298636340e7975bf5a32da660cd656b90081f2e7c8aa7ec2b6561a",
+      "page": 1,
+      "quote": "Photosphere Composition: Major elements: H - 90.965%, He - 8.889% (by number); the value is 8.889 / 90.965.",
+      "note": "Helium in the photosphere is not measured directly but inferred; an uncertainty of 5 % is assumed."
+    },
+    "GM of the Earth": {
+      "value": "3.9860e14",
+      "uncertainty": "1e10",
+      "exact": false,
+      "unit": "m^3 s^-2",
+      "source": "nasa-factsheets",
+      "file": "nasa-earthfact.html",
+      "sha256": "1b06e3ec31249d063d40d1b38837fac89ddcd2f4b25268b38e8a6d5f413e70ef",
+      "page": 1,
+      "quote": "Bulk parameters: GM (x 10^6 km^3/s^2) 0.39860",
+      "note": "The fact sheet gives no uncertainty; taken as one unit in the last digit."
+    },
+    "semimajor axis of the Earth": {
+      "value": "1.49598e11",
+      "uncertainty": "1e6",
+      "exact": false,
+      "unit": "m",
+      "source": "nasa-factsheets",
+      "file": "nasa-earthfact.html",
+      "sha256": "1b06e3ec31249d063d40d1b38837fac89ddcd2f4b25268b38e8a6d5f413e70ef",
+      "page": 1,
+      "quote": "Orbital parameters: Semimajor axis (10^6 km) 149.598",
+      "note": "The fact sheet gives no uncertainty; taken as one unit in the last digit."
+    },
+    "sidereal year": {
+      "value": "31558118.4",
+      "uncertainty": "86.4",
+      "exact": false,
+      "unit": "s",
+      "source": "nasa-factsheets",
+      "file": "nasa-earthfact.html",
+      "sha256": "1b06e3ec31249d063d40d1b38837fac89ddcd2f4b25268b38e8a6d5f413e70ef",
+      "page": 1,
+      "quote": "Orbital parameters: Sidereal orbit period (days) 365.256; the value is 365.256 × 86400 s.",
+      "note": "The fact sheet gives no uncertainty; taken as one unit in the last digit."
     }
   }
 }

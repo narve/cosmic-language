@@ -45,6 +45,13 @@ const SOURCES = {
     file: "iapws-g5-01.pdf",
     retrieved: "2026-11-18",
   },
+  "nasa-factsheets": {
+    title: "NASA Sun Fact Sheet and Earth Fact Sheet",
+    citation: "D. R. Williams, NASA Space Science Data Coordinated Archive, Goddard Space Flight Center (Sun: 2024; Earth: 2024)",
+    url: "https://nssdc.gsfc.nasa.gov/planetary/factsheet/",
+    files: ["nasa-sunfact.html", "nasa-earthfact.html"],
+    retrieved: "2026-11-18",
+  },
   "bipm-cryogenic": {
     title: "Guide to the Realization of the ITS-90: Cryogenic Fixed Points",
     citation: "Consultative Committee for Thermometry, BIPM (2018), table 1",

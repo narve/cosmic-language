@@ -8,7 +8,7 @@ import { findArticle, loadArticles, loadTopics } from "./lessons.ts";
 import { binaryDump, messageBinary, messageBits, messageStream, messageCode, messageText, readBlock, type Message } from "./message.ts";
 import { loadRegistry } from "./registry.ts";
 import { addViews, VIEWS } from "./views.ts";
-import { checkCore, checkStructure } from "./check/structure.ts";
+import { checkCore, checkOptional, checkStructure } from "./check/structure.ts";
 import { checkMeasurements, MARGIN } from "./check/measurements.ts";
 
 const root = resolve(import.meta.dirname, "..");
@@ -40,6 +40,8 @@ async function build(): Promise<void> {
   const CORE = "core";
   const inCore = new Set(articles.filter((article) => article.topics.includes(CORE)).map((article) => article.slug));
   checkCore(message, (slug) => inCore.has(slug));
+  const optional = new Set(articles.filter((article) => article.optional).map((article) => article.slug));
+  checkOptional(message, (slug) => optional.has(slug));
   const core: Message = { articles: message.articles.filter(({ article }) => inCore.has(article.slug)), topics };
   const coreBinary = messageBinary(messageStream(core));
   const bits = messageBits(message);
