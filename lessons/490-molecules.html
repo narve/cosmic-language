@@ -71,6 +71,20 @@
 (observed (&lt; (÷ 156 (^ 2 106))
               (÷ (triple-point water) planck-temperature)
               (÷ 157 (^ 2 106))))</code></pre>
+  <p>A triple point needs no pressure to be named with it. Melting and boiling happen at different temperatures under different pressures, but the three forms of a substance exist together at one temperature and one pressure only, and both are fixed by the substance. Other substances have triple points too. Here are those of two noble gases, neon and argon, each as a part of water's: a ratio of two temperatures is a plain number and needs no unit.</p>
+  <pre><code><span data-comment>; neon, argon and water, in the order of their triple points</span>
+(observed (&lt; (triple-point neon) (triple-point argon) (triple-point water)))
+<span data-comment>; they are temperatures too</span>
+(= (dim (triple-point neon)) Θ)  (= (dim (triple-point argon)) Θ)
+
+<span data-comment>; neon's triple point is between 736/2¹³ and 737/2¹³ of water's: about 0.0899</span>
+(observed (&lt; (÷ (big 2 224) (^ 2 13))
+              (÷ (triple-point neon) (triple-point water))
+              (÷ (big 2 225) (^ 2 13))))
+<span data-comment>; argon's is between 1256/2¹² and 1257/2¹² of water's: about 0.3068</span>
+(observed (&lt; (÷ (big 4 232) (^ 2 12))
+              (÷ (triple-point argon) (triple-point water))
+              (÷ (big 4 233) (^ 2 12))))</code></pre>
 </article>
 </body>
 </html>

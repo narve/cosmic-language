@@ -11,6 +11,28 @@
       "sha256": "14ee4053efcc7190d469761b6cc25d999f2ba73777a2c1a6986c9fb4d951c1b5",
       "page": 3,
       "quote": "the best estimate of the value of TTPW remains 273.16 K. [...] The standard uncertainty of TTPW is hence now u(TTPW) = 0.1 mK."
+    },
+    "triple point of neon": {
+      "value": "24.55604",
+      "uncertainty": "0.00020",
+      "exact": false,
+      "unit": "K",
+      "source": "bipm-t90",
+      "file": "Estimates_Differences_T-T90.pdf",
+      "sha256": "1b510e855eb86b77adcd6d5a42d201667df07b2072f3fec5d841b77b86862452",
+      "page": 2,
+      "quote": "Table 1: T90 = 24.5561 K (Ne), T-T90 = -0.06 mK, u = 0.20 mK. The value is T90 plus the difference; 24.5561 K is the triple point of neon on the ITS-90."
+    },
+    "triple point of argon": {
+      "value": "83.80159",
+      "uncertainty": "0.00015",
+      "exact": false,
+      "unit": "K",
+      "source": "bipm-t90",
+      "file": "Estimates_Differences_T-T90.pdf",
+      "sha256": "1b510e855eb86b77adcd6d5a42d201667df07b2072f3fec5d841b77b86862452",
+      "page": 2,
+      "quote": "Table 1: T90 = 83.8058 K (Ar), T-T90 = -4.21 mK, u = 0.15 mK. The value is T90 plus the difference; 83.8058 K is the triple point of argon on the ITS-90."
     }
   }
 }

@@ -38,6 +38,13 @@ const SOURCES = {
     documentation: { url: "https://spec.jpl.nasa.gov/ftp/pub/catalog/doc/d001001.pdf", file: "jpl-d001001.pdf" },
     retrieved: "2026-11-17",
   },
+  "bipm-t90": {
+    title: "Updated Estimates of the Differences between Thermodynamic Temperature T and the ITS-90 Temperature T90",
+    citation: "Consultative Committee for Thermometry, BIPM (2022); values from C. Gaiser et al., J. Phys. Chem. Ref. Data 51, 043105 (2022)",
+    url: "https://www.bipm.org/documents/20126/41791796/Estimates_Differences_T-T90.pdf",
+    file: "Estimates_Differences_T-T90.pdf",
+    retrieved: "2026-11-18",
+  },
   bipm: {
     title: "Mise en pratique for the definition of the kelvin in the SI (MeP-K-19D), SI Brochure, 9th edition (2019), Appendix 2",
     citation: "Consultative Committee for Thermometry, BIPM",
