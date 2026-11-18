@@ -97,6 +97,25 @@
 (observed (&lt; (÷ 156 (^ 2 106))
               (÷ (triple-point water) planck-temperature)
               (÷ 157 (^ 2 106))))</code></pre>
+  <p>New: <code>triple-pressure</code>, the pressure at a triple point. A pressure is a force per area: mass ÷ (length × time²). The Planck units give a unit for it, the Planck mass divided by the Planck length and the square of the Planck time, so the triple points also give the message fixed pressures that are the same everywhere. Water's is the lowest of the four; it is given in that unit, and the others as many times water's.</p>
+  <pre><code><span data-comment>; the four triple points in the order of their pressures: water has the lowest</span>
+(observed (&lt; (triple-pressure water) (triple-pressure dihydrogen) (triple-pressure neon) (triple-pressure argon)))
+<span data-comment>; a pressure is a force per area: mass ÷ (length × time²)</span>
+(= (dim (triple-pressure water)) (÷ M (× L (^ T 2))))
+(= (dim (÷ planck-mass (× planck-length (^ planck-time 2)))) (÷ M (× L (^ T 2))))
+
+<span data-comment>; water's triple-point pressure in the Planck unit of pressure: between 203/2³⁷⁶ and 204/2³⁷⁶</span>
+<span data-comment>; (376 is written (big 1 120), because 256 + 120 = 376)</span>
+(observed (&lt; (÷ 203 (^ 2 (big 1 120)))
+              (÷ (triple-pressure water) (÷ planck-mass (× planck-length (^ planck-time 2))))
+              (÷ 204 (^ 2 (big 1 120)))))
+
+<span data-comment>; hydrogen gas: between 8 and 16 times water's, about 11.5 (a wide range: its pressure is known less well)</span>
+(observed (&lt; (^ 2 3) (÷ (triple-pressure dihydrogen) (triple-pressure water)) (^ 2 4)))
+<span data-comment>; neon: between 141/2 and 142/2 times water's, about 70.9</span>
+(observed (&lt; (÷ 141 2) (÷ (triple-pressure neon) (triple-pressure water)) (÷ 142 2)))
+<span data-comment>; argon: between 112 and 113 times water's</span>
+(observed (&lt; 112 (÷ (triple-pressure argon) (triple-pressure water)) 113))</code></pre>
 </article>
 </body>
 </html>

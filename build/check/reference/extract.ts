@@ -38,6 +38,20 @@ const SOURCES = {
     documentation: { url: "https://spec.jpl.nasa.gov/ftp/pub/catalog/doc/d001001.pdf", file: "jpl-d001001.pdf" },
     retrieved: "2026-11-17",
   },
+  iapws: {
+    title: "IAPWS G5-01(2026), Guideline on the Use of Fundamental Physical Constants and Basic Constants of Water",
+    citation: "International Association for the Properties of Water and Steam (2001, revised 2026); the triple-point pressure from L. A. Guildner, D. P. Johnson and F. E. Jones, J. Res. Nat. Bur. Stand. 80A, 505 (1976)",
+    url: "https://iapws.org/technical-guidance/release/fundam",
+    file: "iapws-g5-01.pdf",
+    retrieved: "2026-11-18",
+  },
+  "nist-webbook": {
+    title: "NIST Chemistry WebBook, SRD 69: phase change data for hydrogen, neon and argon",
+    citation: "P. J. Linstrom and W. G. Mallard (eds.), National Institute of Standards and Technology; values compiled by the Thermodynamics Research Center (TRC)",
+    url: "https://webbook.nist.gov/chemistry/",
+    files: ["nist-webbook-hydrogen.html", "nist-webbook-neon.html", "nist-webbook-argon.html"],
+    retrieved: "2026-11-18",
+  },
   "bipm-t90": {
     title: "Updated Estimates of the Differences between Thermodynamic Temperature T and the ITS-90 Temperature T90",
     citation: "Consultative Committee for Thermometry, BIPM (2022); values from C. Gaiser et al., J. Phys. Chem. Ref. Data 51, 043105 (2022)",

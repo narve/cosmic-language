@@ -301,6 +301,18 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
         <td><code>Estimates_Differences_T-T90.pdf</code></td>
         <td>2026-11-18</td>
       </tr>
+      <tr>
+        <td><cite>Guideline on the Use of Fundamental Physical Constants and Basic Constants of Water</cite>, IAPWS G5-01(2026). International Association for the Properties of Water and Steam, <a href="https://iapws.org/technical-guidance/release/fundam">IAPWS</a>. The value is the measurement of L. A. Guildner, D. P. Johnson and F. E. Jones (1976).</td>
+        <td>The pressure at water's triple point: 611.657 Pa ± 0.010 (section 4.2, page 5).</td>
+        <td><code>iapws-g5-01.pdf</code></td>
+        <td>2026-11-18</td>
+      </tr>
+      <tr>
+        <td><cite>NIST Chemistry WebBook</cite>, SRD 69, phase change data. National Institute of Standards and Technology, <a href="https://webbook.nist.gov/chemistry/">NIST</a>, with values compiled by the Thermodynamics Research Center.</td>
+        <td>The pressures at the triple points of hydrogen gas (7.21 kPa ± 0.04, for normal hydrogen), neon (43.370 kPa ± 0.0016) and argon (68.90 kPa ± 0.01).</td>
+        <td><code>nist-webbook-hydrogen.html</code>, <code>nist-webbook-neon.html</code>, <code>nist-webbook-argon.html</code></td>
+        <td>2026-11-18</td>
+      </tr>
     </tbody>
   </table>
   <p>The triple points are read by hand from PDFs, so they are kept in <code>transcribed.json</code> with the page and the place they come from, and are accepted only while the PDFs are unchanged. The energy levels of hydrogen have no table of their own: they follow from the Rydberg constant.</p>
@@ -379,10 +391,11 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
       <tr><td>61</td><td><code>atoms</code></td><td></td><td>1</td><td>the atoms of a molecule, as a list of elements</td></tr>
       <tr><td>62</td><td><code>bonds</code></td><td></td><td>1</td><td>the bonds of a molecule, as a list of (position, position, shared pairs)</td></tr>
       <tr><td>63</td><td><code>triple-point</code></td><td></td><td>1</td><td>the temperature at which a substance's solid, liquid and gas exist together</td></tr>
-      <tr><td>64</td><td><code>loss</code></td><td></td><td>2</td><td>what a round costs a player: one's own move, then the other's</td></tr>
-      <tr><td>65</td><td><code>move</code></td><td></td><td>2</td><td>a strategy's next move given a history: a list to pick from</td></tr>
-      <tr><td>66</td><td><code>rounds</code></td><td></td><td>3</td><td>the history after a number of rounds of two strategies playing each other</td></tr>
-      <tr><td>67</td><td><code>cost</code></td><td></td><td>3</td><td>the sum of one strategy's losses over a number of rounds</td></tr>
+      <tr><td>64</td><td><code>triple-pressure</code></td><td></td><td>1</td><td>the pressure at the triple point of a substance (a quantity)</td></tr>
+      <tr><td>65</td><td><code>loss</code></td><td></td><td>2</td><td>what a round costs a player: one's own move, then the other's</td></tr>
+      <tr><td>66</td><td><code>move</code></td><td></td><td>2</td><td>a strategy's next move given a history: a list to pick from</td></tr>
+      <tr><td>67</td><td><code>rounds</code></td><td></td><td>3</td><td>the history after a number of rounds of two strategies playing each other</td></tr>
+      <tr><td>68</td><td><code>cost</code></td><td></td><td>3</td><td>the sum of one strategy's losses over a number of rounds</td></tr>
     </tbody>
   </table>
   <h3>9.2 Constants (type 3)</h3>
@@ -536,7 +549,7 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
     <dt>Dimensions</dt>
     <dd>Every <code>dim</code> statement holds, and quantities are only compared, added or subtracted when they have the same dimension (§8.3).</dd>
     <dt>Measurements</dt>
-    <dd>Every <code>observed</code> range holds for the reference data (§8.4), and its bounds lie outside the reference value's uncertainty. No measured value is written with <code>=</code> unless the fact is exact. A law that introduces a constant cannot be checked against data; it is checked for its dimensions and, where the constant has a reference value, for its number.</dd>
+    <dd>Every <code>observed</code> range holds for the reference data (§8.4), and each bound lies at least ten standard uncertainties from the reference value. The uncertainty includes a model uncertainty where the message's simple law leaves something out, such as the fine structure of hydrogen. <code>npm run check:measurements</code> checks this for every range; it is not yet part of the build. No measured value is written with <code>=</code> unless the fact is exact. A law that introduces a constant cannot be checked against data; it is checked for its dimensions and, where the constant has a reference value, for its number.</dd>
     <dt>Round trip</dt>
     <dd>Decoding the encoded message (finding the beacon, cutting chunks and tokens, looking up the registry) gives back exactly the tokens that were encoded.</dd>
     <dt>Period</dt>

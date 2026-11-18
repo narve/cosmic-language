@@ -33,6 +33,24 @@
       },
       "retrieved": "2026-11-17"
     },
+    "iapws": {
+      "title": "IAPWS G5-01(2026), Guideline on the Use of Fundamental Physical Constants and Basic Constants of Water",
+      "citation": "International Association for the Properties of Water and Steam (2001, revised 2026); the triple-point pressure from L. A. Guildner, D. P. Johnson and F. E. Jones, J. Res. Nat. Bur. Stand. 80A, 505 (1976)",
+      "url": "https://iapws.org/technical-guidance/release/fundam",
+      "file": "iapws-g5-01.pdf",
+      "retrieved": "2026-11-18"
+    },
+    "nist-webbook": {
+      "title": "NIST Chemistry WebBook, SRD 69: phase change data for hydrogen, neon and argon",
+      "citation": "P. J. Linstrom and W. G. Mallard (eds.), National Institute of Standards and Technology; values compiled by the Thermodynamics Research Center (TRC)",
+      "url": "https://webbook.nist.gov/chemistry/",
+      "files": [
+        "nist-webbook-hydrogen.html",
+        "nist-webbook-neon.html",
+        "nist-webbook-argon.html"
+      ],
+      "retrieved": "2026-11-18"
+    },
     "bipm-t90": {
       "title": "Updated Estimates of the Differences between Thermodynamic Temperature T and the ITS-90 Temperature T90",
       "citation": "Consultative Committee for Thermometry, BIPM (2022); values from C. Gaiser et al., J. Phys. Chem. Ref. Data 51, 043105 (2022)",
@@ -461,6 +479,50 @@
       "sha256": "1b510e855eb86b77adcd6d5a42d201667df07b2072f3fec5d841b77b86862452",
       "page": 2,
       "quote": "Table 1: T90 = 13.8033 K (e-H2), T-T90 = 0.36 mK, u = 0.19 mK. The value is T90 plus the difference; 13.8033 K is the triple point of equilibrium hydrogen on the ITS-90."
+    },
+    "triple-point pressure of water": {
+      "value": "611.657",
+      "uncertainty": "0.010",
+      "exact": false,
+      "unit": "Pa",
+      "source": "iapws",
+      "file": "iapws-g5-01.pdf",
+      "sha256": "5e9e5b7bebb3aca93ec6677e44adf6c43b93348797333c62b298c72380eebf59",
+      "page": 5,
+      "quote": "4.2 Triple Point: \"For the triple-point pressure, we recommend the value measured by Guildner et al. [17], which is (611.657 ± 0.010) Pa.\""
+    },
+    "triple-point pressure of hydrogen": {
+      "value": "7210",
+      "uncertainty": "40",
+      "exact": false,
+      "unit": "Pa",
+      "source": "nist-webbook",
+      "file": "nist-webbook-hydrogen.html",
+      "sha256": "07609e874aa7ee314337b5815570297e481d2d7f6c4318411bee529b00d0260e",
+      "page": 1,
+      "quote": "Phase change data, table row: Ptriple 0.0721 bar, Henning and Otto 1936, uncertainty assigned by TRC 0.0004 bar (normal hydrogen)"
+    },
+    "triple-point pressure of neon": {
+      "value": "43370",
+      "uncertainty": "1.6",
+      "exact": false,
+      "unit": "Pa",
+      "source": "nist-webbook",
+      "file": "nist-webbook-neon.html",
+      "sha256": "4d3986cc3bb9d4cc1e3afd495eb14edb694a913cf6322717e699cb1f86395eb6",
+      "page": 1,
+      "quote": "Phase change data, table row: Ptriple 0.4337 bar, Ancsin 1978, uncertainty assigned by TRC 0.000016 bar"
+    },
+    "triple-point pressure of argon": {
+      "value": "68900",
+      "uncertainty": "10",
+      "exact": false,
+      "unit": "Pa",
+      "source": "nist-webbook",
+      "file": "nist-webbook-argon.html",
+      "sha256": "14656631a4630c252a4d195e2bf7715945755b1ad5de5a90db15c2fe0ce9b1a4",
+      "page": 1,
+      "quote": "Phase change data, table row: Ptriple 0.689 bar, Gosman, McCarty et al. 1969, uncertainty assigned by TRC 0.0001 bar"
     }
   }
 }

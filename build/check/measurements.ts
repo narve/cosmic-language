@@ -1,0 +1,138 @@
+// Checks every measured range in the message against the reference data (build/check/reference/reference.json).
+// A range is a sentence (observed (< low quantity high)) or (observed (> high quantity low)) whose outer arguments
+// are exact numbers. For each quantity there is a formula below that computes its value and standard uncertainty
+// from the reference data, including a model uncertainty where the message's simple law differs from reality.
+// A range passes if both bounds are at least MARGIN standard uncertainties away from the value.
+//
+//   npm run build && npm run check:measurements
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+
+const MARGIN = 10; // standard uncertainties between the value and each bound
+const root = resolve(import.meta.dirname, "../..");
+const ref = JSON.parse(readFileSync(resolve(root, "build/check/reference/reference.json"), "utf8"));
+
+type Q = { v: number; u: number }; // value and standard uncertainty
+const q = (v: number, u = 0): Q => ({ v, u });
+const constant = (name: string): Q => {
+  const c = ref.constants[name] ?? ref.other[name];
+  if (!c) throw new Error(`no reference value "${name}"`);
+  return q(Number(c.value), Number(c.uncertainty));
+};
+// Arithmetic on independent quantities: relative uncertainties add in quadrature for × and ÷.
+const mul = (a: Q, b: Q): Q => q(a.v * b.v, Math.abs(a.v * b.v) * Math.hypot(a.u / a.v, b.u / b.v));
+const div = (a: Q, b: Q): Q => q(a.v / b.v, Math.abs(a.v / b.v) * Math.hypot(a.u / a.v, b.u / b.v));
+const pow = (a: Q, n: number): Q => q(a.v ** n, Math.abs(n * a.v ** n * (a.u / a.v)));
+const widen = (a: Q, relative: number): Q => q(a.v, Math.hypot(a.u, Math.abs(a.v) * relative)); // add a model uncertainty
+
+const u = constant("atomic mass constant");
+const nuclide = (name: string): Q => {
+  const m = ref.nuclides[name].atomicMass; // micro-u
+  return mul(q(Number(m.value) * 1e-6, Number(m.uncertainty) * 1e-6), u);
+};
+const halfLife = (name: string): Q => {
+  const h = ref.nuclides[name].halfLife;
+  const unit = ({ s: 1, y: 31557600, ky: 31557600e3 } as Record<string, number>)[h.unit];
+  return q(Number(h.value) * unit, Number(h.uncertainty) * unit);
+};
+const c = constant("speed of light in vacuum"), h = constant("Planck constant"), hbar = constant("reduced Planck constant");
+const G = constant("Newtonian constant of gravitation"), kB = constant("Boltzmann constant");
+const me = constant("electron mass"), mp = constant("proton mass");
+const alpha = constant("fine-structure constant");
+const planckMass = constant("Planck mass"), planckTime = constant("Planck time");
+// hydrogen's step from level 1 to level 2: 3/4 of the Rydberg energy, with the reduced mass. The message's law
+// (levels as 1 − 1/n²) leaves out the fine structure and the Lamb shift: a model uncertainty of 5 × 10⁻⁵.
+const reduced = 1 / (1 + me.v / mp.v);
+const step12 = widen(q(0.75 * constant("Rydberg constant times hc in J").v * reduced, 0), 5e-5);
+const line21 = mul(h, q(Number(ref.other["hydrogen 21 cm line frequency"].value) * 1e6, Number(ref.other["hydrogen 21 cm line frequency"].uncertainty) * 1e6));
+const tWater = constant("triple point of water"), pWater = constant("triple-point pressure of water");
+const levelRatio = (exact: number) => q(exact, exact * 5e-5); // Bohr ratios, with the same model uncertainty
+
+const QUANTITIES: Record<string, Q> = {
+  "(÷ (mass proton) (mass electron))": constant("proton-electron mass ratio"),
+  "(÷ (mass neutron) (mass electron))": constant("neutron-electron mass ratio"),
+  "(÷ (mass neutron) (mass proton))": constant("neutron-proton mass ratio"),
+  "(÷ (mass hydrogen) (mass proton))": div(nuclide("1H"), mp),
+  "(÷ (mass (isotope hydrogen 1)) (mass (isotope hydrogen 0)))": div(nuclide("2H"), nuclide("1H")),
+  "(÷ (− (level hydrogen 2) (level hydrogen 1)) (− (level hydrogen 3) (level hydrogen 2)))": levelRatio(27 / 5),
+  "(÷ (− (level hydrogen 3) (level hydrogen 1)) (− (level hydrogen 2) (level hydrogen 1)))": levelRatio(32 / 27),
+  // the atom's recoil takes E² / (2 M c²) of a photon's energy E
+  "(÷ (energy (emitted hydrogen 2 1)) (− (level hydrogen 2) (level hydrogen 1)))": q(1 - step12.v / (2 * nuclide("1H").v * c.v ** 2)),
+  "(÷ (energy (emitted hydrogen 3 1)) (− (level hydrogen 3) (level hydrogen 1)))": q(1 - (step12.v * 32 / 27) / (2 * nuclide("1H").v * c.v ** 2)),
+  "(÷ (× ke (^ (charge proton) 2)) (× ħ c))": alpha,
+  "(÷ (abs (electric proton electron)) (gravity proton electron))": div(mul(mul(alpha, hbar), c), mul(mul(G, mp), me)),
+  "(÷ (mass proton) planck-mass)": div(mp, planckMass),
+  "(÷ (mass electron) planck-mass)": div(me, planckMass),
+  "(÷ (energy hydrogen-line) (− (level hydrogen 2) (level hydrogen 1)))": div(line21, step12),
+  "(÷ 1 (× (frequency hydrogen-line) planck-time))": div(h, mul(line21, planckTime)),
+  "(÷ (wavelength hydrogen-line) planck-length)": div(h, mul(line21, planckTime)), // λ / ℓP = c / (ν c tP)
+  "(÷ (− (level hydrogen 2) (level hydrogen 1)) (× (mass electron) (^ c 2)))": div(step12, constant("electron mass energy equivalent")),
+  // the lifetime is the half-life ÷ ln 2. Measurements in beams and in bottles disagree by about 9 s: model uncertainty 10 s.
+  "(÷ (lifetime neutron) planck-time)": div(widen(q(halfLife("1n").v / Math.LN2, halfLife("1n").u / Math.LN2), 10 / 880), planckTime),
+  "(÷ (half-life (isotope carbon 8)) (half-life (isotope hydrogen 2)))": div(halfLife("14C"), halfLife("3H")),
+  "(÷ (triple-point dihydrogen) (triple-point water))": div(constant("triple point of hydrogen"), tWater),
+  "(÷ (triple-point neon) (triple-point water))": div(constant("triple point of neon"), tWater),
+  "(÷ (triple-point argon) (triple-point water))": div(constant("triple point of argon"), tWater),
+  "(÷ (× kB (triple-point water)) (− (level hydrogen 2) (level hydrogen 1)))": div(mul(kB, tWater), step12),
+  "(÷ (triple-point water) planck-temperature)": div(tWater, constant("Planck temperature")),
+  // the Planck unit of pressure, c⁷ / (ħ G²)
+  "(÷ (triple-pressure water) (÷ planck-mass (× planck-length (^ planck-time 2))))": div(pWater, div(pow(c, 7), mul(hbar, pow(G, 2)))),
+  // the source gives normal hydrogen; the message's triple point is that of equilibrium hydrogen, about 180 Pa lower
+  "(÷ (triple-pressure dihydrogen) (triple-pressure water))": div(widen(constant("triple-point pressure of hydrogen"), 180 / 7210), pWater),
+  "(÷ (triple-pressure neon) (triple-pressure water))": div(constant("triple-point pressure of neon"), pWater),
+  "(÷ (triple-pressure argon) (triple-pressure water))": div(constant("triple-point pressure of argon"), pWater),
+};
+
+// The sentences of the message, as nested lists.
+type Node = string | Node[];
+const text = readFileSync(resolve(root, "docs/message.txt"), "utf8").replace(/^﻿/, "");
+const tokens = text.split("\n").flatMap((line) => {
+  const code = line.split(";")[0];
+  return /^[01 ]*$/.test(code) ? [] : (code.match(/[()]|[^\s()]+/g) ?? []);
+});
+const sentences: Node[] = [];
+const stack: Node[][] = [];
+for (const t of tokens) {
+  if (t === "(") stack.push([]);
+  else if (t === ")") { const g = stack.pop()!; (stack.length ? stack[stack.length - 1] : sentences).push(g); }
+  else (stack.length ? stack[stack.length - 1] : sentences).push(t);
+}
+const show = (n: Node): string => (typeof n === "string" ? n : `(${n.map(show).join(" ")})`);
+const exact = (n: Node): number | undefined => {
+  if (typeof n === "string") return /^\d+$/.test(n) ? Number(n) : undefined;
+  const [op, ...args] = n;
+  const v = args.map(exact);
+  if (v.some((x) => x === undefined)) return undefined;
+  const a = v as number[];
+  switch (op) {
+    case "big": return a.reduce((s, d) => s * 256 + d, 0);
+    case "+": return a.reduce((s, x) => s + x, 0);
+    case "×": return a.reduce((s, x) => s * x, 1);
+    case "−": return a[0] - a[1];
+    case "÷": return a[0] / a[1];
+    case "^": return a[0] ** a[1];
+  }
+  return undefined;
+};
+
+let failures = 0, checked = 0;
+for (const s of sentences) {
+  if (!Array.isArray(s) || s[0] !== "observed" || !Array.isArray(s[1]) || !["<", ">"].includes(s[1][0] as string)) continue;
+  const [rel, ...args] = s[1];
+  if (args.length !== 3) continue;
+  let [low, mid, high] = args.map((a) => a);
+  if (rel === ">") [low, high] = [high, low];
+  const lo = exact(low), hi = exact(high);
+  if (lo === undefined || hi === undefined) continue; // an order between quantities, not a range
+  checked++;
+  const key = show(mid);
+  const x = QUANTITIES[key];
+  if (!x) { failures++; console.log(`NO REFERENCE  ${key}`); continue; }
+  const below = (x.v - lo) / x.u, above = (hi - x.v) / x.u;
+  const ok = x.v > lo && x.v < hi && (x.u === 0 || (below >= MARGIN && above >= MARGIN));
+  if (!ok) failures++;
+  const sig = (n: number) => (x.u === 0 ? "exact" : n > 1e6 ? ">1e6 σ" : `${n.toFixed(1)} σ`);
+  console.log(`${ok ? "ok  " : "FAIL"}  ${key}\n      ${lo.toPrecision(7)} < ${x.v.toPrecision(9)} ± ${x.u.toPrecision(2)} < ${hi.toPrecision(7)}   margins ${sig(below)}, ${sig(above)}`);
+}
+console.log(`\n${checked} ranges, ${failures} failing (each bound must be at least ${MARGIN} standard uncertainties from the reference value)`);
+process.exit(failures ? 1 : 0);
