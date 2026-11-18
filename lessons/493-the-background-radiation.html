@@ -11,12 +11,12 @@
 <body>
 <article class="lesson" data-topic="astronomy">
   <h3>the background radiation</h3>
-  <p>From every direction in the sky comes a faint, cold glow: the light left over from a time when the universe was hot and dense. New: <code>background</code>, the temperature of that glow in a given direction, as seen by an observer at rest relative to it. (An observer who moves through it sees it warmer ahead and colder behind; seen at rest, that difference is gone.)</p>
+  <p>From every direction in the sky comes a faint, cold glow: the light left over from a time when the universe was hot and dense. New: <code>background</code>, the temperature of that glow in a given direction, as seen by an observer at rest relative to it. An observer who moves through it sees it warmer ahead and colder behind: for one moving as slowly as the Sun, by about a thousandth. The bound below, 1/2⁸, holds for such an observer too, so a reader need not know its own motion to check it.</p>
   <pre><code><span data-comment>; it is a temperature, and nearly the same in every direction: two</span>
-<span data-comment>; directions differ by less than 1/2¹⁰ of it</span>
+<span data-comment>; directions differ by less than 1/2⁸ of it</span>
 (∀ <var>u</var> directions (= (dim (background <var>u</var>)) Θ))
 (observed (∀ <var>u</var> directions (∀ <var>v</var> directions
-  (&lt; (abs (− (background <var>u</var>) (background <var>v</var>))) (× (÷ 1 (^ 2 10)) (background <var>v</var>))))))
+  (&lt; (abs (− (background <var>u</var>) (background <var>v</var>))) (× (÷ 1 (^ 2 8)) (background <var>v</var>))))))
 
 <span data-comment>; its average over the sky: between 163/2¹⁴ and 164/2¹⁴ of water's</span>
 <span data-comment>; triple point</span>
@@ -44,7 +44,8 @@
 (= (dot third-axis third-axis) 1)
 (= (dot third-axis first-axis) 0)
 (= (dot third-axis second-axis) 0)</code></pre>
-  <p>Each axis is a line: the rule above cannot tell its two ends apart. The hand of <code>cross</code>, and with it the third axis, is fixed by the lesson on spin, through the decay of the neutron. What remains open are the ends of the first two axes: a direction given in these axes is known up to turning the frame half round one of them.</p>
+  <p>The warmer-ahead, colder-behind pattern of a moving observer adds almost nothing to these averages, since (dot with the direction)² is the same ahead and behind; so the axes too are nearly the same for a reader at rest and for one moving as slowly as the Sun.</p>
+  <p>Each axis is a line: the rule above cannot tell its two ends apart. The hand of <code>cross</code>, and with it the third axis, is fixed by the lesson on spin, through the decay of the neutron. What remains open are the ends of the first two axes: a direction given in these axes is known up to turning the frame half round one of them, until one direction that a reader can find in another way is given in them.</p>
   <p><small>Sources: D. J. Fixsen (2009) (the temperature of the background radiation), BIPM (water's triple point). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
 </article>
 </body>

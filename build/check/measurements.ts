@@ -93,6 +93,7 @@ const QUANTITIES: Record<string, Q> = {
   // one round of a circle: 2π × distance ÷ speed
   "(÷ (period sun galaxy-centre) planck-time)": div(div(mul(q(2 * Math.PI * 1000 * (648000 / Math.PI) * 149597870700), constant("distance from the Sun to the Galactic centre")), mul(constant("circular velocity at the Sun"), q(1000))), planckTime),
   ...pulsarQuantities(),
+  ...cmbAxisQuantities(),
   "(÷ (mass sun) (mass proton))": div(div(constant("GM of the Sun"), G), mp),
   "(÷ (radius sun) planck-length)": div(constant("radius of the Sun"), constant("Planck length")),
   "(÷ (temperature sun) (triple-point water))": div(constant("effective temperature of the Sun"), tWater),
@@ -133,6 +134,23 @@ function pulsarQuantities(): Record<string, Q> {
   return out;
 }
 
+// The Galaxy's axes in the axes of the background radiation, from cmb-quadrupole.json (three maps, each with
+// three treatments of the Doppler quadrupole): the value is the middle of the nine results, the standard
+// uncertainty half their spread.
+function cmbAxisQuantities(): Record<string, Q> {
+  const cmb = JSON.parse(readFileSync(resolve(root, "build/check/reference/cmb-quadrupole.json"), "utf8"));
+  const cases = cmb.maps.flatMap((m: { cases: Record<string, number[]>[] }) => m.cases);
+  const out: Record<string, Q> = {};
+  ["toward-centre", "along-rotation", "galactic-pole"].forEach((galactic, i) => {
+    for (const axis of ["first-axis", "second-axis", "third-axis"]) {
+      const v = cases.map((c: Record<string, number[]>) => c[axis][i]);
+      const lo = Math.min(...v), hi = Math.max(...v);
+      out[`(dot ${galactic} ${axis})`] = q((lo + hi) / 2, (hi - lo) / 2);
+    }
+  });
+  return out;
+}
+
 type Node = string | Node[];
 const show = (n: Node): string => (typeof n === "string" ? n : `(${n.map(show).join(" ")})`);
 const exact = (n: Node): number | undefined => {
@@ -146,6 +164,7 @@ const exact = (n: Node): number | undefined => {
     case "+": return a.reduce((s, x) => s + x, 0);
     case "×": return a.reduce((s, x) => s * x, 1);
     case "−": return a[0] - a[1];
+    case "neg": return -a[0];
     case "÷": return a[0] / a[1];
     case "^": return a[0] ** a[1];
   }
@@ -180,10 +199,12 @@ for (const s of sentences) {
   const key = show(mid);
   const x = QUANTITIES[key];
   if (!x) { failures++; report.push(`NO REFERENCE  ${key}: add a formula to build/check/measurements.ts`); continue; }
-  const below = (x.v - lo) / x.u, above = (hi - x.v) / x.u;
+  // a dot of two directions lies between −1 and 1: a bound at that limit cannot fail
+  const limit = key.startsWith("(dot ") ? 1 : Infinity;
+  const below = lo <= -limit ? Infinity : (x.v - lo) / x.u, above = hi >= limit ? Infinity : (hi - x.v) / x.u;
   const ok = x.v > lo && x.v < hi && (x.u === 0 || (below >= MARGIN && above >= MARGIN));
   if (!ok) failures++;
-  const sig = (n: number) => (x.u === 0 ? "exact" : n > 1e6 ? ">1e6 σ" : `${n.toFixed(1)} σ`);
+  const sig = (n: number) => (x.u === 0 ? "exact" : n === Infinity ? "limit" : n > 1e6 ? ">1e6 σ" : `${n.toFixed(1)} σ`);
   report.push(`${ok ? "ok  " : "FAIL"}  ${key}\n      ${lo.toPrecision(7)} < ${x.v.toPrecision(9)} ± ${x.u.toPrecision(2)} < ${hi.toPrecision(7)}   margins ${sig(below)}, ${sig(above)}`);
 }
 return { report, failures, checked };

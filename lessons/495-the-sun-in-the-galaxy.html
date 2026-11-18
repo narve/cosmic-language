@@ -46,7 +46,17 @@
 (= (dot galactic-pole galactic-pole) 1)
 (= (dot galactic-pole toward-centre) 0)
 (= (dot galactic-pole along-rotation) 0)</code></pre>
-  <p><small>Sources: Particle Data Group 2024, table of astrophysical constants (the Sun's distance from the centre, 8.275 kpc, and its speed, 233.4 km/s); GRAVITY Collaboration 2022 and 2019 (the mass of the centre); CODATA 2022 (the Planck units and the proton mass). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+  <p>So far <code>along-rotation</code> is only at right angles to <code>toward-centre</code>: that leaves a whole circle of directions. The axes of the background radiation, which any reader can find, pin it down. The direction to the centre, which a reader can find too, comes first: its dot with the first axis is positive and with the third negative, which fixes the ends of all three axes. Then the direction of rotation is given in the same axes, and the Galaxy's frame is tied to the background radiation's.</p>
+  <pre><code><span data-comment>; the direction to the centre, in the axes of the background</span>
+<span data-comment>; radiation: this fixes their ends</span>
+(observed (&lt; (÷ 1 4) (dot toward-centre first-axis) (÷ 1 2)))
+(observed (&lt; (neg 1) (dot toward-centre third-axis) (neg (÷ 3 4))))
+
+<span data-comment>; the direction of rotation, in the same axes</span>
+(observed (&lt; (÷ 1 2) (dot along-rotation first-axis) 1))
+(observed (&lt; (÷ 1 8) (dot along-rotation second-axis) (÷ 7 8)))
+(observed (&lt; (÷ 1 4) (dot along-rotation third-axis) (÷ 3 4)))</code></pre>
+  <p><small>Sources: Particle Data Group 2024, table of astrophysical constants (the Sun's distance from the centre, 8.275 kpc, and its speed, 233.4 km/s); GRAVITY Collaboration 2022 and 2019 (the mass of the centre); CODATA 2022 (the Planck units and the proton mass); maps of the background radiation from WMAP (9 years) and Planck (2015) (the axes). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
 </article>
 </body>
 </html>
