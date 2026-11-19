@@ -17,15 +17,16 @@
   <pre data-illustration><code>1 0 11 0 111 0 11111 0 1111111 0 11111111111 0 1111111111111 0 …
 <i>1   2    3     5       7         11            13</i></code></pre>
   <p>Nature doesn't produce prime numbers in a row, so the beacon says that <em>this is artificial</em>. It also teaches the receiver the first convention: a run of <code>1</code>s means a count.</p>
-  <p>The whole beacon, as it is sent: 172 bits.</p>
-  <pre data-bits><code><span data-comment>; 1, 2, 3, 5 and 7</span>
-1 0 11 0 111 0 11111 0 1111111 0
+  <p>The whole beacon, as it is sent: 174 bits. It starts with a single <code>0</code>, and every run ends with one, the last one too, so each run of <code>1</code>s has a <code>0</code> on both sides, whatever was sent before the beacon.</p>
+  <pre data-bits><code><span data-comment>; a 0, then 1, 2, 3, 5 and 7</span>
+0 1 0 11 0 111 0 11111 0 1111111 0
 <span data-comment>; 11, 13 and 17</span>
 11111111111 0 1111111111111 0 11111111111111111 0
 <span data-comment>; 19 and 23</span>
 1111111111111111111 0 11111111111111111111111 0
 <span data-comment>; 29 and 31</span>
-11111111111111111111111111111 0 1111111111111111111111111111111</code></pre>
+11111111111111111111111111111 0 1111111111111111111111111111111 0</code></pre>
+  <p>The beacon is sent only at the start: there is no end marker. Sent once, the message ends when the signal stops. Sent again and again, each copy starts with the beacon, so the beacon also marks where one copy ends and the next begins.</p>
 </article>
 </body>
 </html>
