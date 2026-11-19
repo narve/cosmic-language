@@ -16,193 +16,205 @@
 
   <h4>For all, over a list</h4>
   <p>The lesson starts with short lists, where everything can be checked by hand. A sentence with <code>∀</code> says the same as all its instances together: it is the <data value="and">and</data> of them.</p>
-  <pre><code><span data-comment>; three instances: 1, 2 and 3 are each less than 4</span>
+  <pre><code>
+; three instances: 1, 2 and 3 are each less than 4
 (&lt; 1 4)
 (&lt; 2 4)
 (&lt; 3 4)
 
-<span data-comment>; the same in one sentence: every <var>u</var> in the list is less than 4</span>
-(∀ <var>u</var> (list 1 2 3) (&lt; <var>u</var> 4))
-<span data-comment>; <var>u</var> stands for each item in turn: it is 1, or 2, or 3</span>
-(∀ <var>u</var> (list 1 2 3) (<data value="or">or</data> (= <var>u</var> 1) (= <var>u</var> 2) (= <var>u</var> 3)))
-<span data-comment>; what it means: put each item in the place of <var>u</var>, and join the three</span>
-<span data-comment>; results with <data value="and">and</data></span>
-(= (∀ <var>u</var> (list 1 2 3) (&lt; <var>u</var> 4))
-   (<data value="and">and</data> (&lt; 1 4) (&lt; 2 4) (&lt; 3 4)))
+; the same in one sentence: every u in the list is less than 4
+(∀ u (list 1 2 3) (&lt; u 4))
+; u stands for each item in turn: it is 1, or 2, or 3
+(∀ u (list 1 2 3) (or (= u 1) (= u 2) (= u 3)))
+; what it means: put each item in the place of u, and join the three
+; results with and
+(= (∀ u (list 1 2 3) (&lt; u 4))
+   (and (&lt; 1 4) (&lt; 2 4) (&lt; 3 4)))
 
-<span data-comment>; more lists, more statements</span>
-(∀ <var>u</var> (list 5 7 9) (&gt; <var>u</var> 4))
-(∀ <var>u</var> (list 0 3 7) (= (+ <var>u</var> 0) <var>u</var>))
-(∀ <var>u</var> (list 2 4 6) (≠ <var>u</var> 5))
+; more lists, more statements
+(∀ u (list 5 7 9) (&gt; u 4))
+(∀ u (list 0 3 7) (= (+ u 0) u))
+(∀ u (list 2 4 6) (≠ u 5))
 
-<span data-comment>; a list of one item: just that one instance</span>
-(= (∀ <var>u</var> (list 5) (&gt; <var>u</var> 4)) (&gt; 5 4))</code></pre>
+; a list of one item: just that one instance
+(= (∀ u (list 5) (&gt; u 4)) (&gt; 5 4))</code></pre>
 
   <h4>There exists, over a list</h4>
   <p><code>∃</code> says that at least one item makes the statement true. Each example is followed by an item that does.</p>
-  <pre><code><span data-comment>; one of the items is 2</span>
-(∃ <var>u</var> (list 1 2 3) (= <var>u</var> 2))
+  <pre><code>
+; one of the items is 2
+(∃ u (list 1 2 3) (= u 2))
 (= 2 2)
 
-<span data-comment>; one of the items is greater than 2: it is 3</span>
-(∃ <var>u</var> (list 1 2 3) (&gt; <var>u</var> 2))
+; one of the items is greater than 2: it is 3
+(∃ u (list 1 2 3) (&gt; u 2))
 (&gt; 3 2)
 
-<span data-comment>; each of the three items is a value <var>u</var> can take</span>
-(∃ <var>u</var> (list 1 2 3) (= <var>u</var> 1))
-(∃ <var>u</var> (list 1 2 3) (= <var>u</var> 3))
+; each of the three items is a value u can take
+(∃ u (list 1 2 3) (= u 1))
+(∃ u (list 1 2 3) (= u 3))
 
-<span data-comment>; "some item is 2" is true, "every item is 2" is false</span>
-(= (∃ <var>u</var> (list 1 2 3) (= <var>u</var> 2)) <data value="true">true</data>)
-(= (∀ <var>u</var> (list 1 2 3) (= <var>u</var> 2)) <data value="false">false</data>)
+; "some item is 2" is true, "every item is 2" is false
+(= (∃ u (list 1 2 3) (= u 2)) true)
+(= (∀ u (list 1 2 3) (= u 2)) false)
 
-<span data-comment>; what holds for every item holds for some item</span>
-(∀ <var>u</var> (list 1 2 3) (&lt; <var>u</var> 4))
-(∃ <var>u</var> (list 1 2 3) (&lt; <var>u</var> 4))
+; what holds for every item holds for some item
+(∀ u (list 1 2 3) (&lt; u 4))
+(∃ u (list 1 2 3) (&lt; u 4))
 
-<span data-comment>; some item is 2: the same as "not every item differs from 2"</span>
-(= (∃ <var>u</var> (list 1 2 3) (= <var>u</var> 2)) (<data value="not">not</data> (∀ <var>u</var> (list 1 2 3) (≠ <var>u</var> 2))))</code></pre>
+; some item is 2: the same as "not every item differs from 2"
+(= (∃ u (list 1 2 3) (= u 2)) (not (∀ u (list 1 2 3) (≠ u 2))))</code></pre>
 
   <h4>From a list to ℕ</h4>
   <p>A list ends. The natural numbers do not: <code>ℕ</code> stands for 0, 1, 2, 3 and so on without end. A law over ℕ cannot be checked instance by instance, but it reads the same way. From here on, a law often comes with a few of its instances, although the law alone says everything: the instances show how to read it.</p>
-  <pre><code><span data-comment>; four instances: adding 0 changes nothing</span>
+  <pre><code>
+; four instances: adding 0 changes nothing
 (= (+ 0 0) 0)
 (= (+ 3 0) 3)
 (= (+ 7 0) 7)
 (= (+ 255 0) 255)
 
-<span data-comment>; the same over a list of those four numbers</span>
-(∀ <var>u</var> (list 0 3 7 255) (= (+ <var>u</var> 0) <var>u</var>))
-<span data-comment>; the law: for every natural number <var>u</var>, <var>u</var> + 0 = <var>u</var></span>
-(∀ <var>u</var> ℕ (= (+ <var>u</var> 0) <var>u</var>))
+; the same over a list of those four numbers
+(∀ u (list 0 3 7 255) (= (+ u 0) u))
+; the law: for every natural number u, u + 0 = u
+(∀ u ℕ (= (+ u 0) u))
 
-<span data-comment>; ℕ starts at 0 …</span>
-(∃ <var>u</var> ℕ (= <var>u</var> 0))
-<span data-comment>; … and never ends: every number has a next one</span>
-(∀ <var>u</var> ℕ (∃ <var>v</var> ℕ (= <var>v</var> (+ <var>u</var> 1))))</code></pre>
+; ℕ starts at 0 …
+(∃ u ℕ (= u 0))
+; … and never ends: every number has a next one
+(∀ u ℕ (∃ v ℕ (= v (+ u 1))))</code></pre>
 
   <h4>More laws over ℕ</h4>
-  <pre><code><span data-comment>; three instances, then the law: times 1 changes nothing</span>
+  <pre><code>
+; three instances, then the law: times 1 changes nothing
 (= (× 4 1) 4)
 (= (× 9 1) 9)
 (= (× 255 1) 255)
 
-<span data-comment>; also: times 0 gives 0, and a number minus itself is 0</span>
-(∀ <var>u</var> ℕ (= (× <var>u</var> 1) <var>u</var>))
-(∀ <var>u</var> ℕ (= (× <var>u</var> 0) 0))
-(∀ <var>u</var> ℕ (= (− <var>u</var> <var>u</var>) 0))
+; also: times 0 gives 0, and a number minus itself is 0
+(∀ u ℕ (= (× u 1) u))
+(∀ u ℕ (= (× u 0) 0))
+(∀ u ℕ (= (− u u) 0))
 
-<span data-comment>; every number is less than the next</span>
-(∀ <var>u</var> ℕ (&lt; <var>u</var> (+ <var>u</var> 1)))
-<span data-comment>; nothing in ℕ is below 0</span>
-(∀ <var>u</var> ℕ (<data value="or">or</data> (= <var>u</var> 0) (&gt; <var>u</var> 0)))</code></pre>
+; every number is less than the next
+(∀ u ℕ (&lt; u (+ u 1)))
+; nothing in ℕ is below 0
+(∀ u ℕ (or (= u 0) (&gt; u 0)))</code></pre>
 
   <h4>Two variables</h4>
   <p>Each quantifier binds one variable, so two variables need two nested quantifiers.</p>
-  <pre><code><span data-comment>; three instances: the order does not matter</span>
+  <pre><code>
+; three instances: the order does not matter
 (= (+ 2 5) (+ 5 2))
 (= (+ 3 4) (+ 4 3))
 (= (× 2 5) (× 5 2))
 
-<span data-comment>; the laws: <var>u</var> + <var>v</var> = <var>v</var> + <var>u</var> and <var>u</var> × <var>v</var> = <var>v</var> × <var>u</var></span>
-(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (+ <var>u</var> <var>v</var>) (+ <var>v</var> <var>u</var>))))
-(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (× <var>u</var> <var>v</var>) (× <var>v</var> <var>u</var>))))
+; the laws: u + v = v + u and u × v = v × u
+(∀ u ℕ (∀ v ℕ (= (+ u v) (+ v u))))
+(∀ u ℕ (∀ v ℕ (= (× u v) (× v u))))
 
-<span data-comment>; three variables: <var>u</var> × (<var>v</var> + <var>w</var>) = <var>u</var> × <var>v</var> + <var>u</var> × <var>w</var></span>
-(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (= (× <var>u</var> (+ <var>v</var> <var>w</var>)) (+ (× <var>u</var> <var>v</var>) (× <var>u</var> <var>w</var>))))))
-<span data-comment>; and (<var>u</var> + <var>v</var>) + <var>w</var> = <var>u</var> + (<var>v</var> + <var>w</var>)</span>
-(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (= (+ (+ <var>u</var> <var>v</var>) <var>w</var>) (+ <var>u</var> (+ <var>v</var> <var>w</var>))))))
+; three variables: u × (v + w) = u × v + u × w
+(∀ u ℕ (∀ v ℕ (∀ w ℕ (= (× u (+ v w)) (+ (× u v) (× u w))))))
+; and (u + v) + w = u + (v + w)
+(∀ u ℕ (∀ v ℕ (∀ w ℕ (= (+ (+ u v) w) (+ u (+ v w))))))
 
-<span data-comment>; four variables: the order of a sum does not matter</span>
-(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (∀ <var>z</var> ℕ (= (+ <var>u</var> <var>v</var> <var>w</var> <var>z</var>) (+ <var>z</var> <var>w</var> <var>v</var> <var>u</var>))))))
-<span data-comment>; and (<var>u</var> + <var>v</var>) × (<var>w</var> + <var>z</var>) = <var>u</var> × <var>w</var> + <var>u</var> × <var>z</var> + <var>v</var> × <var>w</var> + <var>v</var> × <var>z</var></span>
-(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (∀ <var>z</var> ℕ
-  (= (× (+ <var>u</var> <var>v</var>) (+ <var>w</var> <var>z</var>)) (+ (× <var>u</var> <var>w</var>) (× <var>u</var> <var>z</var>) (× <var>v</var> <var>w</var>) (× <var>v</var> <var>z</var>)))))))</code></pre>
+; four variables: the order of a sum does not matter
+(∀ u ℕ (∀ v ℕ (∀ w ℕ (∀ z ℕ (= (+ u v w z) (+ z w v u))))))
+; and (u + v) × (w + z) = u × w + u × z + v × w + v × z
+(∀ u ℕ (∀ v ℕ (∀ w ℕ (∀ z ℕ
+  (= (× (+ u v) (+ w z)) (+ (× u w) (× u z) (× v w) (× v z)))))))</code></pre>
 
   <h4>Laws about lists</h4>
   <p>With variables, what the lesson on lists showed by examples can be stated in general:</p>
-  <pre><code><span data-comment>; a list of two items has length 2, and its first item is the first</span>
-<span data-comment>; one given</span>
-(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (length (list <var>u</var> <var>v</var>)) 2)))
-(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (item (list <var>u</var> <var>v</var>) 1) <var>u</var>)))
+  <pre><code>
+; a list of two items has length 2, and its first item is the first
+; one given
+(∀ u ℕ (∀ v ℕ (= (length (list u v)) 2)))
+(∀ u ℕ (∀ v ℕ (= (item (list u v) 1) u)))
 
-<span data-comment>; the last item is the one at the position of the length</span>
-(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (= (item (list <var>u</var> <var>v</var>) (length (list <var>u</var> <var>v</var>))) <var>v</var>)))</code></pre>
+; the last item is the one at the position of the length
+(∀ u ℕ (∀ v ℕ (= (item (list u v) (length (list u v))) v)))</code></pre>
 
   <h4>The name does not matter</h4>
-  <pre><code><span data-comment>; the same law four times, with four different variables</span>
-(∀ <var>u</var> ℕ (= (+ <var>u</var> 0) <var>u</var>))
-(∀ <var>v</var> ℕ (= (+ <var>v</var> 0) <var>v</var>))
-(∀ <var>w</var> ℕ (= (+ <var>w</var> 0) <var>w</var>))
-(∀ <var>z</var> ℕ (= (+ <var>z</var> 0) <var>z</var>))</code></pre>
+  <pre><code>
+; the same law four times, with four different variables
+(∀ u ℕ (= (+ u 0) u))
+(∀ v ℕ (= (+ v 0) v))
+(∀ w ℕ (= (+ w 0) w))
+(∀ z ℕ (= (+ z 0) z))</code></pre>
 
   <h4>There exists, in ℕ</h4>
   <p>Each example is followed by the number that makes it true.</p>
-  <pre><code><span data-comment>; there is a number that gives 5 when 2 is added: it is 3</span>
-(∃ <var>u</var> ℕ (= (+ <var>u</var> 2) 5))
+  <pre><code>
+; there is a number that gives 5 when 2 is added: it is 3
+(∃ u ℕ (= (+ u 2) 5))
 (= (+ 3 2) 5)
 
-<span data-comment>; there is a number whose square is 9: it is 3</span>
-(∃ <var>u</var> ℕ (= (× <var>u</var> <var>u</var>) 9))
+; there is a number whose square is 9: it is 3
+(∃ u ℕ (= (× u u) 9))
 (= (× 3 3) 9)
 
-<span data-comment>; there is a number above 255: 256 is one</span>
-(∃ <var>u</var> ℕ (&gt; <var>u</var> 255))
+; there is a number above 255: 256 is one
+(∃ u ℕ (&gt; u 255))
 (&gt; (big 1 0) 255)</code></pre>
 
   <h4>ℚ: the rational numbers</h4>
   <p><code>ℚ</code> holds every quotient of two natural numbers, and the opposite of each. So it contains the natural numbers, the fractions between them, and the negative numbers:</p>
-  <pre><code><span data-comment>; 1/2, 2/3 and neg 3 are in ℚ</span>
-(∃ <var>u</var> ℚ (= <var>u</var> (÷ 1 2)))
-(∃ <var>u</var> ℚ (= <var>u</var> (÷ 2 3)))
-(∃ <var>u</var> ℚ (= <var>u</var> (neg 3)))
+  <pre><code>
+; 1/2, 2/3 and neg 3 are in ℚ
+(∃ u ℚ (= u (÷ 1 2)))
+(∃ u ℚ (= u (÷ 2 3)))
+(∃ u ℚ (= u (neg 3)))
 
-<span data-comment>; every natural number is in ℚ</span>
-(∀ <var>u</var> ℕ (∃ <var>v</var> ℚ (= <var>u</var> <var>v</var>)))
+; every natural number is in ℚ
+(∀ u ℕ (∃ v ℚ (= u v)))
 
-<span data-comment>; every quotient of two natural numbers is in ℚ (<var>v</var> + 1 is never 0)</span>
-(∀ <var>u</var> ℕ (∀ <var>v</var> ℕ (∃ <var>w</var> ℚ (= <var>w</var> (÷ <var>u</var> (+ <var>v</var> 1))))))
-<span data-comment>; and nothing else is: every number in ℚ is such a quotient, or the</span>
-<span data-comment>; neg of one</span>
-(∀ <var>w</var> ℚ (∃ <var>u</var> ℕ (∃ <var>v</var> ℕ
-  (<data value="or">or</data> (= <var>w</var> (÷ <var>u</var> (+ <var>v</var> 1))) (= <var>w</var> (neg (÷ <var>u</var> (+ <var>v</var> 1))))))))</code></pre>
+; every quotient of two natural numbers is in ℚ (v + 1 is never 0)
+(∀ u ℕ (∀ v ℕ (∃ w ℚ (= w (÷ u (+ v 1))))))
+; and nothing else is: every number in ℚ is such a quotient, or the
+; neg of one
+(∀ w ℚ (∃ u ℕ (∃ v ℕ
+  (or (= w (÷ u (+ v 1))) (= w (neg (÷ u (+ v 1))))))))</code></pre>
   <p>The same laws hold over ℚ:</p>
-  <pre><code><span data-comment>; adding 0 changes nothing, and the order of a sum does not matter</span>
-(∀ <var>u</var> ℚ (= (+ <var>u</var> 0) <var>u</var>))
-(∀ <var>u</var> ℚ (∀ <var>v</var> ℚ (= (+ <var>u</var> <var>v</var>) (+ <var>v</var> <var>u</var>))))</code></pre>
+  <pre><code>
+; adding 0 changes nothing, and the order of a sum does not matter
+(∀ u ℚ (= (+ u 0) u))
+(∀ u ℚ (∀ v ℚ (= (+ u v) (+ v u))))</code></pre>
   <p>But ℚ contains numbers that ℕ does not:</p>
-  <pre><code><span data-comment>; ℚ has a number below 0; ℕ has none</span>
-(∃ <var>u</var> ℚ (&lt; <var>u</var> 0))
-(∀ <var>u</var> ℕ (<data value="not">not</data> (&lt; <var>u</var> 0)))
+  <pre><code>
+; ℚ has a number below 0; ℕ has none
+(∃ u ℚ (&lt; u 0))
+(∀ u ℕ (not (&lt; u 0)))
 
-<span data-comment>; ℚ has a number between 0 and 1; ℕ has none</span>
-(∃ <var>u</var> ℚ (&lt; 0 <var>u</var> 1))
-(∀ <var>u</var> ℕ (<data value="not">not</data> (&lt; 0 <var>u</var> 1)))
+; ℚ has a number between 0 and 1; ℕ has none
+(∃ u ℚ (&lt; 0 u 1))
+(∀ u ℕ (not (&lt; 0 u 1)))
 
-<span data-comment>; ℚ has a number that gives 1 when multiplied by 3 (it is ⅓); ℕ has</span>
-<span data-comment>; none</span>
-(∃ <var>u</var> ℚ (= (× <var>u</var> 3) 1))
-(∀ <var>u</var> ℕ (≠ (× <var>u</var> 3) 1))
+; ℚ has a number that gives 1 when multiplied by 3 (it is ⅓); ℕ has
+; none
+(∃ u ℚ (= (× u 3) 1))
+(∀ u ℕ (≠ (× u 3) 1))
 
-<span data-comment>; every number in ℚ has an opposite: the two add up to 0</span>
-(∀ <var>u</var> ℚ (∃ <var>v</var> ℚ (= (+ <var>u</var> <var>v</var>) 0)))</code></pre>
+; every number in ℚ has an opposite: the two add up to 0
+(∀ u ℚ (∃ v ℚ (= (+ u v) 0)))</code></pre>
 
   <h4><data value="implies">implies</data></h4>
   <p>First its truth table, then its use: stating something only where a condition holds.</p>
-  <pre><code><span data-comment>; the truth table: <data value="implies">implies</data> is false only when the first is true and</span>
-<span data-comment>; the second false</span>
-(= (<data value="implies">implies</data> <data value="true">true</data> <data value="true">true</data>) <data value="true">true</data>)
-(= (<data value="implies">implies</data> <data value="true">true</data> <data value="false">false</data>) <data value="false">false</data>)
+  <pre><code>
+; the truth table: implies is false only when the first is true and
+; the second false
+(= (implies true true) true)
+(= (implies true false) false)
 
-(= (<data value="implies">implies</data> <data value="false">false</data> <data value="true">true</data>) <data value="true">true</data>)
-(= (<data value="implies">implies</data> <data value="false">false</data> <data value="false">false</data>) <data value="true">true</data>)
+(= (implies false true) true)
+(= (implies false false) true)
 
-<span data-comment>; whatever is below 2 is below 3</span>
-(∀ <var>u</var> ℚ (<data value="implies">implies</data> (&lt; <var>u</var> 2) (&lt; <var>u</var> 3)))
-<span data-comment>; whatever is above 5 is above 2</span>
-(∀ <var>u</var> ℕ (<data value="implies">implies</data> (&gt; <var>u</var> 5) (&gt; <var>u</var> 2)))
-<span data-comment>; only where <var>u</var> is not 0: <var>u</var> × (1 ÷ <var>u</var>) = 1</span>
-(∀ <var>u</var> ℚ (<data value="implies">implies</data> (≠ <var>u</var> 0) (= (× <var>u</var> (÷ 1 <var>u</var>)) 1)))</code></pre>
+; whatever is below 2 is below 3
+(∀ u ℚ (implies (&lt; u 2) (&lt; u 3)))
+; whatever is above 5 is above 2
+(∀ u ℕ (implies (&gt; u 5) (&gt; u 2)))
+; only where u is not 0: u × (1 ÷ u) = 1
+(∀ u ℚ (implies (≠ u 0) (= (× u (÷ 1 u)) 1)))</code></pre>
   <p>Inside a quantifier, a relation such as <code>(&lt; <var>u</var> 2)</code> is an open statement: it holds for some values of <var>u</var> and not for others. This does not break the rule that nothing false is written, which applies to closed relations.</p>
 </article>
 </body>

@@ -12,53 +12,56 @@
 <article class="lesson" data-topic="astronomy">
   <h3>stars</h3>
   <p>The message has bodies, gravity, light, temperature and the elements. Together they describe a star. New: the domain <code>stars</code>, and the functions <code>radius</code> and <code>luminosity</code>, the power a star sends out as light.</p>
-  <pre><code><span data-comment>; every star is a body: it has a mass, and gravity acts on it</span>
-(∀ <var>u</var> stars (∃ <var>v</var> bodies (= <var>u</var> <var>v</var>)))
-(∀ <var>u</var> stars (&gt; (mass <var>u</var>) 0))
+  <pre><code>
+; every star is a body: it has a mass, and gravity acts on it
+(∀ u stars (∃ v bodies (= u v)))
+(∀ u stars (&gt; (mass u) 0))
 
-<span data-comment>; a star has a size, a temperature and a luminosity: a length, a</span>
-<span data-comment>; temperature and a power (energy per time)</span>
-(∀ <var>u</var> stars (= (dim (radius <var>u</var>)) L))
-(∀ <var>u</var> stars (= (dim (temperature <var>u</var>)) Θ))
-(∀ <var>u</var> stars (= (dim (luminosity <var>u</var>)) (÷ (× M (^ L 2)) (^ T 3))))
+; a star has a size, a temperature and a luminosity: a length, a
+; temperature and a power (energy per time)
+(∀ u stars (= (dim (radius u)) L))
+(∀ u stars (= (dim (temperature u)) Θ))
+(∀ u stars (= (dim (luminosity u)) (÷ (× M (^ L 2)) (^ T 3))))
 
-<span data-comment>; the light leaves through its surface: luminosity = 4π × radius² ×</span>
-<span data-comment>; radiance (the power per area)</span>
-(∀ <var>u</var> stars (= (luminosity <var>u</var>) (× 4 π (^ (radius <var>u</var>) 2) (radiance <var>u</var>))))
-<span data-comment>; the temperature of a star is that of a black body with the same</span>
-<span data-comment>; radiance</span>
-(∀ <var>u</var> stars (= (radiance <var>u</var>)
-              (× (÷ (^ π 2) 60) (÷ (^ kB 4) (× (^ ħ 3) (^ c 2))) (^ (temperature <var>u</var>) 4))))
-<span data-comment>; so its luminosity follows from its radius and its temperature</span>
-(∀ <var>u</var> stars (= (luminosity <var>u</var>)
-              (× 4 π (^ (radius <var>u</var>) 2)
-                 (× (÷ (^ π 2) 60) (÷ (^ kB 4) (× (^ ħ 3) (^ c 2))) (^ (temperature <var>u</var>) 4)))))</code></pre>
+; the light leaves through its surface: luminosity = 4π × radius² ×
+; radiance (the power per area)
+(∀ u stars (= (luminosity u) (× 4 π (^ (radius u) 2) (radiance u))))
+; the temperature of a star is that of a black body with the same
+; radiance
+(∀ u stars (= (radiance u)
+              (× (÷ (^ π 2) 60) (÷ (^ kB 4) (× (^ ħ 3) (^ c 2))) (^ (temperature u) 4))))
+; so its luminosity follows from its radius and its temperature
+(∀ u stars (= (luminosity u)
+              (× 4 π (^ (radius u) 2)
+                 (× (÷ (^ π 2) 60) (÷ (^ kB 4) (× (^ ħ 3) (^ c 2))) (^ (temperature u) 4)))))</code></pre>
   <p>Stars are made mostly of hydrogen, then helium. They shine by turning hydrogen into helium: four hydrogen atoms weigh more than one atom of helium with two neutrons, and the mass that is missing leaves the star as energy, mass × c².</p>
-  <pre><code><span data-comment>; in a star there are more hydrogen atoms than helium atoms, and</span>
-<span data-comment>; more helium atoms than carbon or oxygen atoms</span>
-(observed (∀ <var>u</var> stars (&gt; (count hydrogen <var>u</var>) (count helium <var>u</var>))))
-(observed (∀ <var>u</var> stars (&gt; (count helium <var>u</var>) (count carbon <var>u</var>))))
-(observed (∀ <var>u</var> stars (&gt; (count helium <var>u</var>) (count oxygen <var>u</var>))))
+  <pre><code>
+; in a star there are more hydrogen atoms than helium atoms, and
+; more helium atoms than carbon or oxygen atoms
+(observed (∀ u stars (&gt; (count hydrogen u) (count helium u))))
+(observed (∀ u stars (&gt; (count helium u) (count carbon u))))
+(observed (∀ u stars (&gt; (count helium u) (count oxygen u))))
 
-<span data-comment>; one helium atom weighs less than four hydrogen atoms: between 1 −</span>
-<span data-comment>; 1/2⁷ and 1 − 1/2⁸ of them</span>
-<span data-comment>; (about 0.7 % of the mass goes)</span>
+; one helium atom weighs less than four hydrogen atoms: between 1 −
+; 1/2⁷ and 1 − 1/2⁸ of them
+; (about 0.7 % of the mass goes)
 (observed (&lt; (− 1 (÷ 1 (^ 2 7)))
               (÷ (mass (isotope helium 2)) (× 4 (mass (isotope hydrogen 0))))
               (− 1 (÷ 1 (^ 2 8)))))</code></pre>
   <p>New: <code>orbits</code>, one body going round another under gravity, <code>period</code>, the time one round takes, and <code>axis</code>, the size of the orbit: half the sum of the smallest and the largest distance. Newton's law of gravitation gives the rule that relates them.</p>
-  <pre><code><span data-comment>; a period is a time, an axis is a length</span>
-(∀ <var>u</var> bodies (∀ <var>v</var> bodies (<data value="implies">implies</data> (orbits <var>u</var> <var>v</var>) (= (dim (period <var>u</var> <var>v</var>)) T))))
-(∀ <var>u</var> bodies (∀ <var>v</var> bodies (<data value="implies">implies</data> (orbits <var>u</var> <var>v</var>) (= (dim (axis <var>u</var> <var>v</var>)) L))))
-<span data-comment>; an orbit has a size, and one round takes time</span>
-(∀ <var>u</var> bodies (∀ <var>v</var> bodies (<data value="implies">implies</data> (orbits <var>u</var> <var>v</var>) (<data value="and">and</data> (&gt; (axis <var>u</var> <var>v</var>) 0) (&gt; (period <var>u</var> <var>v</var>) 0)))))
+  <pre><code>
+; a period is a time, an axis is a length
+(∀ u bodies (∀ v bodies (implies (orbits u v) (= (dim (period u v)) T))))
+(∀ u bodies (∀ v bodies (implies (orbits u v) (= (dim (axis u v)) L))))
+; an orbit has a size, and one round takes time
+(∀ u bodies (∀ v bodies (implies (orbits u v) (and (&gt; (axis u v) 0) (&gt; (period u v) 0)))))
 
-<span data-comment>; the rule: period² = 4π² × axis³ ÷ (G × the sum of the two masses)</span>
-(observed (∀ <var>u</var> bodies (∀ <var>v</var> bodies
-  (<data value="implies">implies</data> (orbits <var>u</var> <var>v</var>)
-    (= (^ (period <var>u</var> <var>v</var>) 2)
-       (÷ (× 4 (^ π 2) (^ (axis <var>u</var> <var>v</var>) 3))
-          (× G (+ (mass <var>u</var>) (mass <var>v</var>)))))))))</code></pre>
+; the rule: period² = 4π² × axis³ ÷ (G × the sum of the two masses)
+(observed (∀ u bodies (∀ v bodies
+  (implies (orbits u v)
+    (= (^ (period u v) 2)
+       (÷ (× 4 (^ π 2) (^ (axis u v) 3))
+          (× G (+ (mass u) (mass v)))))))))</code></pre>
   <p><small>Sources: AME2020 (masses of hydrogen and helium). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
 </article>
 </body>

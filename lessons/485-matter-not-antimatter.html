@@ -12,17 +12,18 @@
 <article class="lesson" data-topic="physics">
   <h3>matter, not antimatter</h3>
   <p>One particle behaves differently from its mirror image in a world of antimatter, and so tells the two worlds apart. New: <code>kaon</code> (the long-lived neutral kaon), and <code>yields</code>, the chance that a decay of one particle gives another.</p>
-  <pre><code><span data-comment>; a decaying neutron always gives an electron</span>
+  <pre><code>
+; a decaying neutron always gives an electron
 (observed (= (yields electron neutron) 1))
 
-<span data-comment>; the kaon has no charge and weighs between 973 and 975 electron</span>
-<span data-comment>; masses</span>
+; the kaon has no charge and weighs between 973 and 975 electron
+; masses
 (observed (= (charge kaon) 0))
 (observed (&lt; (big 3 205) (÷ (mass kaon) (mass electron)) (big 3 207)))
 
-<span data-comment>; some of its decays give an electron, some a positron, and</span>
-<span data-comment>; positrons come more often:</span>
-<span data-comment>; between 1 + 1/2⁸ and 1 + 1/2⁷ times as often</span>
+; some of its decays give an electron, some a positron, and
+; positrons come more often:
+; between 1 + 1/2⁸ and 1 + 1/2⁷ times as often
 (observed (&gt; (yields positron kaon) (yields electron kaon)))
 (observed (&lt; (+ 1 (÷ 1 (^ 2 8)))
               (÷ (yields positron kaon) (yields electron kaon))

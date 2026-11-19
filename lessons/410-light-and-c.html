@@ -12,29 +12,30 @@
 <article class="lesson" data-topic="physics">
   <h3>light and c</h3>
   <p>New: the particle <code>photon</code>, the domain <code>photons</code> (all individual photons), the functions <code>speed</code>, <code>wavelength</code> and <code>frequency</code>, and the constant <code>c</code>, a new type for physical constants.</p>
-  <pre><code><span data-comment>; a photon has no mass and no charge</span>
+  <pre><code>
+; a photon has no mass and no charge
 (observed (= (mass photon) 0))
 (observed (= (charge photon) 0))
 
-<span data-comment>; every photon has the same speed, c</span>
-(observed (∀ <var>u</var> photons (= (speed <var>u</var>) c)))
+; every photon has the same speed, c
+(observed (∀ u photons (= (speed u) c)))
 (observed (= (speed photon) c))
-<span data-comment>; the dimension of a speed: length ÷ time</span>
-(∀ <var>u</var> photons (= (dim (speed <var>u</var>)) (÷ L T)))
+; the dimension of a speed: length ÷ time
+(∀ u photons (= (dim (speed u)) (÷ L T)))
 (= (dim c) (÷ L T))
 
-<span data-comment>; for every photon, wavelength × frequency = c</span>
-(observed (∀ <var>u</var> photons (= (× (wavelength <var>u</var>) (frequency <var>u</var>)) c)))
-<span data-comment>; a frequency is a number per time, a wavelength is a length</span>
-(∀ <var>u</var> photons (= (dim (frequency <var>u</var>)) (÷ 1 T)))
-(∀ <var>u</var> photons (= (dim (wavelength <var>u</var>)) L))
+; for every photon, wavelength × frequency = c
+(observed (∀ u photons (= (× (wavelength u) (frequency u)) c)))
+; a frequency is a number per time, a wavelength is a length
+(∀ u photons (= (dim (frequency u)) (÷ 1 T)))
+(∀ u photons (= (dim (wavelength u)) L))
 
-<span data-comment>; the frequency of a photon is never 0, so the law can be turned</span>
-<span data-comment>; around: wavelength = c ÷ frequency</span>
-(observed (∀ <var>u</var> photons (&gt; (frequency <var>u</var>) 0)))
-(observed (∀ <var>u</var> photons (= (wavelength <var>u</var>) (÷ c (frequency <var>u</var>)))))
+; the frequency of a photon is never 0, so the law can be turned
+; around: wavelength = c ÷ frequency
+(observed (∀ u photons (&gt; (frequency u) 0)))
+(observed (∀ u photons (= (wavelength u) (÷ c (frequency u)))))
 
-<span data-comment>; c is a token of a new type, physical-constant: 8</span>
+; c is a token of a new type, physical-constant: 8
 (= (type (quote c)) physical-constant)</code></pre>
 </article>
 </body>

@@ -12,29 +12,30 @@
 <article class="lesson" data-topic="physics">
   <h3>energy and ħ</h3>
   <p>New: the function <code>energy</code>, the constant <code>ħ</code>, and <code>emitted</code>: the photon a hydrogen atom emits when it falls from one level to a lower one.</p>
-  <pre><code><span data-comment>; the law: the energy of a photon = ħ × 2π × its frequency</span>
-(observed (∀ <var>u</var> photons (= (energy <var>u</var>) (× ħ 2 π (frequency <var>u</var>)))))
-<span data-comment>; the dimension of ħ: mass × length² ÷ time</span>
+  <pre><code>
+; the law: the energy of a photon = ħ × 2π × its frequency
+(observed (∀ u photons (= (energy u) (× ħ 2 π (frequency u)))))
+; the dimension of ħ: mass × length² ÷ time
 (= (dim ħ) (÷ (× M (^ L 2)) T))
 
-<span data-comment>; the dimension of a photon's energy: mass × length² ÷ time² …</span>
-(∀ <var>u</var> photons (= (dim (energy <var>u</var>)) (÷ (× M (^ L 2)) (^ T 2))))
-<span data-comment>; … the same as ħ × a frequency, and the same as a level of hydrogen</span>
+; the dimension of a photon's energy: mass × length² ÷ time² …
+(∀ u photons (= (dim (energy u)) (÷ (× M (^ L 2)) (^ T 2))))
+; … the same as ħ × a frequency, and the same as a level of hydrogen
 (= (dim (× ħ (frequency (emitted hydrogen 2 1)))) (dim (level hydrogen 1)))
 
-<span data-comment>; falling from level 2 to level 1, hydrogen emits a photon that</span>
-<span data-comment>; carries the difference in energy,</span>
-<span data-comment>; apart from a tiny share taken by the recoil of the atom: more than</span>
-<span data-comment>; 1 − 1/2⁷ of it, less than all</span>
+; falling from level 2 to level 1, hydrogen emits a photon that
+; carries the difference in energy,
+; apart from a tiny share taken by the recoil of the atom: more than
+; 1 − 1/2⁷ of it, less than all
 (observed (&lt; (− 1 (÷ 1 (^ 2 7)))
               (÷ (energy (emitted hydrogen 2 1)) (− (level hydrogen 2) (level hydrogen 1)))
               1))
-<span data-comment>; the same for the fall from level 3 to level 1</span>
+; the same for the fall from level 3 to level 1
 (observed (&lt; (− 1 (÷ 1 (^ 2 7)))
               (÷ (energy (emitted hydrogen 3 1)) (− (level hydrogen 3) (level hydrogen 1)))
               1))
 
-<span data-comment>; the larger step gives the photon with the higher frequency</span>
+; the larger step gives the photon with the higher frequency
 (observed (&gt; (frequency (emitted hydrogen 3 1)) (frequency (emitted hydrogen 2 1))))</code></pre>
   <p>This ties the energy levels of hydrogen to light that can be measured.</p>
   <p><small>Sources: CODATA 2022, AME2020 (for the recoil). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>

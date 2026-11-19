@@ -12,143 +12,149 @@
 <article class="lesson" data-topic="chemistry">
   <h3>molecules</h3>
   <p>New: molecules (a new type), and the functions <code>atoms</code> and <code>bonds</code>. Atoms other than the noble gases join into molecules. <code>count</code> tells how many atoms of an element a molecule contains, and counting goes on through the atoms to their particles:</p>
-  <pre><code><span data-comment>; hydrogen gas, the simplest molecule: two hydrogen atoms</span>
+  <pre><code>
+; hydrogen gas, the simplest molecule: two hydrogen atoms
 (= (count hydrogen dihydrogen) 2)
-<span data-comment>; counting through the atoms: 2 protons and 2 electrons</span>
+; counting through the atoms: 2 protons and 2 electrons
 (= (count proton dihydrogen) 2)
 (= (count electron dihydrogen) 2)
 
-<span data-comment>; water: two hydrogen atoms and one oxygen atom</span>
+; water: two hydrogen atoms and one oxygen atom
 (= (count hydrogen water) 2)
 (= (count oxygen water) 1)
 
-<span data-comment>; counting through the atoms: 1 + 1 + 8 = 10 protons, and as many</span>
-<span data-comment>; electrons</span>
+; counting through the atoms: 1 + 1 + 8 = 10 protons, and as many
+; electrons
 (= (count proton water) 10)
 (= (count electron water) 10)
 
-<span data-comment>; methane: one carbon and four hydrogen</span>
+; methane: one carbon and four hydrogen
 (= (count carbon methane) 1)
 (= (count hydrogen methane) 4)
 
-<span data-comment>; ammonia: one nitrogen and three hydrogen</span>
+; ammonia: one nitrogen and three hydrogen
 (= (count nitrogen ammonia) 1)
 (= (count hydrogen ammonia) 3)
 
-<span data-comment>; carbon dioxide: one carbon and two oxygen</span>
+; carbon dioxide: one carbon and two oxygen
 (= (count carbon carbon-dioxide) 1)
 (= (count oxygen carbon-dioxide) 2)</code></pre>
   <p><code>atoms</code> gives a molecule's atoms as a list. <code>bonds</code> gives its bonds: each bond is a list of the positions of two atoms and the number of electron pairs they share.</p>
-  <pre><code><span data-comment>; hydrogen gas: its two atoms share one pair</span>
+  <pre><code>
+; hydrogen gas: its two atoms share one pair
 (= (atoms dihydrogen) (list hydrogen hydrogen))
 (= (bonds dihydrogen) (list (list 1 2 1)))
 
-<span data-comment>; water: the oxygen (atom 1) shares one pair with each hydrogen</span>
-<span data-comment>; (atoms 2 and 3)</span>
+; water: the oxygen (atom 1) shares one pair with each hydrogen
+; (atoms 2 and 3)
 (= (atoms water) (list oxygen hydrogen hydrogen))
 (= (bonds water) (list (list 1 2 1) (list 1 3 1)))
 
-<span data-comment>; carbon dioxide: the carbon shares two pairs with each oxygen</span>
+; carbon dioxide: the carbon shares two pairs with each oxygen
 (= (atoms carbon-dioxide) (list carbon oxygen oxygen))
 (= (bonds carbon-dioxide) (list (list 1 2 2) (list 1 3 2)))
 
-<span data-comment>; methane: the carbon shares one pair with each of the four</span>
-<span data-comment>; hydrogens</span>
+; methane: the carbon shares one pair with each of the four
+; hydrogens
 (= (atoms methane) (list carbon hydrogen hydrogen hydrogen hydrogen))
 (= (bonds methane) (list (list 1 2 1) (list 1 3 1) (list 1 4 1) (list 1 5 1)))
 
-<span data-comment>; ammonia: the nitrogen shares one pair with each of the three</span>
-<span data-comment>; hydrogens</span>
+; ammonia: the nitrogen shares one pair with each of the three
+; hydrogens
 (= (atoms ammonia) (list nitrogen hydrogen hydrogen hydrogen))
 (= (bonds ammonia) (list (list 1 2 1) (list 1 3 1) (list 1 4 1)))
 
-<span data-comment>; the count of an element in a molecule is its count in the list of</span>
-<span data-comment>; atoms</span>
+; the count of an element in a molecule is its count in the list of
+; atoms
 (= (count hydrogen water) (count hydrogen (atoms water)))
 
-<span data-comment>; a molecule is a token of a new type, molecule: 9</span>
+; a molecule is a token of a new type, molecule: 9
 (= (type (quote water)) molecule)</code></pre>
   <p>Four molecules that will matter later, given by their atoms:</p>
-  <pre><code><span data-comment>; adenine: 5 carbon, 5 hydrogen, 5 nitrogen</span>
+  <pre><code>
+; adenine: 5 carbon, 5 hydrogen, 5 nitrogen
 (= (count carbon adenine) 5)
 (= (count hydrogen adenine) 5)
 (= (count nitrogen adenine) 5)
 
-<span data-comment>; thymine: 5 carbon, 6 hydrogen, 2 nitrogen, 2 oxygen</span>
+; thymine: 5 carbon, 6 hydrogen, 2 nitrogen, 2 oxygen
 (= (count carbon thymine) 5)
 (= (count hydrogen thymine) 6)
 (= (count nitrogen thymine) 2)
 (= (count oxygen thymine) 2)
 
-<span data-comment>; guanine: 5 carbon, 5 hydrogen, 5 nitrogen, 1 oxygen</span>
+; guanine: 5 carbon, 5 hydrogen, 5 nitrogen, 1 oxygen
 (= (count carbon guanine) 5)
 (= (count hydrogen guanine) 5)
 (= (count nitrogen guanine) 5)
 (= (count oxygen guanine) 1)
 
-<span data-comment>; cytosine: 4 carbon, 5 hydrogen, 3 nitrogen, 1 oxygen</span>
+; cytosine: 4 carbon, 5 hydrogen, 3 nitrogen, 1 oxygen
 (= (count carbon cytosine) 4)
 (= (count hydrogen cytosine) 5)
 (= (count nitrogen cytosine) 3)
 (= (count oxygen cytosine) 1)</code></pre>
   <p>New: <code>triple-point</code>. At one particular temperature and pressure, a substance exists as solid, liquid and gas together: its triple point. Melting and boiling happen at different temperatures under different pressures, but the three forms exist together at one temperature and one pressure only, and both are fixed by the substance. So a triple point needs no pressure to be named with it, and it is the same everywhere. Here are four, from hydrogen gas to water. The first three are given as a part of water's: a ratio of two temperatures is a plain number and needs no unit.</p>
-  <pre><code><span data-comment>; hydrogen gas, neon, argon and water, in the order of their triple</span>
-<span data-comment>; points</span>
+  <pre><code>
+; hydrogen gas, neon, argon and water, in the order of their triple
+; points
 (observed (&lt; (triple-point dihydrogen) (triple-point neon) (triple-point argon) (triple-point water)))
-<span data-comment>; all four are temperatures</span>
+; all four are temperatures
 (= (dim (triple-point dihydrogen)) Θ)
 (= (dim (triple-point neon)) Θ)
 
 (= (dim (triple-point argon)) Θ)
 (= (dim (triple-point water)) Θ)
 
-<span data-comment>; hydrogen's triple point is between 103/2¹¹ and 104/2¹¹ of water's:</span>
-<span data-comment>; about 0.0505</span>
+; hydrogen's triple point is between 103/2¹¹ and 104/2¹¹ of water's:
+; about 0.0505
 (observed (&lt; (÷ 103 (^ 2 11))
               (÷ (triple-point dihydrogen) (triple-point water))
               (÷ 104 (^ 2 11))))
-<span data-comment>; neon's is between 736/2¹³ and 737/2¹³ of water's: about 0.0899</span>
+; neon's is between 736/2¹³ and 737/2¹³ of water's: about 0.0899
 (observed (&lt; (÷ (big 2 224) (^ 2 13))
               (÷ (triple-point neon) (triple-point water))
               (÷ (big 2 225) (^ 2 13))))
-<span data-comment>; argon's is between 1256/2¹² and 1257/2¹² of water's: about 0.3068</span>
+; argon's is between 1256/2¹² and 1257/2¹² of water's: about 0.3068
 (observed (&lt; (÷ (big 4 232) (^ 2 12))
               (÷ (triple-point argon) (triple-point water))
               (÷ (big 4 233) (^ 2 12))))</code></pre>
   <p>Water's own triple point is tied to quantities the message already has. Its thermal energy is compared with hydrogen's step from level 1 to level 2, and it is given in Planck temperatures. The ranges are narrow on purpose, about one part in 300 (roughly a kelvin wide): a wide range would also fit water's boiling, or any other temperature in between.</p>
-  <pre><code><span data-comment>; kB × the triple point of water, divided by hydrogen's step from</span>
-<span data-comment>; level 1 to level 2:</span>
-<span data-comment>; between 302/2¹⁷ and 303/2¹⁷, which pins the temperature down to</span>
-<span data-comment>; one part in 300</span>
-<span data-comment>; (302 is written (big 1 46), because 256 + 46 = 302)</span>
+  <pre><code>
+; kB × the triple point of water, divided by hydrogen's step from
+; level 1 to level 2:
+; between 302/2¹⁷ and 303/2¹⁷, which pins the temperature down to
+; one part in 300
+; (302 is written (big 1 46), because 256 + 46 = 302)
 (observed (&lt; (÷ (big 1 46) (^ 2 17))
               (÷ (× kB (triple-point water)) (− (level hydrogen 2) (level hydrogen 1)))
               (÷ (big 1 47) (^ 2 17))))
 
-<span data-comment>; in Planck units: between 156/2¹⁰⁶ and 157/2¹⁰⁶ Planck temperatures</span>
+; in Planck units: between 156/2¹⁰⁶ and 157/2¹⁰⁶ Planck temperatures
 (observed (&lt; (÷ 156 (^ 2 106))
               (÷ (triple-point water) planck-temperature)
               (÷ 157 (^ 2 106))))</code></pre>
   <p>New: <code>triple-pressure</code>, the pressure at a triple point. A pressure is a force per area: mass ÷ (length × time²). The Planck units give a unit for it, the Planck mass divided by the Planck length and the square of the Planck time, so the triple points also give the message fixed pressures that are the same everywhere. Water's is the lowest of the four; it is given in that unit, and the others as many times water's.</p>
-  <pre><code><span data-comment>; the four triple points in the order of their pressures: water has</span>
-<span data-comment>; the lowest</span>
+  <pre><code>
+; the four triple points in the order of their pressures: water has
+; the lowest
 (observed (&lt; (triple-pressure water) (triple-pressure dihydrogen) (triple-pressure neon) (triple-pressure argon)))
-<span data-comment>; a pressure is a force per area: mass ÷ (length × time²)</span>
+; a pressure is a force per area: mass ÷ (length × time²)
 (= (dim (triple-pressure water)) (÷ M (× L (^ T 2))))
 (= (dim (÷ planck-mass (× planck-length (^ planck-time 2)))) (÷ M (× L (^ T 2))))
 
-<span data-comment>; water's triple-point pressure in the Planck unit of pressure:</span>
-<span data-comment>; between 203/2³⁷⁶ and 204/2³⁷⁶</span>
-<span data-comment>; (376 is written (big 1 120), because 256 + 120 = 376)</span>
+; water's triple-point pressure in the Planck unit of pressure:
+; between 203/2³⁷⁶ and 204/2³⁷⁶
+; (376 is written (big 1 120), because 256 + 120 = 376)
 (observed (&lt; (÷ 203 (^ 2 (big 1 120)))
               (÷ (triple-pressure water) (÷ planck-mass (× planck-length (^ planck-time 2))))
               (÷ 204 (^ 2 (big 1 120)))))
 
-<span data-comment>; hydrogen gas: between 11 and 12 times water's, about 11.5</span>
+; hydrogen gas: between 11 and 12 times water's, about 11.5
 (observed (&lt; 11 (÷ (triple-pressure dihydrogen) (triple-pressure water)) 12))
-<span data-comment>; neon: between 141/2 and 143/2 times water's, about 70.9</span>
+; neon: between 141/2 and 143/2 times water's, about 70.9
 (observed (&lt; (÷ 141 2) (÷ (triple-pressure neon) (triple-pressure water)) (÷ 143 2)))
-<span data-comment>; argon: between 112 and 113 times water's</span>
+; argon: between 112 and 113 times water's
 (observed (&lt; 112 (÷ (triple-pressure argon) (triple-pressure water)) 113))</code></pre>
   <p><small>Sources: BIPM (water's triple point; the triple points and pressures of hydrogen, neon and argon), IAPWS G5-01 (water's triple-point pressure), NIST Chemistry WebBook (cross-check), CODATA 2022. Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
 </article>

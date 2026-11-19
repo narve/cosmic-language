@@ -12,45 +12,48 @@
 <article class="lesson" data-topic="physics">
   <h3>Planck units</h3>
   <p>New: the constants <code>planck-length</code>, <code>planck-time</code> and <code>planck-mass</code>, each defined from <code>c</code>, <code>ħ</code> and <code>G</code>:</p>
-  <pre><code><span data-comment>; each unit is defined by its square</span>
-<span data-comment>; planck-length² = ħ × G ÷ c³</span>
+  <pre><code>
+; each unit is defined by its square
+; planck-length² = ħ × G ÷ c³
 (= (^ planck-length 2) (÷ (× ħ G) (^ c 3)))
-<span data-comment>; planck-time² = ħ × G ÷ c⁵</span>
+; planck-time² = ħ × G ÷ c⁵
 (= (^ planck-time 2) (÷ (× ħ G) (^ c 5)))
-<span data-comment>; planck-mass² = ħ × c ÷ G</span>
+; planck-mass² = ħ × c ÷ G
 (= (^ planck-mass 2) (÷ (× ħ c) G))
 
-<span data-comment>; they are a length, a time and a mass</span>
+; they are a length, a time and a mass
 (= (dim planck-length) L)
 (= (dim planck-time) T)
 (= (dim planck-mass) M)
 
-<span data-comment>; light travels one Planck length in one Planck time</span>
+; light travels one Planck length in one Planck time
 (= planck-length (× c planck-time))</code></pre>
   <p>Now familiar things can be measured in these units. The ranges are deliberately rough, between two powers of 2: what matters is that the receiver recognizes them.</p>
   <p>One new constant appears here: <code>hydrogen-line</code>, the photon of the 21 cm line of hydrogen, the best-known line in radio astronomy. It is identified by its energy compared with the step from level 1 to level 2, and by its period.</p>
-  <pre><code><span data-comment>; the proton's mass: about 7.7 × 10⁻²⁰ Planck masses (between 1/2⁶⁴</span>
-<span data-comment>; and 1/2⁶³)</span>
+  <pre><code>
+; the proton's mass: about 7.7 × 10⁻²⁰ Planck masses (between 1/2⁶⁴
+; and 1/2⁶³)
 (observed (&lt; (÷ 1 (^ 2 64)) (÷ (mass proton) planck-mass) (÷ 1 (^ 2 63))))
-<span data-comment>; the electron's mass: about 4.2 × 10⁻²³ Planck masses (between</span>
-<span data-comment>; 1/2⁷⁵ and 1/2⁷⁴)</span>
+; the electron's mass: about 4.2 × 10⁻²³ Planck masses (between
+; 1/2⁷⁵ and 1/2⁷⁴)
 (observed (&lt; (÷ 1 (^ 2 75)) (÷ (mass electron) planck-mass) (÷ 1 (^ 2 74))))
 
-<span data-comment>; the 21 cm line of hydrogen: its energy is about 5.8 × 10⁻⁷ of the</span>
-<span data-comment>; step from level 1 to level 2</span>
-<span data-comment>; (between 1/2²¹ and 1/2²⁰)</span>
+; the 21 cm line of hydrogen: its energy is about 5.8 × 10⁻⁷ of the
+; step from level 1 to level 2
+; (between 1/2²¹ and 1/2²⁰)
 (observed (&lt; (÷ 1 (^ 2 21))
               (÷ (energy hydrogen-line) (− (level hydrogen 2) (level hydrogen 1)))
               (÷ 1 (^ 2 20))))
 
-<span data-comment>; one period of the line (1 ÷ its frequency) is about 1.3 × 10³⁴</span>
-<span data-comment>; Planck times (between 2¹¹³ and 2¹¹⁴)</span>
+; one period of the line (1 ÷ its frequency) is about 1.3 × 10³⁴
+; Planck times (between 2¹¹³ and 2¹¹⁴)
 (observed (&lt; (^ 2 113) (÷ 1 (× (frequency hydrogen-line) planck-time)) (^ 2 114)))
-<span data-comment>; so its wavelength is as many Planck lengths: about 21 cm</span>
+; so its wavelength is as many Planck lengths: about 21 cm
 (observed (&lt; (^ 2 113) (÷ (wavelength hydrogen-line) planck-length) (^ 2 114)))</code></pre>
   <p>One more ratio is famous among physicists. The step from level 1 to level 2 of hydrogen, divided by the energy of the electron's mass (<var>m</var><var>c</var>²), is 3/8 of the square of the fine-structure constant, about 2.0 × 10⁻⁵:</p>
-  <pre><code><span data-comment>; (level 2 − level 1) ÷ (electron mass × c²): about 2.0 × 10⁻⁵</span>
-<span data-comment>; (between 1/2¹⁶ and 1/2¹⁵)</span>
+  <pre><code>
+; (level 2 − level 1) ÷ (electron mass × c²): about 2.0 × 10⁻⁵
+; (between 1/2¹⁶ and 1/2¹⁵)
 (observed (&lt; (÷ 1 (^ 2 16))
               (÷ (− (level hydrogen 2) (level hydrogen 1)) (× (mass electron) (^ c 2)))
               (÷ 1 (^ 2 15))))</code></pre>

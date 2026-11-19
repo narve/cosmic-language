@@ -12,21 +12,22 @@
 <article class="lesson" data-topic="math minimal">
   <h3>order</h3>
   <p>New symbols: <code>&lt;</code>, <code>&gt;</code>, <code>≤</code> and <code>≥</code>.</p>
-  <pre><code><span data-comment>; each number is less than the next …</span>
+  <pre><code>
+; each number is less than the next …
 (&lt; 0 1)
 (&lt; 1 2)
 (&lt; 2 3)
 (&lt; 3 4)
 (&lt; 4 5)
 
-<span data-comment>; … and the next is greater</span>
+; … and the next is greater
 (&gt; 1 0)
 (&gt; 2 1)
 (&gt; 3 2)
 (&gt; 4 3)
 (&gt; 5 4)
 
-<span data-comment>; the numbers need not be neighbours</span>
+; the numbers need not be neighbours
 (&lt; 1 2)
 (&lt; 2 3)
 (&lt; 0 9)
@@ -36,20 +37,21 @@
 (&gt; 9 0)
 (&gt; 255 3)
 
-<span data-comment>; all four relations side by side</span>
+; all four relations side by side
 (&lt; 4 5)
 (&gt; 5 4)
 (= 5 5)
 (≠ 5 4)
 
-<span data-comment>; a chain: each number smaller (or larger) than the next</span>
+; a chain: each number smaller (or larger) than the next
 (&lt; 1 2 3)
 (&lt; 0 5 9 255)
 (&gt; 9 4 1 0)</code></pre>
   <p>Like <code>=</code>, <code>&lt;</code> and <code>&gt;</code> can take more than two arguments: <code>(&lt; 1 2 3)</code> means the numbers are strictly increasing.</p>
   <p><code>≤</code> ("less than or equal") and <code>≥</code> ("greater than or equal") also allow equality:</p>
-  <pre><code><span data-comment>; less than or equal, greater than or equal: the two numbers may</span>
-<span data-comment>; also be the same</span>
+  <pre><code>
+; less than or equal, greater than or equal: the two numbers may
+; also be the same
 (≤ 1 2)
 (≤ 2 2)
 (≤ 0 9)
@@ -57,13 +59,13 @@
 (≥ 2 2)
 (≥ 9 0)
 
-<span data-comment>; side by side with &lt; and &gt;</span>
+; side by side with &lt; and &gt;
 (≤ 4 4)
 (&lt; 4 5)
 (≥ 5 5)
 (&gt; 5 4)
 
-<span data-comment>; chains, like &lt; and &gt;</span>
+; chains, like &lt; and &gt;
 (≤ 1 1 2 5)
 (≥ 5 2 1 1)</code></pre>
   <p>Strictly, <code>≤</code> and <code>≥</code> are not needed: anything they say can be said with <code>&lt;</code>, <code>&gt;</code> and <code>=</code>. They are included because they make later statements much easier to read.</p>

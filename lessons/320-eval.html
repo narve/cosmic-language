@@ -12,52 +12,57 @@
 <article class="lesson" data-topic="logic">
   <h3>eval</h3>
   <p>New: <code>eval</code>, the value of a quoted expression, and the domain <code>expressions</code>: numbers, symbols, and lists of expressions. First examples, then the rules that give the value of every expression without variables.</p>
-  <pre><code>(= (eval (quote (+ 2 3))) 5)
+  <pre><code>
+(= (eval (quote (+ 2 3))) 5)
 (= (eval (quote (× 2 (+ 1 2)))) 6)
 (= (eval 7) 7)
 
 (= (eval (quote (list 1 (+ 1 1)))) (list 1 2))
 (= (eval (quote (rest (list 4 7 9)))) (list 7 9))
 (= (eval (quote (if (&lt; 1 2) 5 7))) 5)
-(= (eval (quote <data value="true">true</data>)) <data value="true">true</data>)
+(= (eval (quote true)) true)
 (= (eval (quote π)) π)
 
-<span data-comment>; the value of a sentence is true or false; a false sentence can now</span>
-<span data-comment>; be evaluated without being claimed</span>
-(= (eval (quote (= 2 2))) <data value="true">true</data>)
-(= (eval (quote (= 2 3))) <data value="false">false</data>)
-(= (eval (quote (&lt; 3 2))) <data value="false">false</data>)
-(= (eval (quote (<data value="and">and</data> (= 2 2) (= 2 3)))) <data value="false">false</data>)
+; the value of a sentence is true or false; a false sentence can now
+; be evaluated without being claimed
+(= (eval (quote (= 2 2))) true)
+(= (eval (quote (= 2 3))) false)
+(= (eval (quote (&lt; 3 2))) false)
+(= (eval (quote (and (= 2 2) (= 2 3)))) false)
 
-<span data-comment>; the value of a quoted expression is the expression</span>
+; the value of a quoted expression is the expression
 (= (eval (quote (quote (+ 2 3)))) (quote (+ 2 3)))
 
-<span data-comment>; eval can be applied to itself</span>
+; eval can be applied to itself
 (= (eval (quote (eval (quote (+ 1 2))))) 3)
-<span data-comment>; and the value of a let is the value of its body</span>
-(= (eval (quote (let <var>u</var> 2 (× <var>u</var> <var>u</var>)))) 4)</code></pre>
+; and the value of a let is the value of its body
+(= (eval (quote (let u 2 (× u u)))) 4)</code></pre>
   <h4>Expressions</h4>
   <p>The rules below speak of all <code>expressions</code>. These are numbers, symbols, and lists of expressions, which is everything a quoted sentence can be made of.</p>
-  <pre><code><span data-comment>; numbers, symbols and quoted sentences are expressions</span>
-(∃ <var>u</var> expressions (= <var>u</var> 5))
-(∃ <var>u</var> expressions (= <var>u</var> (quote +)))
-(∃ <var>u</var> expressions (= <var>u</var> (quote (+ 2 3))))
-<span data-comment>; a list of expressions is an expression</span>
-(∀ <var>u</var> expressions (∀ <var>v</var> expressions (∃ <var>w</var> expressions (= <var>w</var> (list <var>u</var> <var>v</var>)))))</code></pre>
+  <pre><code>
+; numbers, symbols and quoted sentences are expressions
+(∃ u expressions (= u 5))
+(∃ u expressions (= u (quote +)))
+(∃ u expressions (= u (quote (+ 2 3))))
+; a list of expressions is an expression
+(∀ u expressions (∀ v expressions (∃ w expressions (= w (list u v)))))</code></pre>
   <h4>The rules</h4>
   <p>A number is its own value, and so is an operator: it is passed on as it is, the way <code>apply</code> takes <code>+</code>.</p>
-  <pre><code>(∀ <var>u</var> expressions (<data value="implies">implies</data> (= (type <var>u</var>) number) (= (eval <var>u</var>) <var>u</var>)))
-(∀ <var>u</var> expressions (<data value="implies">implies</data> (= (type <var>u</var>) operator) (= (eval <var>u</var>) <var>u</var>)))</code></pre>
+  <pre><code>
+(∀ u expressions (implies (= (type u) number) (= (eval u) u)))
+(∀ u expressions (implies (= (type u) operator) (= (eval u) u)))</code></pre>
   <p>An operation: apply the operator to the values of its arguments. Six operators work differently and are left out here: <code>quote</code> and <code>if</code>, which do not compute all their arguments, and <code>∀</code>, <code>∃</code>, <code>sequence</code> and <code>let</code>, which bind a variable.</p>
-  <pre><code>(∀ <var>u</var> expressions (<data value="implies">implies</data> (= (type <var>u</var>) brackets)
-  (<data value="implies">implies</data> (&gt; (length <var>u</var>) 0)
-  (<data value="implies">implies</data> (= (type (item <var>u</var> 1)) operator)
-  (<data value="implies">implies</data> (= (count (item <var>u</var> 1) (quote (quote if ∀ ∃ sequence let))) 0)
-    (= (eval <var>u</var>) (apply (item <var>u</var> 1) (sequence <var>v</var> (rest <var>u</var>) (eval <var>v</var>)))))))))</code></pre>
+  <pre><code>
+(∀ u expressions (implies (= (type u) brackets)
+  (implies (&gt; (length u) 0)
+  (implies (= (type (item u 1)) operator)
+  (implies (= (count (item u 1) (quote (quote if ∀ ∃ sequence let))) 0)
+    (= (eval u) (apply (item u 1) (sequence v (rest u) (eval v)))))))))</code></pre>
   <p>Quote gives its expression without computing it, and <code>if</code> computes only the branch it picks:</p>
-  <pre><code>(∀ <var>u</var> expressions (= (eval (list (quote quote) <var>u</var>)) <var>u</var>))
-(∀ <var>u</var> expressions (∀ <var>v</var> expressions (∀ <var>w</var> expressions
-  (= (eval (list (quote if) <var>u</var> <var>v</var> <var>w</var>)) (if (eval <var>u</var>) (eval <var>v</var>) (eval <var>w</var>))))))</code></pre>
+  <pre><code>
+(∀ u expressions (= (eval (list (quote quote) u)) u))
+(∀ u expressions (∀ v expressions (∀ w expressions
+  (= (eval (list (quote if) u v w)) (if (eval u) (eval v) (eval w))))))</code></pre>
   <p>A constant, a particle, an element or another named thing has the thing it names as its value, as in <code>(= (eval (quote π)) π)</code> above. These few sentences define the value of every expression without variables. Expressions with variables, and with <code>∀</code>, <code>∃</code> and <code>sequence</code>, come next.</p>
 </article>
 </body>

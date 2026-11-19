@@ -12,26 +12,27 @@
 <article class="lesson" data-topic="physics">
   <h3>three particles</h3>
   <p>New: the particles <code>electron</code>, <code>proton</code> and <code>neutron</code> (a new type), the functions <code>mass</code> and <code>charge</code>, and the marker <code>observed</code>. Only ratios of masses are given, never a mass on its own, because a mass on its own needs a unit.</p>
-  <pre><code><span data-comment>; the three masses in order: the electron is the lightest, the</span>
-<span data-comment>; neutron the heaviest</span>
+  <pre><code>
+; the three masses in order: the electron is the lightest, the
+; neutron the heaviest
 (observed (&lt; (mass electron) (mass proton) (mass neutron)))
 
-<span data-comment>; proton ÷ electron: between 1836 and 1837</span>
-<span data-comment>; (1836 is written (big 7 44), because 7 × 256 + 44 = 1836)</span>
+; proton ÷ electron: between 1836 and 1837
+; (1836 is written (big 7 44), because 7 × 256 + 44 = 1836)
 (observed (&lt; (big 7 44) (÷ (mass proton) (mass electron)) (big 7 45)))
-<span data-comment>; neutron ÷ electron: between 1838 and 1839</span>
+; neutron ÷ electron: between 1838 and 1839
 (observed (&lt; (big 7 46) (÷ (mass neutron) (mass electron)) (big 7 47)))
-<span data-comment>; neutron ÷ proton: just above 1, so the neutron is slightly</span>
-<span data-comment>; heavier: between 1 + 1/2¹¹ and 1 + 1/2⁹</span>
+; neutron ÷ proton: just above 1, so the neutron is slightly
+; heavier: between 1 + 1/2¹¹ and 1 + 1/2⁹
 (observed (&lt; (+ 1 (÷ 1 (^ 2 11))) (÷ (mass neutron) (mass proton)) (+ 1 (÷ 1 (^ 2 9)))))
 
-<span data-comment>; the proton and the electron have opposite charges</span>
+; the proton and the electron have opposite charges
 (observed (= (charge proton) (neg (charge electron))))
-<span data-comment>; the electron's charge is not zero; the neutron's is</span>
+; the electron's charge is not zero; the neutron's is
 (observed (≠ (charge electron) 0))
 (observed (= (charge neutron) 0))
 
-<span data-comment>; the three are tokens of a new type, particle: 5</span>
+; the three are tokens of a new type, particle: 5
 (= (type (quote electron)) particle)
 (= (type (quote proton)) particle)
 (= (type (quote neutron)) particle)</code></pre>

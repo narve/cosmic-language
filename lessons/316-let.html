@@ -12,30 +12,32 @@
 <article class="lesson" data-topic="logic">
   <h3>let</h3>
   <p>A long expression can be given a short name inside a sentence. New: <code>let</code>. <code>(let <var>u</var> <var>x</var> <var>S</var>)</code> says <var>S</var>, with the variable <var>u</var> standing for the value <var>x</var> everywhere in <var>S</var>. Like <code>∀</code>, it binds its variable; unlike <code>∀</code>, it gives it a single value.</p>
-  <pre><code><span data-comment>; <var>u</var> is 0, and <var>u</var> is 0</span>
-(let <var>u</var> 0 (= <var>u</var> 0))
-<span data-comment>; <var>u</var> is 4, and <var>u</var> + <var>u</var> is 8</span>
-(let <var>u</var> 4 (= (+ <var>u</var> <var>u</var>) 8))
+  <pre><code>
+; u is 0, and u is 0
+(let u 0 (= u 0))
+; u is 4, and u + u is 8
+(let u 4 (= (+ u u) 8))
 
-<span data-comment>; the value can be an expression: <var>u</var> is 2 + 3, and <var>u</var> × <var>u</var> is 25</span>
-(let <var>u</var> (+ 2 3) (= (× <var>u</var> <var>u</var>) 25))
+; the value can be an expression: u is 2 + 3, and u × u is 25
+(let u (+ 2 3) (= (× u u) 25))
 
-<span data-comment>; or a list</span>
-(let <var>u</var> (list 1 2 3) (= (length <var>u</var>) 3))
-(let <var>u</var> (list 1 2 3) (= (item <var>u</var> (length <var>u</var>)) 3))</code></pre>
+; or a list
+(let u (list 1 2 3) (= (length u) 3))
+(let u (list 1 2 3) (= (item u (length u)) 3))</code></pre>
   <p>A <code>let</code> can hold another, and a later value may use an earlier name. It says the same as <code>∀</code> over a list of one item.</p>
-  <pre><code><span data-comment>; one let inside another</span>
-(let <var>u</var> 2 (let <var>v</var> 3 (= (+ <var>u</var> <var>v</var>) 5)))
-<span data-comment>; the second value uses the first name</span>
-(let <var>u</var> 2 (let <var>v</var> (× <var>u</var> <var>u</var>) (= (+ <var>u</var> <var>v</var>) 6)))
+  <pre><code>
+; one let inside another
+(let u 2 (let v 3 (= (+ u v) 5)))
+; the second value uses the first name
+(let u 2 (let v (× u u) (= (+ u v) 6)))
 
-<span data-comment>; the same as ∀ over a list of one item</span>
-(= (let <var>u</var> 7 (&gt; <var>u</var> 5)) (∀ <var>u</var> (list 7) (&gt; <var>u</var> 5)))
-<span data-comment>; and the same when both are false: 3 is not greater than 5</span>
-(= (let <var>u</var> 3 (&gt; <var>u</var> 5)) (∀ <var>u</var> (list 3) (&gt; <var>u</var> 5)))
+; the same as ∀ over a list of one item
+(= (let u 7 (&gt; u 5)) (∀ u (list 7) (&gt; u 5)))
+; and the same when both are false: 3 is not greater than 5
+(= (let u 3 (&gt; u 5)) (∀ u (list 3) (&gt; u 5)))
 
-<span data-comment>; and it works inside laws: for every <var>u</var>, <var>u</var> + 1 is greater than <var>u</var></span>
-(∀ <var>u</var> ℕ (let <var>v</var> (+ <var>u</var> 1) (&gt; <var>v</var> <var>u</var>)))</code></pre>
+; and it works inside laws: for every u, u + 1 is greater than u
+(∀ u ℕ (let v (+ u 1) (&gt; v u)))</code></pre>
 </article>
 </body>
 </html>

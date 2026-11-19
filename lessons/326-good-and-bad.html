@@ -12,64 +12,67 @@
 <article class="lesson" data-topic="conversations">
   <h3>good and bad</h3>
   <p>A party can judge a conversation. New: <code>good</code> and <code>bad</code>. <code>(good <var>u</var> <var>z</var>)</code> means that <var>u</var> finds the conversation <var>z</var> good, and <code>(bad <var>u</var> <var>z</var>)</code> that <var>u</var> finds it bad. A conversation is written as a list of messages, and a message as a list of sentences: a question in the first message, a reply in the second. The conversations judged here are examples, not ones that took place. Good and bad are always someone's judgement, and the judgements here are ours.</p>
-  <pre><code><span data-comment>; to "what is 2 + 3?", we find the reply 5 good</span>
-(let <var>w</var> (quote (= (+ 2 3) ?))
-  (let <var>v</var> (fill <var>w</var> 5)
-    (good we (list (list <var>w</var>) (list <var>v</var>)))))
-<span data-comment>; and the reply 4 bad: it is wrong</span>
-(let <var>w</var> (quote (= (+ 2 3) ?))
-  (let <var>v</var> (fill <var>w</var> 4)
-    (bad we (list (list <var>w</var>) (list <var>v</var>)))))
+  <pre><code>
+; to "what is 2 + 3?", we find the reply 5 good
+(let w (quote (= (+ 2 3) ?))
+  (let v (fill w 5)
+    (good we (list (list w) (list v)))))
+; and the reply 4 bad: it is wrong
+(let w (quote (= (+ 2 3) ?))
+  (let v (fill w 4)
+    (bad we (list (list w) (list v)))))
 
-<span data-comment>; to "is 2 less than 3?", we find yes good</span>
-(let <var>w</var> (quote (= (&lt; 2 3) ?))
-  (let <var>v</var> (fill <var>w</var> <data value="true">true</data>)
-    (good we (list (list <var>w</var>) (list <var>v</var>)))))
-<span data-comment>; and no bad</span>
-(let <var>w</var> (quote (= (&lt; 2 3) ?))
-  (let <var>v</var> (fill <var>w</var> <data value="false">false</data>)
-    (bad we (list (list <var>w</var>) (list <var>v</var>)))))</code></pre>
+; to "is 2 less than 3?", we find yes good
+(let w (quote (= (&lt; 2 3) ?))
+  (let v (fill w true)
+    (good we (list (list w) (list v)))))
+; and no bad
+(let w (quote (= (&lt; 2 3) ?))
+  (let v (fill w false)
+    (bad we (list (list w) (list v)))))</code></pre>
   <p>Good is not the same as true. A right reply can be bad, because it does not do what the question asked. This is the step that Hans Freudenthal's Lincos (1960) took in the same way: there a speaker calls the reply 10/4 to a question bad, although it is right, because it is not written in lowest terms.</p>
-  <pre><code><span data-comment>; a reply can be right and still bad</span>
-(let <var>w</var> (quote (= (+ 2 3) ?))
-  (∃ <var>v</var> expressions
-    (<data value="and">and</data> (= (eval (fill <var>w</var> <var>v</var>)) <data value="true">true</data>)
-         (bad we (list (list <var>w</var>) (list (fill <var>w</var> <var>v</var>)))))))
-<span data-comment>; these replies are right, but we find them bad: they do not say</span>
-<span data-comment>; which number</span>
-(let <var>w</var> (quote (= (+ 2 3) ?))
-  (∀ <var>v</var> (list (quote (+ 2 3)) (quote (+ 1 4)) (quote (÷ 15 3))
+  <pre><code>
+; a reply can be right and still bad
+(let w (quote (= (+ 2 3) ?))
+  (∃ v expressions
+    (and (= (eval (fill w v)) true)
+         (bad we (list (list w) (list (fill w v)))))))
+; these replies are right, but we find them bad: they do not say
+; which number
+(let w (quote (= (+ 2 3) ?))
+  (∀ v (list (quote (+ 2 3)) (quote (+ 1 4)) (quote (÷ 15 3))
              (quote (length (list 1 2 3 4 5))))
-    (bad we (list (list <var>w</var>) (list (fill <var>w</var> <var>v</var>))))))
+    (bad we (list (list w) (list (fill w v))))))
 
-<span data-comment>; to "which natural numbers are greater than 1 and less than 5?",</span>
-<span data-comment>; we find the reply 2, 3, 4 good</span>
-(let <var>w</var> (quote (∀ <var>u</var> ? (<data value="and">and</data> (∃ <var>v</var> ℕ (= <var>v</var> <var>u</var>)) (&lt; 1 <var>u</var> 5))))
-  (let <var>v</var> (fill <var>w</var> (quote (list 2 3 4)))
-    (good we (list (list <var>w</var>) (list <var>v</var>)))))
-<span data-comment>; and the reply 2, 3 bad: it is right, but it leaves one out</span>
-(let <var>w</var> (quote (∀ <var>u</var> ? (<data value="and">and</data> (∃ <var>v</var> ℕ (= <var>v</var> <var>u</var>)) (&lt; 1 <var>u</var> 5))))
-  (let <var>v</var> (fill <var>w</var> (quote (list 2 3)))
-    (bad we (list (list <var>w</var>) (list <var>v</var>)))))
+; to "which natural numbers are greater than 1 and less than 5?",
+; we find the reply 2, 3, 4 good
+(let w (quote (∀ u ? (and (∃ v ℕ (= v u)) (&lt; 1 u 5))))
+  (let v (fill w (quote (list 2 3 4)))
+    (good we (list (list w) (list v)))))
+; and the reply 2, 3 bad: it is right, but it leaves one out
+(let w (quote (∀ u ? (and (∃ v ℕ (= v u)) (&lt; 1 u 5))))
+  (let v (fill w (quote (list 2 3)))
+    (bad we (list (list w) (list v)))))
 
-<span data-comment>; the same reply can be good after one question and bad after</span>
-<span data-comment>; another: 1 + 1 = 2 is good after "what is 1 + 1?"</span>
-(let <var>w</var> (quote (= (+ 1 1) ?))
-  (let <var>v</var> (quote (= (+ 1 1) 2))
-    (good we (list (list <var>w</var>) (list <var>v</var>)))))
-<span data-comment>; and bad after "what is 2 + 3?", which it does not answer</span>
-(let <var>w</var> (quote (= (+ 2 3) ?))
-  (let <var>v</var> (quote (= (+ 1 1) 2))
-    (bad we (list (list <var>w</var>) (list <var>v</var>)))))</code></pre>
-  <pre><code><span data-comment>; nothing is both good and bad to the same party</span>
-(∀ <var>u</var> parties (∀ <var>v</var> expressions (<data value="not">not</data> (<data value="and">and</data> (good <var>u</var> <var>v</var>) (bad <var>u</var> <var>v</var>)))))
-<span data-comment>; but good and bad are not the same for everyone: there are parties</span>
-<span data-comment>; <var>u</var> and <var>v</var> and a conversation <var>w</var> that <var>u</var> finds good and <var>v</var> finds bad</span>
-(∃ <var>u</var> parties (∃ <var>v</var> parties (∃ <var>w</var> expressions (<data value="and">and</data> (good <var>u</var> <var>w</var>) (bad <var>v</var> <var>w</var>)))))
+; the same reply can be good after one question and bad after
+; another: 1 + 1 = 2 is good after "what is 1 + 1?"
+(let w (quote (= (+ 1 1) ?))
+  (let v (quote (= (+ 1 1) 2))
+    (good we (list (list w) (list v)))))
+; and bad after "what is 2 + 3?", which it does not answer
+(let w (quote (= (+ 2 3) ?))
+  (let v (quote (= (+ 1 1) 2))
+    (bad we (list (list w) (list v)))))</code></pre>
+  <pre><code>
+; nothing is both good and bad to the same party
+(∀ u parties (∀ v expressions (not (and (good u v) (bad u v)))))
+; but good and bad are not the same for everyone: there are parties
+; u and v and a conversation w that u finds good and v finds bad
+(∃ u parties (∃ v parties (∃ w expressions (and (good u w) (bad v w)))))
 
-<span data-comment>; and one thing we find bad whenever we meet it: a message that</span>
-<span data-comment>; says something false</span>
-(∀ <var>u</var> expressions (<data value="implies">implies</data> (= (eval <var>u</var>) <data value="false">false</data>) (bad we (list (list <var>u</var>)))))</code></pre>
+; and one thing we find bad whenever we meet it: a message that
+; says something false
+(∀ u expressions (implies (= (eval u) false) (bad we (list (list u)))))</code></pre>
 </article>
 </body>
 </html>

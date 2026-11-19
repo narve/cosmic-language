@@ -12,46 +12,48 @@
 <article class="lesson" data-topic="math">
   <h3>complex numbers</h3>
   <p>New: the domain <code>ℂ</code> (complex numbers) and the absolute value <code>abs</code>. Every complex number is a real part plus a multiple of <code>i</code>, and the familiar laws still hold:</p>
-  <pre><code><span data-comment>; sums with i: i + i = 2i, (3 + i) − i = 3, (1 + i) + (2 + i) = 3 +</span>
-<span data-comment>; 2i</span>
+  <pre><code>
+; sums with i: i + i = 2i, (3 + i) − i = 3, (1 + i) + (2 + i) = 3 +
+; 2i
 (= (+ i i) (× 2 i))
 (= (− (+ 3 i) i) 3)
 (= (+ (+ 1 i) (+ 2 i)) (+ 3 (× 2 i)))
 
-<span data-comment>; products: (1 + i)² = 2i and (1 + i) × (1 − i) = 2</span>
+; products: (1 + i)² = 2i and (1 + i) × (1 − i) = 2
 (= (× (+ 1 i) (+ 1 i)) (× 2 i))
 (= (× (+ 1 i) (− 1 i)) 2)
 (= (+ (+ 1 i) (− 1 i)) 2)
 
-<span data-comment>; there is a complex number whose square is neg 1</span>
-(∃ <var>u</var> ℂ (= (× <var>u</var> <var>u</var>) (neg 1)))
-<span data-comment>; every complex number is a real number plus a real number times i</span>
-(∀ <var>u</var> ℂ (∃ <var>v</var> ℝ (∃ <var>w</var> ℝ (= <var>u</var> (+ <var>v</var> (× <var>w</var> i))))))
+; there is a complex number whose square is neg 1
+(∃ u ℂ (= (× u u) (neg 1)))
+; every complex number is a real number plus a real number times i
+(∀ u ℂ (∃ v ℝ (∃ w ℝ (= u (+ v (× w i))))))
 
-<span data-comment>; the familiar laws still hold</span>
-(∀ <var>u</var> ℂ (∀ <var>v</var> ℂ (= (× <var>u</var> <var>v</var>) (× <var>v</var> <var>u</var>))))
-(∀ <var>u</var> ℂ (= (+ <var>u</var> 0) <var>u</var>))</code></pre>
+; the familiar laws still hold
+(∀ u ℂ (∀ v ℂ (= (× u v) (× v u))))
+(∀ u ℂ (= (+ u 0) u))</code></pre>
   <p><code>&lt;</code>, <code>&gt;</code>, <code>≤</code> and <code>≥</code> are never used with complex numbers that are not real. Instead, <code>abs</code> measures the distance from 0.</p>
   <p><code>abs</code> is introduced in a new way: besides examples, by a sentence that states what it means in terms of known symbols. The absolute value is never negative, and its square is the sum of the squares of the two parts:</p>
-  <pre><code><span data-comment>; examples first: the distance from 0</span>
+  <pre><code>
+; examples first: the distance from 0
 (= (abs 3) 3)
 (= (abs (neg 3)) 3)
 (= (abs 0) 0)
 (= (abs i) 1)
 
-<span data-comment>; 3 + 4i is 5 away from 0, because 3² + 4² = 5²</span>
+; 3 + 4i is 5 away from 0, because 3² + 4² = 5²
 (= (abs (+ 3 (× 4 i))) 5)
 
-<span data-comment>; never negative</span>
-(∀ <var>u</var> ℂ (≥ (abs <var>u</var>) 0))
-<span data-comment>; its square is the sum of the squares of the two parts</span>
-(∀ <var>u</var> ℝ (∀ <var>v</var> ℝ (= (^ (abs (+ <var>u</var> (× <var>v</var> i))) 2) (+ (^ <var>u</var> 2) (^ <var>v</var> 2)))))
-<span data-comment>; the absolute value of a square is the square of the absolute value</span>
-(∀ <var>u</var> ℂ (= (abs (× <var>u</var> <var>u</var>)) (× (abs <var>u</var>) (abs <var>u</var>))))
+; never negative
+(∀ u ℂ (≥ (abs u) 0))
+; its square is the sum of the squares of the two parts
+(∀ u ℝ (∀ v ℝ (= (^ (abs (+ u (× v i))) 2) (+ (^ u 2) (^ v 2)))))
+; the absolute value of a square is the square of the absolute value
+(∀ u ℂ (= (abs (× u u)) (× (abs u) (abs u))))
 
-<span data-comment>; for a rational number, with if from the lesson on rest and if: the</span>
-<span data-comment>; number itself, or its neg when it is below 0</span>
-(∀ <var>u</var> ℚ (= (abs <var>u</var>) (if (&lt; <var>u</var> 0) (neg <var>u</var>) <var>u</var>)))</code></pre>
+; for a rational number, with if from the lesson on rest and if: the
+; number itself, or its neg when it is below 0
+(∀ u ℚ (= (abs u) (if (&lt; u 0) (neg u) u)))</code></pre>
 </article>
 </body>
 </html>

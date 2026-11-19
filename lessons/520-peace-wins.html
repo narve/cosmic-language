@@ -12,23 +12,24 @@
 <article class="lesson" data-topic="games minimal">
   <h3>peace wins</h3>
   <p>The message ends with what the tournament shows, and with the reason for the strategy we have stated. Two players who keep the peace each lose less than two players at war. The two strategies that defect first end with the highest losses, and the four that never defect first all end below them. And tit-for-tat, which opens in peace, answers in kind and forgives as soon as the other returns to peace, loses less than every other strategy. That is the last statement of the message.</p>
-  <pre><code><span data-comment>; two at peace lose less, each, than two at war: 765 against 1275</span>
+  <pre><code>
+; two at peace lose less, each, than two at war: 765 against 1275
 (&lt; (cost tit-for-tat tit-for-tat 255) (cost always-defect always-defect 255))
 
-<span data-comment>; the whole ranking, from the least loss to the most: the two that</span>
-<span data-comment>; defect first are at the bottom</span>
-(&lt; (apply + (sequence <var>v</var> tournament (cost tit-for-tat <var>v</var> 255)))
-   (apply + (sequence <var>v</var> tournament (cost grim <var>v</var> 255)))
-   (apply + (sequence <var>v</var> tournament (cost always-cooperate <var>v</var> 255)))
-   (apply + (sequence <var>v</var> tournament (cost pavlov <var>v</var> 255)))
-   (apply + (sequence <var>v</var> tournament (cost always-defect <var>v</var> 255)))
-   (apply + (sequence <var>v</var> tournament (cost suspicious-tit-for-tat <var>v</var> 255))))
+; the whole ranking, from the least loss to the most: the two that
+; defect first are at the bottom
+(&lt; (apply + (sequence v tournament (cost tit-for-tat v 255)))
+   (apply + (sequence v tournament (cost grim v 255)))
+   (apply + (sequence v tournament (cost always-cooperate v 255)))
+   (apply + (sequence v tournament (cost pavlov v 255)))
+   (apply + (sequence v tournament (cost always-defect v 255)))
+   (apply + (sequence v tournament (cost suspicious-tit-for-tat v 255))))
 
-<span data-comment>; tit-for-tat loses less than every other strategy</span>
-(∀ <var>u</var> tournament
-  (<data value="implies">implies</data> (≠ <var>u</var> tit-for-tat)
-    (&lt; (apply + (sequence <var>v</var> tournament (cost tit-for-tat <var>v</var> 255)))
-       (apply + (sequence <var>v</var> tournament (cost <var>u</var> <var>v</var> 255))))))</code></pre>
+; tit-for-tat loses less than every other strategy
+(∀ u tournament
+  (implies (≠ u tit-for-tat)
+    (&lt; (apply + (sequence v tournament (cost tit-for-tat v 255)))
+       (apply + (sequence v tournament (cost u v 255))))))</code></pre>
 </article>
 </body>
 </html>

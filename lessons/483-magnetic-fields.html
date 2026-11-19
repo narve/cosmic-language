@@ -12,35 +12,37 @@
 <article class="lesson" data-topic="physics">
   <h3>magnetic fields</h3>
   <p>A current going round in a ring makes a magnetic field. New: the domain <code>rings</code> (round loops of wire carrying a steady current), <code>radius</code>, <code>circulates</code> (the current goes round from one direction toward another), and <code>field-direction</code> and <code>field-strength</code>, the direction and strength of the magnetic field at the centre of the ring.</p>
-  <pre><code><span data-comment>; a ring has a radius, a length, and a current, a charge per time</span>
-(∀ <var>u</var> rings (= (dim (radius <var>u</var>)) L))
-(∀ <var>u</var> rings (&gt; (radius <var>u</var>) 0))
-(∀ <var>u</var> rings (= (dim (current <var>u</var>)) (÷ Q T)))
+  <pre><code>
+; a ring has a radius, a length, and a current, a charge per time
+(∀ u rings (= (dim (radius u)) L))
+(∀ u rings (&gt; (radius u) 0))
+(∀ u rings (= (dim (current u)) (÷ Q T)))
 
-<span data-comment>; the strength at the centre: 2π × km × current ÷ radius</span>
-(observed (∀ <var>u</var> rings (= (field-strength <var>u</var>) (÷ (× 2 π km (abs (current <var>u</var>))) (radius <var>u</var>)))))
-<span data-comment>; its dimension: mass ÷ (charge × time)</span>
-(∀ <var>u</var> rings (= (dim (field-strength <var>u</var>)) (÷ M (× Q T))))
-<span data-comment>; two rings of the same size: twice the current gives twice the</span>
-<span data-comment>; field</span>
-(∀ <var>u</var> rings (∀ <var>v</var> rings
-  (<data value="implies">implies</data> (<data value="and">and</data> (= (radius <var>u</var>) (radius <var>v</var>)) (= (abs (current <var>u</var>)) (× 2 (abs (current <var>v</var>)))))
-           (= (field-strength <var>u</var>) (× 2 (field-strength <var>v</var>))))))</code></pre>
+; the strength at the centre: 2π × km × current ÷ radius
+(observed (∀ u rings (= (field-strength u) (÷ (× 2 π km (abs (current u))) (radius u)))))
+; its dimension: mass ÷ (charge × time)
+(∀ u rings (= (dim (field-strength u)) (÷ M (× Q T))))
+; two rings of the same size: twice the current gives twice the
+; field
+(∀ u rings (∀ v rings
+  (implies (and (= (radius u) (radius v)) (= (abs (current u)) (× 2 (abs (current v)))))
+           (= (field-strength u) (× 2 (field-strength v))))))</code></pre>
   <p>The field points along the axis of the ring, and which way it points is given by <code>cross</code>, just as for spin. This is a second way to tie the hand of <code>cross</code> to something in the world. But it does not tell left from right by itself: in a mirror, the laws of magnetism come out the same. Only the decays in the lesson on spin, and the kaon in the next lesson, do that.</p>
-  <pre><code><span data-comment>; a current going round from <var>v</var> toward <var>w</var> makes a field along the</span>
-<span data-comment>; cross of <var>v</var> and <var>w</var></span>
-(∀ <var>u</var> rings (∀ <var>v</var> directions (∀ <var>w</var> directions
-  (<data value="implies">implies</data> (<data value="and">and</data> (= (dot <var>v</var> <var>w</var>) 0) (circulates <var>u</var> <var>v</var> <var>w</var>))
-           (= (field-direction <var>u</var>) (cross <var>v</var> <var>w</var>))))))
-<span data-comment>; for example: going round from (1 0 0) toward (0 1 0), the field is</span>
-<span data-comment>; along (0 0 1)</span>
-(∀ <var>u</var> rings (<data value="implies">implies</data> (circulates <var>u</var> (list 1 0 0) (list 0 1 0)) (= (field-direction <var>u</var>) (list 0 0 1))))
-<span data-comment>; a current that goes round from <var>v</var> toward <var>w</var> does not go round from <var>w</var></span>
-<span data-comment>; toward <var>v</var></span>
-(∀ <var>u</var> rings (∀ <var>v</var> directions (∀ <var>w</var> directions (<data value="implies">implies</data> (circulates <var>u</var> <var>v</var> <var>w</var>) (<data value="not">not</data> (circulates <var>u</var> <var>w</var> <var>v</var>))))))
+  <pre><code>
+; a current going round from v toward w makes a field along the
+; cross of v and w
+(∀ u rings (∀ v directions (∀ w directions
+  (implies (and (= (dot v w) 0) (circulates u v w))
+           (= (field-direction u) (cross v w))))))
+; for example: going round from (1 0 0) toward (0 1 0), the field is
+; along (0 0 1)
+(∀ u rings (implies (circulates u (list 1 0 0) (list 0 1 0)) (= (field-direction u) (list 0 0 1))))
+; a current that goes round from v toward w does not go round from w
+; toward v
+(∀ u rings (∀ v directions (∀ w directions (implies (circulates u v w) (not (circulates u w v))))))
 
-<span data-comment>; a spinning particle is a tiny ring: its own field points along its</span>
-<span data-comment>; spin axis, or against it</span>
+; a spinning particle is a tiny ring: its own field points along its
+; spin axis, or against it
 (observed (= (dot (field-direction proton) (spin-axis proton)) 1))
 (observed (= (dot (field-direction electron) (spin-axis electron)) (neg 1)))
 (observed (= (dot (field-direction neutron) (spin-axis neutron)) (neg 1)))</code></pre>

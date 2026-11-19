@@ -12,35 +12,38 @@
 <article class="lesson" data-topic="math">
   <h3>e and π</h3>
   <p>New constants: <code>e</code> and <code>π</code>. Both are introduced by a sentence that pins them down exactly. <code>e</code> is the value of <code>exp</code> at 1: the number that the product rule makes every other value a power of.</p>
-  <pre><code><span data-comment>; e is exp of 1</span>
+  <pre><code>
+; e is exp of 1
 (= e (exp 1))
 
-<span data-comment>; it lies between 2 and 3</span>
+; it lies between 2 and 3
 (&lt; 2 e 3)
 (&lt; (÷ 8 3) e (÷ 11 4))
-<span data-comment>; exp of a natural number is a power of e</span>
-(∀ <var>u</var> ℕ (= (exp <var>u</var>) (^ e <var>u</var>)))</code></pre>
+; exp of a natural number is a power of e
+(∀ u ℕ (= (exp u) (^ e u)))</code></pre>
   <p>As the previous lesson showed, exp of i × <var>u</var> goes round the circle of radius 1 as <var>u</var> grows. It starts at 1, when <var>u</var> is 0. Half way round, at the opposite side of the circle, it is neg 1, and the distance travelled along the circle to get there is π. So π is half a turn: a full turn is 2π, and a quarter turn is π/2. It is the same π as the ratio of a circle's length to its width, but here it needs no circle, only <code>exp</code>. π is the only number between 0 and 4 for which <code>exp</code> of <code>i</code> times that number is <code>(neg 1)</code>:</p>
-  <pre><code><span data-comment>; the sentence that pins π down: it lies between 0 and 4, and exp of</span>
-<span data-comment>; i × π is neg 1</span>
-(<data value="and">and</data> (&lt; 0 π 4) (= (exp (× i π)) (neg 1)))
+  <pre><code>
+; the sentence that pins π down: it lies between 0 and 4, and exp of
+; i × π is neg 1
+(and (&lt; 0 π 4) (= (exp (× i π)) (neg 1)))
 
-<span data-comment>; Euler's identity: exp of i × π, plus 1, is 0</span>
+; Euler's identity: exp of i × π, plus 1, is 0
 (= (+ (exp (× i π)) 1) 0)
-<span data-comment>; a full turn gives 1, a quarter turn gives i</span>
+; a full turn gives 1, a quarter turn gives i
 (= (exp (× 2 i π)) 1)
 (= (exp (× i (÷ π 2))) i)
 
-<span data-comment>; π lies between 3 and 4</span>
+; π lies between 3 and 4
 (&lt; 3 π 4)
-<span data-comment>; closer: between 223/71 and 22/7, Archimedes' bounds</span>
+; closer: between 223/71 and 22/7, Archimedes' bounds
 (&lt; (÷ 223 71) π (÷ 22 7))</code></pre>
   <p>Two infinite sums lead to the same π, found in a completely different way: they use only fractions, no <code>exp</code> and no <code>i</code>. The first adds and subtracts the fractions with odd denominators; the second adds the fractions 1 over each square, and the result involves π although nothing in it is about circles. One definition would be enough; three that agree leave little room for a wrong reading.</p>
-  <pre><code><span data-comment>; π = 4 × (1 − 1/3 + 1/5 − 1/7 + …)</span>
-(= π (× 4 (apply + (sequence <var>u</var> ℕ (÷ (^ (neg 1) <var>u</var>) (+ (× 2 <var>u</var>) 1))))))
+  <pre><code>
+; π = 4 × (1 − 1/3 + 1/5 − 1/7 + …)
+(= π (× 4 (apply + (sequence u ℕ (÷ (^ (neg 1) u) (+ (× 2 u) 1))))))
 
-<span data-comment>; 1 + 1/4 + 1/9 + 1/16 + … = π²/6</span>
-(= (apply + (sequence <var>u</var> ℕ (÷ 1 (^ (+ <var>u</var> 1) 2)))) (÷ (^ π 2) 6))</code></pre>
+; 1 + 1/4 + 1/9 + 1/16 + … = π²/6
+(= (apply + (sequence u ℕ (÷ 1 (^ (+ u 1) 2)))) (÷ (^ π 2) 6))</code></pre>
 </article>
 </body>
 </html>

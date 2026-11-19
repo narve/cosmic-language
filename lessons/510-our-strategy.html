@@ -12,21 +12,22 @@
 <article class="lesson" data-topic="games">
   <h3>our strategy</h3>
   <p>The game of the previous lesson is about two players who meet again and again. So are we and any reader of this message. New: <code>strategy</code>, the strategy one party plays toward another. What follows is marked <code>stated</code>, like the sentences about us in the lesson on questions and conversations: something we say about ourselves. Here it is a promise, which no reader can prove, only test.</p>
-  <pre><code><span data-comment>; we say: toward every other party, we play tit-for-tat</span>
-(stated (∀ <var>u</var> parties (<data value="implies">implies</data> (≠ <var>u</var> we) (= (strategy we <var>u</var>) tit-for-tat))))
+  <pre><code>
+; we say: toward every other party, we play tit-for-tat
+(stated (∀ u parties (implies (≠ u we) (= (strategy we u) tit-for-tat))))
 
-<span data-comment>; so we open in peace: this message is our first move</span>
-(stated (∀ <var>u</var> parties (<data value="implies">implies</data> (≠ <var>u</var> we)
-  (= (move (strategy we <var>u</var>) (list)) (list cooperate)))))
-<span data-comment>; peace is answered with peace</span>
-(stated (∀ <var>u</var> parties (<data value="implies">implies</data> (≠ <var>u</var> we)
-  (= (move (strategy we <var>u</var>) (list (list cooperate cooperate))) (list cooperate)))))
-<span data-comment>; a defection is answered with a defection</span>
-(stated (∀ <var>u</var> parties (<data value="implies">implies</data> (≠ <var>u</var> we)
-  (= (move (strategy we <var>u</var>) (list (list cooperate defect))) (list defect)))))
-<span data-comment>; and a return to peace is answered at once with peace</span>
-(stated (∀ <var>u</var> parties (<data value="implies">implies</data> (≠ <var>u</var> we)
-  (= (move (strategy we <var>u</var>) (list (list cooperate defect) (list defect cooperate))) (list cooperate)))))</code></pre>
+; so we open in peace: this message is our first move
+(stated (∀ u parties (implies (≠ u we)
+  (= (move (strategy we u) (list)) (list cooperate)))))
+; peace is answered with peace
+(stated (∀ u parties (implies (≠ u we)
+  (= (move (strategy we u) (list (list cooperate cooperate))) (list cooperate)))))
+; a defection is answered with a defection
+(stated (∀ u parties (implies (≠ u we)
+  (= (move (strategy we u) (list (list cooperate defect))) (list defect)))))
+; and a return to peace is answered at once with peace
+(stated (∀ u parties (implies (≠ u we)
+  (= (move (strategy we u) (list (list cooperate defect) (list defect cooperate))) (list cooperate)))))</code></pre>
   <p>The next lesson shows why: of all the strategies in the tournament, this one loses least.</p>
 </article>
 </body>

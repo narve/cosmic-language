@@ -12,43 +12,45 @@
 <article class="lesson" data-topic="math">
   <h3>powers</h3>
   <p>New symbol: <code>^</code>, raising to a natural-number power. Like <code>−</code> and <code>÷</code> it takes exactly two arguments, and the lesson shows why: grouping matters.</p>
-  <pre><code><span data-comment>; the powers of 2</span>
+  <pre><code>
+; the powers of 2
 (= (^ 2 1) 2)
 (= (^ 2 2) 4)
 (= (^ 2 3) 8)
 (= (^ 2 4) 16)
 (= (^ 2 5) 32)
 
-<span data-comment>; a power multiplies the same number again and again: 2³ = 2 × 2 × 2</span>
+; a power multiplies the same number again and again: 2³ = 2 × 2 × 2
 (= (^ 2 3) (× 2 2 2) 8)
 (= (^ 3 2) (× 3 3) 9)
 (= (^ 7 2) (× 7 7) 49)
 
-<span data-comment>; power 1 changes nothing; power 0 gives 1</span>
+; power 1 changes nothing; power 0 gives 1
 (= (^ 5 1) 5)
 (= (^ 0 5) 0)
 (= (^ 5 0) 1)
 
-<span data-comment>; 2⁸ is 256, the first number that needs two digits</span>
+; 2⁸ is 256, the first number that needs two digits
 (= (^ 2 8) (big 1 0))
 
-<span data-comment>; grouping matters: (2³)² is 64, but 2 to the power 3² is 512</span>
+; grouping matters: (2³)² is 64, but 2 to the power 3² is 512
 (= (^ (^ 2 3) 2) 64)
 (= (^ 2 (^ 3 2)) (big 2 0))
 (≠ (^ (^ 2 3) 2) (^ 2 (^ 3 2)))
 
-<span data-comment>; the laws: u² = <var>u</var> × <var>u</var></span>
-(∀ <var>u</var> ℝ (= (^ <var>u</var> 2) (× <var>u</var> <var>u</var>)))
-<span data-comment>; one more in the exponent is one more factor</span>
-(∀ <var>u</var> ℝ (∀ <var>v</var> ℕ (= (^ <var>u</var> (+ <var>v</var> 1)) (× <var>u</var> (^ <var>u</var> <var>v</var>)))))
-<span data-comment>; adding exponents multiplies the powers</span>
-(∀ <var>u</var> ℝ (∀ <var>v</var> ℕ (∀ <var>w</var> ℕ (= (^ <var>u</var> (+ <var>v</var> <var>w</var>)) (× (^ <var>u</var> <var>v</var>) (^ <var>u</var> <var>w</var>))))))</code></pre>
+; the laws: u² = u × u
+(∀ u ℝ (= (^ u 2) (× u u)))
+; one more in the exponent is one more factor
+(∀ u ℝ (∀ v ℕ (= (^ u (+ v 1)) (× u (^ u v)))))
+; adding exponents multiplies the powers
+(∀ u ℝ (∀ v ℕ (∀ w ℕ (= (^ u (+ v w)) (× (^ u v) (^ u w))))))</code></pre>
   <p>With <code>sequence</code> from the lesson on sequences, the powers of 2 are one infinite sequence. And <code>apply</code> can add up an infinite sequence: applying <code>+</code> to it means the value that the sums of the first items come ever closer to.</p>
-  <pre><code><span data-comment>; the powers of 2: the fourth item is 2³ = 8</span>
-(= (item (sequence <var>u</var> ℕ (^ 2 <var>u</var>)) 4) 8)
+  <pre><code>
+; the powers of 2: the fourth item is 2³ = 8
+(= (item (sequence u ℕ (^ 2 u)) 4) 8)
 
-<span data-comment>; 1/2 + 1/4 + 1/8 + … = 1</span>
-(= (apply + (sequence <var>u</var> ℕ (÷ 1 (^ 2 (+ <var>u</var> 1))))) 1)</code></pre>
+; 1/2 + 1/4 + 1/8 + … = 1
+(= (apply + (sequence u ℕ (÷ 1 (^ 2 (+ u 1))))) 1)</code></pre>
 </article>
 </body>
 </html>

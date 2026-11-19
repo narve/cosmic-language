@@ -13,38 +13,41 @@
   <h3>sequences and apply</h3>
   <p>Two tools that build on lists: sequences, which follow a rule for as long as needed, and chance, which is a proportion of a list.</p>
   <p>New: <code>apply</code>, which gives the items of a list to an operation as its arguments, and <code>sequence</code>, which builds a list from a rule.</p>
-  <pre><code><span data-comment>; apply + to the items of a list: their sum</span>
+  <pre><code>
+; apply + to the items of a list: their sum
 (= (apply + (list 1 2)) 3)
 (= (apply + (list 1 2 3)) 6)
 
-<span data-comment>; the same as writing the items as arguments</span>
+; the same as writing the items as arguments
 (= (apply + (list 1 2 3 4)) (+ 1 2 3 4) 10)
 
-<span data-comment>; apply × gives the product</span>
+; apply × gives the product
 (= (apply × (list 2 3 4)) 24)
 
-<span data-comment>; apply &lt; says that the items are in increasing order</span>
+; apply &lt; says that the items are in increasing order
 (apply &lt; (list 1 5 9))
-(= (apply &lt; (list 1 5 9)) (&lt; 1 5 9) <data value="true">true</data>)
-(= (apply &lt; (list 9 5 1)) <data value="false">false</data>)</code></pre>
+(= (apply &lt; (list 1 5 9)) (&lt; 1 5 9) true)
+(= (apply &lt; (list 9 5 1)) false)</code></pre>
   <p><code>sequence</code> has the same form as the quantifiers: a variable, the values it runs through, and a rule for each item. Over a list, it gives a list:</p>
-  <pre><code><span data-comment>; the rule "<var>u</var> itself" gives the same list; the rule "<var>u</var> + 1" adds 1</span>
-<span data-comment>; to every item</span>
-(= (sequence <var>u</var> (list 1 2 3) <var>u</var>) (list 1 2 3))
-(= (sequence <var>u</var> (list 1 2 3) (+ <var>u</var> 1)) (list 2 3 4))
+  <pre><code>
+; the rule "u itself" gives the same list; the rule "u + 1" adds 1
+; to every item
+(= (sequence u (list 1 2 3) u) (list 1 2 3))
+(= (sequence u (list 1 2 3) (+ u 1)) (list 2 3 4))
 
-<span data-comment>; the rule "<var>u</var> × <var>u</var>" gives the squares</span>
-(= (sequence <var>u</var> (list 1 2 3 4) (× <var>u</var> <var>u</var>)) (list 1 4 9 16))
-<span data-comment>; a sequence is a list, so apply works on it</span>
-(= (apply + (sequence <var>u</var> (list 1 2 3) <var>u</var>)) 6)</code></pre>
+; the rule "u × u" gives the squares
+(= (sequence u (list 1 2 3 4) (× u u)) (list 1 4 9 16))
+; a sequence is a list, so apply works on it
+(= (apply + (sequence u (list 1 2 3) u)) 6)</code></pre>
   <p>Over ℕ it gives an infinite sequence, which continues without end by the same rule. Its first item is the one for 0:</p>
-  <pre><code><span data-comment>; the natural numbers themselves: the first item is 0, the fifth is</span>
-<span data-comment>; 4</span>
-(= (item (sequence <var>u</var> ℕ <var>u</var>) 1) 0)
-(= (item (sequence <var>u</var> ℕ <var>u</var>) 5) 4)
+  <pre><code>
+; the natural numbers themselves: the first item is 0, the fifth is
+; 4
+(= (item (sequence u ℕ u) 1) 0)
+(= (item (sequence u ℕ u) 5) 4)
 
-<span data-comment>; the squares: the first item is 0 × 0</span>
-(= (item (sequence <var>u</var> ℕ (× <var>u</var> <var>u</var>)) 1) 0)</code></pre>
+; the squares: the first item is 0 × 0
+(= (item (sequence u ℕ (× u u)) 1) 0)</code></pre>
 </article>
 </body>
 </html>

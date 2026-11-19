@@ -12,35 +12,36 @@
 <article class="lesson" data-topic="physics">
   <h3>elements</h3>
   <p>New: the elements (a new type) and the domain <code>elements</code>. <code>count</code> from the lesson on lists now tells how many of a particle an atom contains. The value of an element token is its number of protons, so <code>hydrogen</code> is element 1, <code>helium</code> element 2, and so on. This is a definition, not a measurement, so it is not marked <code>observed</code>.</p>
-  <pre><code><span data-comment>; protons: the number that defines each element</span>
+  <pre><code>
+; protons: the number that defines each element
 (= (count proton hydrogen) 1)
 (= (count proton helium) 2)
 
 (= (count proton carbon) 6)
 (= (count proton oxygen) 8)
 
-<span data-comment>; electrons: the same numbers</span>
+; electrons: the same numbers
 (= (count electron hydrogen) 1)
 (= (count electron helium) 2)
 
 (= (count electron carbon) 6)
 (= (count electron oxygen) 8)
 
-<span data-comment>; the four elements in order of their protons</span>
+; the four elements in order of their protons
 (&lt; (count proton hydrogen) (count proton helium) (count proton carbon) (count proton oxygen))
-<span data-comment>; every element has at least one proton</span>
-(∀ <var>u</var> elements (≥ (count proton <var>u</var>) 1))
+; every element has at least one proton
+(∀ u elements (≥ (count proton u) 1))
 
-<span data-comment>; atoms are neutral: as many electrons as protons, so no charge in</span>
-<span data-comment>; total</span>
-(∀ <var>u</var> elements (= (count electron <var>u</var>) (count proton <var>u</var>)))
-(observed (∀ <var>u</var> elements (= (charge <var>u</var>) 0)))
+; atoms are neutral: as many electrons as protons, so no charge in
+; total
+(∀ u elements (= (count electron u) (count proton u)))
+(observed (∀ u elements (= (charge u) 0)))
 
-<span data-comment>; a hydrogen atom weighs only a little more than its proton: the</span>
-<span data-comment>; electron adds between 1/2¹¹ and 1/2⁹ of it</span>
+; a hydrogen atom weighs only a little more than its proton: the
+; electron adds between 1/2¹¹ and 1/2⁹ of it
 (observed (&lt; (+ 1 (÷ 1 (^ 2 11))) (÷ (mass hydrogen) (mass proton)) (+ 1 (÷ 1 (^ 2 9)))))
 
-<span data-comment>; an element is a token of a new type, element: 6</span>
+; an element is a token of a new type, element: 6
 (= (type (quote hydrogen)) element)</code></pre>
   <p>Neutron counts are left out here: atoms of the same element can have different numbers of neutrons. The next lesson deals with that.</p>
   <p><small>Sources: CODATA 2022 (proton mass), AME2020 (mass of the hydrogen atom). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>

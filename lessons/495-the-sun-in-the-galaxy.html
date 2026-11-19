@@ -12,60 +12,64 @@
 <article class="lesson" data-topic="astronomy" data-optional>
   <h3>the Sun in the Galaxy</h3>
   <p>The Sun is one of many stars that together go round a common centre: the Galaxy. At the centre is a dark body of great mass. New: <code>galaxy-centre</code>, and <code>direction-from</code>, the direction in which one body is seen from another. This lesson can be left out of a message.</p>
-  <pre><code><span data-comment>; the centre is a body</span>
-(∃ <var>u</var> bodies (= <var>u</var> galaxy-centre))
-<span data-comment>; its mass: between 2²¹¹ and 2²¹² proton masses (about 4.3 million</span>
-<span data-comment>; times the Sun)</span>
+  <pre><code>
+; the centre is a body
+(∃ u bodies (= u galaxy-centre))
+; its mass: between 2²¹¹ and 2²¹² proton masses (about 4.3 million
+; times the Sun)
 (observed (&lt; (^ 2 211) (÷ (mass galaxy-centre) (mass proton)) (^ 2 212)))
 
-<span data-comment>; its distance from the Sun: between 2¹⁸³ and 2¹⁸⁴ Planck lengths</span>
+; its distance from the Sun: between 2¹⁸³ and 2¹⁸⁴ Planck lengths
 (observed (&lt; (^ 2 183) (÷ (distance sun galaxy-centre) planck-length) (^ 2 184)))
-<span data-comment>; one round takes between 2¹⁹⁶ and 2¹⁹⁷ Planck times</span>
+; one round takes between 2¹⁹⁶ and 2¹⁹⁷ Planck times
 (observed (&lt; (^ 2 196) (÷ (period sun galaxy-centre) planck-time) (^ 2 197)))
 
-<span data-comment>; the centre alone cannot hold the Sun on that orbit: with only its</span>
-<span data-comment>; mass, the rule for orbits would give a period between 2⁶ and 2⁸</span>
-<span data-comment>; times longer (its square, 2¹² to 2¹⁶ times larger)</span>
+; the centre alone cannot hold the Sun on that orbit: with only its
+; mass, the rule for orbits would give a period between 2⁶ and 2⁸
+; times longer (its square, 2¹² to 2¹⁶ times larger)
 (observed (&lt; (^ 2 12)
   (÷ (× 4 (^ π 2) (^ (distance sun galaxy-centre) 3))
      (× G (mass galaxy-centre) (^ (period sun galaxy-centre) 2)))
   (^ 2 16)))</code></pre>
   <p>The centre's mass marks it out: no other body in the Galaxy is so heavy. But it is not what keeps the Sun on its orbit. That is the mass of the whole Galaxy inside the orbit, stars, gas and matter that gives no light, which is many thousand times larger. So the Sun's period is far shorter than the rule for orbits would give with the centre's mass alone; most stars near the Sun take about as long.</p>
   <p>The Galaxy gives three directions, which any reader near us can find. New: <code>toward-centre</code>, the direction from the Sun to the centre; <code>along-rotation</code>, the direction in which the stars around the Sun go round the centre, on average; and <code>galactic-pole</code>, the cross of the two. With the hand of <code>cross</code> fixed by the lessons on spin and on antimatter, these three name every direction.</p>
-  <pre><code><span data-comment>; from one body, another is seen in a direction; seen from the</span>
-<span data-comment>; other, the first lies in the opposite direction</span>
-(∀ <var>u</var> bodies (∀ <var>v</var> bodies
-  (<data value="implies">implies</data> (> (distance <var>u</var> <var>v</var>) 0) (= (dot (direction-from <var>u</var> <var>v</var>) (direction-from <var>u</var> <var>v</var>)) 1))))
-(∀ <var>u</var> bodies (∀ <var>v</var> bodies
-  (<data value="implies">implies</data> (> (distance <var>u</var> <var>v</var>) 0) (= (dot (direction-from <var>u</var> <var>v</var>) (direction-from <var>v</var> <var>u</var>)) (neg 1)))))
+  <pre><code>
+; from one body, another is seen in a direction; seen from the
+; other, the first lies in the opposite direction
+(∀ u bodies (∀ v bodies
+  (implies (> (distance u v) 0) (= (dot (direction-from u v) (direction-from u v)) 1))))
+(∀ u bodies (∀ v bodies
+  (implies (> (distance u v) 0) (= (dot (direction-from u v) (direction-from v u)) (neg 1)))))
 
-<span data-comment>; toward the centre, and along the rotation: two directions at right</span>
-<span data-comment>; angles</span>
+; toward the centre, and along the rotation: two directions at right
+; angles
 (= toward-centre (direction-from sun galaxy-centre))
-(∃ <var>u</var> directions (= <var>u</var> toward-centre))
-(∃ <var>u</var> directions (= <var>u</var> along-rotation))
+(∃ u directions (= u toward-centre))
+(∃ u directions (= u along-rotation))
 
 (= (dot toward-centre along-rotation) 0)
 
-<span data-comment>; the third: their cross</span>
+; the third: their cross
 (= galactic-pole (cross toward-centre along-rotation))
 (= (dot galactic-pole galactic-pole) 1)
 (= (dot galactic-pole toward-centre) 0)
 (= (dot galactic-pole along-rotation) 0)</code></pre>
   <p>The Sun moves, relative to the centre, almost along <code>along-rotation</code>: that is what makes it the direction of rotation. New: <code>velocity</code>, the velocity of one body relative to another, a vector whose dot with a direction is the speed in that direction.</p>
-  <pre><code><span data-comment>; relative to the centre, the Sun moves along the rotation at</span>
-<span data-comment>; between 1/2¹¹ and 1/2¹⁰ of the speed of light</span>
+  <pre><code>
+; relative to the centre, the Sun moves along the rotation at
+; between 1/2¹¹ and 1/2¹⁰ of the speed of light
 (observed (&lt; (÷ 1 (^ 2 11)) (÷ (dot (velocity sun galaxy-centre) along-rotation) c) (÷ 1 (^ 2 10))))
-<span data-comment>; and a little toward the centre, and toward the pole</span>
+; and a little toward the centre, and toward the pole
 (observed (&lt; 0 (÷ (dot (velocity sun galaxy-centre) toward-centre) c) (÷ 1 (^ 2 13))))
 (observed (&lt; 0 (÷ (dot (velocity sun galaxy-centre) galactic-pole) c) (÷ 1 (^ 2 14))))</code></pre>
   <p>So far <code>along-rotation</code> is only at right angles to <code>toward-centre</code>: that leaves a whole circle of directions. The axes of the background radiation, which any reader can find, pin it down. The direction to the centre, which a reader can find too, comes first: its dot with the first axis is positive and with the third negative, which fixes the ends of all three axes. Then the direction of rotation is given in the same axes, and the Galaxy's frame is tied to the background radiation's.</p>
-  <pre><code><span data-comment>; the direction to the centre, in the axes of the background</span>
-<span data-comment>; radiation: this fixes their ends</span>
+  <pre><code>
+; the direction to the centre, in the axes of the background
+; radiation: this fixes their ends
 (observed (&lt; (÷ 1 4) (dot toward-centre first-axis) (÷ 1 2)))
 (observed (&lt; (neg 1) (dot toward-centre third-axis) (neg (÷ 3 4))))
 
-<span data-comment>; the direction of rotation, in the same axes</span>
+; the direction of rotation, in the same axes
 (observed (&lt; (÷ 1 2) (dot along-rotation first-axis) 1))
 (observed (&lt; (÷ 1 8) (dot along-rotation second-axis) (÷ 7 8)))
 (observed (&lt; (÷ 1 4) (dot along-rotation third-axis) (÷ 3 4)))</code></pre>

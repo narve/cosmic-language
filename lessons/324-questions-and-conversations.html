@@ -12,64 +12,68 @@
 <article class="lesson" data-topic="conversations">
   <h3>questions and conversations</h3>
   <p>A question is a sentence with a hole in it. New: <code>?</code>, the hole, and <code>fill</code>, which puts a value into every hole of a quoted sentence. A sentence with a hole is neither true nor false, so it is only ever mentioned, inside <code>quote</code>, never claimed.</p>
-  <pre><code><span data-comment>; filling the hole gives a sentence, true or false</span>
+  <pre><code>
+; filling the hole gives a sentence, true or false
 (= (fill (quote (= (+ 2 3) ?)) 5) (quote (= (+ 2 3) 5)))
 (= (fill (quote (= (+ 2 3) ?)) 4) (quote (= (+ 2 3) 4)))
 (= (fill (quote (&lt; ? 3)) 1) (quote (&lt; 1 3)))
-<span data-comment>; every hole gets the same value</span>
+; every hole gets the same value
 (= (fill (quote (= (× ? ?) 9)) 3) (quote (= (× 3 3) 9)))
 
-<span data-comment>; the rules: the hole is replaced, any other symbol or number stays,</span>
-<span data-comment>; and in a list every part is filled</span>
-(∀ <var>u</var> expressions (= (fill (quote ?) <var>u</var>) <var>u</var>))
-(∀ <var>u</var> expressions (∀ <var>v</var> expressions
-  (<data value="implies">implies</data> (<data value="and">and</data> (≠ (type <var>u</var>) brackets) (≠ <var>u</var> (quote ?))) (= (fill <var>u</var> <var>v</var>) <var>u</var>))))
-(∀ <var>u</var> expressions (∀ <var>v</var> expressions
-  (<data value="implies">implies</data> (= (type <var>u</var>) brackets) (= (fill <var>u</var> <var>v</var>) (sequence <var>w</var> <var>u</var> (fill <var>w</var> <var>v</var>))))))</code></pre>
+; the rules: the hole is replaced, any other symbol or number stays,
+; and in a list every part is filled
+(∀ u expressions (= (fill (quote ?) u) u))
+(∀ u expressions (∀ v expressions
+  (implies (and (≠ (type u) brackets) (≠ u (quote ?))) (= (fill u v) u))))
+(∀ u expressions (∀ v expressions
+  (implies (= (type u) brackets) (= (fill u v) (sequence w u (fill w v))))))</code></pre>
   <p>A message is sent by someone to someone. New: <code>sender</code> and <code>receiver</code>, the one who sends a message and the one it is sent to; <code>we</code>, the sender of this message; <code>you</code>, its receiver; and <code>parties</code>, those who can send and receive messages.</p>
-  <pre><code><span data-comment>; this message has a sender, we, and a receiver, you</span>
+  <pre><code>
+; this message has a sender, we, and a receiver, you
 (= (sender message) we)
 (= (receiver message) you)
-<span data-comment>; you are not us: the sender and the receiver are different</span>
+; you are not us: the sender and the receiver are different
 (≠ you we)
 (≠ (sender message) (receiver message))
 
-<span data-comment>; both are parties: those who can send and receive messages</span>
-(∃ <var>u</var> parties (= <var>u</var> we))
-(∃ <var>u</var> parties (= <var>u</var> you))
+; both are parties: those who can send and receive messages
+(∃ u parties (= u we))
+(∃ u parties (= u you))
 
-(∃ <var>u</var> parties (= <var>u</var> (sender message)))
-(∃ <var>u</var> parties (= <var>u</var> (receiver message)))</code></pre>
+(∃ u parties (= u (sender message)))
+(∃ u parties (= u (receiver message)))</code></pre>
   <p>A reply is a message that goes back: its sender is the receiver of the message before it, and its receiver is that message's sender. New: the domain <code>conversations</code>: exactly the lists of messages in which every message is a reply to the one before. The first message opens the conversation.</p>
-  <pre><code><span data-comment>; a list is a conversation exactly when it holds at least one</span>
-<span data-comment>; message, and every next message goes back: its sender is the</span>
-<span data-comment>; receiver of the one before, and its receiver is that one's sender</span>
-(∀ <var>u</var> expressions
-  (<data value="implies">implies</data> (= (type <var>u</var>) brackets)
-    (= (∃ <var>w</var> conversations (= <var>w</var> <var>u</var>))
-       (<data value="and">and</data> (&gt; (length <var>u</var>) 0)
-            (∀ <var>v</var> ℕ
-              (<data value="implies">implies</data> (&lt; (+ <var>v</var> 1) (length <var>u</var>))
-                (<data value="and">and</data> (= (sender (item <var>u</var> (+ <var>v</var> 2))) (receiver (item <var>u</var> (+ <var>v</var> 1))))
-                     (= (receiver (item <var>u</var> (+ <var>v</var> 2))) (sender (item <var>u</var> (+ <var>v</var> 1)))))))))))
+  <pre><code>
+; a list is a conversation exactly when it holds at least one
+; message, and every next message goes back: its sender is the
+; receiver of the one before, and its receiver is that one's sender
+(∀ u expressions
+  (implies (= (type u) brackets)
+    (= (∃ w conversations (= w u))
+       (and (&gt; (length u) 0)
+            (∀ v ℕ
+              (implies (&lt; (+ v 1) (length u))
+                (and (= (sender (item u (+ v 2))) (receiver (item u (+ v 1))))
+                     (= (receiver (item u (+ v 2))) (sender (item u (+ v 1)))))))))))
 
-<span data-comment>; this message opens a conversation</span>
-(∃ <var>u</var> conversations (= (item <var>u</var> 1) message))
+; this message opens a conversation
+(∃ u conversations (= (item u 1) message))
 
-<span data-comment>; so in a conversation that this message opens, a reply from you,</span>
-<span data-comment>; if there is one, goes from you to us</span>
-(∀ <var>u</var> conversations
-  (<data value="implies">implies</data> (<data value="and">and</data> (= (item <var>u</var> 1) message) (&gt; (length <var>u</var>) 1))
-    (<data value="and">and</data> (= (sender (item <var>u</var> 2)) you)
-         (= (receiver (item <var>u</var> 2)) we))))</code></pre>
+; so in a conversation that this message opens, a reply from you,
+; if there is one, goes from you to us
+(∀ u conversations
+  (implies (and (= (item u 1) message) (&gt; (length u) 1))
+    (and (= (sender (item u 2)) you)
+         (= (receiver (item u 2)) we))))</code></pre>
   <p>Some things about us only we can say: you can neither prove nor measure them. New: <code>stated</code>, which marks such a sentence. It is a third kind of sentence, next to those that are proved (unmarked) and those that are measured. A stated sentence is true or false like any other; the mark says only how you can know it: by believing us, or by testing us over time.</p>
-  <pre><code><span data-comment>; we are a party: you can see that we send, but not that we can</span>
-<span data-comment>; also receive</span>
-(stated (∃ <var>u</var> parties (= <var>u</var> we)))
-<span data-comment>; this is not the first message we have sent</span>
-(stated (∃ <var>u</var> expressions (<data value="and">and</data> (≠ <var>u</var> message) (= (sender <var>u</var>) we))))
-<span data-comment>; we hold every sentence of this message to be true</span>
-(stated (∀ <var>u</var> message (<data value="implies">implies</data> (= (type <var>u</var>) brackets) (= (eval <var>u</var>) true))))</code></pre>
+  <pre><code>
+; we are a party: you can see that we send, but not that we can
+; also receive
+(stated (∃ u parties (= u we)))
+; this is not the first message we have sent
+(stated (∃ u expressions (and (≠ u message) (= (sender u) we))))
+; we hold every sentence of this message to be true
+(stated (∀ u message (implies (= (type u) brackets) (= (eval u) true))))</code></pre>
 </article>
 </body>
 </html>

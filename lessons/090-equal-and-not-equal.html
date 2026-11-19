@@ -22,7 +22,8 @@
   <p>Such a group is a <dfn>sentence</dfn>: <code>(= 1 1)</code>. The symbol right after the opening bracket is the <dfn>operator</dfn>, and the rest are its <dfn>arguments</dfn>, in what's called Lisp style. The brackets show where each sentence starts and ends, so the receiver never has to guess how many arguments an operator takes. Every sentence the message asserts is true; what each operator means, the receiver works out from many sentences that use it.</p>
   <h4>Equal</h4>
   <p>The first operator is <code>=</code>. In every sentence its two arguments are the same number, so the receiver can guess what it means: the two are equal. The numbers are the primes the receiver already knows from the beacon and the calibration, and then the smallest and the largest number a chunk can hold. Two or three sentences would not be enough to guess from, and one of them might arrive damaged, so the message gives more examples than seem necessary, here and in every later lesson.</p>
-  <pre><code><span data-comment>; each number equals itself: first the primes of the beacon</span>
+  <pre><code>
+; each number equals itself: first the primes of the beacon
 (= 1 1)
 (= 2 2)
 (= 3 3)
@@ -37,25 +38,26 @@
 (= 29 29)
 (= 31 31)
 
-<span data-comment>; then the smallest and the largest number of a chunk</span>
+; then the smallest and the largest number of a chunk
 (= 0 0)
 (= 255 255)</code></pre>
   <h4>Not equal</h4>
   <p>Then comes a second symbol, <code>≠</code>, always between two <em>different</em> numbers. Since <code>=</code> only ever joined a number to itself, <code>≠</code> must mean the opposite: the two are not equal. Sentences with both, side by side, show the contrast.</p>
-  <pre><code><span data-comment>; two different numbers are not equal</span>
+  <pre><code>
+; two different numbers are not equal
 (≠ 0 1)
 (≠ 1 0)
 (≠ 2 5)
 (≠ 7 3)
 (≠ 254 255)
 
-<span data-comment>; mixed, to show the contrast</span>
+; mixed, to show the contrast
 (= 4 4)
 (≠ 4 5)
 (= 9 9)
 (≠ 9 6)
 
-<span data-comment>; = can compare more than two: all are equal</span>
+; = can compare more than two: all are equal
 (= 3 3 3)
 (= 7 7 7 7)
 (= 0 0 0 0 0)</code></pre>
