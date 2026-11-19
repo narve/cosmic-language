@@ -32,6 +32,10 @@
 (= (count carbon methane) 1)
 (= (count hydrogen methane) 4)
 
+; nitrogen has 7 protons, between carbon and oxygen
+(= (count proton nitrogen) 7)
+(&lt; (count proton carbon) (count proton nitrogen) (count proton oxygen))
+
 ; ammonia: one nitrogen and three hydrogen
 (= (count nitrogen ammonia) 1)
 (= (count hydrogen ammonia) 3)

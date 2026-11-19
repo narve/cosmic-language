@@ -11,13 +11,23 @@
 <body>
 <article class="lesson" data-topic="physics">
   <h3>matter and antimatter</h3>
-  <p>Every particle has a twin of opposite charge: its antiparticle. New: <code>positron</code>, the electron's twin.</p>
+  <p>Every particle has a twin of opposite charge: its antiparticle. New: <code>positron</code>, the electron's twin, and <code>antiparticle</code>, which gives the twin of a particle. A particle without charge may be its own twin, as the photon is, or not, as the antineutrino of the lesson on spin is not: its twin, the neutrino, is not in this message.</p>
   <pre><code>
 ; the positron has the electron's mass and spin, and the opposite
 ; charge
 (observed (= (mass positron) (mass electron)))
 (observed (= (spin positron) (spin electron)))
 (observed (= (charge positron) (neg (charge electron))))
+
+; the positron is the electron's antiparticle, and the electron the
+; positron's
+(= (antiparticle electron) positron)
+(= (antiparticle positron) electron)
+
+; the photon is its own antiparticle; the antineutrino is not: it is
+; itself an antiparticle
+(= (antiparticle photon) photon)
+(≠ (antiparticle antineutrino) antineutrino)
 
 ; the atoms of the elements hold electrons, and no positrons
 (∀ u elements (&gt; (count electron u) 0))
