@@ -34,7 +34,7 @@
 (∀ u vectors (∀ v vectors (∀ w ℝ
   (= (dot (list (× w (item u 1)) (× w (item u 2)) (× w (item u 3))) v)
      (× w (dot u v))))))</code></pre>
-  <p>A direction is a vector whose dot with itself is 1: a step of length 1. New: the domain <code>directions</code>, and <code>cos</code>, built from <code>exp</code>, which gives the angle between two directions.</p>
+  <p>A direction is a vector whose dot with itself is 1: a step of length 1. New: the domain <code>directions</code>, and <code>cos</code>, which gives the angle between two directions; <code>cos</code> is built from <code>exp</code>.</p>
   <pre><code>
 ; the directions are exactly the vectors whose dot with themselves
 ; is 1
@@ -76,7 +76,7 @@
            (− (× (item u 1) (item v 2)) (× (item u 2) (item v 1)))))))
 ; it is at right angles to both
 (∀ u vectors (∀ v vectors (and (= (dot (cross u v) u) 0) (= (dot (cross u v) v) 0))))</code></pre>
-  <p>New: <code>average</code>, the mean of something over all directions, the way <code>mean</code> is the mean over a list. It has the same form as the quantifiers: a variable, what it runs through, and what is averaged.</p>
+  <p>New: <code>average</code>, the mean of something over all directions; it is to directions what <code>mean</code> is to a list. It has the same form as the quantifiers: a variable, what it runs through, and what is averaged.</p>
   <pre><code>
 ; the average of 1 is 1
 (= (average u directions 1) 1)
