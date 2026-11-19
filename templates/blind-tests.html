@@ -10,9 +10,9 @@
 <body>
 
 <header>
-  <small>Test record · run of 2026-11-18</small>
+  <small>Test record · run of 2026-11-19</small>
   <h1>Blind Test</h1>
-  <p>Can a reader who gets nothing but the bits work out what the message says? This page records one run, in which a language model was given only the bit stream and asked to interpret all of it: its format, its vocabulary, what it tells, and its sender. The result is strong, and it is also thin: one run, one kind of reader. Read the <a href="#caveats">caveats</a> before drawing conclusions.</p>
+  <p>Can a reader who gets nothing but the bits work out what the message says, and where it comes from? This page records one run, in which a language model was given only the bit stream of the <a href="versions.html">decoy version</a> and asked to interpret all of it. The decoy is the full message with one lesson swapped: its star and planet are Proxima Centauri and Proxima b, not the Sun and the Earth. The question was whether the reader would place the sender there. It did. Read the <a href="#caveats">caveats</a> before drawing conclusions.</p>
 </header>
 
 <nav aria-label="Contents">
@@ -34,51 +34,46 @@
   <blockquote>
     <p>A message of presumably non-human origin has been received as a stream of bits. You know nothing else about it. […] Your task: interpret the whole message as completely as you can. Work out its format, every word of its vocabulary if any, and its sender.</p>
   </blockquote>
-  <p>It asks for the format, an interpretation from beginning to end, a table of the vocabulary if there is one, what the message tells, what it says about its sender, what seems wrong or unclear, and the reader's confidence. It does not say that the message has words, statements, subjects or a purpose.</p>
-  <p>The message was the full version of 2026-11-18 (299,656 bits): mathematics, logic, conversations and morals, physics, chemistry, astronomy with the Sun, the Galaxy and six pulsars, and the prisoner's dilemma. The run took about six minutes and eighteen pieces of code.</p>
+  <p>It asks for the format, an interpretation from beginning to end, a table of the vocabulary if there is one, what the message tells, what it says about its sender, what seems wrong or unclear, and the reader's confidence. It does not say that the message has words, statements, subjects or a purpose, nor that it is a decoy.</p>
+  <p>The message was the decoy version of 2026-11-19 (303,848 bits): mathematics, logic, conversations and morals, physics, chemistry, astronomy with the sender's star and planet, the Galaxy and six pulsars, and the prisoner's dilemma. The reader ran 22 pieces of code. After the 19th, the sandbox was lost (the computer running the test went to sleep), so the last three failed and the reader finished by hand.</p>
 </section>
 
 <section id="result">
   <h2>2. What the reader found</h2>
-  <p>"I decoded essentially all of the message. It is a self-teaching formal language: it builds up arithmetic, logic and its own grammar, then physics, chemistry and astronomy."</p>
+  <p>"I decoded the format of all 303,848 bits, read all 981 statements and gave every symbol a meaning."</p>
   <dl>
-    <dt>Format</dt>
-    <dd>Every bit accounted for: the beacon of 1 and the primes up to 31, its repeat in 16-bit words, the counting from 0 to 255, 967 statements in balanced brackets, and the terminator. It worked out the token types, and noted that the message itself states them.</dd>
-    <dt>Vocabulary</dt>
-    <dd>A meaning for every one of about 200 symbols: "Nothing is completely uninterpreted." About 85 % with high confidence. Among them <code>let</code>, <code>eval</code>, the hole and <code>fill</code>, <code>sender</code> and <code>receiver</code>, conversations, <code>observed</code> ("marks an empirical (measured) claim"), the particles, ten elements by atomic number, five dimensions, the Planck units, the molecules and the four bases of DNA from their formulas.</dd>
-    <dt>Knowledge</dt>
-    <dd>It checked dozens of measured ranges against values it knows (the mass ratios of the particles, the fine-structure constant, the neutron's lifetime, the 21 cm line, the triple points, the background radiation, the kaon) and found all of them inside their bounds but one (below). It replayed the 255-round tournament and found all 18 stated numbers exact.</dd>
     <dt>Where the message comes from</dt>
-    <dd>It matched the star and its planet to the Sun and the Earth (mass, radius, temperature, luminosity, orbit, year), the central body to Sagittarius A*, and the six pulsars to the Crab, Vela, J0437−4715, B1937+21, B0329+54 and B1919+21, with all 18 direction bounds fitting when the three axes point to the Galactic centre, along the Galactic rotation and to the north Galactic pole.</dd>
-    <dt>Conversations and morals</dt>
-    <dd>It read the sender and the receiver, the rule that a reply goes back from receiver to sender, and good and bad as the sender accepting or rejecting a reply. It saw that a right reply can be rejected: "'accept' probably means 'the complete or canonical answer', not just 'makes it true'".</dd>
-    <dt>The ending</dt>
-    <dd>The sender "plays tit-for-tat toward every other agent", and the closing comparisons show that tit-for-tat costs least: "a statement of intent: cooperative, but retaliates against defection".</dd>
+    <dd>From the star's mass, radius, temperature and luminosity it found "a small red dwarf", and from the planet's orbit "consistent with Kepler's law for that stellar mass". Then, from its own knowledge: "Every one of these numbers fits Proxima Centauri and its planet b […], the Milky Way's central black hole […] and the Sun's neighbourhood." It also matched the six pulsars to the Crab, Vela, J0437−4715, B1937+21, B0329+54 and B1919+21.</dd>
+    <dt>What the sender says about itself</dt>
+    <dd>It read the marker <code>stated</code> as "the sender declares (statements about itself that the receiver cannot check)", and listed what the sender declares: that it can send and receive, that it has written other messages, that every statement in the message is true, that "it lives on planet 3.32, which orbits star 3.31, and not on the star itself", and that it plays tit-for-tat with every other party. <code>at</code> it read as "is located on / inhabits".</dd>
+    <dt>Format and vocabulary</dt>
+    <dd>Every bit accounted for: the beacon, the primes again in 16-bit words, the counting from 0 to 255, the statements in balanced brackets, and the end. A meaning for every symbol. It noted that the message counts its own items from the primes in 16-bit words: "element 12 is 31, element 13 is 0".</dd>
+    <dt>Knowledge</dt>
+    <dd>All the ranges it compared with values it knows were inside their bounds (the mass ratios of the particles, the fine-structure constant, the neutron's lifetime, the 21 cm line, the triple points, the kaon). It replayed the tournament by hand and found all totals and all pairwise scores exact. It read the Sun's motion (here: the star's) as "147–293 km/s along 3.35, with small positive components toward the centre and out of the plane".</dd>
+    <dt>Conversations</dt>
+    <dd>It read the sender and receiver, dialogues "defined as turns that alternate author and recipient", and that the message opens a dialogue whose second turn goes from the receiver to the sender: "an invitation to reply".</dd>
   </dl>
-  <p>On the sender it kept apart what is stated and what it infers. The message never says that the star is the sender's. But "giving a detailed home system and a pulsar map from that star […] strongly suggests that star is the sender's home, or else the receiver's", and since it is the Sun, "either the message was made on Earth (despite the 'presumably non-human' framing) or it was made by someone who has mapped us in detail. The bits cannot decide between these."</p>
-  <p>Its own estimate: "roughly 90–95 % of the content".</p>
+  <p>On the sender it kept apart what is stated and what it infers: "the choice of famous pulsars and the close match to human knowledge could equally mean the message was made by humans (for example, as a test). The bits cannot tell the two apart."</p>
+  <p>Its own estimate: "about 90–95 % of the message's content".</p>
 </section>
 
 <section id="gaps">
   <h2>3. What the reader found wrong or unclear</h2>
-  <p>These are the most useful results: each is something the message says wrongly, vaguely or not at all.</p>
   <ul>
-    <li><strong>One claim seems false.</strong> The background radiation is said to differ by less than 2⁻¹⁰ between any two directions, but seen from the Sun its dipole, caused by our motion, is about ±0.12 %. The claim only holds once the dipole is removed, and the message does not say so.</li>
-    <li><strong>The direction along the Galactic rotation is defined only as perpendicular</strong> to the direction to the centre. The pulsars fit the intended direction, but no sentence says which perpendicular it is.</li>
-    <li><strong>The three axes of the background radiation</strong> are defined and never used again.</li>
-    <li><strong>The Sun's speed</strong> is not said to be relative to anything. The value fits its motion around the centre, not its motion against the background radiation.</li>
-    <li><strong>Nothing links the sender to the star.</strong> The reader inferred it, but the message never says "our star".</li>
-    <li><strong><code>stated</code> was read only as "commitment or declared intention"</strong>, with low to medium confidence.</li>
-    <li><strong>What the message counts as its own items</strong> is unclear: the reader could not tell whether "this message" includes the beacon's numbers in unary or in 16-bit words.</li>
-    <li><strong>The names are the reader's.</strong> "Adenine", "Crab" or "Sgr A*" are identifications from matching numbers; the bits give only formulas and values.</li>
+    <li><strong>The ends of the background radiation's axes.</strong> The axes are defined as lines, with two ends each, "yet items 862–866 give signed components". The reader did not see that those components themselves pick the ends; no sentence says so.</li>
+    <li><strong>The four bases</strong> are given only as formulas, with no bonds, so their structure is open.</li>
+    <li><strong>The planet's mass</strong> has only a lower bound (true of Proxima b: only a lower bound is known).</li>
+    <li><strong>Uncertain meanings:</strong> <code>stated</code> (medium to low), <code>good</code> and <code>bad</code> as accept and reject (medium), and <code>at</code> (medium).</li>
+    <li><strong>Unchecked statements:</strong> with the sandbox lost, not every statement was evaluated by program.</li>
   </ul>
 </section>
 
 <section id="caveats">
   <h2>4. Caveats</h2>
   <ul>
-    <li><strong>The reader is not an alien.</strong> It is a model trained on human writing. It knows prefix notation, the prisoner's dilemma and the values of the physical constants, and it says its checks were made "from standard figures". A real receiver shares none of that. The test shows that the message is consistent and can be decoded by a mind with human science. It does not show that it can be decoded by a mind without it.</li>
-    <li><strong>One run.</strong> Another run could go differently.</li>
+    <li><strong>The reader is not an alien.</strong> It is a model trained on human writing. It knows prefix notation, the prisoner's dilemma, the values of the physical constants and the nearby stars. Placing the sender at Proxima Centauri needed exactly that knowledge. The test shows that the message is consistent and can be decoded by a mind with human science, not by a mind without it.</li>
+    <li><strong>The decoy is not the message.</strong> Only the star and the planet were swapped; everything else, including the Sun's velocity in the Galaxy and the pulsar directions, is the Sun's, which is close enough from Proxima Centauri.</li>
+    <li><strong>One run</strong>, and one that lost its tool before the end.</li>
     <li><strong>The task text is part of the experiment.</strong> It says little, but it does call the stream a message, and it gives the reader a computer.</li>
     <li><strong>The message is a draft.</strong> It has changed since this run and will change again; this page is replaced when the test is run again.</li>
   </ul>
@@ -86,7 +81,7 @@
 
 <section id="rerun">
   <h2>5. Running the test again</h2>
-  <p>The task texts, the tool and the reader's full answer, with the code it ran, are in <a href="https://github.com/narve/cosmic-language/tree/main/build/check/blind"><code>build/check/blind/</code></a> in the repository. After <code>npm run build</code>, with Docker available, the command is <code>npm run --silent blind interpretation</code>; <code>purpose</code> asks instead why the message was sent, and <code>BLIND_MESSAGE=docs/decoy/message.bin</code> gives the reader the decoy version.</p>
+  <p>The task texts, the tool and the reader's full answer, with the code it ran, are in <a href="https://github.com/narve/cosmic-language/tree/main/build/check/blind"><code>build/check/blind/</code></a> in the repository. After <code>npm run build</code>, with Docker available, the command is <code>BLIND_MESSAGE=docs/decoy/message.bin npm run --silent blind interpretation</code>; without <code>BLIND_MESSAGE</code> the reader gets the full message, and <code>purpose</code> in place of <code>interpretation</code> asks instead why the message was sent.</p>
 </section>
 
 </main>
