@@ -74,7 +74,7 @@ export function loadTopics(window: Window, html: string): Topic[] {
   });
 }
 
-// The article's id on pages that include it: a valid CSS identifier, e.g. lesson-080-counting.
+// The article's id on pages that include it: a valid CSS identifier, e.g. lesson-090-equal-and-not-equal.
 export function anchor(article: Article): string {
   return `lesson-${article.slug}`;
 }

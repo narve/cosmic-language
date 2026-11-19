@@ -122,7 +122,9 @@ export function checkSelfReference(message: Message, version: string): number {
       checked++;
     } else if (word(op) === "item" && word(a) === "message") {
       const k = Number(word(b));
-      if (shown[k - 1] !== show(right)) throw new BuildError(`${node.where}: in the ${version} version, item ${k} of the message is ${shown[k - 1]}, not ${show(right)}`);
+      // an item that is a sentence is written quoted: (= (item message 13) (quote (= 1 1)))
+      const expected = right.items && word(right.items[0]) === "quote" ? show(right.items[1]) : show(right);
+      if (shown[k - 1] !== expected) throw new BuildError(`${node.where}: in the ${version} version, item ${k} of the message is ${shown[k - 1]}, not ${expected}`);
       checked++;
     }
   }
