@@ -118,22 +118,8 @@
   <h2>6. L3 Tokens</h2>
   <p>A token is a <dfn>type</dfn> chunk followed by a <dfn>value</dfn>. Each type decides the shape of its value. In Phase A every value is exactly one chunk, so a token is always 2 chunks = 16 bits.</p>
   <pre><code>token = type value</code></pre>
-  <table>
-    <thead><tr><th>Type</th><th>Name</th><th>Value</th></tr></thead>
-    <tbody>
-      <tr><td><code>0</code></td><td>Number</td><td>One chunk: a natural number 0–255</td></tr>
-      <tr><td><code>1</code></td><td>Structure</td><td>One chunk: <code>0</code> = OPEN, <code>1</code> = CLOSE. Values <code>2–255</code> are reserved for later structural tokens.</td></tr>
-      <tr><td><code>2</code></td><td>Symbol: operators and relations</td><td>One chunk: a symbol id (§9). Other symbol categories get their own types (§6.2).</td></tr>
-      <tr><td><code>3</code></td><td>Symbol: constants</td><td>One chunk: a constant id (§9.2)</td></tr>
-      <tr><td><code>4</code></td><td>Symbol: variables</td><td>One chunk: a variable id (§9.3)</td></tr>
-      <tr><td><code>5</code></td><td>Symbol: particles</td><td>One chunk: a particle id (§9.4)</td></tr>
-      <tr><td><code>6</code></td><td>Symbol: elements</td><td>One chunk: the atomic number (the number of protons)</td></tr>
-      <tr><td><code>7</code></td><td>Symbol: dimensions</td><td>One chunk: a dimension id (§9.6)</td></tr>
-      <tr><td><code>8</code></td><td>Symbol: physical constants</td><td>One chunk: a physical constant id (§9.7)</td></tr>
-      <tr><td><code>9</code></td><td>Symbol: molecules</td><td>One chunk: a molecule id (§9.8)</td></tr>
-      <tr><td><code>10–255</code></td><td>Reserved</td><td>Introduced later as lessons, starting with further symbol categories (§6.2). A later type may have a value of several chunks, e.g. a length chunk followed by that many chunks.</td></tr>
-    </tbody>
-  </table>
+  <cl-types></cl-types>
+  <p>Types <code>10–255</code> are reserved. They are introduced later as lessons, starting with further symbol categories (§6.2). A later type may have a value of several chunks, e.g. a length chunk followed by that many chunks.</p>
   <h3>6.1 Structure versus symbol</h3>
   <p>The split between types 1 and 2 follows one criterion: <strong>can the token be an argument or have a value?</strong></p>
   <dl>
@@ -375,261 +361,26 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
 <section id="symbols">
   <h2>9. Symbol registry</h2>
   <p>Each symbol has a <dfn>symbol id</dfn>, the number that is sent in the value chunk, and a <dfn>symbol name</dfn>, a human-readable label used only in this documentation and in the tooling. Names are never transmitted; the receiver only ever sees ids.</p>
-  <p>The ids are provisional and assigned in order of first appearance in the message, separately for each type, so the order of the rows is also the order of introduction.</p>
+  <p>Every type and every symbol is defined once, in the vocabulary (<code>vocabulary/</code> in the repository), with a fixed id: the tables below and in §6 are made from it. Ids run 1, 2, 3 … within each type (an element's id is its atomic number); a new symbol takes the next free id, and ids are never renumbered. Today they also follow the order of first appearance in the message, and the build checks that.</p>
   <p>A <dfn>sign</dfn> is the conventional written form of a symbol, such as ¬ for <code>not</code> or H for <code>hydrogen</code>, used in the documentation's symbols view. Like names, signs are documentation only, and no two symbols share a name or a sign. A symbol without a sign is shown by its name.</p>
   <h3>9.1 Operators and relations (type 2)</h3>
   <p>In the arity column, "2+" means two or more arguments.</p>
-  <table data-type="2">
-    <thead><tr><th>Id</th><th>Name</th><th>Sign</th><th>Arity</th><th>Meaning</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td><code>=</code></td><td></td><td>2+</td><td>all equal</td></tr>
-      <tr><td>2</td><td><code>≠</code></td><td></td><td>2</td><td>not equal</td></tr>
-      <tr><td>3</td><td><code>&lt;</code></td><td></td><td>2+</td><td>less than (strictly increasing)</td></tr>
-      <tr><td>4</td><td><code>&gt;</code></td><td></td><td>2+</td><td>greater than (strictly decreasing)</td></tr>
-      <tr><td>5</td><td><code>≤</code></td><td></td><td>2+</td><td>less than or equal (non-decreasing)</td></tr>
-      <tr><td>6</td><td><code>≥</code></td><td></td><td>2+</td><td>greater than or equal (non-increasing)</td></tr>
-      <tr><td>7</td><td><code>+</code></td><td></td><td>2+</td><td>addition (sum of all)</td></tr>
-      <tr><td>8</td><td><code>×</code></td><td></td><td>2+</td><td>multiplication (product of all)</td></tr>
-      <tr><td>9</td><td><code>big</code></td><td></td><td>2+</td><td>positional notation, base 2<sup><var>C</var></sup></td></tr>
-      <tr><td>10</td><td><code>−</code></td><td></td><td>2</td><td>subtraction</td></tr>
-      <tr><td>11</td><td><code>neg</code></td><td></td><td>1</td><td>negation (additive inverse)</td></tr>
-      <tr><td>12</td><td><code>÷</code></td><td></td><td>2</td><td>division</td></tr>
-      <tr><td>13</td><td><code><data value="not">not</data></code></td><td>¬</td><td>1</td><td>logical negation</td></tr>
-      <tr><td>14</td><td><code><data value="and">and</data></code></td><td>∧</td><td>2+</td><td>all are true</td></tr>
-      <tr><td>15</td><td><code><data value="or">or</data></code></td><td>∨</td><td>2+</td><td>at least one is true</td></tr>
-      <tr><td>16</td><td><code>list</code></td><td></td><td>0+</td><td>a list of the arguments, in order</td></tr>
-      <tr><td>17</td><td><code>length</code></td><td></td><td>1</td><td>number of items in a list</td></tr>
-      <tr><td>18</td><td><code>item</code></td><td></td><td>2</td><td>the item at a position in a list, counted from 1</td></tr>
-      <tr><td>19</td><td><code>count</code></td><td></td><td>2</td><td>how many of one thing are in another: items in a list, particles in an atom, atoms in a molecule</td></tr>
-      <tr><td>20</td><td><code>∀</code></td><td></td><td>3</td><td>for all: variable, values (a domain or a list), statement</td></tr>
-      <tr><td>21</td><td><code>∃</code></td><td></td><td>3</td><td>there exists: variable, values (a domain or a list), statement</td></tr>
-      <tr><td>22</td><td><code><data value="implies">implies</data></code></td><td>⇒</td><td>2</td><td>if the first is true, so is the second</td></tr>
-      <tr><td>23</td><td><code>apply</code></td><td></td><td>2</td><td>apply an operation to the items of a list or sequence as its arguments</td></tr>
-      <tr><td>24</td><td><code>sequence</code></td><td></td><td>3</td><td>variable, values (ℕ or a list), rule: the list or infinite sequence of the rule's values</td></tr>
-      <tr><td>25</td><td><code>mean</code></td><td></td><td>1</td><td>the sum of a list's items divided by their number</td></tr>
-      <tr><td>26</td><td><code>chance</code></td><td></td><td>2</td><td>the proportion of a list's items that equal a value: (count x L) ÷ (length L)</td></tr>
-      <tr><td>27</td><td><code>pairs</code></td><td></td><td>2</td><td>all pairs of an item from one list with an item from another, in order</td></tr>
-      <tr><td>28</td><td><code>rest</code></td><td></td><td>1</td><td>a non-empty list without its first item</td></tr>
-      <tr><td>29</td><td><code>if</code></td><td></td><td>3</td><td>the second argument if the first is true, the third if it is false; only that one is computed</td></tr>
-      <tr><td>30</td><td><code>^</code></td><td></td><td>2</td><td>power with a natural-number exponent</td></tr>
-      <tr><td>31</td><td><code>abs</code></td><td></td><td>1</td><td>absolute value</td></tr>
-      <tr><td>32</td><td><code>exp</code></td><td></td><td>1</td><td>exponential function</td></tr>
-      <tr><td>33</td><td><code>dot</code></td><td>·</td><td>2</td><td>the dot product of two vectors: multiply item by item and add up</td></tr>
-      <tr><td>34</td><td><code>cos</code></td><td></td><td>1</td><td>cosine: the average of exp(i u) and exp(−i u)</td></tr>
-      <tr><td>35</td><td><code>angle</code></td><td></td><td>2</td><td>the angle between two directions, between 0 and π</td></tr>
-      <tr><td>36</td><td><code>cross</code></td><td>×₃</td><td>2</td><td>the cross product of two vectors: at right angles to both</td></tr>
-      <tr><td>37</td><td><code>average</code></td><td></td><td>3</td><td>variable, domain, expression: the mean of the expression over the domain (all directions)</td></tr>
-      <tr><td>38</td><td><code>quote</code></td><td></td><td>1</td><td>the expression itself, not computed: a bracket group is the list of its parts (§7)</td></tr>
-      <tr><td>39</td><td><code>type</code></td><td></td><td>1</td><td>the token type of an atom (0 number, 2 operator, 3 constant …); 1 for a list</td></tr>
-      <tr><td>40</td><td><code>let</code></td><td></td><td>3</td><td><code>(let <var>u</var> <var>x</var> <var>S</var>)</code>: <var>S</var>, with the variable <var>u</var> standing for the value <var>x</var> (a binder)</td></tr>
-      <tr><td>41</td><td><code>eval</code></td><td></td><td>1</td><td>the value of an expression (§7)</td></tr>
-      <tr><td>42</td><td><code>fill</code></td><td></td><td>2</td><td>the quoted sentence with every <code>?</code> replaced by the value</td></tr>
-      <tr><td>43</td><td><code>sender</code></td><td></td><td>1</td><td>the party that sends a message</td></tr>
-      <tr><td>44</td><td><code>receiver</code></td><td></td><td>1</td><td>the party a message is sent to</td></tr>
-      <tr><td>45</td><td><code>stated</code></td><td></td><td>1</td><td>the sentence is said by the sender about itself: neither proved nor measured (§8.4)</td></tr>
-      <tr><td>46</td><td><code>good</code></td><td></td><td>2</td><td>the party finds the conversation good (a conversation: a list of messages, each a list of sentences)</td></tr>
-      <tr><td>47</td><td><code>bad</code></td><td></td><td>2</td><td>the party finds the conversation bad</td></tr>
-      <tr><td>48</td><td><code>observed</code></td><td></td><td>1</td><td>the statement is a measurement (§8.3)</td></tr>
-      <tr><td>49</td><td><code>mass</code></td><td></td><td>1</td><td>mass of a particle or atom (a quantity)</td></tr>
-      <tr><td>50</td><td><code>charge</code></td><td></td><td>1</td><td>electric charge (a quantity)</td></tr>
-      <tr><td>51</td><td><code>isotope</code></td><td></td><td>2</td><td>an element with a given number of neutrons</td></tr>
-      <tr><td>52</td><td><code>stable</code></td><td></td><td>1+</td><td>all are stable isotopes (observed property)</td></tr>
-      <tr><td>53</td><td><code>level</code></td><td></td><td>2</td><td>energy of the <var>n</var>th state of an atom (a quantity)</td></tr>
-      <tr><td>54</td><td><code>dim</code></td><td></td><td>1</td><td>the dimension of a quantity</td></tr>
-      <tr><td>55</td><td><code>speed</code></td><td></td><td>1</td><td>speed (a quantity)</td></tr>
-      <tr><td>56</td><td><code>wavelength</code></td><td></td><td>1</td><td>wavelength of a photon (a quantity)</td></tr>
-      <tr><td>57</td><td><code>frequency</code></td><td></td><td>1</td><td>frequency of a photon (a quantity)</td></tr>
-      <tr><td>58</td><td><code>energy</code></td><td></td><td>1</td><td>energy (a quantity)</td></tr>
-      <tr><td>59</td><td><code>emitted</code></td><td></td><td>3</td><td>the photon an atom emits falling from one level to another</td></tr>
-      <tr><td>60</td><td><code>distance</code></td><td></td><td>2</td><td>the distance between two bodies or two wires (a quantity)</td></tr>
-      <tr><td>61</td><td><code>gravity</code></td><td></td><td>2</td><td>the force of gravity between two bodies (a quantity)</td></tr>
-      <tr><td>62</td><td><code>electric</code></td><td></td><td>2</td><td>the electric force between two bodies (a quantity)</td></tr>
-      <tr><td>63</td><td><code>current</code></td><td></td><td>1</td><td>the charge flowing along a wire per time, signed by its direction (a quantity)</td></tr>
-      <tr><td>64</td><td><code>magnetic</code></td><td></td><td>2</td><td>the magnetic force between two wires, per length of wire (a quantity)</td></tr>
-      <tr><td>65</td><td><code>kinetic</code></td><td></td><td>1</td><td>the average energy of motion of a gas's particles (a quantity)</td></tr>
-      <tr><td>66</td><td><code>temperature</code></td><td></td><td>1</td><td>temperature (a quantity)</td></tr>
-      <tr><td>67</td><td><code>radiance</code></td><td></td><td>1</td><td>power radiated per area (a quantity)</td></tr>
-      <tr><td>68</td><td><code>lifetime</code></td><td></td><td>1</td><td>the mean lifetime of an unstable particle or isotope (a quantity)</td></tr>
-      <tr><td>69</td><td><code>survival</code></td><td></td><td>2</td><td>the chance that something has not decayed after a duration</td></tr>
-      <tr><td>70</td><td><code>half-life</code></td><td></td><td>1</td><td>the duration after which the chance of survival is 1/2 (a quantity)</td></tr>
-      <tr><td>71</td><td><code>spin</code></td><td></td><td>1</td><td>the size of a particle's spin (a quantity, a multiple of ħ)</td></tr>
-      <tr><td>72</td><td><code>turns</code></td><td></td><td>3</td><td>a particle turns from the first direction toward the second</td></tr>
-      <tr><td>73</td><td><code>spin-axis</code></td><td></td><td>1</td><td>the direction of a particle's spin axis: the cross of the directions it turns from and toward</td></tr>
-      <tr><td>74</td><td><code>emitted-along</code></td><td></td><td>2</td><td>the average dot of the direction a particle leaves in with the spin axis of the particle that decays</td></tr>
-      <tr><td>75</td><td><code>spin-along-motion</code></td><td></td><td>2</td><td>the average dot of a particle's spin axis with its direction of motion, for particles from a decay</td></tr>
-      <tr><td>76</td><td><code>radius</code></td><td></td><td>1</td><td>the radius of a ring, a star or another round body (a quantity)</td></tr>
-      <tr><td>77</td><td><code>field-strength</code></td><td></td><td>1</td><td>the strength of the magnetic field at the centre of a ring (a quantity)</td></tr>
-      <tr><td>78</td><td><code>circulates</code></td><td></td><td>3</td><td>the current of a ring goes round from the first direction toward the second</td></tr>
-      <tr><td>79</td><td><code>field-direction</code></td><td></td><td>1</td><td>the direction of the magnetic field at the centre of a ring or of a particle</td></tr>
-      <tr><td>80</td><td><code>yields</code></td><td></td><td>2</td><td>the chance that a decay of the second particle gives the first</td></tr>
-      <tr><td>81</td><td><code>states</code></td><td></td><td>2</td><td>number of electron states at the <var>n</var>th level of an atom</td></tr>
-      <tr><td>82</td><td><code>noble</code></td><td></td><td>1+</td><td>all are noble gases (observed property)</td></tr>
-      <tr><td>83</td><td><code>atoms</code></td><td></td><td>1</td><td>the atoms of a molecule, as a list of elements</td></tr>
-      <tr><td>84</td><td><code>bonds</code></td><td></td><td>1</td><td>the bonds of a molecule, as a list of (position, position, shared pairs)</td></tr>
-      <tr><td>85</td><td><code>triple-point</code></td><td></td><td>1</td><td>the temperature at which a substance's solid, liquid and gas exist together</td></tr>
-      <tr><td>86</td><td><code>triple-pressure</code></td><td></td><td>1</td><td>the pressure at the triple point of a substance (a quantity)</td></tr>
-      <tr><td>87</td><td><code>luminosity</code></td><td></td><td>1</td><td>the power a star sends out as light (a quantity)</td></tr>
-      <tr><td>88</td><td><code>orbits</code></td><td></td><td>2</td><td>the first body goes round the second under gravity</td></tr>
-      <tr><td>89</td><td><code>period</code></td><td></td><td>2</td><td>the time one round of an orbit takes (a quantity)</td></tr>
-      <tr><td>90</td><td><code>axis</code></td><td></td><td>2</td><td>the size of an orbit: half the sum of the smallest and the largest distance (a quantity)</td></tr>
-      <tr><td>91</td><td><code>background</code></td><td></td><td>1</td><td>the temperature of the background radiation seen in a direction, by an observer at rest relative to it (a quantity)</td></tr>
-      <tr><td>92</td><td><code>at</code></td><td></td><td>2</td><td>the party lives on the body</td></tr>
-      <tr><td>93</td><td><code>direction-from</code></td><td></td><td>2</td><td>the direction in which the second body is seen from the first</td></tr>
-      <tr><td>94</td><td><code>velocity</code></td><td></td><td>2</td><td>the velocity of the first body relative to the second: a vector whose dot with a direction is the speed in that direction</td></tr>
-      <tr><td>95</td><td><code>pulse-period</code></td><td></td><td>1</td><td>the time one turn of a pulsar takes (a quantity)</td></tr>
-      <tr><td>96</td><td><code>slowing</code></td><td></td><td>1</td><td>how much a pulsar's period grows per time (a plain number)</td></tr>
-      <tr><td>97</td><td><code>loss</code></td><td></td><td>2</td><td>what a round costs a player: one's own move, then the other's</td></tr>
-      <tr><td>98</td><td><code>move</code></td><td></td><td>2</td><td>a strategy's next move given a history: a list to pick from</td></tr>
-      <tr><td>99</td><td><code>rounds</code></td><td></td><td>3</td><td>the history after a number of rounds of two strategies playing each other</td></tr>
-      <tr><td>100</td><td><code>cost</code></td><td></td><td>3</td><td>the sum of one strategy's losses over a number of rounds</td></tr>
-      <tr><td>101</td><td><code>strategy</code></td><td></td><td>2</td><td>the strategy the first party plays toward the second</td></tr>
-    </tbody>
-  </table>
+  <cl-vocabulary type="operator"></cl-vocabulary>
   <h3>9.2 Constants (type 3)</h3>
-  <table data-type="3">
-    <thead><tr><th>Id</th><th>Name</th><th>Sign</th><th>Meaning</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td><code><data value="true">true</data></code></td><td>⊤</td><td>truth value: true</td></tr>
-      <tr><td>2</td><td><code><data value="false">false</data></code></td><td>⊥</td><td>truth value: false</td></tr>
-      <tr><td>3</td><td><code>ℕ</code></td><td></td><td>domain: the natural numbers</td></tr>
-      <tr><td>4</td><td><code>ℚ</code></td><td></td><td>domain: the rational numbers</td></tr>
-      <tr><td>5</td><td><code>ℝ</code></td><td></td><td>domain: the real numbers</td></tr>
-      <tr><td>6</td><td><code>i</code></td><td></td><td>the imaginary unit, <code>(= (× i i) (neg 1))</code></td></tr>
-      <tr><td>7</td><td><code>ℂ</code></td><td></td><td>domain: the complex numbers</td></tr>
-      <tr><td>8</td><td><code>e</code></td><td></td><td><code>(exp 1)</code></td></tr>
-      <tr><td>9</td><td><code>π</code></td><td></td><td>the number in (0, 4) with <code>(= (exp (× i π)) (neg 1))</code></td></tr>
-      <tr><td>10</td><td><code>vectors</code></td><td></td><td>domain: lists of three real numbers</td></tr>
-      <tr><td>11</td><td><code>directions</code></td><td></td><td>domain: vectors whose dot with themselves is 1</td></tr>
-      <tr><td>12</td><td><code>expressions</code></td><td></td><td>domain: numbers, symbols, and lists of expressions</td></tr>
-      <tr><td>13</td><td><code>message</code></td><td></td><td>this message: the list of everything sent in tokens after the beacon, numbers and sentences, in order</td></tr>
-      <tr><td>14</td><td><code>?</code></td><td></td><td>the hole in a question; only mentioned, inside <code>quote</code></td></tr>
-      <tr><td>15</td><td><code>we</code></td><td></td><td>the speakers of this message</td></tr>
-      <tr><td>16</td><td><code>you</code></td><td></td><td>the receiver of this message, a party other than its sender</td></tr>
-      <tr><td>17</td><td><code>parties</code></td><td></td><td>domain: those who can send and receive messages</td></tr>
-      <tr><td>18</td><td><code>conversations</code></td><td></td><td>domain: lists of messages in which every message is a reply to the one before (its sender is the receiver of the one before, and the other way round)</td></tr>
-      <tr><td>19</td><td><code>elements</code></td><td></td><td>domain: the chemical elements</td></tr>
-      <tr><td>20</td><td><code>photons</code></td><td></td><td>domain: all individual photons</td></tr>
-      <tr><td>21</td><td><code>bodies</code></td><td></td><td>domain: bodies with mass, moving slowly in weak gravity</td></tr>
-      <tr><td>22</td><td><code>wires</code></td><td></td><td>domain: long, straight, parallel wires carrying steady currents</td></tr>
-      <tr><td>23</td><td><code>gases</code></td><td></td><td>domain: thin gases of single atoms</td></tr>
-      <tr><td>24</td><td><code>black-bodies</code></td><td></td><td>domain: bodies that absorb all light falling on them</td></tr>
-      <tr><td>25</td><td><code>durations</code></td><td></td><td>domain: durations (quantities of dimension T)</td></tr>
-      <tr><td>26</td><td><code>rings</code></td><td></td><td>domain: round loops of wire carrying a steady current</td></tr>
-      <tr><td>27</td><td><code>stars</code></td><td></td><td>domain: stars that shine by turning hydrogen into helium</td></tr>
-      <tr><td>28</td><td><code>first-axis</code></td><td></td><td>the direction along which the background radiation is most uneven (one of its two ends)</td></tr>
-      <tr><td>29</td><td><code>second-axis</code></td><td></td><td>the same among the directions at right angles to the first axis</td></tr>
-      <tr><td>30</td><td><code>third-axis</code></td><td></td><td>the cross of the first and second axis</td></tr>
-      <tr><td>31</td><td><code>sun</code></td><td></td><td>the star the Earth goes round</td></tr>
-      <tr><td>32</td><td><code>earth</code></td><td></td><td>the body that goes round the Sun at about 215 times its radius</td></tr>
-      <tr><td>33</td><td><code>galaxy-centre</code></td><td></td><td>the dark body of great mass at the centre of the Galaxy</td></tr>
-      <tr><td>34</td><td><code>toward-centre</code></td><td></td><td>the direction from the Sun to the centre of the Galaxy</td></tr>
-      <tr><td>35</td><td><code>along-rotation</code></td><td></td><td>the direction in which the stars around the Sun go round the centre</td></tr>
-      <tr><td>36</td><td><code>galactic-pole</code></td><td></td><td>the cross of toward-centre and along-rotation</td></tr>
-      <tr><td>37</td><td><code>pulsars</code></td><td></td><td>domain: turning neutron stars that send a pulse each turn</td></tr>
-      <tr><td>38</td><td><code>crab-pulsar</code></td><td></td><td>a pulsar: the Crab pulsar, the remnant of a star seen to explode</td></tr>
-      <tr><td>39</td><td><code>vela-pulsar</code></td><td></td><td>a pulsar: the Vela pulsar</td></tr>
-      <tr><td>40</td><td><code>pulsar-j0437</code></td><td></td><td>a pulsar: a millisecond pulsar close to the Sun</td></tr>
-      <tr><td>41</td><td><code>pulsar-j1939</code></td><td></td><td>a pulsar: one of the fastest pulsars known</td></tr>
-      <tr><td>42</td><td><code>pulsar-j0332</code></td><td></td><td>a pulsar: one of the brightest pulsars</td></tr>
-      <tr><td>43</td><td><code>pulsar-j1921</code></td><td></td><td>a pulsar: the first pulsar to be found</td></tr>
-      <tr><td>44</td><td><code>cooperate</code></td><td></td><td>a move in the prisoner's dilemma</td></tr>
-      <tr><td>45</td><td><code>defect</code></td><td></td><td>a move in the prisoner's dilemma</td></tr>
-      <tr><td>46</td><td><code>moves</code></td><td></td><td>the list of the two moves</td></tr>
-      <tr><td>47</td><td><code>histories</code></td><td></td><td>domain: lists of rounds, each round a list of two moves (one's own, the other's)</td></tr>
-      <tr><td>48</td><td><code>always-cooperate</code></td><td></td><td>strategy</td></tr>
-      <tr><td>49</td><td><code>always-defect</code></td><td></td><td>strategy</td></tr>
-      <tr><td>50</td><td><code>tit-for-tat</code></td><td></td><td>strategy</td></tr>
-      <tr><td>51</td><td><code>suspicious-tit-for-tat</code></td><td></td><td>strategy (tit-for-tat with a defection as its first move)</td></tr>
-      <tr><td>52</td><td><code>grim</code></td><td></td><td>strategy</td></tr>
-      <tr><td>53</td><td><code>pavlov</code></td><td></td><td>strategy</td></tr>
-      <tr><td>54</td><td><code>generous-tit-for-tat</code></td><td></td><td>strategy (picks by chance after a defection)</td></tr>
-      <tr><td>55</td><td><code>random</code></td><td></td><td>strategy (picks either move by chance, every time)</td></tr>
-      <tr><td>56</td><td><code>tournament</code></td><td></td><td>the list of the six fixed strategies</td></tr>
-    </tbody>
-  </table>
+  <cl-vocabulary type="constant"></cl-vocabulary>
   <h3>9.3 Variables (type 4)</h3>
-  <table data-type="4">
-    <thead><tr><th>Id</th><th>Name</th><th>Sign</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td><var>u</var></td><td></td></tr>
-      <tr><td>2</td><td><var>v</var></td><td></td></tr>
-      <tr><td>3</td><td><var>w</var></td><td></td></tr>
-      <tr><td>4</td><td><var>z</var></td><td></td></tr>
-    </tbody>
-  </table>
+  <cl-vocabulary type="variable"></cl-vocabulary>
   <h3>9.4 Particles (type 5)</h3>
-  <table data-type="5">
-    <thead><tr><th>Id</th><th>Name</th><th>Sign</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td><code>electron</code></td><td>e⁻</td></tr>
-      <tr><td>2</td><td><code>proton</code></td><td>p</td></tr>
-      <tr><td>3</td><td><code>neutron</code></td><td>n</td></tr>
-      <tr><td>4</td><td><code>photon</code></td><td>γ</td></tr>
-      <tr><td>5</td><td><code>antineutrino</code></td><td>ν̄ₑ</td></tr>
-      <tr><td>6</td><td><code>positron</code></td><td>e⁺</td></tr>
-      <tr><td>7</td><td><code>kaon</code></td><td>K⁰L</td></tr>
-    </tbody>
-  </table>
+  <cl-vocabulary type="particle"></cl-vocabulary>
   <h3>9.5 Elements (type 6)</h3>
   <p>The value is the atomic number, up to 118. Names are the usual English element names, and signs the usual chemical symbols. The table lists the elements the message uses so far.</p>
-  <table data-type="6">
-    <thead><tr><th>Id</th><th>Name</th><th>Sign</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td><code>hydrogen</code></td><td>H</td></tr>
-      <tr><td>2</td><td><code>helium</code></td><td>He</td></tr>
-      <tr><td>6</td><td><code>carbon</code></td><td>C</td></tr>
-      <tr><td>7</td><td><code>nitrogen</code></td><td>N</td></tr>
-      <tr><td>8</td><td><code>oxygen</code></td><td>O</td></tr>
-      <tr><td>10</td><td><code>neon</code></td><td>Ne</td></tr>
-      <tr><td>18</td><td><code>argon</code></td><td>Ar</td></tr>
-      <tr><td>36</td><td><code>krypton</code></td><td>Kr</td></tr>
-      <tr><td>54</td><td><code>xenon</code></td><td>Xe</td></tr>
-      <tr><td>86</td><td><code>radon</code></td><td>Rn</td></tr>
-    </tbody>
-  </table>
+  <cl-vocabulary type="element"></cl-vocabulary>
   <h3>9.6 Dimensions (type 7)</h3>
-  <table data-type="7">
-    <thead><tr><th>Id</th><th>Name</th><th>Sign</th><th>Meaning</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td><code>M</code></td><td></td><td>mass</td></tr>
-      <tr><td>2</td><td><code>L</code></td><td></td><td>length</td></tr>
-      <tr><td>3</td><td><code>T</code></td><td></td><td>time</td></tr>
-      <tr><td>4</td><td><code>Q</code></td><td></td><td>charge</td></tr>
-      <tr><td>5</td><td><code>Θ</code></td><td></td><td>temperature</td></tr>
-    </tbody>
-  </table>
+  <cl-vocabulary type="dimension"></cl-vocabulary>
   <h3>9.7 Physical constants (type 8)</h3>
-  <table data-type="8">
-    <thead><tr><th>Id</th><th>Name</th><th>Sign</th><th>Introduced through</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td><code>c</code></td><td></td><td>the speed of every photon; wavelength × frequency</td></tr>
-      <tr><td>2</td><td><code>ħ</code></td><td></td><td>a photon's energy = ħ × 2π × frequency</td></tr>
-      <tr><td>3</td><td><code>G</code></td><td></td><td>Newton's law of gravitation</td></tr>
-      <tr><td>4</td><td><code>ke</code></td><td></td><td>Coulomb's law of the electric force</td></tr>
-      <tr><td>5</td><td><code>km</code></td><td></td><td>the law of the magnetic force between two wires; ke ÷ km = c²</td></tr>
-      <tr><td>6</td><td><code>planck-length</code></td><td>ℓP</td><td>planck-length² = ħG / c³</td></tr>
-      <tr><td>7</td><td><code>planck-time</code></td><td>tP</td><td>planck-time² = ħG / c⁵</td></tr>
-      <tr><td>8</td><td><code>planck-mass</code></td><td>mP</td><td>planck-mass² = ħc / G</td></tr>
-      <tr><td>9</td><td><code>hydrogen-line</code></td><td></td><td>the photon of hydrogen's 21 cm line, identified by its energy and period</td></tr>
-      <tr><td>10</td><td><code>kB</code></td><td></td><td>a gas's particles have average energy of motion 3/2 kB × temperature</td></tr>
-      <tr><td>11</td><td><code>planck-temperature</code></td><td>TP</td><td>planck-temperature² = ħc⁵ / (G kB²)</td></tr>
-    </tbody>
-  </table>
+  <cl-vocabulary type="physical-constant"></cl-vocabulary>
   <h3>9.8 Molecules (type 9)</h3>
-  <table data-type="9">
-    <thead><tr><th>Id</th><th>Name</th><th>Sign</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td><code>dihydrogen</code></td><td>H₂</td></tr>
-      <tr><td>2</td><td><code>water</code></td><td>H₂O</td></tr>
-      <tr><td>3</td><td><code>methane</code></td><td>CH₄</td></tr>
-      <tr><td>4</td><td><code>ammonia</code></td><td>NH₃</td></tr>
-      <tr><td>5</td><td><code>carbon-dioxide</code></td><td>CO₂</td></tr>
-      <tr><td>6</td><td><code>adenine</code></td><td>C₅H₅N₅</td></tr>
-      <tr><td>7</td><td><code>thymine</code></td><td>C₅H₆N₂O₂</td></tr>
-      <tr><td>8</td><td><code>guanine</code></td><td>C₅H₅N₅O</td></tr>
-      <tr><td>9</td><td><code>cytosine</code></td><td>C₄H₅N₃O</td></tr>
-    </tbody>
-  </table>
+  <cl-vocabulary type="molecule"></cl-vocabulary>
 </section>
 
 <section id="validation">

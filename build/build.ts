@@ -3,6 +3,7 @@
 import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { defineClLessons } from "./components/cl-lessons.ts";
+import { defineClVocabulary } from "./components/cl-vocabulary.ts";
 import { BuildError, createWindow, parse, serialize } from "./dom.ts";
 import { findArticle, loadArticles, loadTopics } from "./lessons.ts";
 import { binaryDump, messageBinary, messageBits, messageStream, messageCode, messageText, readBlock, type Message } from "./message.ts";
@@ -17,7 +18,7 @@ const docs = dir("docs");
 
 async function build(): Promise<void> {
   const window = createWindow();
-  const registry = loadRegistry(window, readFileSync(join(dir("templates"), "specification.html"), "utf8"));
+  const registry = loadRegistry();
   const topics = loadTopics(window, readFileSync(join(dir("templates"), "topics.html"), "utf8"));
   const all = loadArticles(window, dir("lessons"), topics);
   // Lessons that replace another (data-replaces) are only in the decoy version.
@@ -99,6 +100,7 @@ async function build(): Promise<void> {
     const page = createWindow();
     page.document.write(readFileSync(join(dir("templates"), file), "utf8"));
     defineClLessons(page, { articles, topics, registry });
+    defineClVocabulary(page);
     await page.happyDOM.waitUntilComplete();
     writeFileSync(join(docs, file), serialize(page.document as unknown as Document));
     await page.happyDOM.close();
