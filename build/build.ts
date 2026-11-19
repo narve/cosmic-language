@@ -11,8 +11,7 @@ import { loadRegistry } from "./registry.ts";
 import { VIEWS } from "./views.ts";
 import { enrichArticle } from "./enrich.ts";
 import { computeUsage } from "./usage.ts";
-import { checkIdOrder, checkMinimal, checkOptional, checkSelfReference, checkStructure } from "./check/structure.ts";
-import { checkMeasurements, MARGIN } from "./check/measurements.ts";
+import { runCheckers } from "./check/checkers.ts";
 
 const root = resolve(import.meta.dirname, "..");
 const dir = (name: string) => join(root, name);
@@ -40,38 +39,31 @@ async function build(): Promise<void> {
   // Decoy: the full message with each replaced lesson swapped for its replacement, in the same place: for fun, to see
   // whether a blind reader places the sender at another star. Its measured ranges are not checked.
   const decoy: Message = { articles: articles.map((article) => read(replacements.get(article.slug) ?? article)), topics };
-  checkStructure(decoy, registry);
-  // The structure rules of the specification (§10.1): hard errors.
-  checkStructure(message, registry);
 
   // Three versions of the message. Full: every lesson (docs/message.*). Cautious: everything except the optional
   // lessons, which reveal where and who we are (docs/cautious/). Minimal: only the game and what it needs, the lessons
   // with the topic "minimal" (docs/minimal/).
   const MINIMAL = "minimal";
   const inMinimal = new Set(articles.filter((article) => article.topics.includes(MINIMAL)).map((article) => article.slug));
-  checkMinimal(message, (slug) => inMinimal.has(slug));
   const optional = new Set(articles.filter((article) => article.optional).map((article) => article.slug));
-  checkOptional(message, (slug) => optional.has(slug));
   const minimal: Message = { articles: message.articles.filter(({ article }) => inMinimal.has(article.slug)), topics };
   const minimalBinary = messageBinary(messageStream(minimal));
   const cautious: Message = { articles: message.articles.filter(({ article }) => !optional.has(article.slug)), topics };
   const cautiousBinary = messageBinary(messageStream(cautious));
-  // In every version the ids of each type appear in the order 1, 2, 3 …, with none missing.
-  for (const [version, m] of [["full", message], ["cautious", cautious], ["minimal", minimal], ["decoy", decoy]] as const) checkIdOrder(m, registry, version);
-  // What each version says about itself must hold for that version.
-  const selfReferences = [checkSelfReference(message, "full"), checkSelfReference(cautious, "cautious"), checkSelfReference(minimal, "minimal"), checkSelfReference(decoy, "decoy")];
+  // The checks (build/check/checkers.ts): hard errors. CHECKS=… or SKIP_CHECKS=… chooses among them.
+  const checks = runCheckers({
+    versions: { full: message, cautious, minimal, decoy },
+    text: { full: messageText(message), cautious: messageText(cautious), minimal: messageText(minimal), decoy: messageText(decoy) },
+    registry,
+    isMinimal: (slug) => inMinimal.has(slug),
+    isOptional: (slug) => optional.has(slug),
+  });
   const decoyBinary = messageBinary(messageStream(decoy));
   const bits = messageBits(message);
   const binary = messageBinary(messageStream(message));
   // A byte order mark, so browsers read these plain-text files as UTF-8 (≠, ∀, π …) instead of guessing.
   const BOM = "\ufeff";
   writeFileSync(join(docs, "message.txt"), BOM + messageText(message));
-  // Every measured range must hold for the reference data, with room to spare (§10.1).
-  const measurements = checkMeasurements(messageText(message));
-  if (measurements.failures > 0) {
-    const failing = measurements.report.filter((line) => !line.startsWith("ok"));
-    throw new BuildError(`${measurements.failures} measured ranges fail (each bound must be at least ${MARGIN} standard uncertainties from the reference value):\n${failing.join("\n")}`);
-  }
   writeFileSync(join(docs, "message.bits"), BOM + bits);
   writeFileSync(join(docs, "message.bin"), binary.bytes);
   writeFileSync(join(docs, "message.bin.txt"), binaryDump(binary));
@@ -117,11 +109,10 @@ async function build(): Promise<void> {
   const tokens = message.articles.reduce((n, a) => n + a.blocks.reduce((m, b) => m + b.tokens.length, 0), 0);
   console.log(`${articles.length} articles, ${tokens} tokens, ${binary.length} bits (${binary.bytes.length} bytes)`);
   const minimalTokens = minimal.articles.reduce((n, a) => n + a.blocks.reduce((m, b) => m + b.tokens.length, 0), 0);
-  console.log(`measurements: ${measurements.checked} ranges, all at least ${MARGIN} standard uncertainties inside their bounds`);
-  console.log(`about itself: ${selfReferences.join(", ")} sentences checked (full, cautious, minimal, decoy)`);
   console.log(`decoy: ${decoy.articles.length} articles, ${decoyBinary.length} bits (${decoyBinary.bytes.length} bytes), ${replacements.size} lesson replaced`);
   console.log(`cautious: ${cautious.articles.length} articles, ${cautiousBinary.length} bits (${cautiousBinary.bytes.length} bytes)`);
   console.log(`minimal: ${minimal.articles.length} articles, ${minimalTokens} tokens, ${minimalBinary.length} bits (${minimalBinary.bytes.length} bytes)`);
+  for (const line of checks) console.log(`check ${line}`);
 }
 
 try {
