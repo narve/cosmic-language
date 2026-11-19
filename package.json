@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "tsx build/build.ts",
-    "reference": "tsx build/check/reference/extract.ts",
+    "reference": "tsx build/check/reference-extract.ts",
     "blind": "sh build/check/blind/run.sh",
     "check:measurements": "tsx build/check/measurements.ts"
   },

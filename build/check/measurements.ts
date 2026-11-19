@@ -1,4 +1,4 @@
-// Checks every measured range in the message against the reference data (build/check/reference/reference.json).
+// Checks every measured range in the message against the reference data (build/check/reference/generated/reference.json).
 // A range is a sentence (observed (< low quantity high)) or (observed (> high quantity low)) whose outer arguments
 // are exact numbers. For each quantity there is a formula below that computes its value and standard uncertainty
 // from the reference data, including a model uncertainty where the message's simple law differs from reality.
@@ -12,7 +12,7 @@ import { fileURLToPath } from "node:url";
 
 export const MARGIN = 5; // standard uncertainties between the value and each bound
 const root = resolve(import.meta.dirname, "../..");
-const ref = JSON.parse(readFileSync(resolve(root, "build/check/reference/reference.json"), "utf8"));
+const ref = JSON.parse(readFileSync(resolve(root, "build/check/reference/generated/reference.json"), "utf8"));
 
 type Q = { v: number; u: number }; // value and standard uncertainty
 const q = (v: number, u = 0): Q => ({ v, u });
@@ -149,7 +149,7 @@ function pulsarQuantities(): Record<string, Q> {
 // three treatments of the Doppler quadrupole): the value is the middle of the nine results, the standard
 // uncertainty half their spread.
 function cmbAxisQuantities(): Record<string, Q> {
-  const cmb = JSON.parse(readFileSync(resolve(root, "build/check/reference/cmb-quadrupole.json"), "utf8"));
+  const cmb = JSON.parse(readFileSync(resolve(root, "build/check/reference/generated/cmb-quadrupole.json"), "utf8"));
   const cases = cmb.maps.flatMap((m: { cases: Record<string, number[]>[] }) => m.cases);
   const out: Record<string, Q> = {};
   ["toward-centre", "along-rotation", "galactic-pole"].forEach((galactic, i) => {

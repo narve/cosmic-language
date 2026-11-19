@@ -1,11 +1,14 @@
 // Extracts the reference values the message's measurements are checked against, from the downloaded
-// tables in this directory, into reference.json. Run with `npm run reference` after replacing a table.
+// tables in reference/sources, into reference/generated/reference.json. Run with `npm run reference` after replacing a table.
 // Numbers are kept as decimal strings, digit for digit as published, so nothing is lost to rounding.
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-const dir = import.meta.dirname;
+// reference/sources: the downloads (never edited); reference/transcribed.json: values read by hand from PDFs;
+// reference/generated: what this script writes.
+const reference = join(import.meta.dirname, "reference");
+const dir = join(reference, "sources");
 const read = (file: string) => readFileSync(join(dir, file), "latin1").split(/\r?\n/);
 
 const SOURCES = {
@@ -257,7 +260,7 @@ function pulsars() {
 
 // Values read by hand from PDF documents (transcribed.json): accepted only while the document is unchanged.
 function transcribed() {
-  const { values } = JSON.parse(readFileSync(join(dir, "transcribed.json"), "utf8"));
+  const { values } = JSON.parse(readFileSync(join(reference, "transcribed.json"), "utf8"));
   for (const [name, entry] of Object.entries<{ file: string; sha256: string }>(values)) {
     const hash = createHash("sha256").update(readFileSync(join(dir, entry.file))).digest("hex");
     if (hash !== entry.sha256) fail(`${entry.file} has changed: read "${name}" from it again and update transcribed.json`);
@@ -287,5 +290,5 @@ const out = {
   other: { "hydrogen 21 cm line frequency": hydrogenLine(), ...transcribed() },
   pulsars: pulsars(),
 };
-writeFileSync(join(dir, "reference.json"), JSON.stringify(out, null, 2) + "\n");
+writeFileSync(join(reference, "generated", "reference.json"), JSON.stringify(out, null, 2) + "\n");
 console.log(`reference.json: ${CONSTANTS.length} constants, ${NUCLIDES.length} nuclides, ${Object.keys(out.other).length} other values, ${Object.keys(out.pulsars).length} pulsars`);

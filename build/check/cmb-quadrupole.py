@@ -1,7 +1,7 @@
-# Writes cmb-quadrupole.json: the Galaxy's axes in the axes of the background radiation, from three
+# Writes reference/generated/cmb-quadrupole.json: the Galaxy's axes in the axes of the background radiation, from three
 # full-sky maps of it (too large to keep here; URLs and SHA-256 in the output). Run with numpy and healpy:
 #   python cmb-quadrupole.py wmap_ilc_9yr_v5.fits COM_CMB_IQU-commander_1024_R2.02_full.fits \
-#     COM_CMB_IQU-smica_1024_R2.02_full.fits > cmb-quadrupole.json
+#     COM_CMB_IQU-smica_1024_R2.02_full.fits > reference/generated/cmb-quadrupole.json
 #
 # The message defines first-axis as the direction w with the largest average of
 # (T(u) − mean T) × ((w·u)² − 1/3) over all directions u: the top eigenvector of

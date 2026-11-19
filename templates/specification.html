@@ -248,7 +248,7 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
     <li><strong>Units:</strong> the message uses Planck units. <code>planck-length</code>, <code>planck-time</code> and <code>planck-mass</code> are defined from <code>c</code>, <code>ħ</code> and <code>G</code>, and <code>planck-temperature</code> also from <code>kB</code>, and the hydrogen 21 cm line is the observational anchor. The transmission itself is never used as a unit or anchor.</li>
   </ul>
   <h3 id="reference">8.4 Reference data</h3>
-  <p>The measured values behind the <code>observed</code> statements come from published evaluations. The downloaded tables are kept unchanged in <code>build/check/reference/</code>, and <code>npm run reference</code> extracts the values the message uses into <code>reference.json</code>, with every digit as published and each with its uncertainty.</p>
+  <p>The measured values behind the <code>observed</code> statements come from published evaluations. The downloaded tables are kept unchanged in <code>build/check/reference/sources/</code>, values read by hand from PDFs in <code>build/check/reference/transcribed.json</code>, and <code>npm run reference</code> extracts the values the message uses into <code>build/check/reference/generated/reference.json</code>, with every digit as published and each with its uncertainty.</p>
   <table>
     <thead><tr><th>Source</th><th>Used for</th><th>File</th><th>Retrieved</th></tr></thead>
     <tbody>
