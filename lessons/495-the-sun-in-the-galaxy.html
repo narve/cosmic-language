@@ -21,7 +21,16 @@
 <span data-comment>; its distance from the Sun: between 2¹⁸³ and 2¹⁸⁴ Planck lengths</span>
 (observed (&lt; (^ 2 183) (÷ (distance sun galaxy-centre) planck-length) (^ 2 184)))
 <span data-comment>; one round takes between 2¹⁹⁶ and 2¹⁹⁷ Planck times</span>
-(observed (&lt; (^ 2 196) (÷ (period sun galaxy-centre) planck-time) (^ 2 197)))</code></pre>
+(observed (&lt; (^ 2 196) (÷ (period sun galaxy-centre) planck-time) (^ 2 197)))
+
+<span data-comment>; the centre alone cannot hold the Sun on that orbit: with only its</span>
+<span data-comment>; mass, the rule for orbits would give a period between 2⁶ and 2⁸</span>
+<span data-comment>; times longer (its square, 2¹² to 2¹⁶ times larger)</span>
+(observed (&lt; (^ 2 12)
+  (÷ (× 4 (^ π 2) (^ (distance sun galaxy-centre) 3))
+     (× G (mass galaxy-centre) (^ (period sun galaxy-centre) 2)))
+  (^ 2 16)))</code></pre>
+  <p>The centre's mass marks it out: no other body in the Galaxy is so heavy. But it is not what keeps the Sun on its orbit. That is the mass of the whole Galaxy inside the orbit, stars, gas and matter that gives no light, which is many thousand times larger. So the Sun's period is far shorter than the rule for orbits would give with the centre's mass alone; most stars near the Sun take about as long.</p>
   <p>The Galaxy gives three directions, which any reader near us can find. New: <code>toward-centre</code>, the direction from the Sun to the centre; <code>along-rotation</code>, the direction in which the stars around the Sun go round the centre, on average; and <code>galactic-pole</code>, the cross of the two. With the hand of <code>cross</code> fixed by the lessons on spin and on antimatter, these three name every direction.</p>
   <pre><code><span data-comment>; from one body, another is seen in a direction; seen from the</span>
 <span data-comment>; other, the first lies in the opposite direction</span>

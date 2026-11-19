@@ -98,6 +98,11 @@ const QUANTITIES: Record<string, Q> = {
   "(÷ (dot (velocity sun galaxy-centre) galactic-pole) c)": div(mul(constant("Sun's motion toward the north Galactic pole (W)"), q(1000)), c),
   // one round of a circle: 2π × distance ÷ speed
   "(÷ (period sun galaxy-centre) planck-time)": div(div(mul(q(2 * Math.PI * 1000 * (648000 / Math.PI) * 149597870700), constant("distance from the Sun to the Galactic centre")), mul(constant("circular velocity at the Sun"), q(1000))), planckTime),
+  // the period with the centre's mass alone, squared, over the actual one squared: 4π²R³ ÷ (G M T²) with
+  // T = 2πR ÷ V, which is R V² ÷ (G M)
+  "(÷ (× 4 (^ π 2) (^ (distance sun galaxy-centre) 3)) (× G (mass galaxy-centre) (^ (period sun galaxy-centre) 2)))": div(
+    mul(mul(constant("distance from the Sun to the Galactic centre"), q(1000 * (648000 / Math.PI) * 149597870700)), pow(mul(constant("circular velocity at the Sun"), q(1000)), 2)),
+    mul(constant("mass of the Galactic centre"), constant("GM of the Sun"))),
   ...pulsarQuantities(),
   ...cmbAxisQuantities(),
   "(÷ (mass sun) (mass proton))": div(div(constant("GM of the Sun"), G), mp),
