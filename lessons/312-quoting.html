@@ -47,19 +47,21 @@
 (= (item (quote (= 2 3)) 1) (quote =))
 (= (item (quote (= 2 3)) 3) 3)
 (≠ (quote (= 2 3)) (quote (= 3 3)))</code></pre>
-  <p><code>type</code> tells what kind of thing a part of an expression is. Its values are the token types the message has used from the start, the first chunk of every token: 0 for a number, 2 for an operator, 3 for a constant, and so on. A list in brackets has type 1, the type of the brackets. Later lessons bring new kinds of token (particles, elements, dimensions, physical constants, molecules), and each states the type of its tokens in the same way.</p>
-  <pre><code>(= (type 5) 0)
-(= (type (quote (+ 2 3))) 1)
-(= (type (quote +)) 2)
-(= (type (quote <data value="true">true</data>)) 3)
+  <p><code>type</code> tells what kind of thing a part of an expression is. Its values are the token types the message has used from the start, the first chunk of every token: 0 for a number, 2 for an operator, 3 for a constant, and so on. A list in brackets has type 1, the type of the brackets. In this text the types are written by name (<code>number</code>, <code>brackets</code>, <code>operator</code>, <code>constant</code>, <code>variable</code> for 0 to 4), but what is sent is the number: <code>(= (type 5) number)</code> is sent as <code>(= (type 5) 0)</code>. Later lessons bring new kinds of token (particles, elements, dimensions, physical constants, molecules), and each states the type of its tokens in the same way.</p>
+  <pre><code><span data-comment>; the type of a number is 0, of a list 1, of an operator 2, of a</span>
+<span data-comment>; constant 3, of a variable 4</span>
+(= (type 5) number)
+(= (type (quote (+ 2 3))) brackets)
+(= (type (quote +)) operator)
+(= (type (quote <data value="true">true</data>)) constant)
 
-(= (type (quote <var>u</var>)) 4)
-(= (type (list 1 2)) 1)
+(= (type (quote <var>u</var>)) variable)
+(= (type (list 1 2)) brackets)
 
 <span data-comment>; an operator in a quoted expression is a symbol like any other</span>
-(= (type (item (quote (+ 2 3)) 1)) 2)
-(= (type (item (quote (+ 2 3)) 2)) 0)</code></pre>
-  <p>Inside a quote, <var>u</var> is just a symbol of type 4, not a variable standing for a number.</p>
+(= (type (item (quote (+ 2 3)) 1)) operator)
+(= (type (item (quote (+ 2 3)) 2)) number)</code></pre>
+  <p>Inside a quote, <var>u</var> is just a symbol of type 4 (<code>variable</code>), not a variable standing for a number.</p>
 </article>
 </body>
 </html>

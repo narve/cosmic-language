@@ -23,9 +23,9 @@
 <span data-comment>; and in a list every part is filled</span>
 (∀ <var>u</var> expressions (= (fill (quote ?) <var>u</var>) <var>u</var>))
 (∀ <var>u</var> expressions (∀ <var>v</var> expressions
-  (<data value="implies">implies</data> (<data value="and">and</data> (≠ (type <var>u</var>) 1) (≠ <var>u</var> (quote ?))) (= (fill <var>u</var> <var>v</var>) <var>u</var>))))
+  (<data value="implies">implies</data> (<data value="and">and</data> (≠ (type <var>u</var>) brackets) (≠ <var>u</var> (quote ?))) (= (fill <var>u</var> <var>v</var>) <var>u</var>))))
 (∀ <var>u</var> expressions (∀ <var>v</var> expressions
-  (<data value="implies">implies</data> (= (type <var>u</var>) 1) (= (fill <var>u</var> <var>v</var>) (sequence <var>w</var> <var>u</var> (fill <var>w</var> <var>v</var>))))))</code></pre>
+  (<data value="implies">implies</data> (= (type <var>u</var>) brackets) (= (fill <var>u</var> <var>v</var>) (sequence <var>w</var> <var>u</var> (fill <var>w</var> <var>v</var>))))))</code></pre>
   <p>A message is sent by someone to someone. New: <code>sender</code> and <code>receiver</code>, the one who sends a message and the one it is sent to; <code>we</code>, the sender of this message; <code>you</code>, its receiver; and <code>parties</code>, those who can send and receive messages.</p>
   <pre><code><span data-comment>; this message has a sender, we, and a receiver, you</span>
 (= (sender message) we)
@@ -45,7 +45,7 @@
 <span data-comment>; message, and every next message goes back: its sender is the</span>
 <span data-comment>; receiver of the one before, and its receiver is that one's sender</span>
 (∀ <var>u</var> expressions
-  (<data value="implies">implies</data> (= (type <var>u</var>) 1)
+  (<data value="implies">implies</data> (= (type <var>u</var>) brackets)
     (= (∃ <var>w</var> conversations (= <var>w</var> <var>u</var>))
        (<data value="and">and</data> (&gt; (length <var>u</var>) 0)
             (∀ <var>v</var> ℕ
@@ -69,7 +69,7 @@
 <span data-comment>; this is not the first message we have sent</span>
 (stated (∃ <var>u</var> expressions (<data value="and">and</data> (≠ <var>u</var> message) (= (sender <var>u</var>) we))))
 <span data-comment>; we hold every sentence of this message to be true</span>
-(stated (∀ <var>u</var> message (<data value="implies">implies</data> (= (type <var>u</var>) 1) (= (eval <var>u</var>) true))))</code></pre>
+(stated (∀ <var>u</var> message (<data value="implies">implies</data> (= (type <var>u</var>) brackets) (= (eval <var>u</var>) true))))</code></pre>
 </article>
 </body>
 </html>
