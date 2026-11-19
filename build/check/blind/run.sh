@@ -7,6 +7,7 @@
 #   BLIND_MODEL=opus npm run --silent blind              with a named model
 #   BLIND_MESSAGE=docs/minimal/message.bin npm run --silent blind purpose
 #                                                        with another message than docs/message.bin (here the minimal one)
+#   BLIND_INVERT=0 npm run --silent blind                 without inverting the bits (inverted by default)
 #   npm run --silent blind interpretation                 the whole interpretation: format, vocabulary (a table that
 #                                                        can be scored against spec §9) and the knowledge in the message
 #
@@ -20,10 +21,13 @@ dir=$(mktemp -d)
 box="blind-$$"
 export BLIND_CONTAINER="$box"
 
+# Nothing in a stream of bits says which of the two values is "1". By default every bit is inverted, so the
+# reader cannot rely on our choice; BLIND_INVERT=0 gives the bits as they are.
 node -e '
   const bytes = require("fs").readFileSync(process.argv[1]);
-  process.stdout.write(Array.from(bytes, (b) => b.toString(2).padStart(8, "0")).join("") + "\n");
-' "$message" > "$dir/bits.txt"
+  const bits = Array.from(bytes, (b) => b.toString(2).padStart(8, "0")).join("");
+  process.stdout.write((process.argv[2] === "0" ? bits : bits.replace(/[01]/g, (c) => (c === "0" ? "1" : "0"))) + "\n");
+' "$message" "${BLIND_INVERT:-1}" > "$dir/bits.txt"
 
 docker run -d --rm --name "$box" --network none python:3.12-alpine sleep infinity > /dev/null
 trap 'docker rm -f "$box" > /dev/null 2>&1' EXIT
