@@ -25,7 +25,7 @@ node -e '
   process.stdout.write(Array.from(bytes, (b) => b.toString(2).padStart(8, "0")).join("") + "\n");
 ' "$message" > "$dir/bits.txt"
 
-docker run -d --rm --name "$box" --network none python:3.12-alpine sleep 7200 > /dev/null
+docker run -d --rm --name "$box" --network none python:3.12-alpine sleep infinity > /dev/null
 trap 'docker rm -f "$box" > /dev/null 2>&1' EXIT
 docker exec "$box" mkdir -p /work
 docker cp -q "$dir/bits.txt" "$box:/work/bits.txt"

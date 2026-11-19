@@ -24,8 +24,12 @@
 <span data-comment>; the first property: it turns sums into products</span>
 (∀ <var>u</var> ℝ (∀ <var>v</var> ℝ (= (exp (+ <var>u</var> <var>v</var>)) (× (exp <var>u</var>) (exp <var>v</var>)))))
 <span data-comment>; the second property: it is never below 1 + <var>u</var></span>
-(∀ <var>u</var> ℝ (≥ (exp <var>u</var>) (+ 1 <var>u</var>)))</code></pre>
-  <p>On ℂ, <code>exp</code> has the same product rule. A bound close to 0 rules out every other candidate:</p>
+(∀ <var>u</var> ℝ (≥ (exp <var>u</var>) (+ 1 <var>u</var>)))
+
+<span data-comment>; so exp of a negative number is 1 divided by exp of the positive</span>
+(∀ <var>u</var> ℝ (= (× (exp <var>u</var>) (exp (neg <var>u</var>))) 1))</code></pre>
+  <p>Why these two properties are enough. The product rule ties all values to the one at 1: exp of 2 is exp of 1 times exp of 1, exp of 1/2 is the number whose square is exp of 1, and so on for every fraction, and with them every real number. Many functions obey the product rule, one for each choice of the value at 1, and they differ in how steeply they rise at 0. The second property leaves only one: the function that touches the line 1 + <var>u</var> at 0 without crossing it, and so rises at 0 with slope exactly 1. That function grows everywhere at the rate of its own value, which is why it turns up wherever something grows or shrinks in proportion to itself: the decay of particles and isotopes, later in the message, is one example.</p>
+  <p>On ℂ, <code>exp</code> has the same product rule. A bound close to 0 rules out every other candidate, just as the second property did on ℝ:</p>
   <pre><code><span data-comment>; the same product rule</span>
 (∀ <var>u</var> ℂ (∀ <var>v</var> ℂ (= (exp (+ <var>u</var> <var>v</var>)) (× (exp <var>u</var>) (exp <var>v</var>)))))
 
@@ -33,6 +37,10 @@
 <span data-comment>; by at most |<var>u</var>|²</span>
 (∀ <var>u</var> ℂ (<data value="implies">implies</data> (≤ (abs <var>u</var>) 1)
                    (≤ (abs (− (− (exp <var>u</var>) 1) <var>u</var>)) (^ (abs <var>u</var>) 2))))</code></pre>
+  <p>For a real <var>u</var>, exp of i × <var>u</var> is a complex number of size exactly 1: it lies on the circle of radius 1 around 0. As <var>u</var> grows it does not grow or shrink, but goes round that circle, and <var>u</var> is how far round it has gone. The next lesson uses this to define π.</p>
+  <pre><code><span data-comment>; exp of i times a real number has size 1</span>
+(∀ <var>u</var> ℝ (= (abs (exp (× i <var>u</var>))) 1))
+(= (abs (exp i)) 1)</code></pre>
 </article>
 </body>
 </html>

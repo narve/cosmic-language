@@ -1,5 +1,5 @@
 # The code the blind reader ran, in order (2026-11-19, interpretation, decoy message, Opus).
-# The sandbox container was lost after run 19 (the host slept); runs 20 to 22 failed with "No such container".
+# The sandbox container was lost after run 19 (it was started to live 2 hours, and the run took 8.7); runs 20 to 22 failed with "No such container".
 
 # ---- run 1 ----
 
