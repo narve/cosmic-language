@@ -57,7 +57,11 @@ function cell(view: View, line: Line, registry: Registry): string {
 }
 
 function written(view: View, token: Token, registry: Registry): string {
-  if (token.type <= 1) return escape(token.text);
+  if (token.type <= 1) {
+    const alias = registry.get(token.text)?.alias;
+    if (alias) return `<data value="${alias.id}" data-type-name>${escape(token.text)}</data>`; // a type name, sent as its number
+    return escape(token.text);
+  }
   if (token.type === 4) return `<var>${escape(token.text)}</var>`;
   const sign = registry.get(token.text)!.sign;
   if (view === "symbols" && sign) return `<data value="${escape(token.text)}">${escape(sign)}</data>`;

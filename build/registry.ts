@@ -10,6 +10,7 @@ export interface Entry {
   sign: string;
   arity?: string; // operators only: "2", "2+", "0+" …
   symbol?: SymbolDef; // the vocabulary entry
+  alias?: TypeDef; // a type name, written where a type is meant and sent as the number of the type (type 0)
 }
 
 export type Registry = Map<string, Entry>;
@@ -24,6 +25,8 @@ export function loadRegistry(): Registry {
     if (symbol.arity !== undefined) entry.arity = symbol.arity;
     registry.set(symbol.name, entry);
   }
+  // Type names are aliases: (= (type (quote u)) variable) is sent as (= (type (quote u)) 4).
+  for (const type of TYPES) registry.set(type.name, { name: type.name, type: 0, id: type.id, sign: "", alias: type });
   return registry;
 }
 

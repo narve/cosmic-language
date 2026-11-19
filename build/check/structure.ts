@@ -3,7 +3,9 @@
 // - an unquoted group starts with an operator and has the number of arguments its arity allows;
 // - ∀, ∃ and sequence bind a variable, and every variable is bound (sentences are closed);
 // - every symbol in the registry is used, and ids follow the order of first appearance in each type;
-// - a symbol is in at least EXAMPLES sentences of the lesson that introduces it.
+// - a symbol is in at least EXAMPLES sentences of the lesson that introduces it;
+// - a type name (an alias for the number of a type) stands only where a type is meant: as an argument of a
+//   comparison that also has a (type …) argument, as in (= (type (quote u)) variable).
 import { BuildError } from "../dom.ts";
 import type { Message, Token } from "../message.ts";
 import type { Registry } from "../registry.ts";
@@ -14,6 +16,7 @@ const OPERATOR = 2;
 const VARIABLE = 4;
 const ELEMENT = 6; // an element's id is its atomic number, not its order of appearance
 const BINDERS = new Set(["∀", "∃", "sequence", "average", "let"]); // (binder variable values body): the variable is bound in the body
+const COMPARISONS = new Set(["=", "≠", "<", ">", "≤", "≥"]);
 
 // A token, or a bracket group with the tokens and groups inside it.
 export interface Node {
@@ -50,8 +53,11 @@ function allowed(arity: string, count: number): boolean {
   return arity.endsWith("+") ? count >= least : count === least;
 }
 
-function checkNode(node: Node, registry: Registry, bound: Set<string>): void {
+function checkNode(node: Node, registry: Registry, bound: Set<string>, typeSlot = false): void {
   if (node.token) {
+    if (registry.get(node.token.text)?.alias && !typeSlot) {
+      throw new BuildError(`${node.where}: the type name ${node.token.text} may only be compared with a (type …), as in (= (type (quote u)) variable)`);
+    }
     // a quoted expression is not checked (below), so a hole reached here is outside every quote
     if (node.token.text === "?") throw new BuildError(`${node.where}: a question (a sentence with ?) can only be mentioned, inside quote`);
     if (node.token.type === VARIABLE && !bound.has(node.token.text)) {
@@ -75,7 +81,8 @@ function checkNode(node: Node, registry: Registry, bound: Set<string>): void {
     checkNode(body, registry, new Set(bound).add(variable.token.text));
     return;
   }
-  for (const arg of args) checkNode(arg, registry, bound);
+  const typed = COMPARISONS.has(operator.name) && args.some((arg) => arg.items?.[0]?.token?.text === "type");
+  for (const arg of args) checkNode(arg, registry, bound, typed);
 }
 
 function symbols(node: Node, into: Set<string> = new Set()): Set<string> {
@@ -168,7 +175,8 @@ export function checkStructure(message: Message, registry: Registry): void {
       }
     });
   }
-  for (const name of registry.keys()) {
+  for (const [name, entry] of registry) {
+    if (entry.alias) continue; // a type name is a number, not a symbol
     if (!first.has(name)) throw new BuildError(`the symbol "${name}" is in the registry but not in the message`);
   }
   const next = new Map<number, number>();

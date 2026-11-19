@@ -155,6 +155,8 @@ code var, pre var { color: var(--accent-2); }
 pre i { color: var(--muted); font-style: normal; }    /* annotations */
 /* Comments in examples: <span data-comment>; text</span>. The ";" is part of the text, so it is copied with it. */
 [data-comment] { color: var(--muted); font-style: italic; }
+/* a type name (variable, operator …): written as a word, sent as the number of its type */
+[data-type-name] { font-variant: small-caps; }
 
 /* Illustrations: shown to explain, never part of the message. Marked with a label and a dashed border. */
 pre[data-illustration] { border-style: dashed; border-left-style: dashed; border-left-color: var(--muted); }
