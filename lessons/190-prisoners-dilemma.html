@@ -52,7 +52,7 @@
 (&lt; (× 2 (loss cooperate cooperate)) (+ (loss defect cooperate) (loss cooperate defect)))</code></pre>
 
   <h4>Strategies</h4>
-  <p>New: the domain <code>histories</code>, the function <code>move</code>, and eight strategies. A history is a list of the rounds played so far, each round a list of two moves: one's own, then the other's. <code>(move <var>s</var> <var>h</var>)</code> is a list to pick the next move from: a single move for a fixed choice, repeated moves for a chance.</p>
+  <p>A history is a list of the rounds played so far, each round a list of two moves: one's own, then the other's. <code>(move <var>s</var> <var>h</var>)</code> is a list to pick the next move from: a single move for a fixed choice, repeated moves for a chance.</p>
   <pre><code>
 ; always-cooperate and always-defect ignore the history
 (∀ u histories (= (move always-cooperate u) (list cooperate)))

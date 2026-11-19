@@ -11,7 +11,7 @@
 <body>
 <article class="lesson" data-topic="math minimal">
   <h3>large numbers</h3>
-  <p>New symbol: <code>big</code>. It writes a number with several digits in base 256, most significant digit first: <code>(big 1 0)</code> means 1·256 + 0.</p>
+  <p><code>big</code> writes a number with several digits in base 256, most significant digit first: <code>(big 1 0)</code> means 1·256 + 0.</p>
   <pre><code>
 ; (big 1 0) is 256, the number after 255; it is also 16 × 16
 (= (big 1 0) (+ 255 1))
