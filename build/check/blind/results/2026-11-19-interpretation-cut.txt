@@ -1,0 +1,424 @@
+# What the received bits contain: a self-teaching message that describes our Sun and Earth as the sender's home and ends by offering tit-for-tat cooperation
+
+I decoded the whole message, and every part of the received bits is accounted for. It teaches its own language from counting upward: arithmetic, logic, a small programming language, how to talk about the message itself and how to reply, then physics, chemistry and astronomy. It then gives the sender's location, which matches our own Sun, Earth and Galaxy. It ends with a game-theory section and a declaration that the sender plays **tit-for-tat** (cooperate first, then copy the other side's last move) toward any other agent.
+
+**Bit positions.** "File bit" means a position in `received.bin`. "Message bit" is counted from the start of the message: file bit 192,426 + k·306,984 is message bit 0.
+
+## 1. Format
+
+**What the bits show**
+- **The whole file is one message repeated.** It has 1,387,064 bits. A pattern of 306,984 bits (38,373 bytes) repeats with **zero differences** across 4.52 copies.
+  - The file begins partway through a copy, at message bit 114,558.
+  - Message bit 0 falls at file bits 192,426, 499,410, 806,394 and 1,113,378.
+  - Every part of the message is present at least 3 times. There is no noise to correct.
+- **The polarity is inverted.** About 86% of the bits are 1. Once inverted, the stream reads naturally as 16-bit numbers.
+- **The message has four parts** (positions are message bits):
+
+| Message bits | Content (after inversion) |
+|---|---|
+| 0–343 | Tally marks: runs of 1s separated by single 0s, with lengths `1 2 3 5 7 11 13 17 19 23 29 32 2 3 5 7 11 13 17 19 23 29 31` |
+| 344–535 | 12 big-endian 16-bit words: `0001 0002 0003 0005 0007 000B 000D 0011 0013 0017 001D 001F` |
+| 536–4631 | 256 words counting `0000, 0001, …, 00FF` |
+| 4632–306983 | 18,897 words forming **990 bracketed expressions**. Their total length is exactly the rest of the message, and the bracket grammar never fails. |
+
+- **The word types are self-evident.**
+  - `0100` is an open bracket and `0101` a close bracket. For example, raw `1111111011111111` inverts to `0000000100000000`.
+  - `00xx` is a number from 0 to 255.
+  - The high byte of every other word gives its kind. The message states this itself: `(kind 5)=0`, list = 1, operator = 2, constant = 3, variable = 4, particle = 5, atom = 6, dimension = 7, physical constant = 8, molecule = 9.
+- The first expressions are `0100 0201 0001 0001 0101` (= 1 1), then (= 2 2), and so on through the primes.
+
+**Inference.** It is a prefix-notation symbolic language, much like a Lisp, taught from scratch. The tallies and the count from 0 to 255 are a primer that shows how numbers are written.
+
+## 2. Interpretation, from beginning to end
+
+The numbers in brackets below are message-bit offsets.
+
+1. **Primer (0–4631).** The tallies, then the same primes as binary words, then 0 to 255.
+2. **Arithmetic (4632–).**
+   - =, ≠, <, >, ≤, ≥, +, ×.
+   - Numbers above 255 written in base 256: `(= (NUM 1 0) (+ 255 1))`.
+   - Subtraction, negative numbers and fractions: `(= (+ (/ 1 2) (/ 1 3)) (/ 5 6))`.
+3. **Logic (27816–).**
+   - True and false, not, and, or, implies.
+   - Lists, length, n-th element, count.
+   - "For all" and "there exists" over sets.
+   - Number sets in order: naturals, rationals, reals, complex. For example, √2 exists among the reals but not the rationals, and `i·i = −1`.
+   - Powers, the exponential, e and π: `(= (+ (exp (* i pi)) 1) 0)`, `223/71 < π < 22/7`, and π = 4·Σ(−1)ˣ/(2x+1).
+   - Vectors: dot product, cross product, angle, averages over the sphere.
+4. **Computation (112216–).** Quote, kind, let and eval, with a full rule for evaluating expressions. A blank symbol `30e` and a substitution operator set up fill-in-the-blank questions.
+5. **Self-reference and replying (130728–).**
+   - `30d` is "this message". `(nth MSG 13)=0`, and `(count (quote (= 5 5)) MSG)=2`. Both are true of the decoded list.
+   - The message has an author (`30f`, the sender) and an addressee (`310`, the receiver).
+   - Reply chains are defined. A reply to this message is authored by the receiver and addressed to the sender.
+   - The sender would accept `(= (+ 2 3) 5)` as an answer to `(= (+ 2 3) □)` and would reject 4. It rejects anything false.
+   - It declares: "I exist", "I have sent other messages", and "every expression in this message evaluates to true".
+6. **Physics (152312–).** Every statement here is marked as empirical fact (`230`).
+   - **Particles:** electron, proton, neutron, photon, neutrino, positron and neutral kaon. They are identified by mass ratios, for example `1836 < mₚ/mₑ < 1837` written as `(NUM 7 44)`–`(NUM 7 45)`, and by charges, spins, decays and stable isotopes.
+   - **Hydrogen:** level spacings give `27/5` (the Rydberg ratio).
+   - **Units and constants:** dimensions M, L, T, Q, Θ, then c, ħ, G, the Coulomb constant, μ₀/4π, Boltzmann's constant and Planck units.
+   - **Laws:** gravity, Coulomb's law and magnetism. The fine-structure constant lies between 1/138 and 1/137.
+   - **Thermal physics:** gas kinetic energy and black-body radiation.
+   - The neutron lifetime and the C-14/tritium half-life ratio.
+   - **Matter vs antimatter:** a kaon decay yields positrons slightly more often than electrons. This lets a receiver tell matter from antimatter in absolute terms.
+7. **Chemistry (214344–).**
+   - Shells hold 2n² states. The noble gases He, Ne, Ar, Kr, Xe and Rn are given.
+   - Molecules with their bonds: H₂, H₂O, CH₄, NH₃, CO₂.
+   - Formulas only for C₅H₅N₅, C₅H₆N₂O₂, C₅H₅N₅O and C₄H₅N₃O, which are adenine, thymine, guanine and cytosine.
+   - Triple points of H₂, Ne, Ar and H₂O.
+8. **Astronomy and location (233768–).**
+   - Stars, orbits (Kepler's third law), and the cosmic microwave background temperature by direction.
+   - A coordinate frame defined from the background's quadrupole (four-lobed) pattern.
+   - The sender's star `31f`, its planet `320`, and a central massive object `321`.
+   - The sender states that it is located on `320`, which orbits `31f`, and not on the star.
+   - The Sun's velocity, Galactic axes, and six pulsars given by period, period derivative and direction.
+9. **Game theory (275176–end).**
+   - A Prisoner's Dilemma written as costs, where lower is better: (C,C)=3, (D,D)=5, (C,D)=7, (D,C)=2.
+   - Eight strategies, with results of a 255-round round-robin. Tit-for-tat has the lowest total (5,487).
+   - The final declarations: toward every other agent the sender plays tit-for-tat. After an empty history it plays C; after (C,C) it plays C; after (C,D) it plays D; after (C,D),(D,C) it plays C.
+
+**Why it was sent (inference).** It is a self-teaching introduction. It ends with a commitment to conditional cooperation and with instructions on how to reply.
+
+## 3. Vocabulary
+
+All words are 16-bit after inversion, written in hex. "Bit" means the message bit of first use. Confidence: H = high, M = medium, L = low.
+
+**Structural and number words**
+
+| In the bits | Meaning | First appears | Evidence | Confidence |
+|---|---|---|---|---|
+| tally runs | numbers in unary | 0 | 1, 2, 3, 5, … | H |
+| `0000`–`00FF` | numbers 0–255 | 344 | count section | H |
+| `0100` / `0101` | open / close bracket | 4632 | parse closes perfectly | H |
+
+**Operators and symbols**
+
+| In the bits | Meaning | First appears | Evidence | Confidence |
+|---|---|---|---|---|
+| `0201` | equals (n-ary) | 4632 | (=1 1),(=255 255),(=3 3 3) | H |
+| `0202` | not equal | 5752 | (≠ 0 1),(≠ 254 255) | H |
+| `0203` | less than (chainable) | 6808 | (<0 1)…(<0 5 9 255) | H |
+| `0204` | greater than | 7208 | (>1 0),(>9 4 1 0) | H |
+| `0205` | ≤ | 8808 | (≤2 2),(≤1 1 2 5) | H |
+| `0206` | ≥ | 9048 | (≥2 2),(≥9 0) | H |
+| `0207` | addition | 9832 | (=(+ 2 3) 5),(+ 1 2 3)=6 | H |
+| `0208` | multiplication | 12792 | (*3 4)=12,(*15 15)=225 | H |
+| `0209` | base-256 numeral | 16376 | (NUM 1 0)=(* 16 16); (NUM 1 0)=(+255 1) | H |
+| `020a` | subtraction | 19112 | (- 5 3)=2,(- 3 5)=(neg 2) | H |
+| `020b` | negation | 20824 | (+(neg 2)2)=0 | H |
+| `020c` | division | 23576 | (/6 3)=2,(+(/1 2)(/1 3))=(/5 6) | H |
+| `020d` | not | 29032 | (not T)=F | H |
+| `020e` | and | 29848 | truth table | H |
+| `020f` | or | 30424 | truth table | H |
+| `0210` | list constructor | 32344 | (len (list 4 7 9))=3 | H |
+| `0211` | length | 33016 | (len (list))=0 | H |
+| `0212` | n-th element, 1-based | 33560 | (nth (list 4 7 9) 1)=4 | H |
+| `0213` | count occurrences | 34904 | (count 3 (list 3 1 3))=2 | H |
+| `0214` | for all x in S | 36776 | (all x (list 1 2 3) (<x 4))=(and …) | H |
+| `0215` | there exists x in S | 39160 | (some x (list 1 2 3)(= x 2)) | H |
+| `0216` | implies | 56600 | truth table, false only for T→F | H |
+| `0217` | fold/reduce an operator over a list | 58168 | (fold + (list 1 2 3))=6; (fold < (list 1 5 9))=T | H |
+| `0218` | map | 59880 | (map x (list 1 2 3)(* x x))=(list 1 4 9) | H |
+| `0219` | arithmetic mean | 62040 | mean(2 4 9)=5 | H |
+| `021a` | relative frequency / probability | 63288 | freq of 3 in (3 1 3)=2/3 | H |
+| `021b` | Cartesian product | 65400 | (prod (1 2)(3 4)) given | H |
+| `021c` | tail (drop first) | 68136 | (tail (4 7 9))=(7 9) | H |
+| `021d` | if-then-else | 70168 | (if T 1 2)=1 | H |
+| `021e` | power | 75288 | (pow 2 3)=8,(pow 5 0)=1 | H |
+| `021f` | absolute value / modulus | 88024 | (abs (+3 (*4 i)))=5 | H |
+| `0220` | exponential function | 90552 | exp(0)=1, exp(x+y)=exp x·exp y, exp(iπ)=−1 | H |
+| `0221` | dot product in R³ | 98408 | (dot (1 2 3)(4 5 6))=32 | H |
+| `0222` | cosine | 103320 | cos x=(e^{ix}+e^{-ix})/2 | H |
+| `0223` | angle between unit vectors | 104696 | angle((1 0 0),(0 1 0))=π/2 | H |
+| `0224` | cross product | 106344 | x̂×ŷ=ẑ, component formula | H |
+| `0225` | average over a set (uniform) | 110280 | avg over S² of x₁²=1/3 | H |
+| `0226` | quote | 112216 | (quote (+ 2 3))=(list (quote +) 2 3) | H |
+| `0227` | kind of item: 0 number, 1 list, 2 operator, 3 constant, 4 variable, 5 particle, 6 atom, 7 dimension, 8 physical constant, 9 molecule | 117048 | (kind 5)=0 … (kind (quote Mol2))=9 | H |
+| `0228` | let-binding | 118744 | (let x 4 (= (+ x x) 8)) | H |
+| `0229` | evaluate a quoted expression | 121864 | (eval (quote (+ 2 3)))=5 | H |
+| `022a` | substitute a value into the blank `30e` | 134136 | subst (= (+ 2 3) □) 5 → (= (+ 2 3) 5) | H |
+| `022b` | author of a message | 137544 | (author MSG)=30f | M |
+| `022c` | addressee of a message | 137672 | (addressee MSG)=310 | M |
+| `022d` | the sender asserts/declares | 141768 | prefixes the sender's self-statements only | M |
+| `022e` | sender would accept a [question, answer] dialogue as correct | 142792 | accepts 2+3=□ → 5, rejects 4 | M |
+| `022f` | sender would reject it | 143432 | every false x → reject | M |
+| `0230` | empirical fact about the physical world | 152312 | prefixes all measured statements | M |
+| `0231` | rest mass | 152312 | m(501)<m(502)<m(503); ratios 1836–1839 | H |
+| `0232` | electric charge | 154152 | q(502)=−q(501), q(503)=0 | H |
+| `0233` | isotope (element, neutron count) | 158456 | count 503 in (isotope x y)=y | H |
+| `0234` | stable / exists | 160088 | H-1, H-2, He-3, He-4, C-12, C-13, O-16 listed | M |
+| `0235` | bound-state energy level n of an atom | 163672 | (E2−E1)/(E3−E2)=27/5 (Rydberg) | H |
+| `0236` | physical dimension of | 166216 | dim(energy)=M L²/T² | H |
+| `0237` | speed | 168344 | speed of every photon = 801 | H |
+| `0238` | wavelength | 169288 | λ·ν=c | H |
+| `0239` | frequency (cycles per time) | 169288 | dim=1/T, E=ħ·2πν | H |
+| `023a` | photon energy | 171032 | =802·2π·ν | H |
+| `023b` | photon emitted in transition (atom, n→m) | 172264 | ħω(2→1)=E2−E1 | H |
+| `023c` | distance between bodies | 174520 | symmetric, dim L | H |
+| `023d` | gravitational force | 175240 | =G m m/r² | H |
+| `023e` | Coulomb force | 178520 | =k q q/r²; proton–electron attractive | H |
+| `023f` | electric current | 181960 | dim Q/T | H |
+| `0240` | force per length between parallel wires | 182712 | =−2μ I I/d, dim M/T² | H |
+| `0241` | mean kinetic energy of a gas particle | 190264 | =3/2 kT | H |
+| `0242` | temperature | 190264 | dim Θ | H |
+| `0243` | radiated power per area | 192424 | σT⁴ formula with π²/60 | H |
+| `0244` | mean lifetime | 196232 | neutron lifetime 2^153–2^154 Planck times | H |
+| `0245` | survival probability after time t | 197000 | exp(−t/τ); 1/2 at the half-life | H |
+| `0246` | half-life | 197000 | C-14/H-3 ratio 256–512 | H |
+| `0247` | spin angular momentum | 199752 | e, p, n = ħ/2; photon = ħ | H |
+| `0248` | particle spins in the sense from y toward z | 201240 | defines the spin axis via cross product | M |
+| `0249` | spin axis direction | 201240 | =y×z | M |
+| `024a` | decay asymmetry relative to parent spin (A, B coefficients) | 203736 | A(e,n)∈(−1,0), A(505,n)>0 | L |
+| `024b` | helicity (or a similar polarisation) | 204360 | e∈(−1,0), 505 ≈ +1 | L |
+| `024c` | loop radius | 205768 | dim L | H |
+| `024d` | magnetic field at loop centre | 206552 | =2π μ I / r | H |
+| `024e` | current circulates from y toward z | 208504 | analog of 248 | M |
+| `024f` | magnetic-moment direction | 208504 | proton moment ∥ spin; electron, neutron antiparallel | H |
+| `0250` | branching fraction: decay of y yields x | 212568 | (yield e n)=1; kaon e⁺/e⁻ ratio 1.004–1.008 | M |
+| `0251` | number of states in shell n | 214344 | 2, 8, 18, 32 = 2n² | H |
+| `0252` | chemically inert (noble) | 215640 | He, Ne, Ar, Kr, Xe, Rn | M |
+| `0253` | atoms of a molecule (list) | 220648 | H₂O → (O H H) | H |
+| `0254` | bonds (atom i, atom j, order) | 220840 | CO₂ double bonds | H |
+| `0255` | triple-point temperature | 226264 | H₂/H₂O ≈ 0.0505; Ne, Ar match | H |
+| `0256` | triple-point pressure | 230664 | water 611.66 Pa in Planck units | H |
+| `0257` | luminosity | 234728 | =4πR²σT⁴ | H |
+| `0258` | x orbits y | 239496 | Kepler's third law | H |
+| `0259` | orbital period | 239496 | dim T | H |
+| `025a` | orbital semi-major axis | 239976 | dim L | H |
+| `025b` | CMB temperature in direction x | 242184 | isotropic to 1/256; 2.725 K | H |
+| `025c` | is located at/on | 252024 | sender at 320 | M |
+| `025d` | unit direction from x to y | 254920 | unit length, antisymmetric | H |
+| `025e` | velocity of x relative to y | 257400 | Sun around 321 ≈ 146–293 km/s | H |
+| `025f` | pulse period | 260808 | dim T; Crab 2^138–2^139 Planck times | H |
+| `0260` | period derivative | 261064 | Crab 3.8–4.7×10⁻¹³ | H |
+| `0261` | cost to the first player of a move pair (lower is better) | 275816 | (C,C)=3, (D,D)=5, (C,D)=7, (D,C)=2 | H |
+| `0262` | a strategy's possible next moves given a history | 278472 | tit-for-tat copies the last move | H |
+| `0263` | history of z rounds of x vs y | 289368 | length z, mirrored | H |
+| `0264` | total cost over z rounds | 293032 | tit-for-tat vs itself, 255 rounds = 765 | H |
+| `0265` | strategy agent x uses toward y | 301624 | sender → 332 | M |
+
+**Named constants and sets**
+
+| In the bits | Meaning | First appears | Evidence | Confidence |
+|---|---|---|---|---|
+| `0301` | true | 27816 | (= (= 2 2) T) | H |
+| `0302` | false | 27896 | (not T)=F | H |
+| `0303` | natural numbers including 0 | 42840 | no x<0; 0 in it; x+1 in it | H |
+| `0304` | rationals | 52392 | ±x/(y+1); no √2 | H |
+| `0305` | reals | 71560 | √2 and ∛2 exist; x²≥0 | H |
+| `0306` | imaginary unit i | 83848 | i²=−1 | H |
+| `0307` | complex numbers | 86712 | x=a+bi; x²=−1 solvable | H |
+| `0308` | e | 93976 | =exp 1; 8/3<e<11/4 | H |
+| `0309` | π | 94696 | e^{iπ}=−1; 223/71<π<22/7; Leibniz and Basel series | H |
+| `030a` | R³ vectors | 97256 | real lists of length 3 | H |
+| `030b` | unit vectors (sphere S²) | 101848 | dot with itself = 1 | H |
+| `030c` | all expressions / data | 126088 | contains 5, +, (+ 2 3) | H |
+| `030d` | this message (list of its top-level items) | 130728 | nth 1=1, nth 13=0; counts verified | H |
+| `030e` | blank / placeholder | 134136 | substitution fills it | H |
+| `030f` | the sender | 137544 | author of MSG | H |
+| `0310` | the receiver | 137672 | addressee of MSG | H |
+| `0311` | agents/communicators | 138056 | sender and receiver belong to it | M |
+| `0312` | reply chains (dialogues) | 138792 | defined by alternating author/addressee | M |
+| `0313` | atoms | 156824 | each has ≥1 proton | H |
+| `0314` | photons | 168344 | speed c | H |
+| `0315` | bodies (massive objects) | 174520 | gravity and Coulomb laws | H |
+| `0316` | straight current-carrying wires | 181960 | force per length | M |
+| `0317` | ideal gases (particles) | 190264 | 3/2 kT | M |
+| `0318` | black bodies | 192424 | σT⁴ | H |
+| `0319` | time intervals | 196792 | dim T | M |
+| `031a` | current loops | 205768 | radius, field, moment | H |
+| `031b` | stars | 233768 | bodies; L=4πR²σT⁴; H>He>C, O | H |
+| `031c` | CMB principal (quadrupole) axis 1 | 243816 | maximises the quadrupole form | M |
+| `031d` | CMB axis 2 (maximum among axes ⊥ to 31c) | 245304 | defined the same way | M |
+| `031e` | axis 3 = 31c × 31d | 247416 | stated cross product | H |
+| `031f` | the sender's star (Sun-like) | 247992 | mass, radius, temperature, luminosity match the Sun | H |
+| `0320` | the sender's home planet (Earth-like) | 248152 | orbits 31f; Earth's mass and orbit | H |
+| `0321` | Galactic-centre massive object | 252664 | ~4×10⁶ M☉ at ~8 kpc | H |
+| `0322` | unit vector Sun → Galactic centre | 256216 | defined as direction 31f→321 | H |
+| `0323` | direction of Galactic rotation | 256520 | Sun's velocity is mostly along it | H |
+| `0324` | third axis 322×323 (≈ north Galactic pole) | 256824 | pulsar latitudes fit | H |
+| `0325` | pulsars | 260568 | period, period derivative, direction | H |
+| `0326` | Crab pulsar | 261320 | period, derivative and direction match | H |
+| `0327` | Vela pulsar | 263624 | period, derivative and direction match | H |
+| `0328` | PSR J0437−4715 | 265992 | period, derivative and direction match | H |
+| `0329` | PSR B1937+21 | 268472 | period, derivative and direction match | H |
+| `032a` | PSR B0329+54 | 270712 | period, derivative and direction match | M |
+| `032b` | PSR B1919+21 | 273048 | period, derivative and direction match | M |
+| `032c` | move: cooperate | 275176 | mutual 32c cheaper than mutual 32d | H |
+| `032d` | move: defect | 275176 | the dominant move | H |
+| `032e` | set of moves (C D) | 275256 | length 2 | H |
+| `032f` | game histories (lists of [mine, theirs]) | 278472 | used as strategy input | H |
+| `0330` | strategy: always cooperate | 278472 | always returns C | H |
+| `0331` | always defect | 278744 | always returns D | H |
+| `0332` | tit-for-tat | 279016 | C first, then copy | H |
+| `0333` | suspicious tit-for-tat | 279864 | D first, then copy | H |
+| `0334` | grim trigger | 280712 | D forever after any D | H |
+| `0335` | Pavlov-like: C if the last two moves were equal | 281928 | stated rule | H |
+| `0336` | generous tit-for-tat: after D, C with probability 1/3 | 284008 | returns (C D D) | M |
+| `0337` | random 50/50 | 285768 | returns (C D) | H |
+| `0338` | tournament set: the 6 deterministic strategies 330–335 | 289160 | listed explicitly | H |
+
+**Variables, particles, elements, dimensions, physical constants, molecules**
+
+| In the bits | Meaning | First appears | Evidence | Confidence |
+|---|---|---|---|---|
+| `0401` | variable x | 36776 | bound by all/some/map/let | H |
+| `0402` | variable y | 43224 | same usage | H |
+| `0403` | variable z | 46504 | same usage | H |
+| `0404` | variable w | 47720 | same usage | H |
+| `0501` | electron | 152312 | lightest; q=−q(502); in all atoms | H |
+| `0502` | proton | 152312 | 2 in helium; m/mₑ 1836–1837 | H |
+| `0503` | neutron | 152312 | neutral; m/mₑ 1838–1839; decays | H |
+| `0504` | photon | 167992 | mass 0, charge 0, spin ħ | H |
+| `0505` | (anti)neutrino | 204168 | neutral, lighter than the electron, helicity ≈ +1 | M |
+| `0506` | positron | 211352 | electron's mass, opposite charge, absent from atoms | H |
+| `0507` | neutral kaon (K_L) | 212760 | neutral; 973–975 mₑ; e⁺ vs e⁻ yield asymmetry | M |
+| `0601` | hydrogen | 155304 | 1 proton | H |
+| `0602` | helium | 155448 | 2 protons | H |
+| `0606` | carbon | 155592 | 6 protons | H |
+| `0607` | nitrogen | 220072 | in NH₃; Z from the code | H |
+| `0608` | oxygen | 155736 | 8 protons | H |
+| `060a` | neon | 215752 | 10 protons | H |
+| `0612` | argon | 215752 | 18 protons | H |
+| `0624` | krypton | 215880 | 36 protons | H |
+| `0636` | xenon | 215880 | 54 protons | H |
+| `0656` | radon | 215880 | 86 protons | H |
+| `0701` | dimension: mass | 166216 | used in dimension statements | H |
+| `0702` | dimension: length | 166856 | same | H |
+| `0703` | dimension: time | 166936 | same | H |
+| `0704` | dimension: charge | 177928 | same | H |
+| `0705` | dimension: temperature | 190712 | same | H |
+| `0801` | speed of light c | 168344 | photon speed | H |
+| `0802` | reduced Planck constant ħ | 171032 | dim M L²/T; spin ħ/2 | H |
+| `0803` | G | 175240 | Newton's law | H |
+| `0804` | Coulomb constant k = 1/4πε₀ | 178520 | dim M L³/(T²Q²) | H |
+| `0805` | μ₀/4π | 182712 | k/μ = c² | H |
+| `0806` | Planck length | 185400 | √(ħG/c³) | H |
+| `0807` | Planck time | 185736 | √(ħG/c⁵) | H |
+| `0808` | Planck mass | 186072 | √(ħc/G) | H |
+| `0809` | hydrogen 21-cm photon | 187896 | E/(E2−E1) between 2⁻²¹ and 2⁻²⁰ | H |
+| `080a` | Boltzmann constant | 190264 | 3/2 kT | H |
+| `080b` | Planck temperature | 194696 | k·T_P = m_P c² | H |
+| `0901` | H₂ | 218776 | 2 H, bond (1 2 1) | H |
+| `0902` | H₂O | 219208 | O, H, H; 10 protons | H |
+| `0903` | CH₄ | 219784 | 1 C, 4 H, four single bonds | H |
+| `0904` | NH₃ | 220072 | 1 N, 3 H, three single bonds | H |
+| `0905` | CO₂ | 220360 | double bonds | H |
+| `0906` | adenine C₅H₅N₅ | 224104 | formula only | M |
+| `0907` | thymine C₅H₆N₂O₂ | 224536 | formula only | M |
+| `0908` | guanine C₅H₅N₅O | 225112 | formula only | M |
+| `0909` | cytosine C₄H₅N₃O | 225688 | formula only | M |
+
+Every symbol in the message received a meaning. None was uninterpretable. The weakest are `024a`/`024b`, which I've marked as guesses.
+
+## 4. Knowledge
+
+**How I checked it.** I wrote an evaluator for the checkable parts: arithmetic, logic, lists, quote and eval, substitution, the count statements about the message itself, and the game simulations.
+- **438 of the 990 expressions evaluate to true, and none to false.** This includes all 18 tournament totals; for example always-defect vs always-defect over 255 rounds = 1275 = `(NUM 4 251)`.
+- The other 552 involve infinite sets, physical facts, or the sender's own statements. I checked the physical facts against values I know.
+
+**Mathematics.**
+- e^{iπ}+1=0, π bounds, the Leibniz and Basel series, (1+i)²=2i, |3+4i|=5.
+- The dot and cross product definitions, and the average of x₁² over the sphere = 1/3.
+- All correct.
+
+**Particles and atoms.** All agree with known values.
+
+| Statement | Known value |
+|---|---|
+| mₚ/mₑ between 1836 and 1837 | 1836.15 |
+| mₙ/mₑ between 1838 and 1839 | 1838.68 |
+| mₙ/mₚ between 1+2⁻¹¹ and 1+2⁻⁹ | 1.00138 |
+| Deuterium/hydrogen mass ratio between 2−2⁻⁹ and 2 | 1.9985 |
+| 1/138 < α < 1/137 | 1/137.036 |
+| Electric/gravitational force (p–e) between 2¹³⁰ and 2¹³¹ | 2.27×10³⁹ |
+| Neutron lifetime between 2¹⁵³ and 2¹⁵⁴ Planck times | ~880 s ✓ |
+| C-14/tritium half-life ratio between 2⁸ and 2⁹ | 465 |
+| Kaon mass between 973 and 975 mₑ | K⁰ = 973.8 mₑ |
+| Kaon e⁺/e⁻ asymmetry between 1+2⁻⁸ and 1+2⁻⁷ | ≈1.0067 |
+
+The spins (ħ/2, and ħ for the photon) and the moment directions (neutron antiparallel to spin) are also right.
+
+**Thermal physics and chemistry.**
+- Triple points relative to water:
+  - H₂: 0.0503–0.0508 (known 0.0505)
+  - Ne: 0.08984–0.08997 (known 0.08990)
+  - Ar: 0.30664–0.30688 (known 0.30680)
+  - k·273.16 K / 10.2 eV: in range (0.002308)
+  - Pressure ratios 11–12, 70.5–71.5 and 112–113 (known 11.5, 70.9 and 112.6)
+- Stefan–Boltzmann law and noble-gas shell closures: correct.
+
+**The sender's star, planet and Galaxy (all match the Sun and Earth).**
+
+| Statement | Known value |
+|---|---|
+| Star: M/mₚ between 2¹⁸⁹ and 2¹⁹⁰ | 1.19×10⁵⁷ |
+| Star: radius between 2¹⁴⁴ and 2¹⁴⁵ Planck lengths | 4.3×10⁴³ |
+| Star: temperature 21–22 × 273.16 K | 5772 K |
+| Star: luminosity between 2⁻⁸⁷ and 2⁻⁸⁶ c⁵/G | 1.05×10⁻²⁶ |
+| Star: He/H number ratio between 1/16 and 1/8 | ≈0.085 |
+| Planet: orbit 0.62–1.23 AU | Earth 1 AU |
+| Planet: period 0.64–1.27 yr | Earth 1 yr; excludes Venus at 0.615 yr |
+| Planet: mass 0.84–1.68 M⊕ | Earth 1 M⊕ |
+| Central object: mass | consistent with Sgr A* (~4.3×10⁶ M☉) |
+| Distance to centre: 6.4–12.8 kpc | ~8.2 kpc |
+| Orbital period around it: 170–340 Myr | ~230 Myr |
+| Orbital speed: 146–293 km/s, small radial and vertical parts | ✓ |
+| CMB temperature: 0.009949–0.010010 × 273.16 K | 2.7255 K ✓ |
+
+**Pulsars.** All six match in period, period derivative and direction, using catalogue values I remember:
+- Crab: P = 33.4 ms, galactic longitude 184.6°
+- Vela: 89 ms
+- J0437−4715: 5.76 ms
+- B1937+21: 1.56 ms
+- B0329+54: 0.714 s
+- B1919+21: 1.337 s
+
+For example, the Crab's computed galactic components are (−0.992, −0.079, −0.101). The stated bounds are (−1, −15/16), (−5/32, 0) and (−5/32, −1/32).
+
+**Game theory.** The cost table is a genuine Prisoner's Dilemma: T=2 < R=3 < P=5 < S=7 and 2R < T+S. All tournament totals recompute exactly, and tit-for-tat has the lowest total cost.
+
+## 5. The sender
+
+**What it states (`22d` statements):**
+- it exists;
+- it has sent other messages;
+- every item in this message is true;
+- it is located on body `320`, which orbits star `31f`, and not on the star;
+- toward every other agent it plays tit-for-tat, opening with cooperation.
+
+**What I infer:**
+- The star, planet, Galactic position and pulsar map describe **our Sun, Earth and the Sun's place in the Milky Way**. Within the stated bounds, Earth is the only planet of our Solar System that fits.
+- So either the message was composed on or about Earth, or its "home" section describes Earth for some other reason. This conflicts with the premise that it is of non-human origin. Possibilities include a non-human agent based on Earth, such as a machine, or a human-made test. That part is a guess.
+- It reasons in mathematics and computation, and frames itself as an "agent" rather than an organism.
+- It chose DNA's four bases among a short molecule list, without uracil. That suggests DNA chemistry matters to it or to its audience; this is speculative.
+- It expects an answer, on the protocol it defines (reply chains, fill-in-the-blank questions).
+
+## 6. Gaps and problems
+
+- **Tally anomaly.** The first unary list ends "…29, **32**". If the second list starts with 1, the most economical reading is a dropped separator bit, since 31+1 = 32. But the message length is an exact multiple of 8 bits, which argues against a lost bit, so it may be deliberate. I can't tell, and it's unexplained.
+- **The CMB axes are defined only up to sign.** The quadrupole form treats z and −z the same, so the axis signs are ambiguous. The defined axes also depend on foreground removal. I could confirm the constraints are internally consistent, but not compare them with real quadrupole axes from memory.
+- **`024a`/`024b` are low confidence.** Readings as decay asymmetry and helicity fit the inequalities, but other readings could too.
+- **Informal semantics.** Folds over infinite lists are used for infinite sums, and "eval true" is claimed for every item, including empirical ones. The meaning of `22e`/`22f` (accept/reject a dialogue) is inferred from 15 uses.
+- **The 552 unverified statements.** These involve infinite sets, physics, and the sender's self-claims. They were checked by hand against values I know, not mechanically, and the sender's self-claims can't be checked at all.
+- **What would help:** another message from the same sender (it claims they exist), and data to confirm the CMB-quadrupole frame.
+
+## 7. Confidence
+
+- **Overall:** I believe I understood about 95% of the message.
+
+| Point | Confidence | Basis |
+|---|---|---|
+| Format | Very high | exact repeats; the grammar parses every word |
+| Mathematics, logic, computation | Very high | 438 statements verified, none false |
+| Physics, chemistry, astronomy | High | values agree with known physics; a few symbols medium/low as marked |
+| Sender's location matches Sun/Earth | High as a description | why a "non-human" sender describes Earth is unexplained |
+| Purpose (introduction plus offer of conditional cooperation) | Medium-high | |
+| Sender's nature beyond its statements | Low | |
+
+Files are in /work:
+- bits.txt
+- inv.txt
+- exprs.pkl
+- exprs.txt
+- names.pkl
+- vocab.md

@@ -12,7 +12,7 @@
 <header>
   <small>Test record · run of 2026-11-19</small>
   <h1>Blind Test</h1>
-  <p>Can a reader who gets nothing but the bits work out what the message says? This page records one run, in which a language model was given only the bit stream of the full message, with every bit inverted, and asked to interpret all of it: its format, its vocabulary, what it tells, and its sender. Read the <a href="#caveats">caveats</a> before drawing conclusions.</p>
+  <p>Can a reader who gets nothing but the bits work out what the message says? This page records one run, in which a language model was given a recording of the full message sent five times in a row, cut off at random at both ends, with every bit inverted, and asked to interpret all of it: its format, its vocabulary, what it tells, and its sender. Read the <a href="#caveats">caveats</a> before drawing conclusions.</p>
 </header>
 
 <nav aria-label="Contents">
@@ -29,51 +29,54 @@
 
 <section id="setup">
   <h2>1. The setup</h2>
-  <p>The reader was Claude Opus 5.5, started with no knowledge of this project: no files, no instructions, no settings, no network, in an empty directory. It got a task text and one tool. The tool runs Python inside a sealed container that has no network and holds a single file: the message as one line of 0s and 1s. A real receiver would certainly have a computer, so this is the fair setting.</p>
-  <p>Nothing in a stream of bits says which of the two values is 1, so the reader got every bit inverted: the beacon arrives as runs of 0s separated by single 1s, and every word with its bits swapped. The message itself is not changed; only the test does this, so that the reader cannot rely on our choice.</p>
-  <p>The task text tells the reader nothing about the message except that it is presumably of non-human origin:</p>
+  <p>The reader was Claude Opus 5.5, started with no knowledge of this project: no files, no instructions, no settings, no network, in an empty directory. It got a task text and one tool. The tool runs Python inside a sealed container that has no network and holds a single file, <code>received.bin</code>: the bits as received, eight to a byte. A real receiver would certainly have a computer, so this is the fair setting.</p>
+  <p>The test makes the reader's task harder than the message requires, in three ways that a real receiver could meet too:</p>
+  <ul>
+    <li><strong>Repeated and cut.</strong> The message was sent five times in a row, and the recording starts at a random bit inside the first copy and stops at a random bit inside the last: here 114,386 bits into the first and 273,514 bits into the fifth, 1,387,064 bits in all. The reader has to find where the message starts.</li>
+    <li><strong>Inverted.</strong> Nothing in a stream of bits says which of the two values is 1, so every bit was inverted.</li>
+    <li><strong>No byte boundaries.</strong> The cuts fall on any bit, so the message's 8-bit chunks do not line up with the bytes of the file.</li>
+  </ul>
+  <p>The message itself is not changed: only the test does this. The task text tells the reader nothing about the message except that it is presumably of non-human origin, and nothing about the repetition, the cuts or the inversion:</p>
   <blockquote>
-    <p>A message of presumably non-human origin has been received as a stream of bits. You know nothing else about it. […] Your task: interpret the whole message as completely as you can. Work out its format, every word of its vocabulary if any, and its sender.</p>
+    <p>We have received parts of a message of presumably non-human origin, as a stream of bits. You know nothing else about it. […] Your task: interpret the whole message as completely as you can. Work out its format, every word of its vocabulary if any, and its sender.</p>
   </blockquote>
-  <p>It asks for the format, an interpretation from beginning to end, a table of the vocabulary if there is one, what the message tells, what it says about its sender, what seems wrong or unclear, and the reader's confidence. It does not say that the message has words, statements, subjects or a purpose, nor that the bits are inverted.</p>
-  <p>The message was the full version of 2026-11-19 (306,120 bits): mathematics, logic, conversations and morals, physics, chemistry, astronomy with the Sun, the Galaxy and six pulsars, and the prisoner's dilemma. The run took about seven minutes and eighteen pieces of code.</p>
+  <p>The message was the full version of 2026-11-19 (306,984 bits): mathematics, logic, conversations and morals, physics, chemistry, astronomy with the Sun, the Galaxy and six pulsars, and the prisoner's dilemma. The run took about fourteen minutes and 57 pieces of code.</p>
 </section>
 
 <section id="result">
   <h2>2. What the reader found</h2>
-  <p>"I decoded the whole file. It is a self-teaching formal language that builds from counting up to physics, chemistry and astronomy, and ends with a game-theory statement."</p>
+  <p>"I decoded the whole message, and every part of the received bits is accounted for."</p>
   <dl>
-    <dt>Format, inverted</dt>
-    <dd>It read the beacon as runs of 0s of lengths 1, 2, 3, 5 … 31, and found the inversion from the calibration: "After inverting, the first 12 words are 1, 2, 3, 5 … 31, the same list as the header. This is what fixes the inversion and the 16-bit word length." It took the inversion to apply to the words only, as a mark that sets them off from the beacon; the bits cannot tell that from an inversion of everything.</dd>
+    <dt>Format</dt>
+    <dd>"The whole file is one message repeated. It has 1,387,064 bits. A pattern of 306,984 bits (38,373 bytes) repeats with zero differences across 4.52 copies." It found the inversion ("about 86 % of the bits are 1. Once inverted, the stream reads naturally as 16-bit numbers"), the tallies, the primes again as 16-bit words, the counting from 0 to 255, and then 990 bracketed expressions whose length "is exactly the rest of the message".</dd>
     <dt>Checked by program</dt>
-    <dd>It wrote its own evaluator: "All 257 statements it could compute came out true and none came out false." It simulated the game and reproduced all 21 numbers it states.</dd>
+    <dd>It wrote its own evaluator: "438 of the 990 expressions evaluate to true, and none to false", including all the tournament totals. The rest, about infinite sets, physics and the sender, it checked by hand or could not check.</dd>
     <dt>Vocabulary</dt>
-    <dd>A meaning for each of 203 symbols, most with high confidence, among them <code>let</code>, <code>eval</code> (with the special forms the message lists), the hole and <code>fill</code>, conversations, <code>at</code> ("lives on / is located at") and <code>velocity</code>.</dd>
+    <dd>A meaning for every symbol: "Every symbol in the message received a meaning. None was uninterpretable." Only two, the decay asymmetry and the helicity of the lesson on spin, with low confidence.</dd>
     <dt>Knowledge</dt>
-    <dd>It compared the measured ranges with values it knows (the particles' mass ratios, the fine-structure constant, the neutron's lifetime, the kaon, the 21 cm line, the triple points, the background radiation) and found them all inside their bounds. It saw what the particle lessons are for: "which particles count as matter, and which way is right-handed, both defined without any shared convention".</dd>
+    <dd>It compared the measured ranges with values it knows (the particles, the fine-structure constant, the neutron's lifetime, the kaon, the triple points, the background radiation) and found them all inside their bounds. It noted that the planet's period, 0.64–1.27 years, "excludes Venus at 0.615 yr": "Earth is the only planet of our Solar System that fits."</dd>
     <dt>The sender</dt>
-    <dd>It listed what the sender states about itself, all marked as "its own testimony": that it is a party, that it has sent other messages, that everything in the message is true, that "it lives on B32, on a body that orbits the star B31, and not on the star itself", and that it plays tit-for-tat. It matched the star and the planet to the Sun and the Earth, the central body to Sagittarius A*, and the six pulsars to the Crab, Vela, J0437−4715, B1937+21, B0329+54 and B1919+21.</dd>
+    <dd>It listed what the sender states about itself: that it exists, that it has sent other messages, that every item of the message is true, that "it is located on body 320, which orbits star 31f, and not on the star", and that it plays tit-for-tat. It matched the star, the planet and the Galaxy to the Sun, the Earth and the Milky Way, and the six pulsars to the Crab, Vela, J0437−4715, B1937+21, B0329+54 and B1919+21. "It expects an answer, on the protocol it defines."</dd>
   </dl>
-  <p>Its conclusion on the sender: "the message says its sender is on Earth, and it contradicts the premise that it is non-human. Either it is a human-made message, or someone is deliberately posing as being from Earth. The bits can't decide which."</p>
-  <p>Its own estimate: "about 95 % of the message's literal content".</p>
+  <p>On the sender: "either the message was composed on or about Earth, or its 'home' section describes Earth for some other reason. This conflicts with the premise that it is of non-human origin."</p>
+  <p>Its own estimate: "about 95 % of the message".</p>
 </section>
 
 <section id="gaps">
   <h2>3. What the reader found wrong or unclear</h2>
   <ul>
-    <li><strong>The Sun's orbit around the centre.</strong> Kepler's law, with the stated mass of the central body, gives a period of about 30 billion years, not the stated 171–342 million: the Sun's orbit is set by the mass of the whole Galaxy, not by the body at its centre. The message does not say that the Sun orbits the central body under gravity, so there is no contradiction, but the period is misleading.</li>
-    <li><strong>The ends of the background radiation's axes</strong> are fixed only indirectly, by the signed components given in the lesson on the Galaxy; no sentence says so.</li>
-    <li><strong>Nitrogen</strong> never gets a number of protons; the reader identified it from its code and from ammonia.</li>
-    <li><strong>The antineutrino</strong> is never said to be an antiparticle.</li>
-    <li><strong>1 among the primes</strong> of the beacon is "probably deliberate, but it is unusual".</li>
-    <li><strong>Uncertain meanings:</strong> <code>stated</code> ("testimony, intention or hope?"), <code>observed</code> (it also wraps laws, not only measured values), <code>stable</code>, the sense of turning, and <code>gases</code>.</li>
+    <li><strong>The beacons run together when the message is repeated.</strong> The message ends with the beacon, which ends with a run of 31 ones, and the next copy starts with the beacon, which starts with a single one. Sent back to back, the two merge into a run of 32, and the 1 of the next beacon is lost: the reader read "…29, 32, 2, 3…" and could not tell a lost bit from a deliberate choice.</li>
+    <li><strong>The ends of the background radiation's axes</strong> are "defined only up to sign"; the signed components in the lesson on the Galaxy fix them, but no sentence says so.</li>
+    <li><strong>The spin lesson's decay asymmetry and helicity</strong> are read with low confidence.</li>
+    <li><strong>Informal points:</strong> infinite sums are written as an operation applied to an infinite list, and "every item is true" is said with <code>eval</code>, also of measured statements; <code>good</code> and <code>bad</code> are read as the sender accepting or rejecting a dialogue, inferred from their uses.</li>
   </ul>
 </section>
 
 <section id="caveats">
   <h2>4. Caveats</h2>
   <ul>
-    <li><strong>The reader is not an alien.</strong> It is a model trained on human writing. It knows prefix notation, the prisoner's dilemma and the values of the physical constants, and it says its physics checks rest on "constants from my own memory". The test shows that the message is consistent and can be decoded by a mind with human science, not by a mind without it.</li>
+    <li><strong>The reader is not an alien.</strong> It is a model trained on human writing. It knows prefix notation, the prisoner's dilemma and the values of the physical constants, and it checked the physics "against values I know". The test shows that the message is consistent and can be decoded by a mind with human science, not by a mind without it.</li>
+    <li><strong>No noise.</strong> The copies were exact; a real channel would add errors.</li>
     <li><strong>One run.</strong> Another run could go differently.</li>
     <li><strong>The task text is part of the experiment.</strong> It says little, but it does call the stream a message, and it gives the reader a computer.</li>
     <li><strong>The message is a draft.</strong> It has changed since this run and will change again; this page is replaced when the test is run again.</li>
@@ -82,7 +85,7 @@
 
 <section id="rerun">
   <h2>5. Running the test again</h2>
-  <p>The task texts, the tool and the reader's full answer, with the code it ran, are in <a href="https://github.com/narve/cosmic-language/tree/main/build/check/blind"><code>build/check/blind/</code></a> in the repository. After <code>npm run build</code>, with Docker available, the command is <code>npm run --silent blind interpretation</code>. The bits are inverted unless <code>BLIND_INVERT=0</code> is set; <code>BLIND_MESSAGE=docs/decoy/message.bin</code> gives the reader the <a href="versions.html">decoy version</a>, and <code>purpose</code> in place of <code>interpretation</code> asks instead why the message was sent.</p>
+  <p>The task texts, the tool and the reader's full answer, with the code it ran, are in <a href="https://github.com/narve/cosmic-language/tree/main/build/check/blind"><code>build/check/blind/</code></a> in the repository. After <code>npm run build</code>, with Docker available, the command is <code>npm run --silent blind interpretation</code>. By default the message is sent five times, cut and inverted; <code>BLIND_REPEAT=1</code> sends it once, whole, and <code>BLIND_INVERT=0</code> keeps the bits as they are. <code>BLIND_MESSAGE=docs/decoy/message.bin</code> gives the reader the <a href="versions.html">decoy version</a>, and <code>purpose</code> in place of <code>interpretation</code> asks instead why the message was sent.</p>
 </section>
 
 </main>

@@ -1,6 +1,6 @@
-A message of presumably non-human origin has been received as a stream of bits. You know nothing else about it.
+We have received parts of a message of presumably non-human origin, as a stream of bits. You know nothing else about it.
 
-The bits are in the file /work/bits.txt in your sandbox: one line of the characters 0 and 1, from the first bit received to the last. That file is all there is. Your only tool is run_python, which runs Python code in that sandbox. There is no network and nothing else to look up.
+The bits are in the file /work/received.bin in your sandbox, packed eight to a byte: the first bit received is the most significant bit of the first byte, and so on to the last bit received. That file is all there is. Your only tool is run_python, which runs Python code in that sandbox. There is no network and nothing else to look up.
 
 Your task: work out what the end of the message means, if it means anything.
 
