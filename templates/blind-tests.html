@@ -12,7 +12,7 @@
 <header>
   <small>Test record · run of 2026-11-19</small>
   <h1>Blind Test</h1>
-  <p>Can a reader who gets nothing but the bits work out what the message says? This page records one run, in which a language model was given a recording of the full message sent five times in a row, cut off at random at both ends, with every bit inverted, and asked to interpret all of it: its format, its vocabulary, what it tells, and its sender. Read the <a href="#caveats">caveats</a> before drawing conclusions.</p>
+  <p>Can a reader who gets nothing but the bits work out what the message says? This page records one run, in which a language model was given a recording of the full message sent five times in a row, cut off at random at both ends, with every bit inverted, and asked to interpret all of it. For this run the message was written with 11-bit chunks instead of 8, to see whether the chunk size matters to a reader; the message itself stays at 8. Read the <a href="#caveats">caveats</a> before drawing conclusions.</p>
 </header>
 
 <nav aria-label="Contents">
@@ -30,55 +30,53 @@
 <section id="setup">
   <h2>1. The setup</h2>
   <p>The reader was Claude Opus 5.5, started with no knowledge of this project: no files, no instructions, no settings, no network, in an empty directory. It got a task text and one tool. The tool runs Python inside a sealed container that has no network and holds a single file, <code>received.bin</code>: the bits as received, eight to a byte. A real receiver would certainly have a computer, so this is the fair setting.</p>
-  <p>The test makes the reader's task harder than the message requires, in three ways that a real receiver could meet too:</p>
+  <p>The test makes the reader's task harder than the message requires, in ways a real receiver could meet too:</p>
   <ul>
-    <li><strong>Repeated and cut.</strong> The message was sent five times in a row, and the recording starts at a random bit inside the first copy and stops at a random bit inside the last: here 114,386 bits into the first and 273,514 bits into the fifth, 1,387,064 bits in all. The reader has to find where the message starts.</li>
+    <li><strong>Repeated and cut.</strong> The message was sent five times in a row, and the recording starts at a random bit inside the first copy and stops at a random bit inside the last: here 129,724 bits into the first and 122,453 bits into the fifth, 1,656,449 bits in all.</li>
     <li><strong>Inverted.</strong> Nothing in a stream of bits says which of the two values is 1, so every bit was inverted.</li>
-    <li><strong>No byte boundaries.</strong> The cuts fall on any bit, so the message's 8-bit chunks do not line up with the bytes of the file.</li>
+    <li><strong>No byte boundaries.</strong> The cuts fall on any bit, and the last byte of the file is filled up with random bits.</li>
+    <li><strong>An unusual chunk size.</strong> For this run only, every chunk was 11 bits (a token 22 bits), so a reader could not lean on bytes: the calibration ended <code>1 2 4 … 1024 2047</code>, and <code>big</code> counted in base 2048. The full message was 415,930 bits.</li>
   </ul>
-  <p>The message itself is not changed: only the test does this. The task text tells the reader nothing about the message except that it is presumably of non-human origin, and nothing about the repetition, the cuts or the inversion:</p>
+  <p>The task text tells the reader nothing about the message except that it is presumably of non-human origin, and nothing about the repetition, the cuts, the inversion or the chunk size:</p>
   <blockquote>
     <p>We have received parts of a message of presumably non-human origin, as a stream of bits. You know nothing else about it. […] Your task: interpret the whole message as completely as you can. Work out its format, every word of its vocabulary if any, and its sender.</p>
   </blockquote>
-  <p>The message was the full version of 2026-11-19 (306,984 bits): mathematics, logic, conversations and morals, physics, chemistry, astronomy with the Sun, the Galaxy and six pulsars, and the prisoner's dilemma. The run took about fourteen minutes and 57 pieces of code.</p>
+  <p>The run took about fourteen minutes and 46 pieces of code.</p>
 </section>
 
 <section id="result">
   <h2>2. What the reader found</h2>
-  <p>"I decoded the whole message, and every part of the received bits is accounted for."</p>
+  <p>"I decoded the whole message. It is a self-teaching formal language: it builds up from counting to arithmetic, logic, a repeated game, physics, chemistry and astronomy."</p>
   <dl>
     <dt>Format</dt>
-    <dd>"The whole file is one message repeated. It has 1,387,064 bits. A pattern of 306,984 bits (38,373 bytes) repeats with zero differences across 4.52 copies." It found the inversion ("about 86 % of the bits are 1. Once inverted, the stream reads naturally as 16-bit numbers"), the tallies, the primes again as 16-bit words, the counting from 0 to 255, and then 990 bracketed expressions whose length "is exactly the rest of the message".</dd>
+    <dd>It found the repetition ("the stream repeats with a period of 415,930 bits"), the inversion, and the chunk size, first from the bits ("autocorrelation of the 0-bits peaks at a lag of 11") and then from the calibration: the primes, "followed by 1, 2, 4 … 1024 and then 2047 (all eleven bits set), which shows the word size". It saw that the beacon is not a multiple of 11 bits long, "which is why the word framing shifts by 2 bits once per copy", and that the beacon marks where a copy starts.</dd>
     <dt>Checked by program</dt>
-    <dd>It wrote its own evaluator: "438 of the 990 expressions evaluate to true, and none to false", including all the tournament totals. The rest, about infinite sets, physics and the sender, it checked by hand or could not check.</dd>
+    <dd>"All 382 statements that can be evaluated exactly came out true, and none false. That includes every game score." It replayed the tournament and reproduced every total.</dd>
     <dt>Vocabulary</dt>
-    <dd>A meaning for every symbol: "Every symbol in the message received a meaning. None was uninterpretable." Only two, the decay asymmetry and the helicity of the lesson on spin, with low confidence.</dd>
-    <dt>Knowledge</dt>
-    <dd>It compared the measured ranges with values it knows (the particles, the fine-structure constant, the neutron's lifetime, the kaon, the triple points, the background radiation) and found them all inside their bounds. It noted that the planet's period, 0.64–1.27 years, "excludes Venus at 0.615 yr": "Earth is the only planet of our Solar System that fits."</dd>
-    <dt>The sender</dt>
-    <dd>It listed what the sender states about itself: that it exists, that it has sent other messages, that every item of the message is true, that "it is located on body 320, which orbits star 31f, and not on the star", and that it plays tit-for-tat. It matched the star, the planet and the Galaxy to the Sun, the Earth and the Milky Way, and the six pulsars to the Crab, Vela, J0437−4715, B1937+21, B0329+54 and B1919+21. "It expects an answer, on the protocol it defines."</dd>
+    <dd>A meaning for every symbol, most with high confidence, including <code>antiparticle</code>, <code>velocity</code>, the sender's "own unverifiable claim" (<code>stated</code>) and "lives on, is located at" (<code>at</code>).</dd>
+    <dt>Knowledge and the sender</dt>
+    <dd>Every measured bound it checked agrees with known values. It matched the star, the planet and the central body to the Sun, the Earth and Sagittarius A*, and the six pulsars to the Crab, Vela, J0437−4715, B1937+21, B0329+54 and B1919+21; it noted that the mass inside the Sun's orbit "is about 2<sup>14</sup> times the central mass". On the sender: "On its own evidence, the message is human-made, or else written by someone presenting themselves as living on Earth."</dd>
   </dl>
-  <p>On the sender: "either the message was composed on or about Earth, or its 'home' section describes Earth for some other reason. This conflicts with the premise that it is of non-human origin."</p>
-  <p>Its own estimate: "about 95 % of the message".</p>
+  <p>Its own estimate: "about 90 % understood".</p>
 </section>
 
 <section id="gaps">
   <h2>3. What the reader found wrong or unclear</h2>
   <ul>
-    <li><strong>The beacons run together when the message is repeated.</strong> The message ends with the beacon, which ends with a run of 31 ones, and the next copy starts with the beacon, which starts with a single one. Sent back to back, the two merge into a run of 32, and the 1 of the next beacon is lost: the reader read "…29, 32, 2, 3…" and could not tell a lost bit from a deliberate choice.</li>
-    <li><strong>The ends of the background radiation's axes</strong> are "defined only up to sign"; the signed components in the lesson on the Galaxy fix them, but no sentence says so.</li>
-    <li><strong>The spin lesson's decay asymmetry and helicity</strong> are read with low confidence.</li>
-    <li><strong>Informal points:</strong> infinite sums are written as an operation applied to an infinite list, and "every item is true" is said with <code>eval</code>, also of measured statements; <code>good</code> and <code>bad</code> are read as the sender accepting or rejecting a dialogue, inferred from their uses.</li>
+    <li><strong>One claim beyond what is known.</strong> The message said that the antineutrino is not its own antiparticle; whether it is, is still open. The sentence has been removed.</li>
+    <li><strong>Which way the game's scores point.</strong> "Whether the scores are costs or rewards is not fixed by the bits": the reader chose costs, and so read the first move as cooperation, on indirect evidence only.</li>
+    <li><strong>The ends of the background radiation's axes</strong> were again read as fixed "only up to sign", although the lesson on the Sun in the Galaxy now says which ends are meant.</li>
+    <li><strong>Minor:</strong> the stable isotopes listed leave out <sup>17</sup>O and <sup>18</sup>O (not false, but not complete); adenine has no oxygen count; nothing labels the first numbers as primes.</li>
   </ul>
 </section>
 
 <section id="caveats">
   <h2>4. Caveats</h2>
   <ul>
-    <li><strong>The reader is not an alien.</strong> It is a model trained on human writing. It knows prefix notation, the prisoner's dilemma and the values of the physical constants, and it checked the physics "against values I know". The test shows that the message is consistent and can be decoded by a mind with human science, not by a mind without it.</li>
+    <li><strong>The reader is not an alien.</strong> It is a model trained on human writing, and it checked the physics against values it knows. The test shows that the message is consistent and can be decoded by a mind with human science, not by a mind without it.</li>
+    <li><strong>The chunk size was an experiment.</strong> The reader decoded the 11-bit version as well as earlier readers decoded the 8-bit one, so the chunk size makes little difference to a reader; the message stays at 8 bits, which is about 27 % shorter.</li>
     <li><strong>No noise.</strong> The copies were exact; a real channel would add errors.</li>
     <li><strong>One run.</strong> Another run could go differently.</li>
-    <li><strong>The task text is part of the experiment.</strong> It says little, but it does call the stream a message, and it gives the reader a computer.</li>
     <li><strong>The message is a draft.</strong> It has changed since this run and will change again; this page is replaced when the test is run again.</li>
   </ul>
 </section>

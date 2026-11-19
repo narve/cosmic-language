@@ -1,0 +1,245 @@
+I decoded the whole message. It is a self-teaching formal language: it builds up from counting to arithmetic, logic, a repeated game, physics, chemistry and astronomy. It ends by placing its sender on a planet that matches Earth, orbiting a star that matches the Sun, located by a six-pulsar map. Every statement I could check is true. The main gaps are a handful of words, listed in section 6.
+
+How I quote the bits below: `#n` is a number written in the message. `wN`, `cN`, `xN`, `yN`, `zN`, `uN`, `vN`, `tN` are the message's own symbol classes (tags 2–9) with their index N. Parentheses are the message's own brackets. Item numbers are 0-based top-level items, counted from the start of the unary block.
+
+---
+
+## 1. Format
+
+**What the bits show**
+- **The file:** 1,656,456 bits, about 90% 1s. Autocorrelation of the 0-bits peaks at a lag of 11.
+- **Four copies:** the stream repeats with a period of 415,930 bits. The copies agree bit for bit except for the file's last 7 bits, which are probably truncation or padding. The file starts 129,724 bits into a copy and holds about 3.98 copies, so every part of the message is present at least 3 times. I found no transmission noise.
+- **One copy = a 174-bit unary block + 37,796 words of 11 bits.**
+  - **Unary block:** for each p in 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, a 1-bit followed by p 0-bits. It is not a multiple of 11 bits long, which is why the word framing shifts by 2 bits once per copy (file bits 286206, 702136, 1118066, 1533996).
+  - **Words:** a 0-bit means binary 1, most significant bit first. The proof is that the first words after the unary block are exactly the same 12 numbers (1, 2, 3, 5 … 31). They are followed by 1, 2, 4 … 1024 and then 2047 (all eleven bits set), which shows the word size.
+- **Words pair up as (tag, value).** The 18,898 pairs use only tags 0–9:
+  - (1,0) and (1,1) each occur 4,463 times. They open and close a bracket; nesting depth never goes below 0, reaches at most 11, and ends at 0.
+  - Tag 0 is a number literal. Tag 2 is an operator word, which always comes first after an opening bracket.
+  - The tag meanings are confirmed by the message itself. w43 returns 0 for a number, 1 for a bracketed expression, 2 for w7, 3 for c1, 4 for x1, 5 for y1, 6 for z1, 7 for u1, 8 for v1 and 9 for t2 (items 561–565, 661, 677, 704, 716, 876).
+- **Large numbers:** written with w9 in base 2048, e.g. `(w1 (w9 #1 #0) (w7 #2047 #1))`.
+- **Content:** each copy holds 1,023 top-level items: 24 bare numbers and 999 prefix-notation statements.
+
+**Inferred:** the copies are meant to be cyclic, and the unary block marks the logical start. Two things support this: it is the only out-of-frame structure, and the message's own index of itself (c26, item 1 = 1, item 25 = `(w42 (w1 #1 #1))`) counts from that point.
+
+## 2. Interpretation, beginning to end
+
+All 382 statements that can be evaluated exactly came out true, and none false. That includes every game score. The quantified statements also passed spot checks on finite samples. Every measured-quantity bound I checked agrees with known values (section 4).
+
+| Items | Content | Example evidence |
+|---|---|---|
+| block, 0–23 | Counting: the same 12 numbers in unary and then in binary, then powers of two, then 2047 | `#1 #2 #3 #5 … #31`, `#1 #2 #4 … #1024 #2047` |
+| 24–123 | Equality and order; + and × with commutativity, associativity and distributivity | `(w1 (w7 #1 #2 #3) (w7 (w7 #1 #2) #3) (w7 #1 (w7 #2 #3)))` |
+| 124–181 | Multi-word numbers; subtraction, negatives, fractions | `(w1 (w12 #1 (w11 #3)) (w11 (w12 #1 #3)))` |
+| 182–209 | True/false, not, and, or, De Morgan | `(w1 (w13 (w14 c1 c2)) (w15 (w13 c1) (w13 c2)))` |
+| 210–347 | Lists, ∀/∃, number sets (naturals, rationals), implication, fold, map, mean, probability, if | `(w20 x1 c3 (w21 x2 c3 (w1 x2 (w7 x1 #1))))` |
+| 348–414 | A repeated two-move game: payoff table, eight strategies, 255-round matches, tournament totals | `(w1 (w33 c11 c10 #255) #1277)` |
+| 415–541 | Reals, powers, i, absolute value, exp, e and π with bounds, Leibniz and Basel series, vectors, dot and cross products, cos, angles, averages over the sphere | `(w3 (w12 #223 #71) c22 (w12 #22 #7))` |
+| 542–602 | Quote, expression types, let, eval (a self-describing evaluator: item 600) | `(w2 (w42 (w7 #2 #3)) #5)` |
+| 603–653 | Self-reference to this message (c26); sender c28, receiver c29; a question-and-reply protocol with a blank (c27); accept/reject; conversations | `(w1 (w18 c26 #24) #2047)` |
+| 654–763 | Particles, mass ratios, isotopes, hydrogen levels, dimensions, c, ħ, G, Coulomb's law, α, Planck units, 21-cm line | `(w52 (w3 #1836 (w12 (w53 y2) (w53 y1)) #1837))` |
+| 764–830 | Gas temperature, black-body radiation, Planck temperature, neutron decay, half-lives, spin, magnetic moments, parity, antimatter, kaon CP asymmetry | `(w52 (w4 (w85 y6 y7) (w85 y1 y7)))` |
+| 831–908 | Shells (2n²), noble gases, molecules with bond lists, DNA bases, triple points | `(w1 (w88 t2) (w16 z8 z1 z1))` |
+| 909–980 | Stars, mass defect of He-4, Kepler's law, the cosmic background map and its axes, a star c44, a planet c45, a central mass c46, the sender's claimed home, a galactic frame | `(w49 (w98 c28 c45))` |
+| 981–1019 | Six pulsars: period, period derivative and direction | `(w52 (w3 (w34 #2 #138) (w12 (w101 c51) v7) (w34 #2 #139)))` |
+| 1020–1022 | Conclusion of the game: c11's total is the lowest of all strategies | `(w20 x1 c17 (w22 (w2 x1 c11) (w3 … c11 … x1 …)))` |
+
+**What it does (inferred):**
+- It teaches a language from first principles, including how to evaluate it.
+- It tells the receiver how to reply: a question has a blank c27, and the sender accepts answers in literal form (items 641–653).
+- It declares a policy: the sender will play c11 (reciprocity) toward every other agent (items 937–941).
+- It gives the sender's location: on c45, orbiting c44, not on c44 (items 953–955), plus the pulsar map.
+
+## 3. Vocabulary
+
+**Encoding of every symbol:** each is a pair of 11-bit words, written inverted (0-bit = 1), (tag, n). For example, w7 is the pair (2,7), written `11111111101 11111111000`. Item numbers are first appearances. Confidence: H = high, M = medium, L = low.
+
+**Structure**
+
+| Bits | Meaning | First | Evidence | Conf. |
+|---|---|---|---|---|
+| `1`+p×`0` runs | unary numbers | block | same 12 numbers then given in binary | H |
+| (1,0) / (1,1) | open / close bracket | 24 | balanced throughout | H |
+| (0,n) `#n` | number literal | 0 | arithmetic all checks | H |
+| tags 2–9 | operator word, constant, bound variable, particle, element, unit, physical constant, molecule | — | self-described by w43 | H |
+
+**Operators w1–w102**
+
+| Bits | Meaning | First | Evidence | Conf. |
+|---|---|---|---|---|
+| w1–w6 | =, ≠, <, >, ≤, ≥ (chainable) | 24–77 | `(w3 #1 #2 #3)`, `(w5 #2 #2)` | H |
+| w7 / w8 | + / × | 86 / 104 | `(w1 (w8 #15 #17) #255)` | H |
+| w9 | base-2048 multi-word number | 124 | `(w9 #1 #0)` = 2047+1 = 32·64 | H |
+| w10 / w11 / w12 | − / negate / divide | 135 / 146 / 161 | `(w1 (w12 #4 #6) (w12 #2 #3))` | H |
+| w13 / w14 / w15 | not / and / or | 192 / 197 / 201 | truth tables | H |
+| w16 / w17 / w18 / w19 | list / length / n-th (from 1) / count | 210–221 | `(w1 (w19 #7 (w16 #7 #7 #7 #7)) #4)` | H |
+| w20 / w21 | for all / there exists | 230 / 237 | 232: ∀ over {1,2,3} = conjunction | H |
+| w22 | implies | 301 | truth table | H |
+| w23 / w24 | apply operator across a list / map | 308 / 315 | `(w1 (w23 w8 (w16 #2 #3 #4)) #24)` | H |
+| w25 / w26 | mean / relative frequency (probability) | 322 / 326 | 325, 330 | H |
+| w27 / w28 / w29 | Cartesian product / tail / if-then-else | 332 / 337 / 343 | examples | H |
+| w30 | per-round score in the game | 352 | table 3, 5, 7, 2 | H as a number; good or bad: M |
+| w31 / w32 / w33 | strategy's move(s) / history of n rounds / total score | 363 / 383 / 388 | simulation reproduces every total | H |
+| w34 / w35 / w36 | power / absolute value / exp | 428 / 474 / 483 | `(w1 (w35 (w7 #3 (w8 #4 c19))) #5)`, e^{iπ} = −1 | H |
+| w37 / w40 | dot product / cross product | 510 / 530 | 513, 534 | H |
+| w38 / w39 / w41 | cos / angle between vectors / average over the unit sphere | 521 / 526 / 536 | cos π = −1; mean of x² = 1/3 | H |
+| w42 / w43 / w44 / w45 | quote / expression type / let / eval | 542 / 561 / 569 / 579 | 552, 598–602 | H |
+| w46 | substitute for the blank c27 | 620 | 620–626 | H |
+| w47 / w48 | sender of / receiver of | 627 / 628 | `(w1 (w47 c26) c28)` | H |
+| w49 | sender's own unverifiable claim or intention ("we state / believe") | 638 | used only for statements about the sender, all unverifiable | M–L |
+| w50 / w51 | accepts / rejects (as an answer) | 641 / 642 | 641–653: (+ 2 3) is rejected as an answer, 5 is accepted | M |
+| w52 | measured / empirical fact (approximate) | 654 | prefixes only physical measurements and laws | M |
+| w53 / w54 | mass / charge | 654 / 658 | electron–proton values | H |
+| w55 / w56 | isotope (element, neutrons) / stable or naturally existing | 678 / 684 | H-1, H-2, He-3, He-4, C-12, C-13, O-16 | H / M |
+| w57 | atomic energy level n | 693 | ratios 27/5 and 32/27 | H |
+| w58 | physical dimension of | 696 | energy = u1·u2²/u3² | H |
+| w59 / w60 / w61 / w62 / w63 | speed / wavelength / frequency / photon energy / photon from a transition | 707–720 | λf = c, E = 2πħf | H (w63: M) |
+| w64 / w65 / w66 | distance / gravitational force / electric force (negative = attractive) | 724–736 | Gm₁m₂/r², signs | H |
+| w67 / w68 | electric current / force per length between wires | 743 / 745 | dims, v4/v5 = c² | M–H |
+| w69 / w70 / w71 | mean kinetic energy / temperature / black-body flux | 764–769 | (3/2)kT, σT⁴ | H |
+| w72 / w73 / w74 | mean lifetime / survival probability / half-life | 778–781 | exp(−t/τ), ½ | H |
+| w75 / w76 / w77 | spin / "rotates from a toward b" / spin axis | 787 / 792 | ħ/2, right-hand rule | H / M / M |
+| w78 | correlation of emission with parent spin (?) | 796 | electron in (−1,0), (anti)neutrino > 0 | L |
+| w79 | helicity (?) | 799 | electron in (−1,0), (anti)neutrino ≈ +1 | L–M |
+| w80 / w81 / w82 / w83 | loop radius / field at its centre / circulation sense / magnetic-field direction (moment) | 805–811 | B = 2πv5·I/r; proton moment parallel to spin, electron and neutron antiparallel | M–H |
+| w84 / w85 | antiparticle / mean number among decay products | 820 / 826 | e⁻ ↔ y6; one electron per neutron decay | H / M |
+| w86 / w87 | shell capacity / chemically inert (noble) | 831 / 836 | 2, 8, 18, 32; He…Rn | H / M |
+| w88 / w89 | atoms of a molecule / bonds (i, j, order) | 865 / 866 | H₂O, CO₂ double bonds | H |
+| w90 / w91 | triple-point temperature / pressure | 892 / 902 | all ratios match | H |
+| w92 | luminosity | 913 | 4πR²σT⁴ | H |
+| w93 / w94 / w95 | orbits / period / orbital radius | 921–922 | Kepler's third law | H |
+| w96 | sky temperature in a direction (background radiation) | 925 | 2.7255 K | H |
+| w97 / w98 | strategy agent A uses toward B / lives on, is located at | 937 / 953 | context | M / M–L |
+| w99 / w100 | unit vector from A to B / velocity of A relative to B | 961 / 971 | 961–962 | H |
+| w101 / w102 | pulsar period / period derivative | 982–983 | dims, values | H |
+
+**Constants c1–c56**
+
+| Bits | Meaning | Conf. |
+|---|---|---|
+| c1 / c2 | true / false | H |
+| c3 / c4 / c18 / c20 | naturals (with 0) / rationals / reals / complex numbers | H |
+| c5 / c6 | the two moves; c5 is most likely "cooperate" (see the note below the table) | M |
+| c7 | the set of moves {c5, c6} | H |
+| c8 | histories of move pairs | M |
+| c9 / c10 | always c5 / always c6 | H |
+| c11 | open with c5, then copy the opponent (tit-for-tat) | H |
+| c12 | open with c6, then copy | H |
+| c13 | c5 until the opponent ever plays c6 (grim trigger) | H |
+| c14 | c5 if both moved alike last round (win-stay, lose-shift) | H |
+| c15 | after the opponent plays c6, play c5 with probability 1/3 (generous tit-for-tat) | H |
+| c16 | random 50/50 | H |
+| c17 | the six deterministic strategies (the tournament field) | H |
+| c19 / c21 / c22 | i / e / π | H |
+| c23 / c24 | 3-vectors / unit vectors | H |
+| c25 / c26 / c27 | expressions / this message / blank | H |
+| c28 / c29 / c30 / c31 | sender / receiver / agents / conversations (alternating sender and receiver, starting with c26) | H / H / M / M |
+| c32–c40 | elements, light, massive bodies, current-carrying wires, ideal gases, black bodies, durations, current loops, stars | M–H |
+| c41 / c42 / c43 | background-map axes: main quadrupole axis, a second axis, their cross product | M |
+| c44 / c45 / c46 | Sun-like star / Earth-like planet / central galactic mass | M–H |
+| c47 / c48 / c49 | direction to c46 / direction of c44's orbital motion / their cross product (galactic frame) | M–H |
+| c50–c56 | pulsars; c51–c56 match Crab, Vela, J0437−4715, B1937+21, B0329+54, B1919+21 | H |
+
+**Note on c5:** the payoff numbers alone allow both readings. "Cooperate as a cost" (lower is better) is favoured because it makes c13–c15 standard strategies, the sender's declared opening move is c5, and item 1022 highlights c11's lowest total.
+
+**Other classes**
+
+| Bits | Meaning | Conf. |
+|---|---|---|
+| x1–x4 | bound variables | H |
+| y1–y4 | electron, proton, neutron, photon | H |
+| y5 | (anti)neutrino from neutron decay | M |
+| y6 | positron | H |
+| y7 | neutral kaon | M |
+| z*n* | element with atomic number *n*: H, He, C, N, O, Ne, Ar, Kr, Xe, Rn | H |
+| u1–u5 | mass, length, time, charge, temperature | H |
+| v1–v5 | c, ħ, G, Coulomb's constant, μ₀/4π | H |
+| v6–v8 | Planck length, time, mass | H |
+| v9 | hydrogen 21-cm photon | M–H |
+| v10 / v11 | Boltzmann's constant / Planck temperature | H |
+| t1–t5 | H₂, H₂O, CH₄, NH₃, CO₂ | H |
+| t6–t9 | C₅H₅N₅, C₅H₆N₂O₂, C₅H₅N₅O, C₄H₅N₃O — matching adenine, thymine, guanine, cytosine | M |
+
+Every symbol has a proposed meaning. The ones I am least sure of are w78, w79, w49, w98 and w87.
+
+## 4. Knowledge, compared with known values
+
+I checked the message's bounds against values I know (the reference values are mine, not from the bits). Every one I tested falls inside its bounds:
+
+- **Mathematics:** it is the usual arithmetic and logic. Also: 223/71 < π < 22/7, 8/3 < e < 11/4, e^{iπ} = −1, π = 4·Σ(−1)ⁿ/(2n+1), Σ1/n² = π²/6.
+- **Game:** a prisoner's dilemma with scores T=2, R=3, P=5, S=7 if read as costs (c5 = cooperate).
+  - c6 dominates (items 359–362).
+  - Over 255 rounds the totals are c11 5487 < c13 5611 < c9 5614 < c14 5781 < c10 6495 < c12 6923. My simulation reproduces every number.
+  - This matches the classic finding that reciprocity does best (inference).
+- **Particles:**
+  - m_p/m_e = 1836.15, inside 1836–1837; m_n/m_e = 1838.68, inside 1838–1839.
+  - α = 1/137.036, inside 1/138–1/137.
+  - Electric/gravitational force for p–e = 2^130.7.
+  - m_p/m_Planck = 2^−63.5; m_e/m_Planck = 2^−74.3.
+- **Hydrogen and decays:**
+  - Hydrogen level ratios 27/5 and 32/27 match the Rydberg formula.
+  - The 21-cm photon's energy relative to the n=2→1 gap is 2^−20.7.
+  - Neutron lifetime = 2^153.5 Planck times; C-14 half-life / H-3 half-life = 2^8.9.
+  - K⁰ mass = 973.8 m_e; the K_L positron excess factor of 1.0067 lies inside 1+2⁻⁸ to 1+2⁻⁷.
+  - Together, the neutrino and kaon statements fix "left" versus "right" and "matter" versus "antimatter" without relying on convention. Item 825 says ordinary atoms contain no positrons.
+- **Chemistry:**
+  - Shells hold 2, 8, 18, 32; noble gases at 2, 10, 18, 36, 54, 86 electrons.
+  - Triple points: H₂, Ne and Ar temperature ratios to water, and the pressure ratios, all inside bounds.
+  - kT of water's triple point relative to the n=2→1 gap: 302.5/2^17, inside 302–303/2^17.
+  - Water's triple-point temperature / Planck temperature: 156.4/2^106, inside 156–157/2^106.
+- **Sky:**
+  - Background temperature / water triple point: 163.5/2^14.
+  - He-4 mass defect relative to four hydrogen atoms: 0.9929, inside its bounds.
+- **c44 ↔ Sun:** mass 2^189.6 m_p, radius 2^144.9 Planck lengths, temperature 21.13 × water's triple point, luminosity 2^−86.3 c⁵/G, He/H ≈ 0.085.
+- **c45 ↔ Earth:** orbital radius 2^152.7 Planck lengths, period 2^168.6 Planck times, mass 2^171.3 m_p.
+- **c46 ↔ Sgr A\*:** 2^211.6 m_p, at 2^183.3 Planck lengths. The Sun's orbit around it takes about 230 Myr (2^196.4 Planck times), and the mass enclosed by that orbit is about 2^14 times the central mass.
+- **Solar motion:** rotation speed of about 240 km/s, plus small velocity components toward the centre and toward the galactic north pole.
+- **Pulsars:** all six match their known pulsar on period, period derivative and all three direction cosines in galactic coordinates.
+
+## 5. The sender
+
+**Stated in the bits (with the w49 "claim" marker):**
+- The sender c28 exists, and its other messages exist (items 638–639).
+- It believes everything in c26 is true (640).
+- It rejects false statements (653).
+- It will play c11 toward every other agent (937–941).
+- It is on c45, which orbits c44, and it is not on c44 (953–955).
+- The second message of any conversation should come from the receiver (636–637). That is an invitation to reply.
+
+**Inferred:**
+- The sender locates itself on Earth around the Sun. The pulsar directions are as seen from the Sun's position, and pulsars are thousands of light-years away, so the sender is in the solar neighbourhood.
+- It knows physics from after 1993: millisecond pulsars, CMB anisotropy, the neutrino and kaon results.
+- It uses Planck units and binary rather than human units.
+- **This contradicts the premise that the message is non-human.** On its own evidence, the message is human-made, or else written by someone presenting themselves as living on Earth.
+- The DNA bases hint at biology, but no statement links them to the sender (guess).
+
+## 6. Gaps and problems
+
+- **Payoff direction:** whether c30 scores are costs or rewards is not fixed by the bits. I chose costs on indirect evidence.
+- **Unverified items:**
+  - The meanings of w78/w79.
+  - Item 928's maximum quadrupole direction is defined only up to sign (±c41 both maximise), so the frame it builds is ambiguous.
+  - Items 974–980 (background-map axes compared with the galactic frame) need the real quadrupole axis, which I cannot check reliably from memory.
+- **Possibly beyond current knowledge:** item 823 states that the neutrino is not its own antiparticle. That is still experimentally open.
+- **Not exhaustive, but not false:**
+  - The stable-isotope list omits O-17 and O-18.
+  - The message's composition statements give no oxygen count for t6.
+  - The first sequence includes 1, and nothing labels it as primes.
+- **Minor oddities:**
+  - Item 721 brackets a ratio that should be about 1 inside (1−2⁻⁷, 1).
+  - The last 7 bits of the file disagree with the other copies.
+- **Limits:** with bounds only to a factor of 2, no date can be extracted.
+
+## 7. Confidence
+
+| Point | Confidence |
+|---|---|
+| Format (repetition, unary block, 11-bit inverted words, tag pairs, brackets) | Very high |
+| Overall reading of the content | About 90% understood |
+| Mathematics, logic, lists, self-reference | High |
+| Physics, chemistry, astronomy identifications | High; the numbers agree with known values |
+| Game mechanics | High |
+| Game meaning (c5 = cooperate) | Medium |
+| Reply protocol and w49/w52 nuances | Medium |
+| w78, w79, w87, w98 | Low to medium |
+| The sender's location (Sun–Earth system, from the bits) | High |
+| "Therefore human origin" | Inference, medium-high |
