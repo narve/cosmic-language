@@ -3,7 +3,7 @@
 // and applied as :root[data-views="words bits"]; style.css does the showing and hiding.
 // Without this script, the views are a closed <details> under each block.
 (() => {
-  const views = ["words", "symbols", "chunks", "bits"];
+  const views = ["words", "symbols", "math", "chunks", "bits"];
   const blocks = document.querySelectorAll("details[data-views]");
   if (blocks.length === 0) return;
   const available = views.filter((view) => document.querySelector(`details[data-views] th[data-view="${view}"]`));

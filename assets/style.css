@@ -205,7 +205,7 @@ details[data-views] table {
 details[data-views] :is(th, td) { padding: 0.2rem 0.9rem; border-bottom: 0; }
 details[data-views] td { font-size: 0.86rem; white-space: pre-wrap; overflow-wrap: anywhere; }
 details[data-views] td :is(code, samp) { color: var(--text); }
-details[data-views] td:is([data-view="words"], [data-view="symbols"]) { min-width: min(34ch, 70vw); }
+details[data-views] td:is([data-view="words"], [data-view="symbols"], [data-view="math"]) { min-width: min(34ch, 70vw); }
 details[data-views] td[data-view="bits"] samp { font-size: 0.92em; }
 /* Several views side by side: on wide screens the table may grow past the text column. */
 @media (min-width: 64rem) {
@@ -223,6 +223,7 @@ details[data-views] tr[data-comment-row] td { padding-top: 0.5rem; }
 :root[data-views]:not([data-views="words"]) pre:has(+ details[data-views]) { display: none; }
 :root[data-views]:not([data-views~="words"]) [data-view="words"],
 :root[data-views]:not([data-views~="symbols"]) [data-view="symbols"],
+:root[data-views]:not([data-views~="math"]) [data-view="math"],
 :root[data-views]:not([data-views~="chunks"]) [data-view="chunks"],
 :root[data-views]:not([data-views~="bits"]) [data-view="bits"] { display: none; }
 @media (max-width: 40rem) {

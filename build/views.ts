@@ -3,8 +3,10 @@
 import { escape } from "./dom.ts";
 import { messageCode, readBlock, tokenBits, type Line, type Token } from "./message.ts";
 import type { Registry } from "./registry.ts";
+import { parseBlock } from "./check/structure.ts";
+import { mathHtml } from "./lisp/display.ts";
 
-export const VIEWS = ["words", "symbols", "chunks", "bits"] as const;
+export const VIEWS = ["words", "symbols", "math", "chunks", "bits"] as const;
 export type View = (typeof VIEWS)[number];
 
 // `views` lists the generated views; "words" is always included as the first column. `href`, if given, links the
@@ -17,14 +19,21 @@ export function addViews(article: Element, registry: Registry, views: View[], wh
   messageCode(article).forEach((code, index) => {
     const block = readBlock(code, registry, `${where}, block ${index + 1}`);
     if (block.bits !== undefined) return; // a bits block already is its own bits view
+    // the math view shows each sentence whole, on the line where it starts
+    const starts = new Map<number, string[]>();
+    for (const node of parseBlock(block.lines, "line")) {
+      const line = Number(/line (\d+)$/.exec(node.where)![1]) - 1;
+      starts.set(line, [...(starts.get(line) ?? []), mathHtml(node, registry)]);
+    }
     const rows = block.lines
-      .filter((line) => line.comment !== undefined || line.tokens.length > 0)
-      .map((line) => {
+      .map((line, index) => ({ line, math: starts.get(index)?.join("  ") ?? "" }))
+      .filter(({ line }) => line.comment !== undefined || line.tokens.length > 0)
+      .map(({ line, math }) => {
         if (line.tokens.length === 0) {
           const comment = line.commentHtml ?? escape(line.comment!);
           return `<tr data-comment-row><td colspan="${columns.length}"><span data-comment>${comment}</span></td></tr>`;
         }
-        return `<tr>${columns.map((view) => `<td data-view="${view}">${cell(view, line, registry, href)}</td>`).join("")}</tr>`;
+        return `<tr>${columns.map((view) => `<td data-view="${view}">${view === "math" ? math : cell(view, line, registry, href)}</td>`).join("")}</tr>`;
       });
     const details = code.ownerDocument.createElement("details");
     details.setAttribute("data-views", "");
@@ -53,6 +62,8 @@ function cell(view: View, line: Line, registry: Registry, href?: Href): string {
       }
       return `<code>${html}</code>`;
     }
+    case "math":
+      return ""; // filled in per sentence, above
     case "chunks":
       return `<samp>${line.tokens.map((token) => `${token.type}:${token.value}`).join(" ")}</samp>`;
     case "bits":

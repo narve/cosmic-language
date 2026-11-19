@@ -8,7 +8,7 @@
 //             runs: consecutive lessons of the same first topic, in message order
 //             topic: one group per topic, in the order of templates/topics.html
 //   src       directory of the pages      (links with href="file"; default lessons/)
-//   views     generated views to add      (articles; default "symbols chunks bits", "" for none)
+//   views     generated views to add      (articles; default "symbols math chunks bits", "" for none)
 import type { Window } from "happy-dom";
 import { escape } from "../dom.ts";
 import { anchor as id, findArticle, groupByTopic, groupRuns, type Article, type Topic, type Group } from "../lessons.ts";
@@ -65,7 +65,7 @@ export function defineClLessons(window: Window, context: Context): void {
     }
 
     articles(): string {
-      const views = (this.getAttribute("views") ?? "symbols chunks bits")
+      const views = (this.getAttribute("views") ?? "symbols math chunks bits")
         .split(/\s+/)
         .filter((view): view is View => (VIEWS as readonly string[]).includes(view));
       const groups = this.groups();
