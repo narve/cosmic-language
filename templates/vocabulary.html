@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cosmic Language Vocabulary</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<header>
+  <small>Generated from the vocabulary</small>
+  <h1>Vocabulary</h1>
+  <p>Every token type and every symbol of the message, with its fixed id, its meaning, the lesson that introduces it and the lessons that use it. The lesson numbers link to the block where the symbol first appears in that lesson. The same tables, without the lessons, are in the <a href="specification.html#symbols">specification</a>.</p>
+</header>
+
+<nav aria-label="Contents">
+  <ol>
+    <li><a href="#types">Token types</a></li>
+    <li><a href="#operators">Operators and relations</a></li>
+    <li><a href="#constants">Constants</a></li>
+    <li><a href="#variables">Variables</a></li>
+    <li><a href="#particles">Particles</a></li>
+    <li><a href="#elements">Elements</a></li>
+    <li><a href="#dimensions">Dimensions</a></li>
+    <li><a href="#physical-constants">Physical constants</a></li>
+    <li><a href="#molecules">Molecules</a></li>
+  </ol>
+</nav>
+
+<main>
+<section id="types">
+  <h2>Token types</h2>
+  <p>The first chunk of every token. In the lessons a type is written by name, and sent as its number.</p>
+  <cl-types></cl-types>
+</section>
+<section id="operators">
+  <h2>Operators and relations</h2>
+  <p>In the arity column, "2+" means two or more arguments.</p>
+  <cl-vocabulary type="operator" uses></cl-vocabulary>
+</section>
+<section id="constants">
+  <h2>Constants</h2>
+  <cl-vocabulary type="constant" uses></cl-vocabulary>
+</section>
+<section id="variables">
+  <h2>Variables</h2>
+  <cl-vocabulary type="variable" uses></cl-vocabulary>
+</section>
+<section id="particles">
+  <h2>Particles</h2>
+  <cl-vocabulary type="particle" uses></cl-vocabulary>
+</section>
+<section id="elements">
+  <h2>Elements</h2>
+  <p>An element's id is its atomic number.</p>
+  <cl-vocabulary type="element" uses></cl-vocabulary>
+</section>
+<section id="dimensions">
+  <h2>Dimensions</h2>
+  <cl-vocabulary type="dimension" uses></cl-vocabulary>
+</section>
+<section id="physical-constants">
+  <h2>Physical constants</h2>
+  <cl-vocabulary type="physical-constant" uses></cl-vocabulary>
+</section>
+<section id="molecules">
+  <h2>Molecules</h2>
+  <cl-vocabulary type="molecule" uses></cl-vocabulary>
+</section>
+</main>
+
+<footer>cosmic-language · vocabulary · generated</footer>
+</body>
+</html>

@@ -8,8 +8,9 @@ import { BuildError, createWindow, parse, serialize } from "./dom.ts";
 import { findArticle, loadArticles, loadTopics } from "./lessons.ts";
 import { binaryDump, messageBinary, messageBits, messageStream, messageCode, messageText, readBlock, type Message } from "./message.ts";
 import { loadRegistry } from "./registry.ts";
-import { addViews, VIEWS } from "./views.ts";
-import { markupBlocks } from "./markup.ts";
+import { VIEWS } from "./views.ts";
+import { enrichArticle } from "./enrich.ts";
+import { computeUsage } from "./usage.ts";
 import { checkMinimal, checkOptional, checkSelfReference, checkStructure } from "./check/structure.ts";
 import { checkMeasurements, MARGIN } from "./check/measurements.ts";
 
@@ -88,13 +89,14 @@ async function build(): Promise<void> {
   writeFileSync(join(docs, "decoy", "message.bin"), decoyBinary.bytes);
   writeFileSync(join(docs, "decoy", "message.bin.txt"), binaryDump(decoyBinary));
 
+  // Where each symbol is introduced and used, for the vocabulary page and the lessons.
+  const usage = computeUsage(message, replacements);
+
   // Each lesson page as written, with the generated views added.
   mkdirSync(join(docs, "lessons"));
   for (const article of all) {
     const document = parse(window, article.source);
-    const element = findArticle(document, article.slug);
-    markupBlocks(element, registry, article.slug);
-    addViews(element, registry, [...VIEWS], article.slug);
+    enrichArticle(findArticle(document, article.slug), article, [...VIEWS], { registry, usage, base: "../" });
     writeFileSync(join(docs, "lessons", `${article.slug}.html`), serialize(document));
   }
 
@@ -102,8 +104,8 @@ async function build(): Promise<void> {
   for (const file of readdirSync(dir("templates")).filter((f) => f.endsWith(".html"))) {
     const page = createWindow();
     page.document.write(readFileSync(join(dir("templates"), file), "utf8"));
-    defineClLessons(page, { articles, topics, registry });
-    defineClVocabulary(page);
+    defineClLessons(page, { articles, topics, registry, usage });
+    defineClVocabulary(page, usage);
     await page.happyDOM.waitUntilComplete();
     writeFileSync(join(docs, file), serialize(page.document as unknown as Document));
     await page.happyDOM.close();

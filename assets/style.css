@@ -289,6 +289,8 @@ aside, blockquote {
   background: var(--bg-card);
 }
 aside > :first-child, blockquote > :first-child { margin-top: 0; }
+/* the generated list of the symbols a lesson introduces */
+aside[data-new-symbols] { font-size: 0.9em; }
 aside > :last-child, blockquote > :last-child { margin-bottom: 0; }
 
 dt { font-weight: 600; }

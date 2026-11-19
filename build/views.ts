@@ -7,8 +7,11 @@ import type { Registry } from "./registry.ts";
 export const VIEWS = ["words", "symbols", "chunks", "bits"] as const;
 export type View = (typeof VIEWS)[number];
 
-// `views` lists the generated views; "words" is always included as the first column.
-export function addViews(article: Element, registry: Registry, views: View[], where: string): void {
+// `views` lists the generated views; "words" is always included as the first column. `href`, if given, links the
+// symbols in the symbols view to their entries on the vocabulary page.
+export type Href = (name: string) => string | undefined;
+
+export function addViews(article: Element, registry: Registry, views: View[], where: string, href?: Href): void {
   const columns: View[] = ["words", ...views.filter((view) => view !== "words")];
   if (columns.length === 1) return;
   messageCode(article).forEach((code, index) => {
@@ -21,7 +24,7 @@ export function addViews(article: Element, registry: Registry, views: View[], wh
           const comment = line.commentHtml ?? escape(line.comment!);
           return `<tr data-comment-row><td colspan="${columns.length}"><span data-comment>${comment}</span></td></tr>`;
         }
-        return `<tr>${columns.map((view) => `<td data-view="${view}">${cell(view, line, registry)}</td>`).join("")}</tr>`;
+        return `<tr>${columns.map((view) => `<td data-view="${view}">${cell(view, line, registry, href)}</td>`).join("")}</tr>`;
       });
     const details = code.ownerDocument.createElement("details");
     details.setAttribute("data-views", "");
@@ -35,7 +38,7 @@ export function addViews(article: Element, registry: Registry, views: View[], wh
   });
 }
 
-function cell(view: View, line: Line, registry: Registry): string {
+function cell(view: View, line: Line, registry: Registry, href?: Href): string {
   switch (view) {
     case "words":
     case "symbols": {
@@ -43,7 +46,9 @@ function cell(view: View, line: Line, registry: Registry): string {
       let html = "";
       let end = 0;
       for (const token of line.tokens) {
-        html += escape(line.code.slice(end, token.start)) + written(view, token, registry);
+        const shown = written(view, token, registry);
+        const target = view === "symbols" && token.type !== 1 ? href?.(token.text) : undefined;
+        html += escape(line.code.slice(end, token.start)) + (target ? `<a href="${escape(target)}">${shown}</a>` : shown);
         end = token.start + token.text.length;
       }
       return `<code>${html}</code>`;

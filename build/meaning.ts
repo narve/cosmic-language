@@ -2,9 +2,14 @@
 import { escape } from "./dom.ts";
 import type { Meaning, SymbolDef } from "../vocabulary/index.ts";
 
-// The anchor of a symbol in the specification's tables: its type name and its name, e.g. "operator-exp".
+// The anchor of a symbol in the tables (specification, vocabulary page): its type name and its name, e.g.
+// "operator-exp", "constant-π". In a link it is percent-encoded (symbolFragment).
 export function symbolAnchor(symbol: SymbolDef): string {
-  return `${symbol.type.name}-${encodeURIComponent(symbol.name)}`;
+  return `${symbol.type.name}-${symbol.name}`;
+}
+
+export function symbolFragment(symbol: SymbolDef): string {
+  return `#${encodeURIComponent(symbolAnchor(symbol))}`;
 }
 
 export function meaningHtml(meaning: Meaning | undefined, href: (symbol: SymbolDef) => string): string {
