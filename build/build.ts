@@ -11,7 +11,7 @@ import { loadRegistry } from "./registry.ts";
 import { VIEWS } from "./views.ts";
 import { enrichArticle } from "./enrich.ts";
 import { computeUsage } from "./usage.ts";
-import { checkMinimal, checkOptional, checkSelfReference, checkStructure } from "./check/structure.ts";
+import { checkIdOrder, checkMinimal, checkOptional, checkSelfReference, checkStructure } from "./check/structure.ts";
 import { checkMeasurements, MARGIN } from "./check/measurements.ts";
 
 const root = resolve(import.meta.dirname, "..");
@@ -56,6 +56,8 @@ async function build(): Promise<void> {
   const minimalBinary = messageBinary(messageStream(minimal));
   const cautious: Message = { articles: message.articles.filter(({ article }) => !optional.has(article.slug)), topics };
   const cautiousBinary = messageBinary(messageStream(cautious));
+  // In every version the ids of each type appear in the order 1, 2, 3 …, with none missing.
+  for (const [version, m] of [["full", message], ["cautious", cautious], ["minimal", minimal], ["decoy", decoy]] as const) checkIdOrder(m, registry, version);
   // What each version says about itself must hold for that version.
   const selfReferences = [checkSelfReference(message, "full"), checkSelfReference(cautious, "cautious"), checkSelfReference(minimal, "minimal"), checkSelfReference(decoy, "decoy")];
   const decoyBinary = messageBinary(messageStream(decoy));

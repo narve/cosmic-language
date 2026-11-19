@@ -2,7 +2,8 @@
 // - the hole ? of a question appears only inside quote;
 // - an unquoted group starts with an operator and has the number of arguments its arity allows;
 // - ∀, ∃ and sequence bind a variable, and every variable is bound (sentences are closed);
-// - every symbol in the registry is used, and ids follow the order of first appearance in each type;
+// - every symbol in the registry is used (checkStructure, on the full version);
+// - in every version, the ids of each type first appear in the order 1, 2, 3 … with none missing (checkIdOrder);
 // - a symbol is in at least EXAMPLES sentences of the lesson that introduces it;
 // - a type name (an alias for the number of a type) stands only where a type is meant: as an argument of a
 //   comparison that also has a (type …) argument, as in (= (type (quote u)) variable).
@@ -159,6 +160,26 @@ export function checkMinimal(message: Message, isMinimal: (slug: string) => bool
   }
 }
 
+// In a version of the message, the ids of each type (but elements, whose id is the atomic number) must first appear
+// in the order 1, 2, 3 …, with none missing: the lessons that make up the smaller versions come first. Ids are
+// fixed in the vocabulary, so a new symbol out of order is an error, not a reason to renumber silently.
+export function checkIdOrder(message: Message, registry: Registry, version: string): void {
+  const next = new Map<number, number>();
+  const seen = new Set<string>();
+  for (const { article, blocks } of message.articles) {
+    for (const block of blocks) for (const token of block.tokens) {
+      if (token.type < OPERATOR || token.type === ELEMENT || seen.has(token.text)) continue;
+      seen.add(token.text);
+      const expected = next.get(token.type) ?? 1;
+      if (token.value !== expected) {
+        const { symbol } = registry.get(token.text)!;
+        throw new BuildError(`${article.slug}: in the ${version} version, "${token.text}" is the next new ${symbol?.type.name ?? `type ${token.type}`} symbol, so its id should be ${expected}, not ${token.value}: ids appear in the order 1, 2, 3 … in every version (move lessons, or change the vocabulary deliberately)`);
+      }
+      next.set(token.type, expected + 1);
+    }
+  }
+}
+
 // Throws on a broken rule.
 export function checkStructure(message: Message, registry: Registry): void {
   const first = new Map<string, First>(); // in order of first appearance
@@ -178,16 +199,6 @@ export function checkStructure(message: Message, registry: Registry): void {
   for (const [name, entry] of registry) {
     if (entry.alias) continue; // a type name is a number, not a symbol
     if (!first.has(name)) throw new BuildError(`the symbol "${name}" is in the registry but not in the message`);
-  }
-  const next = new Map<number, number>();
-  for (const { name, lesson } of first.values()) {
-    const { type, id } = registry.get(name)!;
-    if (type === ELEMENT) continue;
-    const expected = next.get(type) ?? 1;
-    if (id !== expected) {
-      throw new BuildError(`${lesson}: "${name}" is the next new symbol of type ${type}, so its id must be ${expected}, not ${id} (ids follow the order of first appearance)`);
-    }
-    next.set(type, expected + 1);
   }
   const short = [...first.values()].filter((symbol) => symbol.sentences < EXAMPLES);
   if (short.length > 0) {
