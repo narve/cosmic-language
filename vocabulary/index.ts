@@ -11,7 +11,16 @@ import { DIMENSIONS } from "./dimensions.ts";
 import { PHYSICAL_CONSTANTS } from "./physical-constants.ts";
 import { MOLECULES } from "./molecules.ts";
 
-export { TYPES } from "./types.ts";
+// Every type and every symbol by its const name, for code that refers to a particular one (e.g. not, forAll).
+export * from "./types.ts";
+export * from "./operators.ts";
+export * from "./constants.ts";
+export * from "./variables.ts";
+export * from "./particles.ts";
+export * from "./elements.ts";
+export * from "./dimensions.ts";
+export * from "./physical-constants.ts";
+export * from "./molecules.ts";
 export type { SymbolDef, Meaning } from "./symbol.ts";
 export type { TypeDef } from "./types.ts";
 

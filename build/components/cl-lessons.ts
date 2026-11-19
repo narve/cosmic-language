@@ -14,6 +14,7 @@ import { escape } from "../dom.ts";
 import { anchor as id, findArticle, groupByTopic, groupRuns, type Article, type Topic, type Group } from "../lessons.ts";
 import type { Registry } from "../registry.ts";
 import { addViews, VIEWS, type View } from "../views.ts";
+import { markupBlocks } from "../markup.ts";
 
 export interface Context {
   articles: Article[];
@@ -81,6 +82,7 @@ export function defineClLessons(window: Window, context: Context): void {
       const source = new window.DOMParser().parseFromString(article.source, "text/html") as unknown as Document;
       const element = findArticle(source, article.slug);
       element.id = id(article);
+      markupBlocks(element, context.registry, article.slug);
       addViews(element, context.registry, views, article.slug);
       return element.outerHTML;
     }

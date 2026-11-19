@@ -9,6 +9,7 @@ import { findArticle, loadArticles, loadTopics } from "./lessons.ts";
 import { binaryDump, messageBinary, messageBits, messageStream, messageCode, messageText, readBlock, type Message } from "./message.ts";
 import { loadRegistry } from "./registry.ts";
 import { addViews, VIEWS } from "./views.ts";
+import { markupBlocks } from "./markup.ts";
 import { checkMinimal, checkOptional, checkSelfReference, checkStructure } from "./check/structure.ts";
 import { checkMeasurements, MARGIN } from "./check/measurements.ts";
 
@@ -91,7 +92,9 @@ async function build(): Promise<void> {
   mkdirSync(join(docs, "lessons"));
   for (const article of all) {
     const document = parse(window, article.source);
-    addViews(findArticle(document, article.slug), registry, [...VIEWS], article.slug);
+    const element = findArticle(document, article.slug);
+    markupBlocks(element, registry, article.slug);
+    addViews(element, registry, [...VIEWS], article.slug);
     writeFileSync(join(docs, "lessons", `${article.slug}.html`), serialize(document));
   }
 

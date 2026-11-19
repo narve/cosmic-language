@@ -41,7 +41,9 @@ export function readBlock(code: Element, registry: Registry, where: string): Blo
   let depth = 0;
   const raw = code.parentElement!.hasAttribute("data-bits");
   let bits = "";
-  code.textContent!.split("\n").forEach((text, index) => {
+  // A block may start on a new line after <code>, so that all its lines are aligned in the source: that first
+  // new line is not part of the block.
+  code.textContent!.replace(/^\n/, "").split("\n").forEach((text, index) => {
     const at = `${where}, line ${index + 1}`;
     const semicolon = text.indexOf(";");
     const line: Line = { text, code: semicolon < 0 ? text : text.slice(0, semicolon), tokens: [] };
