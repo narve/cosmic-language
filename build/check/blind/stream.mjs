@@ -3,16 +3,18 @@
 // INVERT is "0", packed eight bits to a byte (the first bit received is the most significant bit of the first
 // byte). Both cuts fall on any bit; the last byte is filled up with random bits, which look like noise
 // received after the message stopped.
-//   node stream.mjs message.bin out.bin [repeat=5] [invert=1]
-// The cut points go to standard error, for the record; the reader never sees them.
+//   node stream.mjs message.bits out.bin [repeat=5] [invert=1]
+// The input is message.bits, not message.bin: the message is not a whole number of bytes, and message.bin
+// fills its last byte with 0s that are not part of the message. The cut points go to standard error, for the
+// record; the reader never sees them.
 import { readFileSync, writeFileSync } from "node:fs";
 import { randomInt } from "node:crypto";
 
 const [, , input, output, repeatArg = "5", invert = "1"] = process.argv;
-const message = readFileSync(input);
-const n = message.length * 8;
+const message = readFileSync(input, "utf8").split("\n").map((line) => line.split(";")[0]).join("").replace(/[^01]/g, "");
+const n = message.length;
 const repeat = Math.max(1, Number(repeatArg));
-const bit = (i) => (message[(i % n) >> 3] >> (7 - (i & 7))) & 1;
+const bit = (i) => Number(message[i % n]);
 
 let start = 0, end = n * repeat;
 if (repeat > 1) {

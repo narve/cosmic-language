@@ -17,6 +17,7 @@
 set -eu
 here=$(cd "$(dirname "$0")" && pwd)
 message=$(cd "$here/../../.." && realpath "${BLIND_MESSAGE:-docs/message.bin}")
+message="${message%.bin}.bits" # the exact bits: message.bin fills its last byte with 0s
 task=${1:-purpose}
 dir=$(mktemp -d)
 box="blind-$$"
