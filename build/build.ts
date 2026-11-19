@@ -1,5 +1,5 @@
 // Builds docs/ from the sources: copies assets/, renders lessons/ and templates/, writes the message.
-// docs/ holds only generated files (apart from .gitkeep).
+// docs/ holds only generated files: the build deletes it and makes it again.
 import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { defineClLessons } from "./components/cl-lessons.ts";
@@ -26,7 +26,8 @@ async function build(): Promise<void> {
   const articles = all.filter((article) => !article.replaces);
   const replacements = new Map(all.filter((article) => article.replaces).map((article) => [article.replaces!, article]));
 
-  for (const entry of readdirSync(docs)) if (entry !== ".gitkeep") rmSync(join(docs, entry), { recursive: true });
+  rmSync(docs, { recursive: true, force: true });
+  mkdirSync(docs);
   cpSync(dir("assets"), join(docs, "assets"), { recursive: true });
 
   // The message, from the message blocks in file order.

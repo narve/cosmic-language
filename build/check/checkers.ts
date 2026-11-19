@@ -11,6 +11,7 @@ import type { Registry } from "../registry.ts";
 import { checkMeasurements, MARGIN } from "./measurements.ts";
 import { checkIdOrder, checkMinimal, checkOptional, checkSelfReference, checkStructure } from "./structure.ts";
 import { checkEvaluation } from "./evaluate.ts";
+import { checkNewSymbols } from "./new-symbols.ts";
 
 export const VERSIONS = ["full", "cautious", "minimal", "decoy"] as const;
 export type Version = (typeof VERSIONS)[number];
@@ -67,6 +68,11 @@ export const CHECKERS: Checker[] = [
     name: "self-reference",
     about: "what each version says about itself (item and count of message) holds for that version",
     run: ({ versions }) => `${VERSIONS.map((version) => checkSelfReference(versions[version], version)).join(", ")} sentences (${VERSIONS.join(", ")})`,
+  },
+  {
+    name: "new-symbols",
+    about: "a \"New …\" clause in a lesson's prose only names symbols that the lesson introduces",
+    run: ({ versions, registry }) => checkNewSymbols(versions.full, versions.decoy, registry),
   },
   {
     name: "measurements",
