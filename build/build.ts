@@ -1,9 +1,10 @@
 // Builds docs/ from site/, which has the same layout: copies site/assets/, renders site/lessons/ and the pages in site/, writes the message.
 // docs/ holds only generated files: the build deletes it and makes it again.
 import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import { defineClLessons } from "./components/cl-lessons.ts";
 import { defineClVocabulary } from "./components/cl-vocabulary.ts";
+import { defineClFiles } from "./components/cl-files.ts";
 import { BuildError, createWindow, parse, serialize } from "./dom.ts";
 import { findArticle, loadArticles, loadTopics } from "./lessons.ts";
 import { binaryDump, messageBinary, messageBits, messageStream, messageCode, messageText, readBlock, type Message } from "./message.ts";
@@ -17,6 +18,65 @@ const root = resolve(import.meta.dirname, "..");
 const dir = (name: string) => join(root, name);
 const docs = dir("docs");
 const site = dir("site"); // the sources of the pages, laid out like docs/, so relative links work in both
+
+// The pages of site/: every .html file outside lessons/ and assets/, as paths relative to site/.
+function pages(folder: string): string[] {
+  return readdirSync(folder, { recursive: true, encoding: "utf8" })
+    .filter((file) => file.endsWith(".html") && !/^(lessons|assets)\//.test(file))
+    .map((file) => relative(folder, join(folder, file)).split("\\").join("/"));
+}
+
+// The sections of site/versions.html with an id: one per version, its title (h2) and its text, without the h2,
+// subheadings and lesson lists. Its links are written from docs/, so they get "../" to work from docs/<version>/.
+function loadVersions(window: ReturnType<typeof createWindow>, html: string): { name: string; title: string; intro: string }[] {
+  const document = parse(window, html);
+  return Array.from(document.querySelectorAll("main > section[id]"), (section) => {
+    const copy = section.cloneNode(true) as Element;
+    const title = copy.querySelector("h2")?.textContent?.trim() ?? section.id;
+    copy.querySelectorAll("h2, h3, cl-lessons").forEach((element) => element.remove());
+    for (const link of copy.querySelectorAll("a[href]")) {
+      const href = link.getAttribute("href")!;
+      if (!/^([a-z]+:|#|\/)/.test(href)) link.setAttribute("href", `../${href}`);
+    }
+    return { name: section.id, title, intro: copy.innerHTML.trim() };
+  });
+}
+
+// The page of one version, written from docs/<version>/.
+function versionPage(name: string, title: string, intro: string): string {
+  const heading = `The ${title.toLowerCase()} message`;
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${heading} · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+
+<header>
+  <small>Draft · the ${name} version</small>
+  <h1>${heading}</h1>
+  ${intro}
+  <p>All its lessons on one page, in the order of the message, each with what it sends. The exact rules are in the <a href="../specification.html">specification</a>; all versions are compared on <a href="../versions.html">versions</a>.</p>
+</header>
+
+<nav aria-label="Contents">
+  <cl-lessons version="${name}" as="links" href="anchor" group="runs"></cl-lessons>
+</nav>
+
+<main>
+  <cl-lessons version="${name}" as="articles" group="runs"></cl-lessons>
+</main>
+
+<footer>cosmic-language · ${name} version · draft</footer>
+</body>
+</html>
+`;
+}
 
 async function build(): Promise<void> {
   const window = createWindow();
@@ -96,15 +156,43 @@ async function build(): Promise<void> {
     writeFileSync(join(docs, "lessons", `${article.slug}.html`), serialize(document));
   }
 
-  // Templates, with their custom elements rendered.
-  for (const file of readdirSync(site).filter((f) => f.endsWith(".html"))) {
+  // The lessons of each version, in message order, for the version pages (docs/full/, docs/minimal/ …).
+  const versions = {
+    full: articles,
+    cautious: articles.filter((article) => !optional.has(article.slug)),
+    minimal: articles.filter((article) => inMinimal.has(article.slug)),
+    decoy: articles.map((article) => replacements.get(article.slug) ?? article),
+  };
+
+  // Where each version's message files are, and its length in bits, for <cl-files>.
+  const files = {
+    full: { dir: "", bits: binary.length },
+    cautious: { dir: "cautious", bits: cautiousBinary.length },
+    minimal: { dir: MINIMAL, bits: minimalBinary.length },
+    decoy: { dir: "decoy", bits: decoyBinary.length },
+  };
+
+  // A page with its custom elements rendered, written to docs/<file>.
+  const render = async (html: string, file: string) => {
     const page = createWindow();
-    page.document.write(readFileSync(join(site, file), "utf8"));
-    defineClLessons(page, { articles, topics, registry, usage });
+    page.document.write(html);
+    const base = "../".repeat(file.split("/").length - 1);
+    defineClLessons(page, { articles, versions, topics, registry, usage, base });
     defineClVocabulary(page, usage);
+    defineClFiles(page, { docs, base, versions: files });
     await page.happyDOM.waitUntilComplete();
+    mkdirSync(join(docs, dirname(file)), { recursive: true });
     writeFileSync(join(docs, file), serialize(page.document as unknown as Document));
     await page.happyDOM.close();
+  };
+
+  // The pages of site/ (outside lessons/ and assets/), at the same place in docs/.
+  for (const file of pages(site)) await render(readFileSync(join(site, file), "utf8"), file);
+
+  // One page per version, docs/<version>/index.html: all its lessons, made from its section in site/versions.html.
+  for (const { name, title, intro } of loadVersions(window, readFileSync(join(site, "versions.html"), "utf8"))) {
+    if (!(name in versions)) throw new BuildError(`site/versions.html: <section id="${name}"> is not a version`);
+    await render(versionPage(name, title, intro), `${name}/index.html`);
   }
   await window.happyDOM.close();
 

@@ -7,7 +7,8 @@
 //   group     none | runs | topic      (default none)
 //             runs: consecutive lessons of the same first topic, in message order
 //             topic: one group per topic, in the order of site/topics.html
-//   src       directory of the pages      (links with href="file"; default lessons/)
+//   src       directory of the pages      (links with href="file"; default lessons/, from docs/)
+//   version   full | cautious | minimal | decoy   (only that version's lessons, numbered within it; default full)
 //   views     generated views to add      (articles; default "symbols math chunks bits", "" for none)
 import type { Window } from "happy-dom";
 import { escape } from "../dom.ts";
@@ -18,7 +19,9 @@ import { enrichArticle } from "../enrich.ts";
 import type { Usage } from "../usage.ts";
 
 export interface Context {
-  articles: Article[];
+  articles: Article[]; // the full version
+  versions: Record<string, Article[]>; // each version's lessons, in message order
+  base: string; // the way from the page to docs/: "" for a page in docs/, "../" for one in docs/minimal/ …
   topics: Topic[];
   registry: Registry;
   usage: Usage;
@@ -35,10 +38,19 @@ export function defineClLessons(window: Window, context: Context): void {
       this.replaceWith(template.content);
     }
 
+    // The lessons of the version, numbered by their position in it.
+    version(): Article[] {
+      const name = this.getAttribute("version");
+      if (!name) return context.articles;
+      const articles = context.versions[name];
+      if (!articles) throw new Error(`<cl-lessons version="${name}">: unknown version`);
+      return articles.map((article, i) => ({ ...article, number: i + 1 }));
+    }
+
     selected(): Article[] {
       const wanted = (this.getAttribute("topic") ?? "").split(/\s+/).filter(Boolean);
-      if (wanted.length === 0) return context.articles;
-      return context.articles.filter((article) => article.topics.some((name) => wanted.includes(name)));
+      if (wanted.length === 0) return this.version();
+      return this.version().filter((article) => article.topics.some((name) => wanted.includes(name)));
     }
 
     groups(): Group[] | undefined {
@@ -50,7 +62,7 @@ export function defineClLessons(window: Window, context: Context): void {
 
     links(): string {
       const anchor = this.getAttribute("href") === "anchor";
-      const src = this.getAttribute("src") ?? "lessons/";
+      const src = context.base + (this.getAttribute("src") ?? "lessons/");
       const href = (article: Article) => (anchor ? `#${id(article)}` : `${src}${escape(article.slug)}.html`);
       // <li value> keeps each lesson's number in the message, also in a selection.
       const list = (articles: Article[]) =>
@@ -58,7 +70,7 @@ export function defineClLessons(window: Window, context: Context): void {
       const groups = this.groups();
       if (!groups) return list(this.selected());
       const items = groups.map((group) => {
-        const target = anchor ? `#${group.id}` : `topics.html#${group.topic.name}`;
+        const target = anchor ? `#${group.id}` : `${context.base}topics.html#${group.topic.name}`;
         return `<li><a href="${target}">${escape(group.topic.title)}</a>\n${list(group.articles)}</li>`;
       });
       return `<ul>\n${items.join("\n")}\n</ul>`;
@@ -84,7 +96,7 @@ export function defineClLessons(window: Window, context: Context): void {
       const source = new window.DOMParser().parseFromString(article.source, "text/html") as unknown as Document;
       const element = findArticle(source, article.slug);
       element.id = id(article);
-      enrichArticle(element, article, views, { registry: context.registry, usage: context.usage, base: "" });
+      enrichArticle(element, article, views, { registry: context.registry, usage: context.usage, base: context.base });
       return element.outerHTML;
     }
   }

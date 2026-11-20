@@ -1,47 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cosmic Language Versions</title>
-  <link rel="stylesheet" href="assets/style.css">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cosmic Language Versions</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
 <body>
 
 <header>
-  <small>Draft · design phase · 2026-11-18</small>
-  <h1>Four Versions</h1>
-  <p>The message comes in three versions, and a fourth made for fun. The three are made from the same lessons, by leaving whole lessons out; nothing is rewritten. They differ in how much they say about who sends them and where from.</p>
+    <small>Draft · design phase · 2026-11-18</small>
+    <h1>Four Versions</h1>
+    <p>The message comes in three versions, and a fourth made for fun. The three are made from the same lessons, by
+        leaving whole lessons out; nothing is rewritten. They differ in how much they say about who sends them and where
+        from.</p>
 </header>
 
 <main>
-  <section>
-    <h2>Full</h2>
-    <p>Every lesson, including those that say where the message comes from: our star and our planet, and later where they are in the Galaxy and who we are. It reveals as much as possible.</p>
-    <p>Files: <a href="message.txt">message.txt</a>, <a href="message.bits">message.bits</a>, <a href="message.bin">message.bin</a>, <a href="message.bin.txt">message.bin.txt</a>.</p>
-  </section>
-  <section>
-    <h2>Cautious</h2>
-    <p>Everything except the lessons that reveal where and who we are: these are marked optional, and the build checks that no other lesson depends on them. Mathematics, logic, physics, chemistry, stars in general, the background radiation and the game are all there; our Sun and our Earth are not.</p>
-    <p>Files: <a href="cautious/message.txt">message.txt</a>, <a href="cautious/message.bits">message.bits</a>, <a href="cautious/message.bin">message.bin</a>, <a href="cautious/message.bin.txt">message.bin.txt</a>.</p>
-  </section>
-  <section>
-    <h2>Minimal</h2>
-    <p>Only the game and what it needs: how the signal is read, arithmetic, truth values, lists, quantifiers, sequences, chance and <code>if</code>, and then the prisoner's dilemma, which ends with the statement that the strategy which opens in peace and answers in kind loses least. No lesson in it uses a symbol introduced outside it, and the build checks that.</p>
-    <p>Files: <a href="minimal/message.txt">message.txt</a>, <a href="minimal/message.bits">message.bits</a>, <a href="minimal/message.bin">message.bin</a>, <a href="minimal/message.bin.txt">message.bin.txt</a>.</p>
-    <h3>Its lessons</h3>
-    <cl-lessons as="links" topic="minimal"></cl-lessons>
-  </section>
-  <section>
-    <h2>Decoy</h2>
-    <p>The full message, with the lessons on the Sun, on the Sun in the Galaxy and on pulsars replaced by lessons about Kepler-1647, a pair of stars 1.2 kiloparsecs away with a giant planet in their habitable zone, under the same names. It is made for fun, to see whether a blind reader places the sender there: from so far away the Galaxy's directions and the pulsars change too. Its measured ranges are checked by the build like those of the full message, but it says false things about the sender, so it is not meant to be sent. Why this system was chosen, and what changes, is on the <a href="decoy.html">decoy</a> page.</p>
-    <p>Files: <a href="decoy/message.txt">message.txt</a>, <a href="decoy/message.bits">message.bits</a>, <a href="decoy/message.bin">message.bin</a>, <a href="decoy/message.bin.txt">message.bin.txt</a>. The replacing lessons: <a href="lessons/512-the-sun-decoy.html">the Sun (decoy)</a>, <a href="lessons/514-the-sun-in-the-galaxy-decoy.html">the Sun in the Galaxy (decoy)</a> and <a href="lessons/516-pulsars-decoy.html">pulsars (decoy)</a>.</p>
-  </section>
-  <section>
-    <h2>A note on numbering</h2>
-    <p>The symbols keep the numbers they have in the full message, so a shorter version has gaps between them. A reader of an earlier minimal version took such a gap for a deliberate signal. Renumbering per version is a possible improvement.</p>
-  </section>
+    <section id="full">
+        <h2><a href="full/index.html">Full</a></h2>
+        <p>Every lesson, including those that say where the message comes from: our star and our planet, and later where
+            they are in the Galaxy and who we are. It reveals as much as possible.</p>
+        <cl-files version="full"></cl-files>
+    </section>
+    <section id="cautious">
+        <h2><a href="cautious/index.html">Cautious</a></h2>
+        <p>Everything except the lessons that reveal where and who we are: these are marked optional, and the build
+            checks that no other lesson depends on them. Mathematics, logic, physics, chemistry, stars in general, the
+            background radiation and the game are all there; our Sun and our Earth are not.</p>
+        <cl-files version="cautious"></cl-files>
+    </section>
+    <section id="minimal">
+        <h2><a href="minimal/index.html">Minimal</a></h2>
+        <p>Only the game and what it needs: how the signal is read, arithmetic, truth values, lists, quantifiers,
+            sequences, chance and <code>if</code>, and then the prisoner's dilemma, which ends with the statement that
+            the strategy which opens in peace and answers in kind loses least. No lesson in it uses a symbol introduced
+            outside it, and the build checks that.</p>
+        <cl-files version="minimal"></cl-files>
+        <h3>Its lessons</h3>
+        <cl-lessons as="links" topic="minimal"></cl-lessons>
+    </section>
+    <section id="decoy">
+        <h2><a href="decoy/index.html">Decoy</a></h2>
+        <p>The full message, with the lessons on the Sun, on the Sun in the Galaxy and on pulsars replaced by lessons
+            about Kepler-1647, a pair of stars 1.2 kiloparsecs away with a giant planet in their habitable zone, under
+            the same names. It is made for fun, to see whether a blind reader places the sender there: from so far away
+            the Galaxy's directions and the pulsars change too. Its measured ranges are checked by the build like those
+            of the full message, but it says false things about the sender, so it is not meant to be sent. Why this
+            system was chosen, and what changes, is on the <a href="decoy.html">decoy</a> page.</p>
+        <cl-files version="decoy"></cl-files>
+        <p>The replacing lessons: <a href="lessons/512-the-sun-decoy.html">the Sun (decoy)</a>, <a
+                href="lessons/514-the-sun-in-the-galaxy-decoy.html">the Sun in the Galaxy (decoy)</a> and <a
+                href="lessons/516-pulsars-decoy.html">pulsars (decoy)</a>.</p>
+    </section>
+    <section>
+        <h2>A note on numbering</h2>
+        <p>The symbols of each type are numbered 1, 2, 3 … in the order they first appear, and the lessons are ordered
+            so that this holds in every version: a shorter version has no gaps, it simply stops earlier. A reader of an
+            earlier minimal version, which did have gaps, took one for a deliberate signal; the build now checks every
+            version for this. Elements are the exception: their number is their number of protons, so after krypton (36)
+            the next ones in the message are xenon (54) and radon (86).</p>
+    </section>
 </main>
 
 <footer>cosmic-language · versions · draft</footer>
