@@ -11,24 +11,104 @@
 <body>
 <article class="lesson" data-topic="physics">
   <h3>elements</h3>
-  <p><code>count</code> from the lesson on lists now tells how many of a particle an atom contains. The value of an element token is its number of protons, so <code>hydrogen</code> is element 1, <code>helium</code> element 2, and so on. This is a definition, not a measurement, so it is not marked <code>observed</code>.</p>
+  <p><code>count</code> from the lesson on lists now tells how many of a particle an atom contains. The value of an element token is its number of protons, so <code>hydrogen</code> is element 1, <code>helium</code> element 2, and so on. Here are the first 36, from hydrogen to krypton, without a gap; later lessons use some of them, and the rest are here so that the list is whole. This is a definition, not a measurement, so it is not marked <code>observed</code>.</p>
   <pre><code>
-; protons: the number that defines each element
+; protons: the number that defines each element, from 1 to 36,
+; in rows that end at a noble gas
 (= (count proton hydrogen) 1)
 (= (count proton helium) 2)
 
+(= (count proton lithium) 3)
+(= (count proton beryllium) 4)
+(= (count proton boron) 5)
 (= (count proton carbon) 6)
+(= (count proton nitrogen) 7)
 (= (count proton oxygen) 8)
+(= (count proton fluorine) 9)
+(= (count proton neon) 10)
+
+(= (count proton sodium) 11)
+(= (count proton magnesium) 12)
+(= (count proton aluminium) 13)
+(= (count proton silicon) 14)
+(= (count proton phosphorus) 15)
+(= (count proton sulfur) 16)
+(= (count proton chlorine) 17)
+(= (count proton argon) 18)
+
+(= (count proton potassium) 19)
+(= (count proton calcium) 20)
+(= (count proton scandium) 21)
+(= (count proton titanium) 22)
+(= (count proton vanadium) 23)
+(= (count proton chromium) 24)
+(= (count proton manganese) 25)
+(= (count proton iron) 26)
+(= (count proton cobalt) 27)
+(= (count proton nickel) 28)
+(= (count proton copper) 29)
+(= (count proton zinc) 30)
+(= (count proton gallium) 31)
+(= (count proton germanium) 32)
+(= (count proton arsenic) 33)
+(= (count proton selenium) 34)
+(= (count proton bromine) 35)
+(= (count proton krypton) 36)
 
 ; electrons: the same numbers
 (= (count electron hydrogen) 1)
 (= (count electron helium) 2)
 
+(= (count electron lithium) 3)
+(= (count electron beryllium) 4)
+(= (count electron boron) 5)
 (= (count electron carbon) 6)
+(= (count electron nitrogen) 7)
 (= (count electron oxygen) 8)
+(= (count electron fluorine) 9)
+(= (count electron neon) 10)
 
-; the four elements in order of their protons
-(&lt; (count proton hydrogen) (count proton helium) (count proton carbon) (count proton oxygen))
+(= (count electron sodium) 11)
+(= (count electron magnesium) 12)
+(= (count electron aluminium) 13)
+(= (count electron silicon) 14)
+(= (count electron phosphorus) 15)
+(= (count electron sulfur) 16)
+(= (count electron chlorine) 17)
+(= (count electron argon) 18)
+
+(= (count electron potassium) 19)
+(= (count electron calcium) 20)
+(= (count electron scandium) 21)
+(= (count electron titanium) 22)
+(= (count electron vanadium) 23)
+(= (count electron chromium) 24)
+(= (count electron manganese) 25)
+(= (count electron iron) 26)
+(= (count electron cobalt) 27)
+(= (count electron nickel) 28)
+(= (count electron copper) 29)
+(= (count electron zinc) 30)
+(= (count electron gallium) 31)
+(= (count electron germanium) 32)
+(= (count electron arsenic) 33)
+(= (count electron selenium) 34)
+(= (count electron bromine) 35)
+(= (count electron krypton) 36)
+
+; the 36 elements in order of their protons
+(&lt; (count proton hydrogen) (count proton helium) (count proton lithium)
+   (count proton beryllium) (count proton boron) (count proton carbon)
+   (count proton nitrogen) (count proton oxygen) (count proton fluorine)
+   (count proton neon) (count proton sodium) (count proton magnesium)
+   (count proton aluminium) (count proton silicon) (count proton phosphorus)
+   (count proton sulfur) (count proton chlorine) (count proton argon)
+   (count proton potassium) (count proton calcium) (count proton scandium)
+   (count proton titanium) (count proton vanadium) (count proton chromium)
+   (count proton manganese) (count proton iron) (count proton cobalt)
+   (count proton nickel) (count proton copper) (count proton zinc)
+   (count proton gallium) (count proton germanium) (count proton arsenic)
+   (count proton selenium) (count proton bromine) (count proton krypton))
 ; every element has at least one proton
 (∀ u elements (≥ (count proton u) 1))
 
