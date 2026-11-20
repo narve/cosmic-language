@@ -50,7 +50,13 @@
 ; the powers of 2: the fourth item is 2³ = 8
 (= (item (sequence u ℕ (^ 2 u)) 4) 8)
 
-; 1/2 + 1/4 + 1/8 + … = 1
+; the sums of the first items: 1/2 + 1/4 = 3/4,
+; then 7/8, then 15/16, ever closer to 1
+(= (apply + (sequence u (list 0 1) (÷ 1 (^ 2 (+ u 1))))) (÷ 3 4))
+(= (apply + (sequence u (list 0 1 2) (÷ 1 (^ 2 (+ u 1))))) (÷ 7 8))
+(= (apply + (sequence u (list 0 1 2 3) (÷ 1 (^ 2 (+ u 1))))) (÷ 15 16))
+
+; and all of them: 1/2 + 1/4 + 1/8 + … = 1
 (= (apply + (sequence u ℕ (÷ 1 (^ 2 (+ u 1))))) 1)</code></pre>
 </article>
 </body>
