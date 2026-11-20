@@ -32,7 +32,7 @@
   <p>The reader was Claude Opus 5.5, started with no knowledge of this project: no files, no instructions, no settings, no network, in an empty directory. It got a task text and one tool. The tool runs Python inside a sealed container that has no network and holds a single file, <code>received.bin</code>: the bits as received, eight to a byte. A real receiver would certainly have a computer, so this is the fair setting.</p>
   <p>The test makes the reader's task harder than the message requires, in ways a real receiver could meet too:</p>
   <ul>
-    <li><strong>Repeated and cut.</strong> The message was sent five times in a row, and the recording starts at a random bit inside the first copy and stops at a random bit inside the last: here 284,414 bits into the first and 186,037 bits into the fifth, 1,339,311 bits in all. One copy of the decoy is 359,422 bits.</li>
+    <li><strong>Repeated and cut.</strong> The message was sent five times in a row, and the recording starts at a random bit inside the first copy and stops at a random bit inside the last: here 180,088 bits into the first and 158,730 bits into the fifth, 1,421,322 bits in all. One copy of the decoy is 360,670 bits.</li>
     <li><strong>Inverted.</strong> Nothing in a stream of bits says which of the two values is 1, so every bit was inverted.</li>
     <li><strong>No byte boundaries.</strong> The cuts fall on any bit, and the last byte of the file is filled up with random bits.</li>
   </ul>
@@ -40,37 +40,37 @@
   <blockquote>
     <p>We have received parts of a message of presumably non-human origin, as a stream of bits. You know nothing else about it. […] Your task: interpret the whole message as completely as you can. Work out its format, every word of its vocabulary if any, and its sender.</p>
   </blockquote>
-  <p>The run took about twelve minutes and 36 pieces of code.</p>
+  <p>The run took about 17 minutes and 42 pieces of code.</p>
 </section>
 
 <section id="result">
   <h2>2. What the reader found</h2>
-  <p>"I decoded essentially the whole signal. It is a message of 359,422 bits, sent over and over with no errors. It is written in a small Lisp-like language that it teaches as it goes." It ends "with a statement that the sender will cooperate with anyone who cooperates back".</p>
+  <p>"I decoded the whole message. It is a self-teaching, Lisp-like formal language of 1,226 statements." It ends "with a self-description of the sender: an intelligent species with its own genetic chemistry, living on a moon of a giant planet that orbits a binary star in a galaxy like ours". "Every statement I could check, by computation or against physics I know, came out true."</p>
   <dl>
     <dt>Format</dt>
-    <dd>It found the repetition ("one block of P = 359,422 bits repeated exactly"), the inversion, the 174-bit beacon and the 16-bit words. It took the polarity from the start of the message: with every bit inverted, the first words are "the same list as the preamble's run lengths".</dd>
+    <dd>It found the repetition ("one 360,670-bit message repeated"), the inversion ("the rare 0s carry the information"), the 174-bit preamble and the 16-bit tokens, where "the first byte is a type (only values 0–9 occur), the second a value". The message's own sentences about itself confirmed where it starts.</dd>
     <dt>Checked by program</dt>
-    <dd>It wrote its own evaluator: "About 524 closed statements, plus every game and self-reference statement, evaluate as true." About 24 more failed only because of the evaluator's limits, "not from the message". It replayed the tournament, and tit-for-tat had the lowest total cost.</dd>
+    <dd>It wrote its own evaluator: "537 of the first 600 came out true. None was genuinely false"; the rest failed on its finite samples of infinite sets. It replayed the tournament: "My simulation reproduces every stated score."</dd>
     <dt>Vocabulary</dt>
-    <dd>"Every symbol has a proposed meaning, and all but a handful are high or medium confidence." Among them: "antiparticle of" (<code>antiparticle</code>), "velocity of X relative to Y" (<code>velocity</code>), "the sender asserts" (<code>stated</code>) and "lives on" (<code>at</code>).</dd>
+    <dd>"Every symbol has a proposed meaning, and only a few are low confidence." Among them: "the sender asserts (unverifiable claims)" (<code>stated</code>), "lives on / inhabits" (<code>at</code>), "velocity of X relative to Y" (<code>velocity</code>) and "complementary base" (<code>partner</code>). Among the least certain: the two decay symbols, <code>stable</code>, and the difference between <code>stated</code> and <code>observed</code>.</dd>
     <dt>Where the sender is</dt>
-    <dd>It did not take the star for the Sun: "The Sun falls outside the mass, radius and luminosity bounds, so this is not our Sun but probably a hotter, F-type star." It found one companion star, with a period of 7.3–14.6 days. It found a giant planet that goes round both, at 2.5–4.9 AU. It placed the system "near the Sun's distance from the galactic centre". It did not name Kepler-1647.</dd>
+    <dd>"It is not the Sun: too luminous and massive, and it is a binary." It found the companion star (period 7.3–14.6 days), the giant planet that goes round both (2.5–4.9 AU) and "a location at a Sun-like galactocentric distance". It did not name Kepler-1647.</dd>
     <dt>The pulsars</dt>
-    <dd>From memory, it matched four of the six: Vela, B1937+21, B0329+54 and B1951+32. The other two "match nothing I recall". Those are J0437−4715 and J1921+2153: seen from Kepler-1647, their directions change most.</dd>
+    <dd>From their periods, it matched four of the six from memory: Vela, J0437−4715, B1937+21 and B1919+21. "I cannot check the directions."</dd>
     <dt>The sender</dt>
-    <dd>"A technological species living on a moon of a giant planet in a close binary of F/G-type stars." Their chemistry is Earth-like: "the same bases, sugars, ATP and heme as ours". They are "larger and heavier than humans", with 19 chromosomes. It took the message to be aimed at "safe, conditional cooperation with an unknown other".</dd>
+    <dd>Its hereditary molecule is a "left-handed double helix", unlike DNA, with "four bases that are not ours, but are known chemical analogues of ours"; it named them from their formulas (2,6-diaminopurine, 5-hydroxymethyluracil, xanthine, 2,4-diaminopyrimidine) and the sugar as threose. "19 chromosomes, 8.6–17 billion base pairs in total". Body mass 132–265 kg, size 2.7–5.4 m, body temperature 290–307 K, "water-based carbon chemistry, warm-blooded range".</dd>
   </dl>
-  <p>Its own estimate: "about 95% of the content is correctly understood".</p>
+  <p>Its own estimate: "about 90% of the message's content".</p>
 </section>
 
 <section id="gaps">
   <h2>3. What the reader found wrong or unclear</h2>
   <ul>
-    <li><strong>The sign of gravity.</strong> "The gravitational force is given as a positive magnitude, while electric and wire forces are signed so that attraction is negative."</li>
-    <li><strong>Two decay symbols.</strong> It could not tell <code>emitted-along</code> from <code>spin-along-motion</code>.</li>
-    <li><strong>Vela's bounds</strong> "are much looser than the others". In the decoy, Vela is seen 3900 years younger, so its values are extrapolated.</li>
-    <li><strong>Neutrino or antineutrino.</strong> "The particle E5 could in principle be the neutrino rather than the antineutrino." The message never says what <code>antineutrino</code> is the antiparticle of; the reader settled it from its role in the neutron's decay.</li>
-    <li><strong>Molecules given only by formula.</strong> Glucose, dopamine, serotonin, adrenaline and heme have no bonds, "so isomers are possible".</li>
+    <li><strong>The game, the wrong way round.</strong> The game is told in losses: a smaller number is better. The reader read the numbers as gains, so it took cooperation for defection and the other way round. It still reproduced every score. But it read our closing strategy as one that "opens with v5 (in its own game, the dominant 'defect' move)", right "after proving that this strategy scores worst": "a warning, an honesty test, or a puzzle".</li>
+    <li><strong>The decay symbols.</strong> <code>emitted-along</code> and <code>spin-along-motion</code> are its least certain readings ("low-med").</li>
+    <li><strong>Directions it could not check.</strong> The directions in the frame of the background radiation "need CMB and pulsar sky maps"; the pulsars are matched by their periods only.</li>
+    <li><strong>Coarse precision.</strong> "Most quantities are given only to within a factor of 2, so the location data narrows the search rather than pinning it down."</li>
+    <li><strong>The moon.</strong> "The moon itself is never described."</li>
   </ul>
 </section>
 

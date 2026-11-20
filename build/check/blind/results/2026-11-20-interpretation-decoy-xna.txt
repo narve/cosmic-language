@@ -1,0 +1,440 @@
+# Interpretation of `/work/received.bin`
+
+I decoded the whole message. It is a self-teaching, Lisp-like formal language of 1,226 statements. It builds up from arithmetic through logic, probability, a repeated cooperation game, self-reference and dialogue rules, physics, chemistry and astronomy. It ends with a self-description of the sender: an intelligent species with its own genetic chemistry, living on a moon of a giant planet that orbits a binary star in a galaxy like ours. It closes by stating how the sender plays the game toward other agents. Every statement I could check, by computation or against physics I know, came out true.
+
+The only thing I have from outside the bits is SI physics and chemistry values from my own knowledge, which I used for the comparisons in section 4. Labels: **[B]** = shown directly by the bits, **[I]** = inferred, **[G]** = guess. "S*n*" is statement *n* in decoded order, starting with S0 = `(o1 1 1)`.
+
+## 1. Format
+
+**Repetition.**
+- [B] The file holds 1,421,328 bits. It is one 360,670-bit message repeated: comparing the file with itself shifted by 360,670 bits gives only 3 mismatches, all in the last 26 bits.
+- [B] Those last bits decode to an invalid token (`01 0c`), so the end of the capture is damaged.
+- [B] There are about 3.94 copies, and the file starts partway through one. Its first bit falls inside S637.
+
+**Polarity.**
+- [B] 86% of the bits are 1. The rare 0s carry the information.
+- [I] I treat raw 0 as "mark = 1". With that choice, every value below comes out as a small number and the brackets balance exactly. All byte values quoted below use this inverted reading.
+
+**Two layers.**
+- [B] A **174-bit preamble** made of runs of marks of length 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, separated by single blanks. This is unary 1 followed by the primes up to 31. In the first copy it sits at file bits 180582–180755.
+- [B] After it come **45,062 bytes** (360,670 − 174 = 8 × 45,062).
+- [B] The byte phase is constant everywhere except across the preamble. The preamble is the only piece that is not byte-aligned.
+
+**Tokens.**
+- [B] The bytes pair up into 22,531 sixteen-bit tokens. The first byte is a type (only values 0–9 occur), the second a value:
+  - `00 n` is the number n.
+  - `01 00` and `01 01` are open and close brackets (5,305 of each, perfectly nested).
+  - `02 n` are operators (o1–o108).
+  - `03 n` are named constants (v1–v58).
+  - `04 n` are bound variables (a1–a4).
+  - `05 n` are particles (b1–b7).
+  - `06 n` are elements (c1–c36, c54, c86).
+  - `07 n` are physical dimensions (d1–d5).
+  - `08 n` are physical constants (e1–e11).
+  - `09 n` are molecules (f1–f37).
+- [B] The message explains its own type byte. The operator o43 ("kind of a quoted thing") returns 0 for a number, 1 for an expression, 2 for an operator, 3 for a constant, 4 for a variable (S540–544), 5 for a particle (S641), 6 for an element (S721), 7 for a dimension (S748), 8 for a physical constant (S760) and 9 for a molecule (S920).
+
+**Layout of the byte stream.**
+- [B] It opens with 21 bare 16-bit numbers: 1 2 3 5 7 11 13 17 19 23 29 31 (the preamble repeated in binary), then 1 2 4 8 16 32 64 128 255.
+- [B] Then come 1,226 bracketed prefix expressions, each with its operator first.
+- [I] So the message starts with the preamble. S582–588 support this: they index "this message" (v26) as item 1 = 1, item 4 = 5, item 12 = 31, item 13 = 1, item 21 = 255, item 22 = `(o1 1 1)`.
+
+## 2. Interpretation, start to end
+
+| Statements | Content (evidence) |
+|---|---|
+| Preamble and header | Unary 1 and the primes up to 31, the same in binary, then powers of 2 and 255 [B]. |
+| S0–61 | =, ≠, <, >, ≤, ≥ taught by examples, e.g. `(o2 254 255)`, `(o3 0 5 9 255)` [B]. |
+| S62–157 | + (associativity in S79), × (`(o8 15 15)`=225), base-256 numbers (`(o9 1 0)` = 255+1), −, negatives, fractions (`(o12 15 5)`=3). |
+| S158–222 | true/false, not, and, or; lists, length, indexing, counting; for-all and exists (S222: ∃ ≡ ¬∀¬). |
+| S223–323 | Number sets: ℕ (v3), ℚ (v4, S265–266). Laws: commutativity, distributivity (S244). Implication, fold, map, mean, probability, Cartesian product, tail, if-then-else. |
+| S324–390 | A **two-move game**. The payoff table (o30) has the two moves v5 and v6 (sketched below). It defines 8 strategies, plays a 255-round round-robin, and reports the totals. |
+| S391–520 | Reals (√2 exists, S397), powers, geometric series (S426), complex numbers and i, absolute value, exp, e, π (Leibniz series S483, Basel series S484, e^{iπ} = −1 in S477–478), 3-vectors, dot and cross products, cosine, angles, averages over the sphere (⟨x²⟩ = 1/3, S519). |
+| S521–605 | Quotation (o42), the kind of a quoted thing (o43), let (o44), evaluation (o45), a blank v27 with substitution (o46). The message names itself as v26 and counts its own statements (`(o1 5 5)` occurs twice, S592). |
+| S606–633 | **Communication rules.** Sender v28 and recipient v29 are distinct. A conversation alternates sender and recipient (S612). The second message in a conversation that starts with v26 goes from v29 back to v28 (S614). The sender asserts (o49) that everything in v26 is true (S617). For questions with a blank, the sender accepts (o50) the plain value `5` for `2+3=?` and rejects (o51) `4`, and also rejects `(2+3)`, `(1+4)`, `15/3` (S623). Agents can disagree (S629). Agents use game strategies toward each other (o52). |
+| S634–893 | **Physics** (sketched below). |
+| S894–986 | **Chemistry:** molecules as atom lists plus bond lists (atom i, atom j, bond order), triple points of H₂, Ne, Ar and water. |
+| S987–1100 | **Astronomy and location** (sketched below). |
+| S1101–1201 | **Biomolecules:** N₂, O₂, glucose formula, glycine formula, four alternative bases with their complementary pairing, double-stranded polymers, cysteine, methionine, ribose, a tetrose, an ATP analogue, phosphoric acid, urea, dopamine, serotonin, adrenaline, heme. |
+| S1202–1217 | **The sender's species** (sketched below). |
+| S1218–1225 | **Closing statement:** toward every other agent, the sender plays v11. Then: v11 vs v11 scores less than v10 vs v10 (S1223), the tournament ranking (S1224), and every other strategy beats v11 (S1225). |
+
+**The game (S324–390).**
+- [B] Payoffs: (v5,v5)=3, (v6,v6)=5, (v5,v6)=7, (v6,v5)=2. v5 always pays more whatever the opponent does (S335), but mutual v6 beats mutual v5 (S336).
+- [I] This is a prisoner's dilemma with v5 = "defect" and v6 = "cooperate".
+- [B] Reported tournament totals: v11 5487, v13 5611, v9 5614, v14 5781, v10 6495, v12 6923 (S385–390).
+- [B] I simulated my reading of the strategies and reproduced every one of these totals exactly, plus S365–366 and S373–384.
+
+**Physics (S634–893).**
+- Particles: electron, proton, neutron (mass and charge ratios); 36 elements by proton count; isotopes and stability.
+- Hydrogen levels; dimensions (mass, length, time, charge, temperature); the photon and c; ħ, G, Coulomb's constant, μ₀/4π.
+- Fine-structure constant, Planck units, the hydrogen 21 cm line, Boltzmann's constant, Stefan–Boltzmann law, neutron lifetime, half-lives (C-14 vs tritium), spins.
+- Right-hand conventions, set by spin and current loops; magnetic moments.
+- Beta-decay asymmetries [I: parity violation, which pins down left and right].
+- Positron as antiparticle; K_L decaying to positrons slightly more often than to electrons [I: CP violation, which pins down matter vs antimatter].
+- Shell capacities 2n²; noble gases (Z = 2, 10, 18, 36, 54, 86).
+
+**Astronomy and location (S987–1100).**
+- Stars: radius, temperature, luminosity, Kepler's law.
+- The CMB: temperature, anisotropy, and a coordinate frame built from its quadrupole and octupole.
+- The sender's star v44, a close companion star, and a giant planet v45 orbiting both.
+- The sender lives on a body orbiting v45 (o49 claims, S1037–1039).
+- A galactic-centre black hole v46; the star's distance, orbital period and velocity around it.
+- Six pulsars, each with period, spin-down rate and direction.
+
+**The species (S1202–1217).**
+- Its members are agents, and the sender is one of them.
+- They live on a moon of v45.
+- Mass, size, body temperature, elemental and water composition.
+- 19 double-helix "chromosomes", 2³³–2³⁴ base pairs in total.
+
+## 3. Vocabulary
+
+Tokens are written as bytes in the inverted reading. For example `02 07` is raw bits `11111101 11111000`.
+
+**Structure and variables**
+
+| Bits | Meaning | First | Evidence | Conf. |
+|---|---|---|---|---|
+| unary preamble | sync/intro: 1 and the primes 2–31 | before header | run lengths 1,2,3,5,…,31; repeated in binary | high |
+| `00 n` | number n (0–255) | header | header lists; arithmetic checks | high |
+| `01 00` / `01 01` | open / close bracket | S0 | 5,305 each, nested; tree parse | high |
+| `04 01`–`04 04` (a1–a4) | bound variables | S205 | used only inside o20/o21/o24/o41/o44 | high |
+
+**Operators**
+
+| Bits | Meaning | First | Evidence | Conf. |
+|---|---|---|---|---|
+| `02 01` o1 | equals (n-ary) | S0 | (o1 n n) for every header number | high |
+| `02 02` o2 | not equal | S14 | (o2 0 1), (o2 254 255) | high |
+| `02 03` o3 | less than (chain) | S26 | (o3 0 1)…; S47 | high |
+| `02 04` o4 | greater than | S31 | (o4 1 0)… | high |
+| `02 05` o5 | ≤ | S50 | (o5 2 2); S401 = (< or =) | high |
+| `02 06` o6 | ≥ | S53 | S402 | high |
+| `02 07` o7 | addition | S62 | (o7 3 4)=7 | high |
+| `02 08` o8 | multiplication | S80 | (o8 15 15)=225 | high |
+| `02 09` o9 | base-256 numeral | S100 | (o9 1 0)=(o7 255 1) | high |
+| `02 0a` o10 | subtraction | S111 | (o10 5 3)=2 | high |
+| `02 0b` o11 | negation | S122 | (o10 0 1)=(o11 1) | high |
+| `02 0c` o12 | division / fraction | S137 | (o12 15 5)=3 | high |
+| `02 0d` o13 | not | S167 | (o13 v1)=v2 | high |
+| `02 0e` o14 | and | S172 | truth table | high |
+| `02 0f` o15 | or | S176 | truth table | high |
+| `02 10` o16 | list | S185 | order matters (S186) | high |
+| `02 11` o17 | length | S188 | (o17 (o16 4 7 9))=3 | high |
+| `02 12` o18 | element at index (1-based) | S191 | → 4, 7, 9 | high |
+| `02 13` o19 | count occurrences | S196 | (o19 3 (3 1 3))=2 | high |
+| `02 14` o20 | for all (var, domain, body) | S205 | S207 equals a conjunction | high |
+| `02 15` o21 | exists | S212 | S222 | high |
+| `02 16` o22 | implies | S276 | truth table | high |
+| `02 17` o23 | apply operator to a list | S283 | (o23 o7 (1 2 3))=6 | high |
+| `02 18` o24 | map | S290 | squares → (1 4 9 16) | high |
+| `02 19` o25 | mean | S298 | mean(1..6)=7/2 | high |
+| `02 1a` o26 | relative frequency / probability | S302 | 6 in (1..6) = 1/6 | high |
+| `02 1b` o27 | Cartesian product | S308 | | high |
+| `02 1c` o28 | tail (rest of list) | S313 | | high |
+| `02 1d` o29 | if-then-else | S319 | | high |
+| `02 1e` o30 | game payoff to the first player | S328 | tournament reproduced | high |
+| `02 1f` o31 | strategy's move(s) given a history (list = random choice) | S339 | definitions + simulation | high |
+| `02 20` o32 | history of n rounds | S359 | S365 | high |
+| `02 21` o33 | total score over n rounds | S364 | S373–390 reproduced | high |
+| `02 22` o34 | power | S404 | 2^5=32; S416–418 | high |
+| `02 23` o35 | absolute value / modulus | S453 | \|3+4i\|=5 | high |
+| `02 24` o36 | exp | S462 | e^{iπ}=−1 (S477–478) | high |
+| `02 25` o37 | dot product | S489 | (1,2,3)·(4,5,6)=32 | high |
+| `02 26` o38 | cosine | S500 | (e^{ix}+e^{−ix})/2 | high |
+| `02 27` o39 | angle between vectors | S505 | 0 or π/2 or π | high |
+| `02 28` o40 | cross product | S509 | x×y=z | high |
+| `02 29` o41 | average over a domain (sphere) | S515 | ⟨x²⟩=1/3 | high |
+| `02 2a` o42 | quote | S521 | '(+ 2 3) = list('+,2,3) | high |
+| `02 2b` o43 | kind of a quoted item (= type byte) | S540 | 0..9 as in section 1 | high |
+| `02 2c` o44 | let | S548 | | high |
+| `02 2d` o45 | evaluate | S558 | eval '(+ 2 3)=5 | high |
+| `02 2e` o46 | substitute a value for the blank v27 | S599 | | high |
+| `02 2f` o47 | sender of a message | S606 | S612–614 | med-high |
+| `02 30` o48 | recipient | S607 | same | med-high |
+| `02 31` o49 | "the sender asserts" (unverifiable claims) | S615 | wraps claims about the sender | medium |
+| `02 32` o50 | agent accepts a (question, answer) pair | S618 | accepts `5` for 2+3=? | medium |
+| `02 33` o51 | agent rejects a reply | S619 | rejects `4` and `(2+3)` | medium |
+| `02 34` o52 | strategy agent X uses toward Y | S631 | S633, S1218–1222 | medium |
+| `02 35` o53 | "physically, it is the case" | S634 | wraps every measured claim | medium |
+| `02 36` o54 | mass | S634 | m_p/m_e in 1836–1837 | high |
+| `02 37` o55 | electric charge | S638 | q_p = −q_e, q_n = 0 | high |
+| `02 38` o56 | isotope (element, neutron count) | S722 | neutron count = 2nd argument | high |
+| `02 39` o57 | stable nuclide | S728 | H-1, H-2, He-3, He-4, C-12, C-13, O-16 listed | medium |
+| `02 3a` o58 | hydrogen energy level n | S737 | ratios 27/5, 32/27 | high |
+| `02 3b` o59 | physical dimension of | S740 | mass ratio → 1 | high |
+| `02 3c` o60 | speed | S751 | photons: e1 | high |
+| `02 3d` o61 | wavelength | S755 | λf = c | high |
+| `02 3e` o62 | frequency | S755 | dim 1/time | high |
+| `02 3f` o63 | photon energy | S761 | E = ħ·2π·f | high |
+| `02 40` o64 | photon from transition (atom, upper, lower) | S764 | | high |
+| `02 41` o65 | distance | S768 | symmetric, dim length | high |
+| `02 42` o66 | gravitational force (negative = attractive) | S770 | −G m m / r² | high |
+| `02 43` o67 | electrostatic force | S780 | k q q / r² | high |
+| `02 44` o68 | electric current | S787 | dim charge/time | high |
+| `02 45` o69 | force per length between wires | S789 | | high |
+| `02 46` o70 | mean kinetic energy of a gas particle | S808 | (3/2)kT | high |
+| `02 47` o71 | temperature | S808 | | high |
+| `02 48` o72 | radiated power per area | S813 | (π²/60)k⁴T⁴/(ħ³c²) | high |
+| `02 49` o73 | mean lifetime | S822 | neutron ≈ 879 s | high |
+| `02 4a` o74 | survival probability after time t | S825 | exp(−t/τ) | high |
+| `02 4b` o75 | half-life | S825 | survival = 1/2 | high |
+| `02 4c` o76 | spin | S831 | ħ/2; photon ħ | high |
+| `02 4d` o77 | rotates in the sense from vector a2 to a3 | S836 | antisymmetric | medium |
+| `02 4e` o78 | spin direction | S836 | = a2×a3 | medium |
+| `02 4f` o79 | emission asymmetry relative to the parent's spin | S840 | e⁻ from n: (−1,0); ν̄ > 0; K_L: 0 | low-med |
+| `02 50` o80 | helicity of the emitted particle | S843 | e⁻ < 0, ν̄ in (0,1] | low-med |
+| `02 51` o81 | radius | S849 | | high |
+| `02 52` o82 | magnetic field at the centre of a loop | S852 | 2π(μ₀/4π)I/r | high |
+| `02 53` o83 | current circulates from a2 toward a3 | S855 | | medium |
+| `02 54` o84 | magnetic moment direction | S855 | p parallel to spin, e and n antiparallel | medium |
+| `02 55` o85 | antiparticle | S864 | e⁻ ↔ b6; photon self | high |
+| `02 56` o86 | probability a decay yields particle X | S869 | n → e⁻ = 1 | medium |
+| `02 57` o87 | shell capacity | S875 | 2n² | high |
+| `02 58` o88 | noble / inert | S880 | Z = 2,10,18,36,54,86 | med-high |
+| `02 59` o89 | atom list of a molecule | S909 | | high |
+| `02 5a` o90 | bond list (i, j, order) | S910 | HCN: C≡N order 3 | high |
+| `02 5b` o91 | triple-point temperature | S970 | matches H₂, Ne, Ar vs water | high |
+| `02 5c` o92 | triple-point pressure | S980 | water ≈ 611 Pa | high |
+| `02 5d` o93 | luminosity | S991 | 4πR²σT⁴ | high |
+| `02 5e` o94 | orbits | S999 | Kepler III | high |
+| `02 5f` o95 | orbital period | S999 | | high |
+| `02 60` o96 | orbit size (separation) | S1000 | | high |
+| `02 61` o97 | CMB temperature in a direction | S1003 | mean 2.725 K | high |
+| `02 62` o98 | lives on / inhabits | S1037 | | medium |
+| `02 63` o99 | unit direction from X to Y | S1045 | X→Y = −(Y→X) | high |
+| `02 64` o100 | velocity of X relative to Y | S1055 | | med-high |
+| `02 65` o101 | pulsar period | S1064 | | med-high |
+| `02 66` o102 | period derivative | S1065 | dimensionless, > 0 | med-high |
+| `02 67` o103 | strands of a double helix | S1163 | 2 strands | med-high |
+| `02 68` o104 | complementary base | S1165 | involution | high |
+| `02 69` o105 | twist per base pair (signed) | S1176 | < 0 | medium |
+| `02 6a` o106 | rise per base pair | S1178 | | medium |
+| `02 6b` o107 | body size (length) | S1206 | | medium |
+| `02 6c` o108 | genome: list of chromosomes | S1215 | 19 entries | medium |
+
+**Named constants (`03 nn`)**
+
+| Bits | Meaning | First | Evidence | Conf. |
+|---|---|---|---|---|
+| v1 / v2 | true / false | S158 | (o1 (o1 2 2) v1) | high |
+| v3 | natural numbers (with 0) | S228 | S230, S259 | high |
+| v4 | rational numbers | S261 | S265–266 | high |
+| v5 / v6 | game moves "defect" / "cooperate" | S324 | dominance S335; S336 | high (labels [I]) |
+| v7 | the set {v5, v6} | S325 | | high |
+| v8 | game histories | S339 | domain of strategies | med-high |
+| v9 | always v5 | S339 | | high |
+| v10 | always v6 | S340 | | high |
+| v11 | open with v5, then copy the opponent | S341 | | high |
+| v12 | open with v6, then copy the opponent | S343 | | high |
+| v13 | v5 until the opponent ever plays v6, then v6 | S345 | | high |
+| v14 | open v5; v5 if the last moves were equal, else v6 | S347 | | high |
+| v15 | open v5; after a v5, v5; after a v6, random (1/3 v5, 2/3 v6) | S350 | | med-high |
+| v16 | random 50/50 | S353 | | med-high |
+| v17 | list of v9–v14 (the tournament) | S358 | | high |
+| v18 | real numbers | S391 | √2, cube roots exist | high |
+| v19 | i | S437 | i² = −1 | high |
+| v20 | complex numbers | S449 | | high |
+| v21 | e | S473 | e = exp(1); 8/3 < e < 11/4 | high |
+| v22 | π | S477 | Leibniz series; 223/71 < π < 22/7 | high |
+| v23 | 3-vectors | S485 | | high |
+| v24 | unit 3-vectors | S496 | | high |
+| v25 | expressions | S573 | | high |
+| v26 | this message | S582 | self-indexing | high |
+| v27 | blank / placeholder | S599 | | high |
+| v28 / v29 | sender / recipient of v26 | S606 | | high |
+| v30 | agents | S610 | | medium |
+| v31 | conversations | S612 | | medium |
+| v32 | (neutral) elements | S717 | electrons = protons | high |
+| v33 | photons | S751 | | high |
+| v34 | bodies (masses) | S768 | | high |
+| v35 | current-carrying wires | S787 | | high |
+| v36 | ideal-gas particles | S808 | | medium |
+| v37 | black bodies | S813 | | high |
+| v38 | time durations | S824 | | med-high |
+| v39 | current loops | S849 | | high |
+| v40 | stars | S987 | | high |
+| v41 / v42 | CMB quadrupole axes (1st / 2nd) | S1006 / S1007 | maximisation conditions | medium |
+| v43 | v41 × v42 | S1011 | | high |
+| v44 | the sender's home star | S1017 | S1039 | med-high |
+| v45 | the giant planet orbiting both stars | S1018 | S1030 | med-high |
+| v46 | galactic-centre black hole | S1040 | mass 2.8–5.5 M☉×10⁶ | medium |
+| v47 | direction from the star to v46 | S1047 | | high |
+| v48 | perpendicular axis (≈ direction of orbital motion) | S1049 | S1055 | medium |
+| v49 | v47 × v48 | S1051 | | high |
+| v50 | pulsars | S1063 | P and Ṗ > 0 | med-high |
+| v51–v56 | six specific pulsars | S1066–1096 | P, Ṗ, directions | medium |
+| v57 | double-stranded genetic polymers | S1163 | | med-high |
+| v58 | the sender's species | S1202 | | med-high |
+
+**Particles (`05 nn`)**
+
+| Bits | Meaning | First | Evidence | Conf. |
+|---|---|---|---|---|
+| b1 | electron | S634 | lightest, charge −q_p, spin ½ | high |
+| b2 | proton | S634 | Z counts (c_k has k of them) | high |
+| b3 | neutron | S634 | neutral; mass ratio 1838; lifetime | high |
+| b4 | photon | S749 | massless, chargeless, speed c, spin ħ | high |
+| b5 | electron antineutrino | S842 | neutral, lighter than e, emitted in n decay | medium |
+| b6 | positron | S861 | antiparticle of b1 | high |
+| b7 | K_L (long-lived neutral kaon) | S870 | neutral, 973–975 mₑ, spin 0, e⁺/e⁻ asymmetry | med-high |
+
+**Elements (`06 nn`)**
+
+| Bits | Meaning | First | Evidence | Conf. |
+|---|---|---|---|---|
+| c1–c36 | element with Z = k (H … Kr) | S644 | (o19 b2 ck) = k; (o19 b1 ck) = k | high |
+| c54, c86 | Xe, Rn | S882 | noble list; Z = 2+8+8+18+18(+32) | med-high |
+
+**Dimensions (`07 nn`)**
+
+| Bits | Meaning | First | Evidence | Conf. |
+|---|---|---|---|---|
+| d1, d2, d3 | mass, length, time | S740 | dimension of mass = d1; of λ = d2; of period = d3; G, ħ dimensions | high |
+| d4 | charge | S775 | | high |
+| d5 | temperature | S809 | | high |
+
+**Physical constants (`08 nn`)**
+
+| Bits | Meaning | First | Evidence | Conf. |
+|---|---|---|---|---|
+| e1 | speed of light c | S751 | | high |
+| e2 | ħ | S761 | E = e2·2πf | high |
+| e3 | G | S770 | | high |
+| e4 | Coulomb constant | S780 | α check | high |
+| e5 | μ₀/4π | S789 | e4/e5 = c² (S794) | high |
+| e6, e7, e8 | Planck length, time, mass | S795–797 | defining formulas | high |
+| e9 | hydrogen 21 cm photon | S804 | ratios match | high |
+| e10 | Boltzmann's constant | S808 | | high |
+| e11 | Planck temperature | S817 | | high |
+
+**Molecules (`09 nn`)**
+
+The formulas are [B] (atom counts and bond lists). The names are my [I] chemistry knowledge and could be isomers.
+
+| Bits | Formula | Likely name | First | Conf. |
+|---|---|---|---|---|
+| f1 | H₂ | hydrogen | S894 | high |
+| f2 | H₂O | water | S897 | high |
+| f3 | CH₄ | methane | S901 | high |
+| f4 | NH₃ | ammonia | S905 | high |
+| f5 | CO₂ | carbon dioxide | S907 | high |
+| f6 | CO (triple bond) | carbon monoxide | S921 | high |
+| f7 | HCN | hydrogen cyanide | S925 | high |
+| f8 | H₂CO | formaldehyde | S930 | high |
+| f9 | CH₃OH | methanol | S935 | high |
+| f10 | C₂H₂ | acetylene | S940 | high |
+| f11 | HC₃N | cyanoacetylene | S944 | high |
+| f12 | SiO | silicon monoxide | S950 | high |
+| f13 | CS | carbon monosulfide | S953 | high |
+| f14 | H₂S | hydrogen sulfide | S956 | high |
+| f15 | SO₂ | sulfur dioxide | S960 | high |
+| f16 | HCl | hydrogen chloride | S963 | high |
+| f17 | NaCl | sodium chloride | S967 | high |
+| f18 | N₂ | nitrogen | S1101 | high |
+| f19 | O₂ | oxygen | S1105 | high |
+| f20 | C₆H₁₂O₆ | glucose or another hexose | S1109 | medium |
+| f21 | C₂H₅NO₂ | glycine | S1113 | medium |
+| f22 | C₅H₆N₆ | 2,6-diaminopurine? | S1117 | low-med |
+| f23 | C₅H₆N₂O₃ | 5-hydroxymethyluracil? | S1121 | low-med |
+| f24 | C₅H₄N₄O₂ | xanthine? | S1125 | low-med |
+| f25 | C₄H₆N₄ | 2,4-diaminopyrimidine? | S1129 | low-med |
+| f26 | C₄H₄N₂O₂ | uracil | S1133 | medium |
+| f27 | C₃H₇NO₂S | cysteine | S1141 | medium |
+| f28 | C₅H₁₁NO₂S | methionine | S1146 | medium |
+| f29 | C₅H₁₀O₅ | ribose (a pentose) | S1151 | medium |
+| f30 | C₄H₈O₄ | a tetrose, e.g. threose | S1154 | low-med |
+| f31 | C₁₀H₁₇N₆O₁₃P₃ | ATP analogue built on f22 | S1157 | medium |
+| f32 | H₃PO₄ | phosphoric acid | S1170 | high |
+| f33 | CH₄N₂O | urea | S1181 | medium |
+| f34 | C₈H₁₁NO₂ | dopamine | S1185 | medium |
+| f35 | C₁₀H₁₂N₂O | serotonin | S1189 | medium |
+| f36 | C₉H₁₃NO₃ | adrenaline | S1193 | medium |
+| f37 | C₃₄H₃₂N₄O₄Fe | heme | S1197 | medium |
+
+f22 pairs with f23 and f24 with f25 (o104, S1165–1168). f31 equals ribose + f22 + 3 H₃PO₄ − 4 H₂O exactly.
+
+Nothing is completely uninterpreted. The weakest readings are o79/o80, o57, o49 vs o53, v36 and v48.
+
+## 4. Knowledge, with my checks
+
+- **Mathematics and logic (S0–520).** I wrote an evaluator for my readings and ran every closed statement. 537 of the first 600 came out true. None was genuinely false. The handful of failures came from my finite samples of infinite sets (e.g. no ∛2 in my sample of reals), or from float overflow.
+- **The game.**
+  - The payoff table is a strict prisoner's dilemma: T=7 > R=5 > P=3 > S=2, and 2R=10 > T+S=9.
+  - My simulation reproduces every stated score, e.g. 5487 = (o9 21 111) for v11 and 6923 = (o9 27 11) for v12.
+  - The lesson in the bits: open-with-v6-then-copy (v12) wins; open-with-v5-then-copy (v11) comes last.
+- **Physics.** These are all dimensionless, so they compare directly with our values. Each fell inside the message's bounds when I computed it from SI constants:
+  - m_p/mₑ ≈ 1836.15 and m_n/mₑ ≈ 1838.68;
+  - α ≈ 1/137.04;
+  - Coulomb/gravity force ratio for proton–electron = 2^130.7;
+  - m_p and mₑ in Planck masses: 2^−63.5 and 2^−74.3;
+  - 21 cm / Lyman-α energy = 2^−20.7;
+  - neutron lifetime = 2^153.5 Planck times;
+  - C-14 / tritium half-life ratio = 465;
+  - K⁰ mass = 973.8 mₑ;
+  - K_L e⁺/e⁻ ratio ≈ 1.0067;
+  - Bohr-model level ratios, 2n² shells, noble gases.
+  - **Agreement: complete, as far as I could check.**
+- **Units.** The units are self-anchored in a way the recipient can use:
+  - temperature against the triple point of water (273.16 K: H₂, Ne, Ar ratios all match);
+  - pressure against water's triple point (611.66 Pa = 203.2 × 2⁻³⁷⁶ Planck pressures);
+  - length and time against Planck units and the 21 cm line.
+- **Galactic setting.**
+  - The black hole has 2.8–5.5 million solar masses, at a distance of 6.4–12.8 kpc.
+  - The orbital period around it is 172–343 Myr, and the velocity component is 146–329 km/s.
+  - The ratio of enclosed mass to black-hole mass is 2¹²–2¹⁶. With 8 kpc and 230 Myr I get about 2^14.4.
+  - The CMB temperature is 2.7255 K, within the stated bound.
+  - [I] This all fits our Milky Way and a location at a Sun-like galactocentric distance.
+- **The sender's system.** Converted from the bounds:
+  - Star: 1.15–1.32 M☉, 1.04–2.07 R☉, 5460–6830 K, 2.5–9.8 L☉.
+  - Companion: 0.66–1.32 M☉, 0.52–1.04 R☉, 4920–6560 K, separation 0.077–0.15 AU, period 7.3–14.6 days.
+  - Circumbinary planet: 2.5–4.9 AU, period 2.6–5.1 yr, radius 0.63–1.26 Jupiter radii, mass under 5.4 Jupiter masses.
+  - These hang together: L = 4πR²σT⁴ overlaps the stated L, and Kepler's law gives about 8 days and about 3.5 yr.
+  - [I] It is not the Sun: too luminous and massive, and it is a binary.
+- **Pulsars.** Their periods and Ṗ are given. As [G] from my memory, four of them are consistent with known pulsars: v52 ~ Vela, v53 ~ J0437−4715, v54 ~ B1937+21, v56 ~ B1919+21. I cannot check the directions.
+- **Biology.**
+  - Left-handed double helix (twist < 0), 11–13 base pairs per turn, rise 0.16–0.31 nm, pitch 2.5–5 nm. For comparison, DNA is right-handed with about 10.5 base pairs per turn and a 0.34 nm rise.
+  - Antiparallel complementary strands, with Chargaff-like equalities (S1174–1175).
+  - Four bases that are not ours, but are known chemical analogues of ours.
+  - 19 chromosomes, 8.6–17 billion base pairs in total.
+
+## 5. The sender
+
+**What it states:**
+- It is an agent among other agents (S1202–1203).
+- It sent other messages too (S616).
+- It claims everything in this message is true (S617).
+- Its species lives on a body orbiting the giant planet v45, not on v45 itself and not on the star (S1037–1039, S1204).
+- Average body mass 132–265 kg; every member is under 5.4 m in size, with an average of 2.7–5.4 m.
+- Body temperature 290–307 K.
+- Composition: more H than O, more O than C, more C than N; over half water by mass; contains Ca, P, K, S, Na, Cl, Mg and Fe.
+- Genetics as described in section 4.
+- Toward every other agent it plays v11: it opens with v5 (in its own game, the dominant "defect" move) and then copies the other side (S1218–1222).
+
+**What I infer:**
+- Water-based carbon chemistry, warm-blooded range.
+- Molecules analogous to our neurotransmitters and heme are listed (dopamine, serotonin, adrenaline, heme). The bits only list them; that the sender uses them is my guess.
+- It expects a reply (S614) and teaches how replies will be judged: plain values are accepted, unevaluated forms are rejected.
+- The closing is unexplained. Taken literally, it says "we start uncooperatively, then reciprocate", right after proving that this strategy scores worst. It could be a warning, an honesty test, or a puzzle inviting the recipient to show it a better strategy. I cannot tell which.
+
+## 6. Gaps and problems
+
+- **Polarity and start point.** Treating raw 0 as the mark, and starting at the preamble, are inferences. Both are strongly supported: the parse balances perfectly, and the message indexes itself (S582–588).
+- **Damage.** The last copy is corrupted in its final 26 bits. The three full copies agree completely.
+- **Uncertain meanings.** o79/o80 (parity-violation coefficients), o57, the modal distinction between o49 and o53, v48, and v36.
+- **Unverifiable here.** The CMB-frame directions (S1058–1100) need CMB and pulsar sky maps. Pulsar identities are guesses from memory.
+- **Coarse precision.** Most quantities are given only to within a factor of 2, so the location data narrows the search rather than pinning it down.
+- **Nothing found false.** No checkable statement is false. The one tension is the sender's declared v11 policy against its own demonstration that v11 performs worst. The moon itself is never described.
+
+## 7. Confidence
+
+| Point | Confidence |
+|---|---|
+| Format (repetition, preamble, 16-bit tokens, S-expressions) | very high, ~99% |
+| Mathematics, logic, quotation and game sections | high; most of it checked by running it |
+| Physics and chemistry meanings | high for most symbols, medium for spin, parity and decay terms |
+| Astronomy and sender description | medium-high for the meanings, high that the numbers are internally consistent |
+| Intent of the closing strategy statement | low |
+
+Overall I think I understood about 90% of the message's content. Every symbol has a proposed meaning, and only a few are low confidence.
