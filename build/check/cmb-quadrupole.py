@@ -9,7 +9,9 @@
 # The monopole and the dipole add nothing to M. The motion of the Sun adds a Doppler quadrupole
 # b T0 β² ((d·u)² − 1/3), with b between 1 and about 1.7 depending on how a map was made; whether a map
 # still holds it is not always stated, so each map is taken with b = 0, 1 and 1.7. The ends of the
-# axes are chosen so that the direction to the Galactic centre has a positive dot with the first two.
+# axes are chosen so that the direction to the Galactic centre has a positive dot with the first two. For each axis a
+# the output also gives the odd part of the pattern along it, the average of (T(u) − mean T) × ((a·u)³ − 3/5 a·u)
+# (the ℓ = 3 shape: no dipole in it), in kelvin: its sign tells the two ends of the axis apart.
 import hashlib, json, sys
 import numpy as np, healpy as hp
 
@@ -38,7 +40,8 @@ for path in sys.argv[1:]:
         w, v = np.linalg.eigh(Mc)
         a1, a2 = v[:, 2] * np.sign(v[0, 2]), v[:, 1] * np.sign(v[0, 1])
         a3 = np.cross(a1, a2)
-        cases.append({"doppler": b, "eigenvalues_K": w[::-1].tolist(),
+        odd = [float(np.mean(t * ((a @ u) ** 3 - 0.6 * (a @ u)))) for a in (a1, a2, a3)]
+        cases.append({"doppler": b, "eigenvalues_K": w[::-1].tolist(), "odd_K": odd,
                       "first-axis": a1.tolist(), "second-axis": a2.tolist(), "third-axis": a3.tolist()})
     out["maps"].append({"file": name, "url": URLS.get(name), "sha256": sha, "M_K": M.tolist(), "cases": cases})
 print(json.dumps(out, indent=1))

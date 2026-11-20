@@ -62,13 +62,8 @@
 ; and a little toward the centre, and toward the pole
 (observed (&lt; 0 (÷ (dot (velocity sun galaxy-centre) toward-centre) c) (÷ 1 (^ 2 13))))
 (observed (&lt; 0 (÷ (dot (velocity sun galaxy-centre) galactic-pole) c) (÷ 1 (^ 2 14))))</code></pre>
-  <p>So far <code>along-rotation</code> is only at right angles to <code>toward-centre</code>: that leaves a whole circle of directions. The axes of the background radiation, which any reader can find, pin it down. The direction to the centre, which a reader can find too, comes first: its dot with the first axis is positive and with the third negative, which fixes the ends of all three axes. Then the direction of rotation is given in the same axes, and the Galaxy's frame is tied to the background radiation's.</p>
+  <p>So far <code>along-rotation</code> is only at right angles to <code>toward-centre</code>: that leaves a whole circle of directions. The axes of the background radiation, which any reader can find, pin it down. The direction to the centre, which a reader can find too, comes first, then the direction of rotation, and the Galaxy's frame is tied to the background radiation's.</p>
   <pre><code>
-; each axis has two ends; the ones meant are those that give the
-; direction to the centre these signs: a choice, not a measurement
-(&gt; (dot toward-centre first-axis) 0)
-(&lt; (dot toward-centre third-axis) 0)
-
 ; the direction to the centre, in the axes of the background
 ; radiation
 (observed (&lt; (÷ 1 4) (dot toward-centre first-axis) (÷ 1 2)))

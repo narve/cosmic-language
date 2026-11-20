@@ -42,8 +42,8 @@ export const blackBodies = { type: constant, id: 37, name: "black-bodies", meani
 export const durations = { type: constant, id: 38, name: "durations", meaning: "domain: durations (quantities of dimension T)" } satisfies SymbolDef;
 export const rings = { type: constant, id: 39, name: "rings", meaning: "domain: round loops of wire carrying a steady current" } satisfies SymbolDef;
 export const stars = { type: constant, id: 40, name: "stars", meaning: "domain: stars that shine by turning hydrogen into helium" } satisfies SymbolDef;
-export const firstAxis = { type: constant, id: 41, name: "first-axis", meaning: "the direction along which the background radiation is most uneven; of its two ends, the one whose dot with `toward-centre` is positive" } satisfies SymbolDef;
-export const secondAxis = { type: constant, id: 42, name: "second-axis", meaning: "the same among the directions at right angles to the first axis; of its two ends, the one that makes the dot of `third-axis` with `toward-centre` negative" } satisfies SymbolDef;
+export const firstAxis = { type: constant, id: 41, name: "first-axis", meaning: "the direction along which the background radiation is most uneven; of its two ends, the one along which its odd part (the ℓ = 3 shape) is negative" } satisfies SymbolDef;
+export const secondAxis = { type: constant, id: 42, name: "second-axis", meaning: "the same among the directions at right angles to the first axis; of its two ends, the one along which its odd part (the ℓ = 3 shape) is positive" } satisfies SymbolDef;
 export const thirdAxis = { type: constant, id: 43, name: "third-axis", meaning: "the cross of the first and second axis" } satisfies SymbolDef;
 export const sun = { type: constant, id: 44, name: "sun", meaning: "the star the Earth goes round" } satisfies SymbolDef;
 export const earth = { type: constant, id: 45, name: "earth", meaning: "the body that goes round the Sun at about 215 times its radius" } satisfies SymbolDef;

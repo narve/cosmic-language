@@ -46,8 +46,20 @@
 (= (dot third-axis third-axis) 1)
 (= (dot third-axis first-axis) 0)
 (= (dot third-axis second-axis) 0)</code></pre>
+  <p>Each axis is a line, and the rule above cannot tell its two ends apart: (dot with the direction)² is the same at both. A second, odd measure can: the average of (temperature − mean temperature) × ((dot with the direction)³ − 3/5 × dot with the direction), which changes sign from one end to the other. (The 3/5 removes the part that the warmer-ahead, colder-behind pattern of a moving observer would add.) Of the two ends of each axis, the one meant is given by its sign: negative for the first axis, positive for the second.</p>
+  <pre><code>
+; the odd measure is negative along the first axis
+(observed (let w (average v directions (background v))
+  (&lt; (average u directions (× (− (background u) w)
+       (− (^ (dot first-axis u) 3) (× (÷ 3 5) (dot first-axis u)))))
+     0)))
+; and positive along the second
+(observed (let w (average v directions (background v))
+  (&gt; (average u directions (× (− (background u) w)
+       (− (^ (dot second-axis u) 3) (× (÷ 3 5) (dot second-axis u)))))
+     0)))</code></pre>
   <p>The warmer-ahead, colder-behind pattern of a moving observer adds almost nothing to these averages, since (dot with the direction)² is the same ahead and behind; so the axes too are nearly the same for a reader at rest and for one moving as slowly as the Sun.</p>
-  <p>Each axis is a line: the rule above cannot tell its two ends apart. The hand of <code>cross</code>, and with it the third axis, is fixed by the lesson on spin, through the decay of the neutron. What remains open are the ends of the first two axes: a direction given in these axes is known up to turning the frame half round one of them, until one direction that a reader can find in another way is given in them.</p>
+  <p>With the ends of the first two axes fixed, the third follows from <code>cross</code>, whose hand is fixed by the lesson on spin, through the decay of the neutron. So a direction given in these axes is fixed completely, for any reader who can map the background radiation.</p>
   <p><small>Sources: D. J. Fixsen (2009) (the temperature of the background radiation), BIPM (water's triple point). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
 </article>
 </body>
