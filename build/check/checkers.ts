@@ -89,7 +89,7 @@ export const CHECKERS: Checker[] = [
   },
   {
     name: "evaluate",
-    about: "every sentence the interpreter can compute is true, and none divides by zero (full and decoy)",
+    about: "every sentence the interpreter can compute is true, and none divides by zero (full version)",
     run: ({ versions, registry }) => checkEvaluation(versions.full, registry),
   },
 ];
