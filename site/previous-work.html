@@ -12,7 +12,7 @@
 <header>
   <small>Research survey · 2026-11-16</small>
   <h1>Previous Work</h1>
-  <p>Earlier projects on messages that explain themselves, and what we can learn from them. Compiled by a research sub-agent using web search plus background knowledge. Anything not confirmed by search or fetch is marked <strong>[unverified]</strong>. See also the <a href="specification.html">specification</a>.</p>
+  <p>Earlier projects on messages that explain themselves, and what we can learn from them. Compiled from web searches and background knowledge. Anything not confirmed by search or fetch is marked <strong>[unverified]</strong>. See also the <a href="specification.html">specification</a>.</p>
 </header>
 
 <main>
@@ -21,14 +21,14 @@
 <ul>
 <li><strong>1960, Hans Freudenthal.</strong> <em>Lincos: Design of a Language for Cosmic Intercourse, Part I</em> (North-Holland).</li>
 <li><a href="https://en.wikipedia.org/wiki/Lincos_language">https://en.wikipedia.org/wiki/Lincos_language</a></li>
-<li><strong>Summary:</strong> Lincos teaches natural numbers as runs of pulses separated by pauses, then introduces <code>&gt; &lt; = + −</code> through worked examples, with longer pauses marking that a new symbol is starting. From there it builds multiplication, division, variables, propositional logic, set theory, first-order logic and time (&quot;Sec&quot;). It ends with dialogues between the characters &quot;Ha&quot; and &quot;Hb&quot;, which teach questions (<code>Inq</code>), approval (<code>Ben</code>/<code>Mal</code>), truth (<code>Ver</code>/<code>Fal</code>), quoting and wanting. The planned Part II on matter, Earth and life was never written.</li>
+<li><strong>Summary:</strong> Lincos teaches natural numbers as runs of pulses separated by pauses, then introduces <code>&gt; &lt; = + −</code> through worked examples, with longer pauses marking that a new symbol is starting. From there it builds multiplication, division, variables, propositional logic, set theory, first-order logic and time (&quot;Sec&quot;). Chapter 3 stages dialogues between the characters &quot;Ha&quot; and &quot;Hb&quot;, which teach saying (<code>Inq</code>), questions (marked with <code>?x</code>), approval (<code>Ben</code>/<code>Mal</code>), truth (<code>Ver</code>/<code>Fal</code>), quoting and wanting; chapter 4 covers space, motion and mass. The planned Part II on matter, Earth and life was never written.</li>
 <li><strong>Relevance:</strong> The direct ancestor of our counting → relations → arithmetic → logic → quantifiers → definitions sequence. Borrow &quot;teach by example, then pose an unsolved expression as a question&quot;. Use the Ha/Hb dialogues as a model for our communication layer. <em>Avoid:</em> Freudenthal moved quickly into concepts with weak grounding, and the physics half was never written. <em>Criticism:</em> never tested on naive readers.</li>
 </ul>
 <h3>A2. Astraglossa</h3>
 <ul>
-<li><strong>1952/1963 [dates unverified], Lancelot Hogben.</strong> Described at <a href="https://en.wikipedia.org/wiki/Communication_with_extraterrestrial_intelligence">https://en.wikipedia.org/wiki/Communication_with_extraterrestrial_intelligence</a></li>
-<li><strong>Summary:</strong> Short pulses stand for numbers and long pulse trains for operators. Astronomical facts serve as shared reference points.</li>
-<li><strong>Relevance:</strong> The earliest separation of &quot;operator token versus numeral&quot;. Our type bits do the same thing more cleanly.</li>
+<li><strong>1952, Lancelot Hogben.</strong> A lecture, reprinted in <em>Science in Authority</em> (1963). Described at <a href="https://en.wikipedia.org/wiki/Communication_with_extraterrestrial_intelligence">https://en.wikipedia.org/wiki/Communication_with_extraterrestrial_intelligence</a></li>
+<li><strong>Summary:</strong> Numbers are sent as unary &quot;dashes&quot; and operators as &quot;flashes&quot; (radioglyphs). Astronomical facts serve as shared reference points.</li>
+<li><strong>Relevance:</strong> The earliest separation of &quot;operator token versus numeral&quot;. Our type chunks do the same thing more cleanly.</li>
 </ul>
 <h3>A3. Astrolinguistics / second-generation Lincos</h3>
 <ul>
@@ -82,19 +82,19 @@
 <h3>B1. Drake 1961 and the Arecibo message (1974)</h3>
 <ul>
 <li><a href="https://www.scientificamerican.com/article/can-you-decode-an-alien-message/">https://www.scientificamerican.com/article/can-you-decode-an-alien-message/</a> ; <a href="https://www.scientificamerican.com/article/the-arecibo-message-earths-first-interstellar-transmission-turns-50/">https://www.scientificamerican.com/article/the-arecibo-message-earths-first-interstellar-transmission-turns-50/</a></li>
-<li><strong>Summary:</strong> 1,679 bits = 23 × 73. Contains the numbers 1–10, the atomic numbers of H, C, N, O and P, nucleotides, DNA, a human figure, the Solar System and the telescope. Drake&#39;s 1961 prototype (551 = 19 × 29) was largely failed by experts.</li>
+<li><strong>Summary:</strong> 1,679 bits = 23 × 73. Contains the numbers 1–10, the atomic numbers of H, C, N, O and P, nucleotides, DNA, a human figure, the Solar System and the telescope. Most of the experts who tried Drake&#39;s 1961 prototype (551 = 19 × 29) failed to decode it.</li>
 <li><strong>Relevance:</strong> Borrow the semiprime dimensions, which are robust: Zenil found width 23 even with ~25% of bits flipped. <em>Avoid:</em> idiosyncratic numerals, dense biochemistry, no redundancy. <em>Note:</em> it is in LLMs&#39; training data, so the LLM test must avoid Arecibo-like surface features.</li>
 </ul>
 <h3>B2. Pioneer plaques (1972/73)</h3>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Pioneer_plaque">https://en.wikipedia.org/wiki/Pioneer_plaque</a></li>
-<li><strong>Summary:</strong> The hydrogen hyperfine transition defines units of length (<del>21 cm) and time (</del>0.7 ns). A pulsar map with 14 pulsars plus the galactic centre, with periods in hydrogen units.</li>
+<li><strong>Summary:</strong> The hydrogen hyperfine transition defines units of length (about 21 cm) and time (about 0.7 ns). A pulsar map with 14 pulsars plus the galactic centre, with periods in hydrogen units.</li>
 <li><strong>Relevance:</strong> Borrow the hydrogen unit and the overdetermined pulsar map. <em>Avoid:</em> mixed notation (<code>I</code>/<code>−</code> for binary), precision theatre (more digits than are actually known), and cultural icons (Gombrich&#39;s criticism of the arrow).</li>
 </ul>
 <h3>B3. Voyager Golden Record (1977)</h3>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Voyager_Golden_Record">https://en.wikipedia.org/wiki/Voyager_Golden_Record</a> ; <a href="https://www.pbs.org/the-farthest/science/pulsar-map">https://www.pbs.org/the-farthest/science/pulsar-map</a></li>
-<li><strong>Summary:</strong> The cover reuses the pulsar map and hydrogen unit, adds binary playback instructions and a calibration image (a circle) [detail unverified], and a uranium clock [unverified].</li>
+<li><strong>Summary:</strong> The cover reuses the pulsar map and hydrogen unit, adds binary playback instructions and a calibration image (a circle), and a uranium-238 clock.</li>
 <li><strong>Relevance:</strong> Borrow the <em>calibration image</em> before real images and the format instructions on the outermost layer. <em>Avoid:</em> analog dependence and pictorial conventions.</li>
 </ul>
 <hr>
@@ -132,14 +132,14 @@
 <ul>
 <li><strong>Palencia-Torres et al.</strong>, arXiv 2411.09790. <a href="https://ar5iv.labs.arxiv.org/html/2411.09790">https://ar5iv.labs.arxiv.org/html/2411.09790</a></li>
 <li><strong>Summary:</strong> FSK, a 37 × 149 grid, identical pre-phase and end-phase (primes, π). No error correction.</li>
-<li><strong>Relevance:</strong> Repeat the beacon as a terminator.</li>
+<li><strong>Relevance:</strong> identical opening and closing phases. We send no terminator: our beacon is sent once at the start, and in repeated sending it separates the copies.</li>
 </ul>
 <hr>
 <h2>D. Decodability testing and decoding research</h2>
-<h3>D1. SETI Decrypt Challenge (2017)</h3>
+<h3>D1. SETI Decrypt Challenge (2016)</h3>
 <ul>
-<li><strong>René Heller.</strong> <a href="https://arxiv.org/abs/1706.00653">https://arxiv.org/abs/1706.00653</a></li>
-<li><strong>Summary:</strong> About 1.9 Mbit (7 × 359 × 757 [partly confirmed]). More than 300 replies, 66 correct; about half were independent.</li>
+<li><strong>René Heller</strong> (paper 2017). <a href="https://arxiv.org/abs/1706.00653">https://arxiv.org/abs/1706.00653</a></li>
+<li><strong>Summary:</strong> 1,902,341 bits = 7 × 359 × 757. More than 300 replies, 66 correct; about half were independent.</li>
 <li><strong>Relevance:</strong> Use <em>specific graded questions</em>. Isolate test subjects; for us, fresh LLM sessions without web access.</li>
 </ul>
 <h3>D2. A Sign in Space (2023–2024)</h3>
@@ -150,7 +150,7 @@
 </ul>
 <h3>D3. Matessa: decoding algorithms</h3>
 <ul>
-<li><strong>Michael Matessa</strong>, <em>Acta Astronautica</em> [year unverified] and <em>JBIS</em> 75 (2022).</li>
+<li><strong>Michael Matessa</strong>, &quot;How to decode interstellar messages&quot;, <em>Acta Astronautica</em> [year unverified]; and &quot;Algorithms for Decoding Interstellar Messages&quot;, <em>JBIS</em> 75 (2022) 357–361.</li>
 <li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0094576521006263">https://www.sciencedirect.com/science/article/abs/pii/S0094576521006263</a> ; <a href="https://www.academia.edu/116342770/Algorithms_for_Decoding_Interstellar_Messages">https://www.academia.edu/116342770/Algorithms_for_Decoding_Interstellar_Messages</a></li>
 <li><strong>Summary:</strong> Three stages: find the dimensions (helped by primes); classify symbols as delimiters, values, relations and functions; assign meaning with meta-algorithms that track hypotheses. Implemented in Lisp.</li>
 <li><strong>Relevance:</strong> Build our own <em>symbolic, non-LLM decoder baseline</em>. It has no training-data contamination.</li>
@@ -163,7 +163,7 @@
 </ul>
 <h3>D5. LLM-based decoding tests</h3>
 <ul>
-<li><strong>No published study found.</strong> Our planned LLM blind test appears to be <strong>novel</strong>. Design it against contamination: a randomised codeword mapping per trial, no English or ASCII leakage, and control messages that are scrambled or false.</li>
+<li><strong>No published study found.</strong> Our LLM blind test, since run (see <a href="blind-tests.html">blind tests</a>), appears to be <strong>novel</strong>. The survey recommended designing it against contamination: a randomised codeword mapping per trial, no English or ASCII leakage, and control messages that are scrambled or false.</li>
 </ul>
 <hr>
 <h2>E. Related fields</h2>
@@ -196,7 +196,7 @@
 <tr>
 <td>Astraglossa</td>
 <td>Radio pulses (theoretical)</td>
-<td>Short = numbers, long = operators</td>
+<td>Dashes = numbers, flashes = operators</td>
 <td>None</td>
 <td>Minimal</td>
 <td>No</td>
@@ -207,7 +207,7 @@
 <td>Prime factors, pictures</td>
 <td>None</td>
 <td>No</td>
-<td>Informal; experts largely failed</td>
+<td>No; an informal test of Drake&#39;s 1961 prototype: most experts failed</td>
 </tr>
 <tr>
 <td>Pioneer (1972)</td>
@@ -298,7 +298,7 @@
 <td>No</td>
 </tr>
 <tr>
-<td>SETI Decrypt (2017)</td>
+<td>SETI Decrypt (2016)</td>
 <td>~1.9 Mbit frames</td>
 <td>Configuration frame, maths, images</td>
 <td>None</td>
@@ -340,17 +340,18 @@
 </tbody></table>
 <hr>
 <h2>2. Key lessons for our design</h2>
+<p>These are the survey&#39;s recommendations as written on 2026-11-16, before the design was settled; what was adopted is in the <a href="specification.html">specification</a>.</p>
 <ol>
-<li><strong>Beacon:</strong> a prime beacon at the start, <em>repeated as a terminator</em> at the end, plus a fully predictable <em>calibration block</em> (word width, bit order, polarity). Validator: an autocorrelation detector must recover the word width at 10–25% bit errors.</li>
+<li><strong>Beacon:</strong> a prime beacon at the start (the project later decided against a terminator: in repeated sending the beacon separates the copies), plus a fully predictable <em>calibration block</em> (word width, bit order, polarity). Validator: an autocorrelation detector must recover the word width at 10–25% bit errors.</li>
 <li><strong>Codebook distance:</strong> guarantee a minimum Hamming distance between all symbol codes, not just per-word parity. Measure the probability of silently decoding to a different valid symbol.</li>
 <li><strong>Interleave the copies:</strong> plain triple repetition fails against bursts that hit the same position in every copy. Permute or invert copies 2 and 3. Test bursts and periodic interference.</li>
 <li><strong>Teach the error code later:</strong> the early layers must be readable while ignoring the check bits. Later, state the Hamming equations as checkable sentences. Optionally follow with Reed–Solomon whose decoder is written in DEF/λ.</li>
 <li><strong>Arity must be explicit:</strong> encode it in the type bits, or use parentheses. The validator proves that every sentence has exactly one parse.</li>
-<li><strong>Machine-check every statement</strong>, including significant figures against CODATA. Teach ≠ and FALSE with explicit counterexamples.</li>
-<li><strong>Explicit symbol introduction:</strong> a NEW marker plus ≥k examples before free use. The bootstrap validator enforces this.</li>
+<li><strong>Machine-check every statement</strong>, including significant figures against CODATA. Teach ≠ and <data value="false">false</data> with explicit counterexamples.</li>
+<li><strong>Explicit symbol introduction:</strong> a NEW marker plus ≥<var>k</var> examples before free use. The bootstrap validator enforces this.</li>
 <li><strong>Symbolic decoder baseline (Matessa)</strong> with no LLM involved.</li>
 <li><strong>LLM blind test:</strong> randomised mapping per trial, graded questions per layer, control messages, and separate scores for extraction, decoding and interpretation.</li>
-<li><strong>Rasters:</strong> a calibration raster first, w and h given as numbers before each raster, no mixed notation, no arrows or cultural icons.</li>
+<li><strong>Rasters:</strong> a calibration raster first, <var>w</var> and <var>h</var> given as numbers before each raster, no mixed notation, no arrows or cultural icons.</li>
 <li><strong>Physical units:</strong> two independent anchors (hydrogen line, plus atom counts and phase changes of water), cross-linked with dimensionless constants, and a &quot;cosmic clock&quot; check.</li>
 <li><strong>Pulsar map:</strong> ≥10 pulsars, periods in hydrogen units, period derivatives for dating, expressed in mathematical notation rather than a drawing.</li>
 <li><strong>Chemistry:</strong> elements as proton counts first, molecules as graphs in the set layer, rasters last.</li>
@@ -363,7 +364,7 @@
 <p><strong>Historic messages:</strong> <a href="https://www.scientificamerican.com/article/can-you-decode-an-alien-message/">https://www.scientificamerican.com/article/can-you-decode-an-alien-message/</a> · <a href="https://www.scientificamerican.com/article/the-arecibo-message-earths-first-interstellar-transmission-turns-50/">https://www.scientificamerican.com/article/the-arecibo-message-earths-first-interstellar-transmission-turns-50/</a> · <a href="https://en.wikipedia.org/wiki/Pioneer_plaque">https://en.wikipedia.org/wiki/Pioneer_plaque</a> · <a href="https://en.wikipedia.org/wiki/Voyager_Golden_Record">https://en.wikipedia.org/wiki/Voyager_Golden_Record</a> · <a href="https://www.pbs.org/the-farthest/science/pulsar-map">https://www.pbs.org/the-farthest/science/pulsar-map</a> · <a href="https://johnstonsarchive.net/astro/pulsarmap.html">https://johnstonsarchive.net/astro/pulsarmap.html</a> · <a href="https://en.wikipedia.org/wiki/Cosmic_Call">https://en.wikipedia.org/wiki/Cosmic_Call</a> · <a href="https://blog.plover.com/aliens/dd/p00.html">https://blog.plover.com/aliens/dd/p00.html</a> · <a href="https://michaelchorost.com/2024/07/19/will-extraterrestrials-understand-a-message-we-send/">https://michaelchorost.com/2024/07/19/will-extraterrestrials-understand-a-message-we-send/</a> · <a href="https://plus.maths.org/content/oops">https://plus.maths.org/content/oops</a> · <a href="https://www.smithsonianmag.com/science-nature/annotated-cosmic-call-primer-180960566/">https://www.smithsonianmag.com/science-nature/annotated-cosmic-call-primer-180960566/</a> · <a href="https://en.wikipedia.org/wiki/Teen_Age_Message">https://en.wikipedia.org/wiki/Teen_Age_Message</a> · <a href="https://www.universetoday.com/articles/messages-from-earth-beamed-to-alien-world">https://www.universetoday.com/articles/messages-from-earth-beamed-to-alien-world</a> · <a href="https://www.scientificamerican.com/blog/basic-space/good-morning-gliese-526-the-earth-says-hello/">https://www.scientificamerican.com/blog/basic-space/good-morning-gliese-526-the-earth-says-hello/</a> · <a href="https://www.scientificamerican.com/blog/observations/new-keys-to-help-extraterrestrials-unlock-our-messages/">https://www.scientificamerican.com/blog/observations/new-keys-to-help-extraterrestrials-unlock-our-messages/</a> · <a href="https://www.universetoday.com/articles/language-cosmos-hello-gj273b">https://www.universetoday.com/articles/language-cosmos-hello-gj273b</a> · <a href="https://arxiv.org/abs/2203.04288v2">https://arxiv.org/abs/2203.04288v2</a> · <a href="https://ar5iv.labs.arxiv.org/html/2411.09790">https://ar5iv.labs.arxiv.org/html/2411.09790</a></p>
 <p><strong>Decodability:</strong> <a href="https://arxiv.org/abs/0911.3976">https://arxiv.org/abs/0911.3976</a> · <a href="https://arxiv.org/abs/1706.00653">https://arxiv.org/abs/1706.00653</a> · <a href="https://www.sciencedirect.com/science/article/abs/pii/S0094576521006263">https://www.sciencedirect.com/science/article/abs/pii/S0094576521006263</a> · <a href="https://www.academia.edu/116342770/Algorithms_for_Decoding_Interstellar_Messages">https://www.academia.edu/116342770/Algorithms_for_Decoding_Interstellar_Messages</a> · <a href="https://arxiv.org/abs/2303.16045">https://arxiv.org/abs/2303.16045</a> · <a href="https://arxiv.org/abs/2405.07803">https://arxiv.org/abs/2405.07803</a> · <a href="https://www.sciencenews.org/article/decode-arecibo-alien-message-math">https://www.sciencenews.org/article/decode-arecibo-alien-message-math</a> · <a href="https://www.space.com/alien-signal-mars-decoded-esa-exomars">https://www.space.com/alien-signal-mars-decoded-esa-exomars</a></p>
 <p><strong>Related fields:</strong> <a href="https://en.wikipedia.org/wiki/Ray_cat">https://en.wikipedia.org/wiki/Ray_cat</a> · <a href="https://www.osti.gov/servlets/purl/5789311">https://www.osti.gov/servlets/purl/5789311</a> · <a href="https://rosettaproject.org/disk/concept/">https://rosettaproject.org/disk/concept/</a> · <a href="https://en.wikipedia.org/wiki/Rosetta_Project">https://en.wikipedia.org/wiki/Rosetta_Project</a></p>
-<p><strong>Unverified / from background knowledge:</strong> Freudenthal&#39;s publisher details, Hogben&#39;s dates, <em>Murmurs of Earth</em> (1978), the details of Voyager&#39;s calibration circle, the exact bit count of Heller&#39;s message, Lone Signal&#39;s site and FEC, Beacon in the Galaxy&#39;s encoding details, the year of Matessa&#39;s <em>Acta Astronautica</em> paper, and CosmicOS&#39;s <code>intro</code> mechanism.</p>
+<p><strong>Unverified / from background knowledge:</strong> <em>Murmurs of Earth</em> (1978), Lone Signal&#39;s site and FEC, Beacon in the Galaxy&#39;s encoding details, the year of Matessa&#39;s <em>Acta Astronautica</em> paper, and CosmicOS&#39;s <code>intro</code> mechanism.</p>
 
 
 <section id="physics">
@@ -398,7 +399,7 @@
 <li><strong>Path to us:</strong> the human figure, population (~4.3×10⁹, given without a timestamp), the Solar System with Earth offset, and the telescope.</li>
 <li><strong>Uncertainty:</strong> none; every value is a bare integer.</li>
 <li><strong>Criticisms:</strong> many prior assumptions (the 73×23 grid, a pictorial reading); the genome figure is wrong; it was a technology demonstration. Automated tests disagree on whether the frame can even be recovered. Source: <a href="https://en.wikipedia.org/wiki/Arecibo_message">https://en.wikipedia.org/wiki/Arecibo_message</a></li>
-<li>Drake&#39;s informal test-decodings (colleagues mostly failed to decode the whole thing) are [unverified].</li>
+<li>Drake&#39;s informal test-decodings of his 1961 prototype (colleagues mostly failed to decode the whole thing) are [unverified].</li>
 </ul>
 <h4>Pioneer plaque (1972–73) and Voyager record cover (1977)</h4>
 <ul>
@@ -414,7 +415,7 @@
 <ul>
 <li><p><strong>p03 (notation):</strong> scientific notation and powers of ten. √2 is written as <code>1.414…</code> with a plain &quot;=&quot; and an ellipsis. <strong>There is no &quot;approximately&quot; symbol anywhere.</strong></p>
 </li>
-<li><p><strong>p06 (first physics, chemistry):</strong> pictures of hydrogen (p+e) and helium; glyphs for proton, neutron, electron, mass and charge. Then m_p = 1836 m_e, q_p = −q_e, m_n ≈ 1.00138 m_p, q_n = 0, and eight more elements by proton and neutron counts. Dominus: the dimensionless 1836 is the clearest anchor, while charges of 0/±1 &quot;could mean many things&quot;.</p>
+<li><p><strong>p06 (first physics, chemistry):</strong> pictures of hydrogen (p+e) and helium; glyphs for proton, neutron, electron, mass and charge. Then m<sub>p</sub> = 1836 m<sub>e</sub>, q<sub>p</sub> = −q<sub>e</sub>, m<sub>n</sub> ≈ 1.00138 m<sub>p</sub>, q<sub>n</sub> = 0, and eight more elements by proton and neutron counts. Dominus: the dimensionless 1836 is the clearest anchor, while charges of 0/±1 &quot;could mean many things&quot;.</p>
 </li>
 <li><p><strong>p07 (mass):</strong> an isotope table, then the <strong>kilogram defined via the number of ¹²C atoms (Avogadro)</strong>. Errors:</p>
 <ul>
@@ -429,7 +430,7 @@
 </li>
 <li><p><strong>p09:</strong> derived units (N, J, Pa, W, velocity, acceleration), Planck&#39;s constant h, gravitational constant G. Notation for inverse units is inconsistent.</p>
 </li>
-<li><p><strong>p10 (temperature):</strong> a water heating curve with 273 K / 373 K at 101 300 Pa. Criticisms: the kelvin is defined by the triple point, not standard pressure; the x-axis is labelled &quot;time&quot; when it should be energy; Earth&#39;s atmospheric pressure is assumed known.</p>
+<li><p><strong>p10 (temperature):</strong> a water heating curve with 273 K / 373 K at 101 300 Pa. Criticisms: the kelvin was then defined by the triple point of water (until 2019), not by standard pressure; the x-axis is labelled &quot;time&quot; when it should be energy; Earth&#39;s atmospheric pressure is assumed known.</p>
 </li>
 <li><p><strong>p11–14:</strong> Sun and Jupiter; Earth–Moon; year, month and day; ages of Sun and Earth; terrain and atmosphere composition; g.</p>
 </li>
@@ -444,7 +445,7 @@
 <li><p><strong>Decodability:</strong> Dominus decoded it in &quot;a happy couple of hours&quot; (as a human who already knows what humans are). In Busch&#39;s test the format itself was &quot;trivial&quot; to crack, but that says nothing about the semantics.</p>
 </li>
 </ul>
-<h4>Sónar Calling GJ 273b (2017; METI tutorial led by Vakoch)</h4>
+<h4>Sónar Calling GJ 273b (2017; METI tutorial by Vakoch, Matessa and others)</h4>
 <ul>
 <li><strong>Approach:</strong> &quot;We explain time through pulses that have a clearly defined duration.&quot; Radio frequency is explained by pointing at the two frequencies the transmission actually uses. The mathematics climbs counting → arithmetic → Pythagorean triples → trigonometry → division → sine waves → radio waves themselves. Each day&#39;s tutorial was sent three times so the receiver can take a 2-of-3 vote.</li>
 <li><strong>Path to us:</strong> then the transmitter becomes &quot;a musical instrument&quot;: tones at mathematically precise intervals introduce melody, followed by 10-second music pieces.</li>
@@ -462,7 +463,7 @@
 <h4>Busch&#39;s language (2009 blind test; Lone Signal 2013)</h4>
 <ul>
 <li><strong>Format:</strong> an 8-quad-word symbolic language (delimiters, =, ≠, integers, variables, floating point, e, π, i, quadratic formula). It is the closest relative of our design.</li>
-<li><strong>The bridge:</strong> <strong>dimensionless constants</strong> (fine-structure constant α, gravitational coupling constant, m_p/m_e, m_n/m_e), then <strong>Planck units</strong> defined by formulas relating them. The proton, neutron and electron are nouns defined by property bundles (mass, charge, charge radius). Then a chart of nuclides with masses and proton, neutron and electron counts, plus hydrogen&#39;s radius, binding energies and spectral lines. Then molecules.</li>
+<li><strong>The bridge:</strong> <strong>dimensionless constants</strong> (fine-structure constant α, gravitational coupling constant, m<sub>p</sub>/m<sub>e</sub>, m<sub>n</sub>/m<sub>e</sub>), then <strong>Planck units</strong> defined by formulas relating them. The proton, neutron and electron are nouns defined by property bundles (mass, charge, charge radius). Then a chart of nuclides with masses and proton, neutron and electron counts, plus hydrogen&#39;s radius, binding energies and spectral lines. Then molecules.</li>
 <li><strong>Path to us, entirely by definite descriptions:</strong><ul>
 <li>The <strong>Sun</strong> is a noun with mass 1.989e30 kg, 5778 K, radius 6.955e8 m, power 3.846e26 W and an isotopic composition. The receiver can check all of this against the star the signal comes from.</li>
 <li>The <strong>planets</strong> come with masses, radii and Kepler-consistent orbits.</li>
@@ -478,7 +479,7 @@
 <li><strong>Path:</strong> lambda-calculus mathematics → π, e, i, Euler → Turing machine → objects → <strong>a simulated world of rooms, doors and an agent</strong> → section X, &quot;Physics&quot;, which covers particles and elements and then logic gates, a cellular signal field, oscillators and an SR latch → a clocked World with an autonomous agent. Sources: <a href="https://cosmicos.github.io/">https://cosmicos.github.io/</a> and <a href="https://github.com/paulfitz/cosmicos">https://github.com/paulfitz/cosmicos</a></li>
 <li><strong>Physics section (<code>msg/COS_Element.js</code>, read directly):</strong><ul>
 <li>Absolute particle masses are wrapped in <code>assume</code> and are, in the source&#39;s own words, &quot;not included in the message, since they are unit-specific. The message will only present ratios.&quot;</li>
-<li>Statements like <code>float:= (proton mass) (* (electron mass) 1836.15267)</code> follow, with m_n/m_p = 1.0013784 and charges ±1/0.</li>
+<li>Statements like <code>float:= (proton mass) (* (electron mass) 1836.15267)</code> follow, with m<sub>n</sub>/m<sub>p</sub> = 1.0013784 and charges ±1/0.</li>
 <li>Then <code>atom</code> built from Z and A; elements with isotope lists; molecules (H₂, O₂, O₃, H₂O, NH₃, CH₄ …) as count statements.</li>
 <li>The section credits Busch&#39;s DearET message as inspiration.</li>
 </ul>
@@ -512,7 +513,7 @@
 </ul>
 <h4>Others</h4>
 <ul>
-<li><strong>Ollongren</strong> (<em>Lingua Cosmica</em> / LINGOS, constructive logic in Coq; &quot;self-interpretation&quot;): the logic side only. Physics is not developed as far as found. Source: <a href="https://core-prod.cambridgecore.org/core/services/aop-cambridge-core/content/view/B28B64B2A65E5DE20567C0114022CB41/S0074180900193787a.pdf/largesize_message_construction_for_eti_selfinterpretation_in_lincos.pdf">https://core-prod.cambridgecore.org/core/services/aop-cambridge-core/content/view/B28B64B2A65E5DE20567C0114022CB41/S0074180900193787a.pdf/largesize_message_construction_for_eti_selfinterpretation_in_lincos.pdf</a></li>
+<li><strong>Ollongren</strong> (<em>Lingua Cosmica</em> / LINGOS, constructive logic in Coq; &quot;self-interpretation&quot;): the logic side only. Physics is not developed as far as found. Source: Ollongren and Vakoch, &quot;Large-size message construction for ETI: self-interpretation in LINCOS&quot; (IAU Symposium 213, 2002), <a href="https://www.cambridge.org/core/journals/symposium-international-astronomical-union/article/largesize-message-construction-for-eti-selfinterpretation-in-lincos/B28B64B2A65E5DE20567C0114022CB41">https://www.cambridge.org/core/journals/symposium-international-astronomical-union/article/largesize-message-construction-for-eti-selfinterpretation-in-lincos/B28B64B2A65E5DE20567C0114022CB41</a></li>
 <li><strong>Vakoch:</strong><ul>
 <li>Pictures are conventional (&quot;The conventionality of pictorial representation&quot;, <em>Acta Astronautica</em> 46, 2000).</li>
 <li>The form of the signal should iconically carry its content (as in Sónar).</li>
@@ -531,7 +532,7 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>A. Dimensionless fingerprints</strong> (m_p/m_e, α, hydrogen level ratios 3/4, 8/9, 15/16, α_G)</td>
+<td><strong>A. Dimensionless fingerprints</strong> (m<sub>p</sub>/m<sub>e</sub>, α, hydrogen level ratios 3/4, 8/9, 15/16, α<sub>G</sub>)</td>
 <td>Busch, CosmicOS, Dutil–Dumas p06/p08</td>
 <td>Unit-free, so universal. Pure numbers fit a mathematics-only language. Distinctive (1836.15… is hard to mistake).</td>
 <td>The receiver must already know physics and must <em>search</em> for a match. Busch&#39;s decoder found this the hardest step. Says nothing about scale.</td>
@@ -632,7 +633,7 @@
 </tr>
 <tr>
 <td>Dutil–Dumas, Cosmic Call (1999)</td>
-<td>p, n, e; H/He atoms; m_p/m_e = 1836</td>
+<td>p, n, e; H/He atoms; m<sub>p</sub>/m<sub>e</sub> = 1836</td>
 <td>Pictures + dimensionless numbers + Hα + medium</td>
 <td>kg via ¹²C/Avogadro (exponent wrong); m and s via Hα λ, ν and c; K via water</td>
 <td>Truncated decimals with &quot;=&quot;; &quot;…&quot;; no ≈ symbol</td>
@@ -653,7 +654,7 @@
 </tr>
 <tr>
 <td>Busch (2009/2013)</td>
-<td>α, α_G, m_p/m_e, m_n/m_e</td>
+<td>α, α<sub>G</sub>, m<sub>p</sub>/m<sub>e</sub>, m<sub>n</sub>/m<sub>e</sub></td>
 <td>Dimensionless numbers → Planck units; Sun/Earth as descriptions; Doppler</td>
 <td>Planck units via formulas</td>
 <td>Floating point; implicit only</td>
@@ -666,7 +667,7 @@
 <td><code>float:=</code> with relative tolerance 1/200000</td>
 </tr>
 <tr>
-<td>McConnell (2001–04)</td>
+<td>McConnell (2001–21)</td>
 <td>Gravity as N-body program</td>
 <td>Simulation</td>
 <td>Implicit in initial conditions</td>
@@ -681,7 +682,7 @@
 </tr>
 <tr>
 <td>Last Arecibo (2024)</td>
-<td>π, e, c, h, k_B as numbers</td>
+<td>π, e, c, h, k<sub>B</sub> as numbers</td>
 <td>Constants as numbers + medium</td>
 <td>Carrier λ = 0.1259632176 m; light-years</td>
 <td>None; rational approximants used as values</td>
@@ -695,13 +696,13 @@
 </li>
 <li><p><strong>&quot;Never false&quot; means intervals, not &quot;=&quot;.</strong> Every earlier project wrote approximations with &quot;=&quot; (Dutil–Dumas&#39;s <code>√2 = 1.414…</code>, Last Arecibo&#39;s π = 52163/16604). Write measured values as ℚ bounds wide enough to stay true under CODATA uncertainty and future revisions. Bounds are exactly checkable with ℚ and <code>&lt;</code>. This also <em>teaches</em> that measurement is uncertain.</p>
 </li>
-<li><p><strong>Lead with the exact mathematical fingerprint.</strong> Hydrogen levels 1 − 1/n² (giving 3/4, 8/9, 15/16 …) and line ratios like (1/4 − 1/9)/(1 − 1/4) = 5/27 are exact rationals that can be stated and proved. Then add one observed statement: &quot;the bound on hydrogen&#39;s measured line ratio contains 5/27&quot;. Use m_p/m_e and α only as bounded fingerprints. Do not rely on Planck-unit gymnastics: Busch&#39;s decoder found that step hardest.</p>
+<li><p><strong>Lead with the exact mathematical fingerprint.</strong> Hydrogen levels 1 − 1/n² (giving 3/4, 8/9, 15/16 …) and line ratios like (1/4 − 1/9)/(1 − 1/4) = 5/27 are exact rationals that can be stated and proved. Then add one observed statement: &quot;the bound on hydrogen&#39;s measured line ratio contains 5/27&quot;. Use m<sub>p</sub>/m<sub>e</sub> and α only as bounded fingerprints. Do not rely on Planck-unit gymnastics: Busch&#39;s decoder found that step hardest.</p>
 </li>
 <li><p><strong>Take absolute scale from the medium, then tie it to hydrogen.</strong> The message still travels as a physical signal, so <code>tick</code> can be the bit period and <code>carrier</code> the transmitted frequency (Lincos, Arecibo, Sónar). Then give bounded ratios such as carrier/21 cm-line frequency or tick × Hα frequency. That produces two independent anchors that cross-check each other. Avoid relying on a 21 cm picture (Pioneer) or on SI names. Plan for both anchors to be needed, because a relayed or re-encoded copy loses the medium.</p>
 </li>
 <li><p><strong>Add exact counting chemistry early: it is truth-safe and reaches biology.</strong> Proton and neutron counts and molecular formulas are integers, so statements about them are exactly true. Statements of the form (H₂O has 2 H and 1 O; DNA bases as atom counts) are what let Arecibo reach DNA in a few lines. Tuples/records and finite sets are needed first.</p>
 </li>
-<li><p><strong>Build redundancy that lets the receiver, and the build, catch errors.</strong> Uranium-208, Avogadro&#39;s exponent, Arecibo&#39;s genome figure and CosmicOS&#39;s oxygen-with-16-protons all passed review or machine checks because nothing contradicted them. Include cross-relations that must hold: λ·ν within the bounds for c; atomic mass ≈ Z·m_p + N·m_n − binding energy, within bounds; Kepler&#39;s third law for orbits. Generate all empirical bounds automatically from a reference dataset (CODATA, the nuclide tables) during the build rather than typing them by hand.</p>
+<li><p><strong>Build redundancy that lets the receiver, and the build, catch errors.</strong> Uranium-208, Avogadro&#39;s exponent, Arecibo&#39;s genome figure and CosmicOS&#39;s oxygen-with-16-protons all passed review or machine checks because nothing contradicted them. Include cross-relations that must hold: λ·ν within the bounds for c; atomic mass ≈ <var>Z</var>·m<sub>p</sub> + <var>N</var>·m<sub>n</sub> − binding energy, within bounds; Kepler&#39;s third law for orbits. Generate all empirical bounds automatically from a reference dataset (CODATA, the nuclide tables) during the build rather than typing them by hand.</p>
 </li>
 <li><p><strong>Timestamp anything that changes.</strong> Population, Earth&#39;s rotation, pulsar periods and &quot;now&quot; all drift. Phrase such statements relative to an epoch the message defines, with bounds, and note that values change over time. Voyager&#39;s U-238 and Pioneer&#39;s pulsar spin-down show the value of a physical clock. In symbols, the hydrogen-referenced tick plus a stated count since a defined event is the analogue.</p>
 </li>
@@ -831,7 +832,7 @@
 </tr>
 </tbody></table>
 <h4>Example Lincos sentences</h4>
-<p><strong>A. Correct versus acceptable answers</strong> (Wikipedia, partly tagged &quot;citation needed&quot;): Ha asks Hb for x in 2x=5. Hb answers 5/2, and Ha says Ben. Ha asks for x in 4x=10. Hb answers 10/4, and Ha says <strong>Mal</strong>: the answer is true but not in lowest terms. Hb answers 1/4 (Mal), then 5/2 (Ben). In a meta-question, Hb asks Hc who asked for x in 4x=10, and Hc answers &quot;Ha&quot;.</p>
+<p><strong>A. Correct versus acceptable answers</strong> (Wikipedia, partly tagged &quot;citation needed&quot;): Ha asks Hb for <var>x</var> in 2<var>x</var> = 5. Hb answers 5/2, and Ha says Ben. Ha asks for <var>x</var> in 4<var>x</var> = 10. Hb answers 10/4, and Ha says <strong>Mal</strong>: the answer is true but not in lowest terms. Hb answers 1/4 (Mal), then 5/2 (Ben). In a meta-question, Hb asks Hc who asked for <var>x</var> in 4<var>x</var> = 10, and Hc answers &quot;Ha&quot;.</p>
 <p><strong>B. Separating truth from goodness</strong> (Latronico, quoting Freudenthal):</p>
 <pre><code>Ha Inq Hb. ?x.. x=100+1                         How much is 100+1?
 t1 Hb Inq Ha. 100+1 t2                           It is 100+1.
@@ -1032,7 +1033,7 @@ Hb Inq Ha Qia t1t2 Hb Ani ℵ#                     Because I perceived it.
 <li><strong>DeVito &amp; Oehrle</strong>, &quot;A language based on the fundamental facts of science&quot; (<em>JBIS</em> 1990). Science-only content, no values [from memory].</li>
 <li><strong>Brian McConnell</strong>, <em>Beyond Contact</em> (O&#39;Reilly 2001). Executable or algorithmic encodings [unverified detail].</li>
 <li><strong>Lemarchand &amp; Lomberg</strong>, &quot;Counting on Beauty&quot; (arXiv 0807.4518). Proposes aesthetic and <strong>ethical</strong> cognitive universals for message design.</li>
-<li><strong>Risk scales:</strong> the San Marino Scale (Almár 2005, revised 2006) rates transmissions from 0–10 by intensity plus content. The Rio Scale rates detections.</li>
+<li><strong>Risk scales:</strong> the San Marino Scale (Almár 2005, revised 2006) rates transmissions from 1 to 10 by intensity plus content. The Rio Scale rates detections.</li>
 <li><strong>METI risk debate:</strong><ul>
 <li>Ryle protested Arecibo in the 1970s [from memory].</li>
 <li>Brin, &quot;Shouting at the Cosmos&quot; and <em>JBIS</em> 67 (2014): conversation, patience, due diligence.</li>
@@ -1114,13 +1115,13 @@ Hb Inq Ha Qia t1t2 Hb Ani ℵ#                     Because I perceived it.
 <li><strong>Show cooperation as mathematics, not as a claim.</strong> A payoff matrix with exact integers, strategies as functions (always cooperate, always defect, Tit for Tat, a generous variant), and the <strong>computed</strong> outcome of an iterated tournament or population dynamics.</li>
 <li><strong>Let the message&#39;s own conduct be the evidence.</strong> The transmission is a costly gift of knowledge with no request attached; in Tit for Tat terms it is the opening cooperative move (Langston&#39;s and Harrison&#39;s framing). A patient, informative, perspicuous teaching posture also demonstrates good conduct by its own rules.</li>
 <li><strong>State intent as a scoped, honest self-report, following Vakoch&#39;s dialogic model.</strong> &quot;We come in peace&quot; cannot be verified and over-claims for all of humanity. Truthful forms: &quot;the senders of this message intend no harm&quot;, &quot;the senders choose cooperate as first move&quot;, and an admission of diversity (&quot;not all humans agree on all things&quot;), which makes the peace claim more credible. Define <code>honest</code> operationally first: an agent all of whose <code>says</code> events quote true propositions.</li>
-<li><strong>Treat promises as commitment plus visible fulfilment.</strong> Teach <code>promise</code> with a scene in which an agent says it will do X later and then does X. Promises about ourselves should be small and fulfillable inside the message (&quot;after section k, we answer question q&quot;), giving a demonstrable track record.</li>
+<li><strong>Treat promises as commitment plus visible fulfilment.</strong> Teach <code>promise</code> with a scene in which an agent says it will do <var>X</var> later and then does <var>X</var>. Promises about ourselves should be small and fulfillable inside the message (&quot;after section <var>k</var>, we answer question <var>q</var>&quot;), giving a demonstrable track record.</li>
 <li><strong>Avoid looking weak or threatening.</strong> A stated retaliation rule can read as a threat; generous Tit for Tat shows conditional cooperation without menace. Do not describe capabilities, weapons or power, and do not beg or invite visits. Raybeck (predator–prey) and Brin argue that over-eager signalling invites exploitation: keep the tone of peer reciprocity.</li>
 <li><strong>Keep peace content separate from location, and make questions to the receiver well-formed.</strong> Earlier messages paired goodwill with location. Unlike Cosmic Call p. 23, give every question an answer template, ask about shared mathematics and physics rather than their planet, keep one glyph to one meaning, and show a sample question answered first.</li>
 </ol>
 <p><strong>Process recommendation:</strong> test the section on naive decoders before finalising. Latronico&#39;s main warning is that each normative step depends on the receiver charitably revising its beliefs; testing shows where that charity breaks.</p>
 <h3>G5. Bibliography</h3>
-<p><strong>Lincos and commentary:</strong> <a href="https://en.wikipedia.org/wiki/Lincos_language">https://en.wikipedia.org/wiki/Lincos_language</a> · Latronico (2008), <a href="https://www.ledonline.it/acme/allegati/Acme-08-I-09-Latronico.pdf">https://www.ledonline.it/acme/allegati/Acme-08-I-09-Latronico.pdf</a> · <a href="https://xenology.info/Xeno/24.2.4.htm">https://xenology.info/Xeno/24.2.4.htm</a> · <a href="https://monoskop.org/log/?p=17877">https://monoskop.org/log/?p=17877</a> (403) · <a href="https://www.openculture.com/2016/12/discover-lincos.html">https://www.openculture.com/2016/12/discover-lincos.html</a> · <a href="https://philpapers.org/rec/FRELDO-2">https://philpapers.org/rec/FRELDO-2</a> · <a href="https://en.wikipedia.org/wiki/Astrolinguistics">https://en.wikipedia.org/wiki/Astrolinguistics</a> · <a href="https://www.universiteitleiden.nl/en/research/research-output/science/astrolinguistics">https://www.universiteitleiden.nl/en/research/research-output/science/astrolinguistics</a> · <a href="https://cosmicos.github.io/">https://cosmicos.github.io/</a> · <a href="https://github.com/paulfitz/cosmicos">https://github.com/paulfitz/cosmicos</a></p>
+<p><strong>Lincos and commentary:</strong> <a href="https://en.wikipedia.org/wiki/Lincos_language">https://en.wikipedia.org/wiki/Lincos_language</a> · Latronico (2008), <a href="https://www.ledonline.it/acme/allegati/Acme-08-I-09-Latronico.pdf">https://www.ledonline.it/acme/allegati/Acme-08-I-09-Latronico.pdf</a> · <a href="https://xenology.info/Xeno/24.2.4.htm">https://xenology.info/Xeno/24.2.4.htm</a> · Monoskop, https://monoskop.org/log/?p=17877 (returned 403) ·<a href="https://www.openculture.com/2016/12/discover-lincos.html">https://www.openculture.com/2016/12/discover-lincos.html</a> · <a href="https://philpapers.org/rec/FRELDO-2">https://philpapers.org/rec/FRELDO-2</a> · <a href="https://en.wikipedia.org/wiki/Astrolinguistics">https://en.wikipedia.org/wiki/Astrolinguistics</a> · <a href="https://www.universiteitleiden.nl/en/research/research-output/science/astrolinguistics">https://www.universiteitleiden.nl/en/research/research-output/science/astrolinguistics</a> · <a href="https://cosmicos.github.io/">https://cosmicos.github.io/</a> · <a href="https://github.com/paulfitz/cosmicos">https://github.com/paulfitz/cosmicos</a></p>
 <p><strong>Vakoch and related:</strong> <a href="https://doi.org/10.1016/j.actaastro.2009.12.012">https://doi.org/10.1016/j.actaastro.2009.12.012</a> · <a href="https://doi.org/10.1016/S0094-5765(98)00029-0">https://doi.org/10.1016/S0094-5765(98)00029-0</a> · <a href="https://doi.org/10.1016/S0094-5765(98)00030-7">https://doi.org/10.1016/S0094-5765(98)00030-7</a> · <a href="https://link.springer.com/book/10.1007/978-3-642-37750-1">https://link.springer.com/book/10.1007/978-3-642-37750-1</a> · <a href="https://doi.org/10.1007/978-3-642-37750-1_16">https://doi.org/10.1007/978-3-642-37750-1_16</a> · <a href="https://greatergood.berkeley.edu/article/item/alien_kindness">https://greatergood.berkeley.edu/article/item/alien_kindness</a> · <a href="https://www.nasa.gov/wp-content/uploads/2015/01/archaeology_anthropology_and_interstellar_communication_tagged.pdf">https://www.nasa.gov/wp-content/uploads/2015/01/archaeology_anthropology_and_interstellar_communication_tagged.pdf</a> · <a href="https://www.berghahnbooks.com/blog/a-new-model-for-interstellar-communication">https://www.berghahnbooks.com/blog/a-new-model-for-interstellar-communication</a> · <a href="https://doi.org/10.48550/arxiv.0807.4518">https://doi.org/10.48550/arxiv.0807.4518</a> · <a href="https://doi.org/10.1016/j.actaastro.2010.10.012">https://doi.org/10.1016/j.actaastro.2010.10.012</a> · <a href="https://www.cato-unbound.org/2014/12/08/douglas-vakoch/importance-active-seti">https://www.cato-unbound.org/2014/12/08/douglas-vakoch/importance-active-seti</a> · <a href="https://davidbrin.com/nonfiction/shouldsetitransmit.html">https://davidbrin.com/nonfiction/shouldsetitransmit.html</a> · <a href="https://davidbrin.com/nonfiction/meti.html">https://davidbrin.com/nonfiction/meti.html</a> · <a href="https://setiathome.berkeley.edu/meti_statement_0.html">https://setiathome.berkeley.edu/meti_statement_0.html</a> · <a href="https://www.ieti.org/articles/sanmarin.pdf">https://www.ieti.org/articles/sanmarin.pdf</a> · <a href="https://en.wikipedia.org/wiki/San_Marino_Scale">https://en.wikipedia.org/wiki/San_Marino_Scale</a></p>
 <p><strong>Sent messages:</strong> <a href="https://en.wikipedia.org/wiki/Cosmic_Call">https://en.wikipedia.org/wiki/Cosmic_Call</a> · <a href="https://blog.plover.com/aliens/dd/intro.html">https://blog.plover.com/aliens/dd/intro.html</a> · <a href="https://blog.plover.com/aliens/dd/p21.html">https://blog.plover.com/aliens/dd/p21.html</a> · <a href="https://blog.plover.com/aliens/dd/p23.html">https://blog.plover.com/aliens/dd/p23.html</a> · <a href="https://arxiv.org/abs/2203.04288v2">https://arxiv.org/abs/2203.04288v2</a> · <a href="https://seti.org/decoding-message-sign-space-year-long-journey">https://seti.org/decoding-message-sign-space-year-long-journey</a> · <a href="https://www.livescience.com/space/extraterrestrial-life/father-daughter-team-decodes-alien-signal-from-mars-that-stumped-the-world-for-a-year">https://www.livescience.com/space/extraterrestrial-life/father-daughter-team-decodes-alien-signal-from-mars-that-stumped-the-world-for-a-year</a></p>
 <p><strong>Not retrieved, cited from memory:</strong> Freudenthal 1960 original text; Vakoch&#39;s &quot;spiritual principles&quot; paper; Ruse 1985; DeVito &amp; Oehrle 1990; McConnell 2001; Gombrich&#39;s Pioneer critique; the Pioneer and Voyager official texts.</p>
