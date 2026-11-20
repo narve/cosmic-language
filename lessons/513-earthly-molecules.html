@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Earthly molecules · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson" data-topic="chemistry" data-optional>
+  <h3>earthly molecules</h3>
+  <p>The molecules of the lesson on common molecules are found all over the Galaxy. The ones here matter to us in particular: the air of our planet, and the molecules that life on it, and our own bodies, are built from and run on. Each is given by how many atoms of each element it contains. Like the common ones, they are made of hydrogen, carbon, nitrogen and oxygen only.</p>
+  <p>Our air is mostly two molecules, each made of two atoms of one element. Dinitrogen shares three pairs, dioxygen two. Free dioxygen is rare between the stars and reacts easily; on our planet it is made all the time by living things.</p>
+  <pre><code>
+; dinitrogen: two nitrogen atoms sharing three pairs
+(= (count nitrogen dinitrogen) 2)
+(= (atoms dinitrogen) (list nitrogen nitrogen))
+(= (bonds dinitrogen) (list (list 1 2 3)))
+; 14 electrons, as many as carbon monoxide
+(= (count electron dinitrogen) (count electron carbon-monoxide))
+
+; dioxygen: two oxygen atoms sharing two pairs
+(= (count oxygen dioxygen) 2)
+(= (atoms dioxygen) (list oxygen oxygen))
+(= (bonds dioxygen) (list (list 1 2 2)))
+(= (count electron dioxygen) 16)</code></pre>
+  <p>Glucose is the sugar that living things store and burn for energy. Glycine is the simplest of the amino acids, the building blocks of proteins.</p>
+  <pre><code>
+; glucose: 6 carbon, 12 hydrogen, 6 oxygen
+(= (count carbon glucose) 6)
+(= (count hydrogen glucose) 12)
+(= (count oxygen glucose) 6)
+(= (count nitrogen glucose) 0)
+
+; glycine: 2 carbon, 5 hydrogen, 1 nitrogen, 2 oxygen
+(= (count carbon glycine) 2)
+(= (count hydrogen glycine) 5)
+(= (count nitrogen glycine) 1)
+(= (count oxygen glycine) 2)</code></pre>
+  <p>The hereditary molecules of life here, DNA and RNA, are long chains that carry a message written in four letters. The letters are bases: adenine, thymine, guanine and cytosine in DNA; in RNA, uracil takes the place of thymine. Thymine is uracil with one carbon and two hydrogen more.</p>
+  <pre><code>
+; adenine: 5 carbon, 5 hydrogen, 5 nitrogen, and no oxygen
+(= (count carbon adenine) 5)
+(= (count hydrogen adenine) 5)
+(= (count nitrogen adenine) 5)
+(= (count oxygen adenine) 0)
+
+; thymine: 5 carbon, 6 hydrogen, 2 nitrogen, 2 oxygen
+(= (count carbon thymine) 5)
+(= (count hydrogen thymine) 6)
+(= (count nitrogen thymine) 2)
+(= (count oxygen thymine) 2)
+
+; guanine: 5 carbon, 5 hydrogen, 5 nitrogen, 1 oxygen
+(= (count carbon guanine) 5)
+(= (count hydrogen guanine) 5)
+(= (count nitrogen guanine) 5)
+(= (count oxygen guanine) 1)
+
+; cytosine: 4 carbon, 5 hydrogen, 3 nitrogen, 1 oxygen
+(= (count carbon cytosine) 4)
+(= (count hydrogen cytosine) 5)
+(= (count nitrogen cytosine) 3)
+(= (count oxygen cytosine) 1)
+
+; uracil: 4 carbon, 4 hydrogen, 2 nitrogen, 2 oxygen
+(= (count carbon uracil) 4)
+(= (count hydrogen uracil) 4)
+(= (count nitrogen uracil) 2)
+(= (count oxygen uracil) 2)
+
+; thymine has one carbon and two hydrogen more than uracil, and the
+; same nitrogen and oxygen
+(= (count carbon thymine) (+ (count carbon uracil) 1))
+(= (count hydrogen thymine) (+ (count hydrogen uracil) 2))
+(= (count nitrogen thymine) (count nitrogen uracil))
+(= (count oxygen thymine) (count oxygen uracil))</code></pre>
+  <p>Last, four small molecules of bodies like ours. Urea carries spare nitrogen out of the body. Dopamine, serotonin and adrenaline carry signals between the cells of our brains and bodies: they shape how we move, feel and act.</p>
+  <pre><code>
+; urea: 1 carbon, 4 hydrogen, 2 nitrogen, 1 oxygen
+(= (count carbon urea) 1)
+(= (count hydrogen urea) 4)
+(= (count nitrogen urea) 2)
+(= (count oxygen urea) 1)
+
+; dopamine: 8 carbon, 11 hydrogen, 1 nitrogen, 2 oxygen
+(= (count carbon dopamine) 8)
+(= (count hydrogen dopamine) 11)
+(= (count nitrogen dopamine) 1)
+(= (count oxygen dopamine) 2)
+
+; serotonin: 10 carbon, 12 hydrogen, 2 nitrogen, 1 oxygen
+(= (count carbon serotonin) 10)
+(= (count hydrogen serotonin) 12)
+(= (count nitrogen serotonin) 2)
+(= (count oxygen serotonin) 1)
+
+; adrenaline: 9 carbon, 13 hydrogen, 1 nitrogen, 3 oxygen
+(= (count carbon adrenaline) 9)
+(= (count hydrogen adrenaline) 13)
+(= (count nitrogen adrenaline) 1)
+(= (count oxygen adrenaline) 3)</code></pre>
+</article>
+</body>
+</html>
