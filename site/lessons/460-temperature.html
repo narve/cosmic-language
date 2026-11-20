@@ -11,7 +11,7 @@
 <body>
 <article class="lesson" data-topic="physics">
   <h3>temperature</h3>
-  <p>New: the dimension <code>Θ</code> (temperature), the constant <code>kB</code>, the domains <code>gases</code> (thin gases of single atoms) and <code>black-bodies</code> (bodies that absorb all light falling on them), and the functions <code>temperature</code>, <code>kinetic</code> (the average energy of motion of a gas's particles) and <code>radiance</code> (the power a body radiates per area). Again <code>kB</code> is introduced through a law:</p>
+  <p>New: the dimension <code>Θ</code> (temperature), the constant <code>kB</code>, the domains <code>gases</code> (thin gases of single atoms) and <code>black-bodies</code> (bodies that absorb all light falling on them), and the functions <code>temperature</code>, <code>kinetic</code> (the average energy of motion of a gas's particles) and <code>exitance</code> (the power a body radiates per area, its radiant exitance). Again <code>kB</code> is introduced through a law:</p>
   <pre><code>
 ; the law: the particles of a gas move with an average energy of
 ; 3/2 × kB × its temperature
@@ -29,22 +29,22 @@
 (observed (∀ u gases (= (temperature u) (÷ (× 2 (kinetic u)) (× 3 kB)))))</code></pre>
   <p>A black body radiates power that grows with the fourth power of its temperature. The factor in front is made only of constants the message has already introduced, and π²/60 is the signature of the spectrum of thermal light:</p>
   <pre><code>
-; the law: radiance = π²/60 × kB⁴ ÷ (ħ³ × c²) × temperature⁴
+; the law: exitance = π²/60 × kB⁴ ÷ (ħ³ × c²) × temperature⁴
 (observed (∀ u black-bodies
-  (= (radiance u)
+  (= (exitance u)
      (× (÷ (^ π 2) 60)
         (÷ (^ kB 4) (× (^ ħ 3) (^ c 2)))
         (^ (temperature u) 4)))))
 
-; the dimension of radiance, power per area: mass ÷ time³
-(∀ u black-bodies (= (dim (radiance u)) (÷ M (^ T 3))))
+; the dimension of exitance, power per area: mass ÷ time³
+(∀ u black-bodies (= (dim (exitance u)) (÷ M (^ T 3))))
 ; a black body's temperature is a temperature like that of a gas
 (∀ u black-bodies (= (dim (temperature u)) Θ))
 
 ; twice the temperature gives 2⁴ = 16 times the power
 (observed (∀ u black-bodies (∀ v black-bodies
   (implies (= (temperature u) (× 2 (temperature v)))
-           (= (radiance u) (× 16 (radiance v)))))))</code></pre>
+           (= (exitance u) (× 16 (exitance v)))))))</code></pre>
   <p>The Planck temperature completes the Planck units:</p>
   <pre><code>
 ; planck-temperature² = ħ × c⁵ ÷ (G × kB²)
