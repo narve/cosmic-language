@@ -65,7 +65,7 @@
   <ul>
     <li><strong>One claim beyond what is known.</strong> The message said that the antineutrino is not its own antiparticle; whether it is, is still open. The sentence has been removed.</li>
     <li><strong>Which way the game's scores point.</strong> "Whether the scores are costs or rewards is not fixed by the bits": the reader chose costs, and so read the first move as cooperation, on indirect evidence only.</li>
-    <li><strong>The ends of the background radiation's axes</strong> were again read as fixed "only up to sign", although the lesson on the Sun in the Galaxy now says which ends are meant.</li>
+    <li><strong>The ends of the background radiation's axes</strong> were read as fixed "only up to sign", although the lesson on the Sun in the Galaxy says which ends are meant.</li>
     <li><strong>Minor:</strong> the stable isotopes listed leave out <sup>17</sup>O and <sup>18</sup>O (not false, but not complete); adenine has no oxygen count; nothing labels the first numbers as primes.</li>
   </ul>
 </section>
@@ -74,7 +74,7 @@
   <h2>4. Caveats</h2>
   <ul>
     <li><strong>The reader is not an alien.</strong> It is a model trained on human writing, and it checked the physics against values it knows. The test shows that the message is consistent and can be decoded by a mind with human science, not by a mind without it.</li>
-    <li><strong>The chunk size was an experiment.</strong> The reader decoded the 11-bit version as well as earlier readers decoded the 8-bit one, so the chunk size makes little difference to a reader; the message stays at 8 bits, which is about 27 % shorter.</li>
+    <li><strong>The chunk size was an experiment.</strong> The reader decoded the 11-bit version without trouble, so the chunk size seems to make little difference to a reader; the message stays at 8 bits, which is about 27 % shorter.</li>
     <li><strong>No noise.</strong> The copies were exact; a real channel would add errors.</li>
     <li><strong>One run.</strong> Another run could go differently.</li>
     <li><strong>The message is a draft.</strong> It has changed since this run and will change again; this page is replaced when the test is run again.</li>
@@ -83,7 +83,7 @@
 
 <section id="rerun">
   <h2>5. Running the test again</h2>
-  <p>The task texts, the tool and the reader's full answer, with the code it ran, are in <a href="https://github.com/narve/cosmic-language/tree/main/build/check/blind"><code>build/check/blind/</code></a> in the repository. After <code>npm run build</code>, with Docker available, the command is <code>npm run --silent blind interpretation</code>. By default the message is sent five times, cut and inverted; <code>BLIND_REPEAT=1</code> sends it once, whole, and <code>BLIND_INVERT=0</code> keeps the bits as they are. <code>BLIND_MESSAGE=docs/decoy/message.bin</code> gives the reader the <a href="versions.html">decoy version</a>, and <code>purpose</code> in place of <code>interpretation</code> asks instead why the message was sent.</p>
+  <p>The task texts, the tool and the reader's full answer, with the code it ran, are in <a href="https://github.com/narve/cosmic-language/tree/main/build/check/blind"><code>build/check/blind/</code></a> in the repository. After <code>npm run build</code>, with Docker available, the command is <code>npm run --silent blind interpretation</code>. By default the message is sent five times, cut and inverted; <code>BLIND_REPEAT=1</code> sends it once, whole, and <code>BLIND_INVERT=0</code> keeps the bits as they are. <code>BLIND_MESSAGE=docs/decoy/message.bin</code> gives the reader the <a href="decoy.html">decoy version</a>, and <code>purpose</code> in place of <code>interpretation</code> asks instead why the message was sent.</p>
 </section>
 
 </main>

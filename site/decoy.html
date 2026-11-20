@@ -70,7 +70,7 @@
         <tr><td>its mass, in proton masses</td><td>2¹⁷¹ to 2¹⁷²</td><td>less than 2¹⁸² (only an upper bound is known)</td></tr>
       </tbody>
     </table>
-    <p>The temperatures and the luminosity are wide because a star's temperature is measured to only about 2 %; the planet's mass is known only roughly, from how it pulls the two stars, so it gets an upper bound only.</p>
+    <p>The temperatures and the luminosity are wide because the temperatures of Kepler-1647's two stars are measured to only about 2 %; the planet's mass is known only roughly, from how it pulls the two stars, so it gets an upper bound only.</p>
   </section>
 
   <section>
@@ -84,24 +84,24 @@
     <p>Seen from 1.2 kpc away, the six pulsars lie in other directions; the nearer the pulsar, the larger the change. The direction of each is worked out from its direction and distance from the Sun (ATNF), and then given in the decoy's own Galactic directions:</p>
     <table>
       <thead>
-        <tr><th>Pulsar</th><th>Distance from the Sun</th><th>From Kepler-1647</th><th>Direction changed by</th><th>Light reaches Kepler-1647</th></tr>
+        <tr><th>Pulsar</th><th>Distance from the Sun</th><th>From Kepler-1647</th><th>Direction changed by</th><th>Light's travel time to Kepler-1647, compared with the Sun</th></tr>
       </thead>
       <tbody>
-        <tr><td>J1921+2153 (the first found)</td><td>0.30 kpc</td><td>0.94 kpc</td><td>154°: on the other side of the sky</td><td>2100 years older</td></tr>
-        <tr><td>J0437−4715 (millisecond)</td><td>0.16 kpc</td><td>1.34 kpc</td><td>31°</td><td>3900 years older</td></tr>
+        <tr><td>J1921+2153 (the first found)</td><td>0.30 kpc</td><td>0.94 kpc</td><td>154°: on the other side of the sky</td><td>2100 years longer</td></tr>
+        <tr><td>J0437−4715 (millisecond)</td><td>0.16 kpc</td><td>1.34 kpc</td><td>31°</td><td>3900 years longer</td></tr>
         <tr><td>J0332+5434</td><td>1.68 kpc</td><td>1.70 kpc</td><td>42°</td><td>about the same</td></tr>
-        <tr><td>J1939+2134 (millisecond)</td><td>3.5 kpc</td><td>2.4 kpc</td><td>10°</td><td>3600 years younger</td></tr>
-        <tr><td>Vela</td><td>0.28 kpc</td><td>1.49 kpc</td><td>7°</td><td>3900 years older</td></tr>
-        <tr><td>B1951+32 (for the Crab)</td><td>3.0 kpc</td><td>1.8 kpc</td><td>5°</td><td>3900 years younger</td></tr>
+        <tr><td>J1939+2134 (millisecond)</td><td>3.5 kpc</td><td>2.4 kpc</td><td>10°</td><td>3600 years shorter</td></tr>
+        <tr><td>Vela</td><td>0.28 kpc</td><td>1.49 kpc</td><td>7°</td><td>3900 years longer</td></tr>
+        <tr><td>B1951+32 (for the Crab)</td><td>3.0 kpc</td><td>1.8 kpc</td><td>5°</td><td>3900 years shorter</td></tr>
       </tbody>
     </table>
-    <p>Because the light that reaches Kepler-1647 left a pulsar at another time, the pulsar is seen at another age. For the old millisecond pulsars and the slow ones that changes nothing the message can show. Vela is young: seen 3900 years earlier, it turned in about 0.074 s instead of 0.089 s, so its period now spans two powers of two and its slowing a wide range. The Crab is younger still: its star was seen to explode in 1054, and seen from Kepler-1647 it is 2200 years earlier, so there the explosion is still to come and there is no Crab pulsar. In the decoy, the name <code>crab-pulsar</code> stands for PSR B1951+32, a young pulsar (107 000 years) in the remnant of another exploded star, CTB 80, which lies in Cygnus, near Kepler-1647 in the sky.</p>
+    <p>Because the light that reaches Kepler-1647 left a pulsar at another time, the pulsar is seen at another age: younger where the light travels longer, older where it arrives sooner. For the old millisecond pulsars and the slow ones that changes nothing the message can show. Vela is young: seen 3900 years earlier, it turned in about 0.074 s instead of 0.089 s, so its period now spans two powers of two and its slowing a wide range. The Crab is younger still: its star was seen from the Earth to explode in 1054, and its light takes about 2200 years longer to reach Kepler-1647, so seen from there the explosion has not happened yet and there is no Crab pulsar. In the decoy, the name <code>crab-pulsar</code> stands for PSR B1951+32, a young pulsar (107 000 years) in the remnant of another exploded star, CTB 80, which lies in Cygnus, near Kepler-1647 in the sky.</p>
     <p>A pulsar's distance is often poorly known, and from 1.2 kpc away its direction depends on it. The catalogue gives two distances for each pulsar, its best one and one from the dispersion of its pulses; the difference between them is taken as the uncertainty. For J1921 they are 0.30 and 0.81 kpc, and its direction along the centre can be anywhere: the decoy leaves that component out. J0332's direction along the rotation is likewise left nearly open.</p>
   </section>
 
   <section>
     <h2>How the numbers are checked</h2>
-    <p>Like the full message, the decoy is checked by the build: every <code>observed</code> range must have both bounds at least 5 standard uncertainties from the reference value (85 ranges, including those inside the sentences about the companion). The reference values are made from downloaded sources in <code>build/check/reference/sources/</code>: the NASA Exoplanet Archive's row for Kepler-1647, the LaTeX source of Kostov and others (2016) for the second star and the orbit of the two, and the ATNF catalogue for the pulsars. The geometry (the decoy's Galactic directions, the star's velocity, the pulsar directions and light delays) is computed in <code>build/check/measurements.ts</code>, with the uncertainty of each input carried through: the Sun's distance from the centre and its motion, the circular speed, the distance, proper motion and radial velocity of Kepler-1647, and the pulsars' distances. A pulsar's period seen at another age is extrapolated from its slowing, with a quarter of the change as model uncertainty.</p>
+    <p>Like the full message, the decoy is checked by the build: every <code>observed</code> range must have both bounds at least 5 standard uncertainties from the reference value (92 ranges, including those inside the sentences about the companion). The reference values are made from downloaded sources in <code>build/check/reference/sources/</code>: the NASA Exoplanet Archive's row for Kepler-1647, the LaTeX source of Kostov and others (2016) for the second star and the orbit of the two, and the ATNF catalogue for the pulsars. The geometry (the decoy's Galactic directions, the star's velocity, the pulsar directions and light delays) is computed in <code>build/check/measurements.ts</code>, with the uncertainty of each input carried through: the Sun's distance from the centre and its motion, the circular speed, the distance, proper motion and radial velocity of Kepler-1647, and the pulsars' distances. A pulsar's period seen at another age is extrapolated from its slowing, with a quarter of the change as model uncertainty.</p>
   </section>
 
   <section>
