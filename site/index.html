@@ -1,47 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cosmic Language</title>
-  <link rel="stylesheet" href="assets/style.css">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cosmic Language</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
 <body>
 
 <header>
-  <small>Draft · design phase · 2026-11-17</small>
-  <h1>Cosmic Language</h1>
-  <p>A message that explains itself: it starts from bare bits and builds up, one lesson at a time, through mathematics and physics, so that a receiver who shares nothing with us but counting and physics can read it.</p>
+    <h1>
+        <i>"We come in peace"</i>
+        - in the Cosmic Language
+    </h1>
+    <p>A message that explains itself: it starts from bare bits and builds up, one lesson at a time, through mathematics
+        and physics, so that a receiver who shares nothing with us but math, logic and physics can read it.</p>
 </header>
 
 <main>
-  <section>
-    <h2>Documents</h2>
-    <ul>
-      <li><a href="specification.html">Specification</a>: the exact rules of the format.</li>
-      <li><a href="vocabulary.html">Vocabulary</a>: every type and symbol, with its meaning, the lesson that introduces it and the lessons that use it.</li>
-      <li>Each version on one page, all its lessons in the order of the message:
+
+    <section>
+        <h2>Intro</h2>
+        <p>
+            I've always been fascinated by aliens, and how to communicate with them.
+            This is my attempt to build a self-describing message, starting from scratch,
+            with no shared assumptions.
+        </p>
+        <p>
+            There are several versions of this message:
+        </p>
         <ul>
-          <li><a href="full/index.html">Full</a></li>
-          <li><a href="cautious/index.html">Cautious</a></li>
-          <li><a href="minimal/index.html">Minimal</a></li>
-          <li><a href="decoy/index.html">Decoy</a></li>
+            <li>
+                A minimal version, trying only to say "We come in peace".
+            </li>
+            <li>A full version, explaining more advanced math and physics and chemistry,
+                and using that to describe and place the Sun, the Earth and the humans.
+            </li>
+            <li>A "cautious" version, explaining more advanced math and physics and chemistry,
+                but leaving out anything that can link this message to us. (Dark forest!)
+            </li>
+            <li>
+                A decoy version, similar to the full version but swapping
+                the actual truth with a hopefully plausible alternative civilization,
+                living on another star.
+            </li>
         </ul>
-      </li>
-      <li><a href="topics.html">Topics</a>: the lessons grouped by topic, with an introduction to each.</li>
-      <li><a href="previous-work.html">Previous work</a>: earlier messages to the stars and what we learn from them.</li>
-      <li><a href="aliens.html">Twenty aliens</a>: readers imagined by fiction, from the almost human to the hardly a being at all, and what the message would mean to each.</li>
-      <li><a href="blind-tests.html">Blind test</a>: what a reader made of the message when it got nothing but the bits (the latest run).</li>
-      <li><a href="versions.html">Three versions</a>: full (everything, including where we are), cautious (everything but where and who we are) and minimal (only the game and what it needs).</li>
-      <li><a href="decoy.html">The decoy</a>: a fourth version, for fun, that places the sender at Kepler-1647, a pair of stars 1.2 kiloparsecs away, and why that system was chosen.</li>
-      <li>The message itself: <a href="message.txt">message.txt</a> (readable, with symbol names), <a href="message.bits">message.bits</a> (the bits as text, one token per line), <a href="message.bin">message.bin</a> (the bits, packed into bytes) and <a href="message.bin.txt">message.bin.txt</a> (message.bin as binary numbers, for viewing).</li>
-    </ul>
-  </section>
-  <section>
-    <h2>Lessons by topic</h2>
-    <cl-lessons as="links" group="topic"></cl-lessons>
-  </section>
+        <p>
+            The decoy version is also used to test whether the most alien intelligences
+            we have access to, modern LLMs, can understand the message without
+            any instructions. The result of these experiments are described below.
+            (Spoiler: They can!)
+        </p>
+        <p>
+            The message is presented as a set of annotated and reader-friendly
+            HTML-pages, with options to show the message both as the "source"
+            (the way <i>we</i> write it), and as the bits that are actually sent.
+        </p>
+    </section>
+
+    <section>
+        <h2>Impatient?</h2>
+        <p>
+            If you just want to read the messages, I suggest you start with
+            <a href="minimal">the minimal version</a>.
+            It is a bit heavy on math and logic, so be warned - I find it
+            hard to write a self-describing message without using
+            concepts that non-programmers might find complicated.
+        </p>
+
+        <p>
+            After that, go to the <a href="full">full version</a> to get the advanced
+            math, physics, chemistry, astronomy, and finally to
+            the Sun, the Earth and the humans. (Or try the <a href="decoy">decoy version</a>:D)
+        </p>
+    </section>
+
+
+    <section>
+        <h2>A very high level description</h2>
+        <p>
+            I start the message with a list of prime numbers,
+            just to make it clear that this is an artificial message, not noise.
+            This is in "un-ary" notation, just a list of 1's:
+            <code>01011011101111101111111</code>, etc.
+        </p>
+        <p>
+            Then I repeat the prime numbers, but this time in the
+            standard binary notation I use throughout the message.
+        </p>
+        <p>
+            The notation uses <a href="S-syntax">S-trees</a>, like Lisp,
+            and initially uses math to define various terms.
+        </p>
+        <p>
+            I then build on these operators to introduce actors, strategies,
+            morals etc., so that we finally can say:
+        </p>
+        <blockquote>We come in peace</blockquote>
+    </section>
+
+    <section>
+        <h2>Contributing</h2>
+        <p>
+            If you have comments, bugs, corrections, ideas: Please go
+            to <a href="github.com/narve/cosmic-language">the github project</a>
+            and create issues, forks, pull requests!
+        </p>
+    </section>
+
+    <section>
+        <h2>Disclaimer</h2>
+        <ul>
+            <li>I have several build-time checks and verifications, but
+                there can definetly be errors, especially in the physics part.
+            </li>
+            <li>
+                AI has been used extensively, and much of the prose
+                shows that - deal with it :)
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Documents</h2>
+        <ul>
+            <li><a href="specification.html">Specification</a>: the exact rules of the format.</li>
+            <li><a href="vocabulary.html">Vocabulary</a>: every type and symbol, with its meaning, the lesson that
+                introduces it and the lessons that use it.
+            </li>
+            <li>Each version on one page, all its lessons in the order of the message:
+                <ul>
+                    <li><a href="full/index.html">Full</a></li>
+                    <li><a href="cautious/index.html">Cautious</a></li>
+                    <li><a href="minimal/index.html">Minimal</a></li>
+                    <li><a href="decoy/index.html">Decoy</a></li>
+                </ul>
+            </li>
+            <li><a href="topics.html">Topics</a>: the lessons grouped by topic, with an introduction to each.</li>
+            <li><a href="previous-work.html">Previous work</a>: earlier messages to the stars and what we learn from
+                them.
+            </li>
+            <li><a href="aliens.html">Twenty aliens</a>: readers imagined by fiction, from the almost human to the
+                hardly a being at all, and what the message would mean to each.
+            </li>
+            <li><a href="blind-tests.html">Blind test</a>: what a reader made of the message when it got nothing but the
+                bits (the latest run).
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h2>Lessons by topic</h2>
+        <cl-lessons as="links" group="topic"></cl-lessons>
+    </section>
 </main>
 
 <footer>cosmic-language · index · draft</footer>
