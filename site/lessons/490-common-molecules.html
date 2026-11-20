@@ -168,11 +168,13 @@
 (= (dim (triple-point argon)) Θ)
 (= (dim (triple-point water)) Θ)
 
-; hydrogen's triple point is between 103/2¹¹ and 104/2¹¹ of water's:
-; about 0.0505
+; hydrogen's triple point is between 103/2¹¹ and 105/2¹¹ of water's:
+; about 0.0505 (13.80 K) for hydrogen whose two spin forms are in
+; balance, about 0.0511 (13.96 K) for the gas as it comes; the range
+; holds for both
 (observed (&lt; (÷ 103 (^ 2 11))
               (÷ (triple-point dihydrogen) (triple-point water))
-              (÷ 104 (^ 2 11))))
+              (÷ 105 (^ 2 11))))
 ; neon's is between 736/2¹³ and 737/2¹³ of water's: about 0.0899
 (observed (&lt; (÷ (big 2 224) (^ 2 13))
               (÷ (triple-point neon) (triple-point water))
