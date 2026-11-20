@@ -37,7 +37,7 @@
 (observed (&lt; (÷ 9 8) (÷ (average u humans (temperature u)) (triple-point water)) (÷ 73 64)))
 ; every living human is warmer than the triple point of water
 (observed (∀ u humans (&gt; (temperature u) (triple-point water))))</code></pre>
-  <p>What we are made of. Most of our atoms are hydrogen, then oxygen, carbon and nitrogen. Water is the most common molecule in us by far, and more than half of our mass. All the molecules of the lesson on earthly molecules are in us too.</p>
+  <p>What we are made of. Most of our atoms are hydrogen, then oxygen, carbon and nitrogen, with smaller amounts of eight more elements. Water is the most common molecule in us by far, and more than half of our mass. All the molecules of the lesson on earthly molecules are in us too.</p>
   <pre><code>
 ; in every human: more hydrogen atoms than oxygen, more oxygen than
 ; carbon, more carbon than nitrogen
@@ -45,8 +45,13 @@
   (&gt; (count hydrogen u) (count oxygen u) (count carbon u) (count nitrogen u))))
 ; more water molecules than of any of these others
 (observed (∀ u humans
-  (∀ v (list dioxygen glucose glycine adenine guanine urea dopamine serotonin adrenaline)
+  (∀ v (list dioxygen glucose glycine adenine guanine atp urea dopamine serotonin adrenaline heme)
     (&gt; (count water u) (count v u)))))
+; every human also holds calcium (in the bones), phosphorus,
+; potassium, sulfur, sodium, chlorine, magnesium and iron
+(observed (∀ u humans
+  (∀ v (list calcium phosphorus potassium sulfur sodium chlorine magnesium iron)
+    (&gt; (count v u) 0))))
 ; and more than half of a human's mass is water, on average
 (observed (&gt; (average u humans (÷ (× (count water u) (mass water)) (mass u))) (÷ 1 2)))</code></pre>
   <p>Our heredity is DNA. <code>genome</code> gives one full set of the DNA molecules in a cell; a cell of ours holds two such sets, one from each parent. A human set is 23 molecules, together a little over three thousand million base pairs.</p>

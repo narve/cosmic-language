@@ -11,7 +11,7 @@
 <body>
 <article class="lesson" data-topic="life chemistry" data-optional>
   <h3>earthly molecules</h3>
-  <p>The molecules of the lesson on common molecules are found all over the Galaxy. The ones here matter to us in particular: the air of our planet, and the molecules that life on it, and our own bodies, are built from and run on. Each is given by how many atoms of each element it contains. Like the common ones, they are made of hydrogen, carbon, nitrogen and oxygen only.</p>
+  <p>The molecules of the lesson on common molecules are found all over the Galaxy. The ones here matter to us in particular: the air of our planet, and the molecules that life on it, and our own bodies, are built from and run on. Each is given by how many atoms of each element it contains. Most are made of hydrogen, carbon, nitrogen and oxygen only; a few also hold phosphorus, sulfur or iron.</p>
   <p>Our air is mostly two molecules, each made of two atoms of one element. Dinitrogen shares three pairs, dioxygen two. Free dioxygen is rare between the stars and reacts easily; on our planet it is made all the time by living things.</p>
   <pre><code>
 ; dinitrogen: two nitrogen atoms sharing three pairs
@@ -77,6 +77,40 @@
 (= (count hydrogen thymine) (+ (count hydrogen uracil) 2))
 (= (count nitrogen thymine) (count nitrogen uracil))
 (= (count oxygen thymine) (count oxygen uracil))</code></pre>
+  <p>Two more amino acids carry sulfur: cysteine and methionine. Ribose is the sugar of RNA, and deoxyribose, with one oxygen less, the sugar of DNA. ATP, built from adenine, ribose and three phosphates, carries energy inside every living cell here.</p>
+  <pre><code>
+; cysteine: 3 carbon, 7 hydrogen, 1 nitrogen, 2 oxygen, 1 sulfur
+(= (count carbon cysteine) 3)
+(= (count hydrogen cysteine) 7)
+(= (count nitrogen cysteine) 1)
+(= (count oxygen cysteine) 2)
+(= (count sulfur cysteine) 1)
+
+; methionine: 5 carbon, 11 hydrogen, 1 nitrogen, 2 oxygen, 1 sulfur
+(= (count carbon methionine) 5)
+(= (count hydrogen methionine) 11)
+(= (count nitrogen methionine) 1)
+(= (count oxygen methionine) 2)
+(= (count sulfur methionine) 1)
+
+; ribose: 5 carbon, 10 hydrogen, 5 oxygen
+(= (count carbon ribose) 5)
+(= (count hydrogen ribose) 10)
+(= (count oxygen ribose) 5)
+
+; deoxyribose: the same, with one oxygen less
+(= (count carbon deoxyribose) (count carbon ribose))
+(= (count hydrogen deoxyribose) (count hydrogen ribose))
+(= (count oxygen deoxyribose) (− (count oxygen ribose) 1))
+
+; ATP: 10 carbon, 16 hydrogen, 5 nitrogen, 13 oxygen, 3 phosphorus
+(= (count carbon atp) 10)
+(= (count hydrogen atp) 16)
+(= (count nitrogen atp) 5)
+(= (count oxygen atp) 13)
+(= (count phosphorus atp) 3)
+; its nitrogen is all in its adenine
+(= (count nitrogen atp) (count nitrogen adenine))</code></pre>
   <p>A DNA molecule is two long strands, each a chain of bases held on a backbone of sugar and phosphate. <code>strands</code> gives them as two lists of bases. Each strand has a direction of its own, set by how its backbone is built, and each list is read in that direction. Across the two strands, each base sits opposite its <code>partner</code>: adenine opposite thymine, guanine opposite cytosine.</p>
   <pre><code>
 ; every DNA molecule has two strands
@@ -93,6 +127,12 @@
 ; so the partner of a partner is the base itself
 (∀ u (list adenine thymine guanine cytosine)
   (= (partner (partner u)) u))</code></pre>
+  <p>The backbone alternates deoxyribose and phosphate, the group that phosphoric acid forms; it is where DNA holds its phosphorus.</p>
+  <pre><code>
+; phosphoric acid: 3 hydrogen, 1 phosphorus, 4 oxygen
+(= (count hydrogen phosphoric-acid) 3)
+(= (count phosphorus phosphoric-acid) 1)
+(= (count oxygen phosphoric-acid) 4)</code></pre>
   <p>The two strands run in opposite directions. So the second strand, read in its own direction, is the first strand read backward, with each base replaced by its partner. The first base of one strand faces the last base of the other.</p>
   <pre><code>
 ; the strands have the same length, and the base at position z of
@@ -122,7 +162,7 @@
               (÷ (× (average u dna (rise u)) (÷ (× 2 π) (average u dna (twist u))))
                  planck-length)
               (^ 2 88)))</code></pre>
-  <p>Last, four small molecules of bodies like ours. Urea carries spare nitrogen out of the body. Dopamine, serotonin and adrenaline carry signals between the cells of our brains and bodies: they shape how we move, feel and act.</p>
+  <p>Last, five molecules of bodies like ours. Urea carries spare nitrogen out of the body. Dopamine, serotonin and adrenaline carry signals between the cells of our brains and bodies: they shape how we move, feel and act. Heme gives our blood its colour and carries its oxygen.</p>
   <pre><code>
 ; urea: 1 carbon, 4 hydrogen, 2 nitrogen, 1 oxygen
 (= (count carbon urea) 1)
@@ -146,7 +186,15 @@
 (= (count carbon adrenaline) 9)
 (= (count hydrogen adrenaline) 13)
 (= (count nitrogen adrenaline) 1)
-(= (count oxygen adrenaline) 3)</code></pre>
+(= (count oxygen adrenaline) 3)
+
+; heme, which holds the iron of our blood and carries its oxygen:
+; 34 carbon, 32 hydrogen, 4 nitrogen, 4 oxygen and 1 iron
+(= (count carbon heme) 34)
+(= (count hydrogen heme) 32)
+(= (count nitrogen heme) 4)
+(= (count oxygen heme) 4)
+(= (count iron heme) 1)</code></pre>
   <p><small>Sources: A. Kellett and others (2019) (the rise and twist of DNA, its hand and the opposite directions of its strands), CODATA 2022 (the Planck length). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
 </article>
 </body>

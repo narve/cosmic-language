@@ -121,6 +121,41 @@
 ; counting through the atoms: carbon monoxide has 6 + 8 = 14
 ; electrons
 (= (count electron carbon-monoxide) 14)</code></pre>
+  <p>Heavier elements join in too. Silicon and sulfur are among the most common elements after those four, and molecules with them are found between the stars as well, as are hydrogen chloride and, around old stars, sodium chloride.</p>
+  <pre><code>
+; silicon monoxide: one silicon and one oxygen
+(= (count silicon silicon-monoxide) 1)
+(= (count oxygen silicon-monoxide) 1)
+; 14 + 8 = 22 electrons
+(= (count electron silicon-monoxide) 22)
+
+; carbon monosulfide: one carbon and one sulfur
+(= (count carbon carbon-monosulfide) 1)
+(= (count sulfur carbon-monosulfide) 1)
+(= (atoms carbon-monosulfide) (list carbon sulfur))
+
+; hydrogen sulfide: built like water, with sulfur in place of oxygen
+(= (count sulfur hydrogen-sulfide) 1)
+(= (count hydrogen hydrogen-sulfide) 2)
+(= (atoms hydrogen-sulfide) (list sulfur hydrogen hydrogen))
+(= (bonds hydrogen-sulfide) (list (list 1 2 1) (list 1 3 1)))
+
+; sulfur dioxide: one sulfur and two oxygen
+(= (count sulfur sulfur-dioxide) 1)
+(= (count oxygen sulfur-dioxide) 2)
+(= (atoms sulfur-dioxide) (list sulfur oxygen oxygen))
+
+; hydrogen chloride: one hydrogen and one chlorine, sharing one pair
+(= (count hydrogen hydrogen-chloride) 1)
+(= (count chlorine hydrogen-chloride) 1)
+(= (atoms hydrogen-chloride) (list hydrogen chlorine))
+(= (bonds hydrogen-chloride) (list (list 1 2 1)))
+
+; sodium chloride: one sodium and one chlorine
+(= (count sodium sodium-chloride) 1)
+(= (count chlorine sodium-chloride) 1)
+(= (atoms sodium-chloride) (list sodium chlorine))
+(= (bonds sodium-chloride) (list (list 1 2 1)))</code></pre>
   <p>At one particular temperature and pressure, a substance exists as solid, liquid and gas together: its triple point. Melting and boiling happen at different temperatures under different pressures, but the three forms exist together at one temperature and one pressure only, and both are fixed by the substance. So a triple point needs no pressure to be named with it, and it is the same everywhere. Here are four, from hydrogen gas to water. The first three are given as a part of water's: a ratio of two temperatures is a plain number and needs no unit.</p>
   <pre><code>
 ; hydrogen gas, neon, argon and water, in the order of their triple
