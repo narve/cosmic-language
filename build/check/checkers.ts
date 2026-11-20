@@ -76,14 +76,15 @@ export const CHECKERS: Checker[] = [
   },
   {
     name: "measurements",
-    about: `every measured range is at least ${MARGIN} standard uncertainties from the reference value (full version only)`,
+    about: `every measured range is at least ${MARGIN} standard uncertainties from the reference value (full and decoy)`,
     run: ({ text }) => {
-      const result = checkMeasurements(text.full);
-      if (result.failures > 0) {
-        const failing = result.report.filter((line) => !line.startsWith("ok"));
-        throw new BuildError(`${result.failures} measured ranges fail (each bound must be at least ${MARGIN} standard uncertainties from the reference value):\n${failing.join("\n")}`);
+      const results = (["full", "decoy"] as const).map((version) => ({ version, ...checkMeasurements(text[version], version) }));
+      const failing = results.filter((result) => result.failures > 0);
+      if (failing.length > 0) {
+        const lines = failing.flatMap((result) => result.report.filter((line) => !line.startsWith("ok")).map((line) => `${result.version}: ${line}`));
+        throw new BuildError(`${failing.reduce((n, result) => n + result.failures, 0)} measured ranges fail (each bound must be at least ${MARGIN} standard uncertainties from the reference value):\n${lines.join("\n")}`);
       }
-      return `${result.checked} ranges, all at least ${MARGIN} standard uncertainties inside their bounds`;
+      return `${results.map((result) => `${result.checked} ranges (${result.version})`).join(", ")}, all at least ${MARGIN} standard uncertainties inside their bounds`;
     },
   },
   {

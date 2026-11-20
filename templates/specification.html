@@ -344,15 +344,27 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
       </tr>
       <tr>
         <td><cite>ATNF Pulsar Catalogue</cite>, version 2.6.1. R. N. Manchester, G. B. Hobbs, A. Teoh and M. Hobbs, Astron. J. 129, 1993 (2005), <a href="https://www.atnf.csiro.au/research/pulsar/psrcat/">atnf.csiro.au</a>.</td>
-        <td>The periods, period derivatives and Galactic directions of six pulsars.</td>
+        <td>The periods, period derivatives, Galactic directions and distances of six pulsars.</td>
         <td><code>atnf-psrcat-table.html</code></td>
         <td>2026-11-18</td>
       </tr>
       <tr>
-        <td><cite>NASA Exoplanet Archive</cite>, planetary systems composite parameters for Proxima Cen, <a href="https://exoplanetarchive.ipac.caltech.edu/">exoplanetarchive.ipac.caltech.edu</a>. The values of the star and of Proxima b are from A. Suárez Mascareño and others, Astron. Astrophys. 700, A11 (2025); the distance from the TESS Input Catalog, K. G. Stassun and others, Astron. J. 158, 138 (2019).</td>
-        <td>The decoy version only: the mass, radius, temperature and luminosity of Proxima Centauri, and the orbit, period and minimum mass of Proxima b. Not checked by the build.</td>
-        <td><code>nasa-exoplanet-archive-proxima.csv</code>, <code>nasa-exoplanet-archive-proxima-references.csv</code></td>
-        <td>2026-11-18</td>
+        <td><cite>NASA Exoplanet Archive</cite>, table of planetary systems (ps), the default row of Kepler-1647 b, <a href="https://exoplanetarchive.ipac.caltech.edu/">exoplanetarchive.ipac.caltech.edu</a>. The values of star A and of the planet are from V. B. Kostov and others (2016); the position, distance and proper motion from the TESS Input Catalog, K. G. Stassun and others, Astron. J. 158, 138 (2019).</td>
+        <td>The decoy version only: the mass, radius and temperature of Kepler-1647 A, the orbit, period, radius and mass of Kepler-1647 b, and the position, distance, proper motion and radial velocity of the system. The radius of the planet is in the archive's unit, the IAU 2015 nominal equatorial radius of the Earth, 6.3781 × 10⁶ m.</td>
+        <td><code>nasa-exoplanet-archive-kepler-1647.csv</code></td>
+        <td>2026-11-20</td>
+      </tr>
+      <tr>
+        <td><cite>Kepler-1647b: the largest and longest-period Kepler transiting circumbinary planet</cite>, V. B. Kostov and others, Astrophys. J. 827, 86 (2016), <a href="https://arxiv.org/abs/1512.00189">arXiv:1512.00189</a>: the accepted LaTeX source.</td>
+        <td>The decoy version only: the mass, radius and temperature of Kepler-1647 B, and the size and period of the orbit of the two stars, read by script from the paper's value macros and its table of spectroscopic parameters.</td>
+        <td><code>kostov2016-kepler-1647.tex</code></td>
+        <td>2026-11-20</td>
+      </tr>
+      <tr>
+        <td><cite>ATNF Pulsar Catalogue</cite>, version 2.6.1 (as above): the row of PSR J1952+3252 (B1951+32).</td>
+        <td>The decoy version only: the period, period derivative, direction and distances of the pulsar named <code>crab-pulsar</code> there. The catalogue's distances from the dispersion measure, in both tables, give the uncertainty of the pulsars' directions as seen from Kepler-1647.</td>
+        <td><code>atnf-psrcat-decoy.html</code></td>
+        <td>2026-11-20</td>
       </tr>
     </tbody>
   </table>

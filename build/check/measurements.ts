@@ -162,6 +162,147 @@ function cmbAxisQuantities(): Record<string, Q> {
   return out;
 }
 
+// The decoy version (docs/decoy.html): the Sun, the Galaxy and the pulsar lessons are replaced by lessons about
+// Kepler-1647, a pair of stars 1.2 kpc away. The same names then stand for other quantities: `sun` is star A, the
+// companion is the star u that orbits it, `earth` is the planet Kepler-1647 b, and the Galaxy and the pulsars are seen
+// from there. Uncertainties of the geometry are carried through numerically (one input at a time).
+const AU = 149597870700, PC = AU * 648000 / Math.PI, YEAR = 31557600;
+const EARTH_RADIUS = 6.3781e6; // IAU 2015 nominal equatorial radius of the Earth, the archive's unit
+// a quantity computed by f from independent inputs: the change in f when each input moves by its uncertainty
+const propagate = (f: (...x: number[]) => number, ...inputs: Q[]): Q => {
+  const x = inputs.map((i) => i.v), v = f(...x);
+  return q(v, Math.hypot(...inputs.map((input, i) => f(...x.map((xj, j) => (j === i ? xj + input.u : xj))) - v)));
+};
+type V3 = [number, number, number];
+const dotV = (a: V3, b: V3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+const subV = (a: V3, b: V3): V3 => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+const scaleV = (k: number, a: V3): V3 => [k * a[0], k * a[1], k * a[2]];
+const unitV = (a: V3): V3 => scaleV(1 / Math.sqrt(dotV(a, a)), a);
+const crossV = (a: V3, b: V3): V3 => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+const lb = (l: number, b: number): V3 => {
+  const [lr, br] = [(l * Math.PI) / 180, (b * Math.PI) / 180];
+  return [Math.cos(br) * Math.cos(lr), Math.cos(br) * Math.sin(lr), Math.sin(br)];
+};
+// equatorial (ICRS) to Galactic directions (the Hipparcos matrix)
+const ICRS_TO_GALACTIC: V3[] = [
+  [-0.0548755604162154, -0.873437090234885, -0.4838350155487132],
+  [0.4941094278755837, -0.4448296299600112, 0.7469822444972189],
+  [-0.8676661490190047, -0.1980763734312015, 0.4559837761750669],
+];
+const toGalactic = (v: V3): V3 => ICRS_TO_GALACTIC.map((row) => dotV(row, v)) as V3;
+
+function decoyQuantities(): Record<string, Q> {
+  const k = ref.decoy["Kepler-1647"];
+  const n = (x: { value: string; uncertainty: string }) => q(Number(x.value), Number(x.uncertainty));
+  const sys = k.system, A = k.starA, B = k.starB;
+  const solarMass = div(constant("GM of the Sun"), G), solarRadius = constant("radius of the Sun");
+  const planckLength = constant("Planck length"), sigma = constant("Stefan-Boltzmann constant");
+  const day = q(86400);
+  // the luminosity of a black body: 4π R² σ T⁴, over the Planck power c⁵ ÷ G
+  const luminosity = (R: Q, T: Q) => propagate((r, t, s) => 4 * Math.PI * r * r * s * t ** 4, mul(R, solarRadius), T, sigma);
+  const out: Record<string, Q> = {
+    "(÷ (mass sun) (mass proton))": div(mul(n(A.mass), solarMass), mp),
+    "(÷ (radius sun) planck-length)": div(mul(n(A.radius), solarRadius), planckLength),
+    "(÷ (temperature sun) (triple-point water))": div(n(A.temperature), tWater),
+    "(÷ (luminosity sun) (÷ (^ c 5) G))": div(luminosity(n(A.radius), n(A.temperature)), div(pow(c, 5), G)),
+    // the companion, star B: the star u that orbits star A
+    "(÷ (mass u) (mass proton))": div(mul(n(B.mass), solarMass), mp),
+    "(÷ (radius u) planck-length)": div(mul(n(B.radius), solarRadius), planckLength),
+    "(÷ (temperature u) (triple-point water))": div(n(B.temperature), tWater),
+    "(÷ (axis u sun) planck-length)": div(mul(n(k.binary.axis), q(AU)), planckLength),
+    "(÷ (period u sun) planck-time)": div(mul(n(k.binary.period), day), planckTime),
+    // the planet, which goes round both
+    "(÷ (axis earth sun) planck-length)": div(mul(n(k.planet.axis), q(AU)), planckLength),
+    "(÷ (period earth sun) planck-time)": div(mul(n(k.planet.period), day), planckTime),
+    "(÷ (radius earth) planck-length)": div(mul(n(k.planet.radius), q(EARTH_RADIUS)), planckLength),
+  };
+
+  // The Galaxy seen from Kepler-1647. Positions in pc and velocities in km/s, in the Sun's Galactic axes; the
+  // decoy's own axes are the direction to the centre, the direction of a circular orbit there, and their cross.
+  const R0 = constant("distance from the Sun to the Galactic centre"), Vc = constant("circular velocity at the Sun");
+  const U = constant("Sun's motion toward the Galactic centre (U)"), Vs = constant("Sun's motion along the Galactic rotation (V)");
+  const W = constant("Sun's motion toward the north Galactic pole (W)");
+  const dist = n(sys.distance), pmRA = n(sys.properMotionRA), pmDec = n(sys.properMotionDec), rv = n(sys.radialVelocity);
+  const [ra, dec] = [(Number(sys.rightAscension) * Math.PI) / 180, (Number(sys.declination) * Math.PI) / 180];
+  const here = (d: number): V3 => scaleV(d, lb(Number(sys.longitude), Number(sys.latitude)));
+  const axes = (r0kpc: number, d: number) => {
+    const t = unitV(subV([r0kpc * 1000, 0, 0], here(d)));
+    const r = unitV(crossV([0, 0, 1], t));
+    return { t, r, p: crossV(t, r) };
+  };
+  // the star's velocity relative to the centre: its own (from the proper motion and the radial velocity) plus the Sun's
+  const velocity = (d: number, a: number, b: number, v: number, vc: number, u: number, vs: number, w: number): V3 => {
+    const k = 4.740470446e-3 * d; // km/s per mas/yr at d pc
+    const eq: V3 = [
+      v * Math.cos(dec) * Math.cos(ra) - k * a * Math.sin(ra) - k * b * Math.sin(dec) * Math.cos(ra),
+      v * Math.cos(dec) * Math.sin(ra) + k * a * Math.cos(ra) - k * b * Math.sin(dec) * Math.sin(ra),
+      v * Math.sin(dec) + k * b * Math.cos(dec),
+    ];
+    const g = toGalactic(eq);
+    return [g[0] + u, g[1] + vc + vs, g[2] + w];
+  };
+  const fromCentre = (r0: number, d: number) => Math.sqrt(dotV(subV([r0 * 1000, 0, 0], here(d)), subV([r0 * 1000, 0, 0], here(d))));
+  const rc = propagate(fromCentre, R0, dist);
+  out["(÷ (distance sun galaxy-centre) planck-length)"] = div(mul(rc, q(PC)), planckLength);
+  // one round of a circle at the circular speed (the rotation curve is flat here)
+  out["(÷ (period sun galaxy-centre) planck-time)"] = div(div(mul(q(2 * Math.PI * PC), rc), mul(Vc, q(1000))), planckTime);
+  out["(÷ (× 4 (^ π 2) (^ (distance sun galaxy-centre) 3)) (× G (mass galaxy-centre) (^ (period sun galaxy-centre) 2)))"] = div(
+    mul(mul(rc, q(PC)), pow(mul(Vc, q(1000)), 2)), mul(constant("mass of the Galactic centre"), constant("GM of the Sun")));
+  const component = (axis: "t" | "r" | "p") => propagate(
+    (r0, d, a, b, v, vc, u, vs, w) => dotV(velocity(d, a, b, v, vc, u, vs, w), axes(r0, d)[axis]) * 1000 / c.v,
+    R0, dist, pmRA, pmDec, rv, Vc, U, Vs, W);
+  out["(÷ (dot (velocity sun galaxy-centre) along-rotation) c)"] = component("r");
+  out["(÷ (dot (velocity sun galaxy-centre) toward-centre) c)"] = component("t");
+  out["(÷ (dot (velocity sun galaxy-centre) galactic-pole) c)"] = component("p");
+  // the decoy's axes in the axes of the background radiation: as for the Sun, the middle and half the spread of the
+  // nine results, with the change from R0's uncertainty added
+  const cmb = JSON.parse(readFileSync(resolve(root, "build/check/reference/generated/cmb-quadrupole.json"), "utf8"));
+  const cases = cmb.maps.flatMap((m: { cases: Record<string, V3>[] }) => m.cases);
+  const decoyAxes = axes(R0.v, dist.v), shifted = axes(R0.v + R0.u, dist.v);
+  ([["toward-centre", "t"], ["along-rotation", "r"], ["galactic-pole", "p"]] as const).forEach(([galactic, key]) => {
+    for (const axis of ["first-axis", "second-axis", "third-axis"]) {
+      const values = cases.map((cc: Record<string, V3>) => dotV(decoyAxes[key], cc[axis]));
+      const lo = Math.min(...values), hi = Math.max(...values);
+      const shift = Math.abs(dotV(shifted[key], cases[0][axis]) - dotV(decoyAxes[key], cases[0][axis]));
+      out[`(dot ${galactic} ${axis})`] = q((lo + hi) / 2, Math.hypot((hi - lo) / 2, shift));
+    }
+  });
+
+  // The pulsars seen from Kepler-1647: their directions in its axes, and their periods as they were when the light
+  // that reaches it left them (earlier or later than the light that reaches the Sun). A pulsar's distance is uncertain
+  // by the difference between the catalogue's distance and the one from its dispersion measure; the period's change is
+  // extrapolated linearly from the slowing, with a model uncertainty of a quarter of the change (the slowing itself
+  // changes with time), and the slowing is given a model uncertainty as large as the relative change of the period.
+  // From Kepler-1647 the Crab has not yet been seen to explode, so `crab-pulsar` names PSR B1951+32 there.
+  const NAMES: Record<string, string> = {
+    "J1952+3252": "crab-pulsar", "J0835-4510": "vela-pulsar", "J0437-4715": "pulsar-j0437",
+    "J1939+2134": "pulsar-j1939", "J0332+5434": "pulsar-j0332", "J1921+2153": "pulsar-j1921",
+  };
+  const year = constant("sidereal year").v;
+  const { t, r, p } = decoyAxes;
+  for (const [j, name] of Object.entries(NAMES)) {
+    const ps = ref.pulsars[j] ?? ref.decoy.pulsars[j];
+    const P0 = Number(ps.period.value), P0u = Number(ps.period.uncertainty), P1 = Number(ps.slowing.value);
+    const toward = lb(Number(ps.longitude), Number(ps.latitude));
+    const [d1, d2] = [Number(ps.distance.value) * 1000, Number(ps.distanceFromDispersion.value) * 1000];
+    const seen = (d: number) => {
+      const from = subV(scaleV(d, toward), here(dist.v));
+      const delay = ((Math.sqrt(dotV(from, from)) - d) * PC) / c.v; // seconds by which the light here is older
+      const u = unitV(from);
+      return { dir: [dotV(u, t), dotV(u, r), dotV(u, p)], period: P0 - P1 * delay };
+    };
+    const [a, b] = [seen(d1), seen(d2)];
+    const change = P0 - a.period;
+    out[`(÷ (pulse-period ${name}) planck-time)`] = div(q(a.period, Math.hypot(P0u, P1 * 40 * year, a.period - b.period, change / 4)), planckTime);
+    out[`(slowing ${name})`] = widen(q(P1), Math.hypot(0.02, change / P0));
+    ["toward-centre", "along-rotation", "galactic-pole"].forEach((axis, i) => {
+      out[`(dot (direction-from sun ${name}) ${axis})`] = q(a.dir[i], Math.hypot(0.01, a.dir[i] - b.dir[i]));
+    });
+  }
+  return out;
+}
+export const DECOY: Record<string, Q> = { ...QUANTITIES, ...decoyQuantities() };
+
 type Node = string | Node[];
 const show = (n: Node): string => (typeof n === "string" ? n : `(${n.map(show).join(" ")})`);
 const exact = (n: Node): number | undefined => {
@@ -184,7 +325,9 @@ const exact = (n: Node): number | undefined => {
 
 
 // Checks the message given as text (message.txt): a report line for every range, and the number of failures.
-export function checkMeasurements(text: string): { report: string[]; failures: number; checked: number } {
+// version: "full" (the reference values of the Sun, the Galaxy seen from it …) or "decoy" (those of Kepler-1647).
+export function checkMeasurements(text: string, version: "full" | "decoy" = "full"): { report: string[]; failures: number; checked: number } {
+const QUANTITY = version === "decoy" ? DECOY : QUANTITIES;
 const tokens = text.replace(/^\ufeff/, "").split("\n").flatMap((line) => {
   const code = line.split(";")[0];
   return /^[01 ]*$/.test(code) ? [] : (code.match(/[()]|[^\s()]+/g) ?? []);
@@ -198,9 +341,16 @@ for (const t of tokens) {
 }
 const report: string[] = [];
 let failures = 0, checked = 0;
-for (const s of sentences) {
-  if (!Array.isArray(s) || s[0] !== "observed" || !Array.isArray(s[1]) || !["<", ">"].includes(s[1][0] as string)) continue;
-  const [rel, ...args] = s[1];
+// the ranges of an observed sentence: the sentence itself, or ranges inside ∃ and `and` (the decoy's companion star)
+const ranges = (n: Node): Node[][] => {
+  if (!Array.isArray(n)) return [];
+  if (n[0] === "<" || n[0] === ">") return [n];
+  if (n[0] === "∃") return ranges(n[3]);
+  if (n[0] === "and") return n.slice(1).flatMap(ranges);
+  return [];
+};
+for (const range of sentences.flatMap((s) => (Array.isArray(s) && s[0] === "observed" ? ranges(s[1]) : []))) {
+  const [rel, ...args] = range;
   if (args.length !== 3) continue;
   let [low, mid, high] = args.map((a) => a);
   if (rel === ">") [low, high] = [high, low];
@@ -208,7 +358,7 @@ for (const s of sentences) {
   if (lo === undefined || hi === undefined) continue; // an order between quantities, not a range
   checked++;
   const key = show(mid);
-  const x = QUANTITIES[key];
+  const x = QUANTITY[key];
   if (!x) { failures++; report.push(`NO REFERENCE  ${key}: add a formula to build/check/measurements.ts`); continue; }
   // a dot of two directions lies between −1 and 1: a bound at that limit cannot fail
   const limit = key.startsWith("(dot ") ? 1 : Infinity;
@@ -222,8 +372,12 @@ return { report, failures, checked };
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const { report, failures, checked } = checkMeasurements(readFileSync(resolve(root, "docs/message.txt"), "utf8"));
-  console.log(report.join("\n"));
-  console.log(`\n${checked} ranges, ${failures} failing (each bound must be at least ${MARGIN} standard uncertainties from the reference value)`);
-  process.exit(failures ? 1 : 0);
+  let failing = 0;
+  for (const [version, file] of [["full", "docs/message.txt"], ["decoy", "docs/decoy/message.txt"]] as const) {
+    const { report, failures, checked } = checkMeasurements(readFileSync(resolve(root, file), "utf8"), version);
+    console.log(`${version}:\n${report.join("\n")}`);
+    console.log(`\n${version}: ${checked} ranges, ${failures} failing (each bound must be at least ${MARGIN} standard uncertainties from the reference value)\n`);
+    failing += failures;
+  }
+  process.exit(failing ? 1 : 0);
 }

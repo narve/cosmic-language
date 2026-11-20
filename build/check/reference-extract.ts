@@ -69,6 +69,27 @@ const SOURCES = {
     file: "atnf-psrcat-table.html",
     retrieved: "2026-11-18",
   },
+  "atnf-decoy": {
+    title: "ATNF Pulsar Catalogue, version 2.6.1: PSR J1952+3252 (B1951+32), for the decoy version",
+    citation: "R. N. Manchester, G. B. Hobbs, A. Teoh and M. Hobbs, Astron. J. 129, 1993 (2005)",
+    url: "https://www.atnf.csiro.au/research/pulsar/psrcat/",
+    file: "atnf-psrcat-decoy.html",
+    retrieved: "2026-11-20",
+  },
+  "exoplanet-archive-kepler-1647": {
+    title: "NASA Exoplanet Archive, table of planetary systems (ps): Kepler-1647, for the decoy version",
+    citation: "NASA Exoplanet Science Institute; star A and the planet from V. B. Kostov and others (2016), the distance, proper motion and position from the TESS Input Catalog, K. G. Stassun and others, Astron. J. 158, 138 (2019)",
+    url: "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+…+from+ps+where+hostname='Kepler-1647'&format=csv",
+    file: "nasa-exoplanet-archive-kepler-1647.csv",
+    retrieved: "2026-11-20",
+  },
+  kostov2016: {
+    title: "Kepler-1647b: the largest and longest-period Kepler transiting circumbinary planet (the accepted LaTeX source)",
+    citation: "V. B. Kostov and others, Astrophys. J. 827, 86 (2016); arXiv:1512.00189",
+    url: "https://arxiv.org/e-print/1512.00189v2",
+    file: "kostov2016-kepler-1647.tex",
+    retrieved: "2026-11-20",
+  },
   fixsen2009: {
     title: "The Temperature of the Cosmic Microwave Background",
     citation: "D. J. Fixsen, Astrophys. J. 707, 916 (2009); arXiv:0911.1955",
@@ -245,17 +266,64 @@ function hydrogenLine() {
 }
 
 // ATNF pulsar catalogue: one row per pulsar in a <pre> table: name, P0 and its error, P1 and its error,
-// Galactic longitude and latitude, distance. The reference codes are links; they are removed first.
-function pulsars() {
-  const text = readFileSync(join(dir, SOURCES.atnf.file), "utf8").replace(/<a [^>]*>[^<]*<\/a>/g, "").replace(/&nbsp;?/g, " ");
+// Galactic longitude and latitude, the catalogue's best distance and the distance from the dispersion measure.
+// The reference codes are links; they are removed first.
+function pulsars(file: string, count: number) {
+  const text = readFileSync(join(dir, file), "utf8").replace(/<a [^>]*>[^<]*<\/a>/g, "").replace(/&nbsp;?/g, " ");
   const found: Record<string, object> = {};
   for (const line of text.split("\n")) {
-    const m = line.match(/^\d+\s+(J\d{4}[+-]\d{4})\s+([\d.]+)\s+([\d.e+-]+)\s+([\d.E+-]+)\s+([\d.e+-]+)\s+([\d.-]+)\s+([\d.-]+)\s+([\d.]+)/);
+    const m = line.match(/^\d+\s+(J\d{4}[+-]\d{4})\s+([\d.]+)\s+([\d.e+-]+)\s+([\d.E+-]+)\s+([\d.e+-]+)\s+([\d.-]+)\s+([\d.-]+)\s+([\d.]+)\s+([\d.]+)/);
     if (!m) continue;
-    found[m[1]] = { period: { value: m[2], uncertainty: m[3], unit: "s" }, slowing: { value: m[4], uncertainty: m[5] }, longitude: m[6], latitude: m[7], distance: { value: m[8], unit: "kpc" } };
+    found[m[1]] = {
+      period: { value: m[2], uncertainty: m[3], unit: "s" }, slowing: { value: m[4], uncertainty: m[5] }, longitude: m[6], latitude: m[7],
+      distance: { value: m[8], unit: "kpc" }, distanceFromDispersion: { value: m[9], unit: "kpc" },
+    };
   }
-  if (Object.keys(found).length !== 6) fail(`expected 6 pulsars in the ATNF table, found ${Object.keys(found).length}`);
+  if (Object.keys(found).length !== count) fail(`expected ${count} pulsars in ${file}, found ${Object.keys(found).length}`);
   return found;
+}
+
+// The decoy version's star system, Kepler-1647: star A, the planet and the system (position, distance, motion)
+// from the archive's CSV (Kostov et al. 2016's row; the system's columns from the TESS Input Catalog), star B and
+// the binary's orbit from the paper's LaTeX source (its value macros and its table of spectroscopic parameters).
+function kepler1647() {
+  const rows = read(SOURCES["exoplanet-archive-kepler-1647"].file).filter((line) => line.trim());
+  // a CSV row: quoted fields may hold commas
+  const fields = (line: string) => [...line.matchAll(/("([^"]*)"|[^,]*)(,|$)/g)].map((m) => m[2] ?? m[1]).slice(0, -1);
+  const head = fields(rows[0]);
+  const row = rows.slice(1).map(fields).find((r) => r[head.indexOf("default_flag")] === "1") ?? fail("Kepler-1647: no default row");
+  const col = (name: string) => {
+    const v = row[head.indexOf(name)];
+    if (v === undefined || v === "") fail(`Kepler-1647: no value in column ${name}`);
+    return v;
+  };
+  const pm = (name: string, unit: string) => ({ value: col(name), uncertainty: col(`${name}err1`), unit });
+  const tex = readFileSync(join(dir, SOURCES.kostov2016.file), "utf8");
+  const macro = (name: string) => tex.match(new RegExp(`\\\\newcommand\\{\\\\${name}\\}\\{([\\d.]+)\\}`))?.[1] ?? fail(`Kostov 2016: no macro \\${name}`);
+  const tableRow = (label: string) => {
+    const m = tex.match(new RegExp(`${label}[^&]*&\\s*([\\d.]+)\\s*&\\s*([\\d.]+)`));
+    return m ? { value: m[1], uncertainty: m[2] } : fail(`Kostov 2016: no table row "${label}"`);
+  };
+  return {
+    system: {
+      longitude: col("glon"), latitude: col("glat"), rightAscension: col("ra"), declination: col("dec"),
+      distance: pm("sy_dist", "pc"), properMotionRA: pm("sy_pmra", "mas/yr"), properMotionDec: pm("sy_pmdec", "mas/yr"),
+      radialVelocity: pm("st_radv", "km/s"),
+    },
+    starA: { mass: pm("st_mass", "solar masses"), radius: pm("st_rad", "solar radii"), temperature: pm("st_teff", "K") },
+    starB: {
+      mass: { value: macro("vMstarB"), uncertainty: macro("eMstarB"), unit: "solar masses" },
+      radius: { value: macro("vRstarB"), uncertainty: macro("eRstarB"), unit: "solar radii" },
+      temperature: { ...tableRow("Temperature of Star B"), unit: "K" },
+    },
+    binary: {
+      axis: { value: macro("vabin"), uncertainty: macro("eabin"), unit: "AU" },
+      period: { ...tableRow("Orbital Period, \\$P_\\{\\\\rm bin\\}\\$"), unit: "d" },
+    },
+    planet: {
+      axis: pm("pl_orbsmax", "AU"), period: pm("pl_orbper", "d"), mass: pm("pl_bmasse", "Earth masses"), radius: pm("pl_rade", "Earth radii"),
+    },
+  };
 }
 
 // Values read by hand from PDF documents (transcribed.json): accepted only while the document is unchanged.
@@ -288,7 +356,8 @@ const out = {
   constants: codata(),
   nuclides,
   other: { "hydrogen 21 cm line frequency": hydrogenLine(), ...transcribed() },
-  pulsars: pulsars(),
+  pulsars: pulsars(SOURCES.atnf.file, 6),
+  decoy: { "Kepler-1647": kepler1647(), pulsars: pulsars(SOURCES["atnf-decoy"].file, 1) },
 };
 writeFileSync(join(reference, "generated", "reference.json"), JSON.stringify(out, null, 2) + "\n");
-console.log(`reference.json: ${CONSTANTS.length} constants, ${NUCLIDES.length} nuclides, ${Object.keys(out.other).length} other values, ${Object.keys(out.pulsars).length} pulsars`);
+console.log(`reference.json: ${CONSTANTS.length} constants, ${NUCLIDES.length} nuclides, ${Object.keys(out.other).length} other values, ${Object.keys(out.pulsars).length} pulsars, and the decoy's star system and pulsar`);

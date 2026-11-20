@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Sun in the Galaxy (decoy) · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson" data-topic="astronomy" data-optional data-replaces="514-the-sun-in-the-galaxy">
+  <h3>the Sun in the Galaxy (decoy)</h3>
+  <p>This lesson is not in the message. It stands in for the lesson on the Sun in the Galaxy in the decoy version only, where <code>sun</code> is Kepler-1647 A (see the <a href="../decoy.html">decoy</a> page). It says the same things, but as seen from there: 1.2 kiloparsecs from the Sun, a little nearer the centre and ahead of the Sun along the rotation. So the direction to the centre and the direction of rotation are turned by about 8° against the Sun's, and two of their components in the axes of the background radiation change; the star's own motion, faster than the Sun's along the rotation, changes one more range.</p>
+  <p>Our star is one of many stars that together go round a common centre: the Galaxy. At the centre is a dark body of great mass. New: <code>galaxy-centre</code>, and <code>direction-from</code>, the direction in which one body is seen from another. This lesson can be left out of a message.</p>
+  <pre><code>
+; the centre is a body
+(∃ u bodies (= u galaxy-centre))
+; its mass: between 2²¹¹ and 2²¹² proton masses
+(observed (&lt; (^ 2 211) (÷ (mass galaxy-centre) (mass proton)) (^ 2 212)))
+
+; its distance from our star: between 2¹⁸³ and 2¹⁸⁴ Planck lengths
+(observed (&lt; (^ 2 183) (÷ (distance sun galaxy-centre) planck-length) (^ 2 184)))
+; one round takes between 2¹⁹⁶ and 2¹⁹⁷ Planck times
+(observed (&lt; (^ 2 196) (÷ (period sun galaxy-centre) planck-time) (^ 2 197)))
+
+; the centre alone cannot hold our star on that orbit: with only its
+; mass, the rule for orbits would give a period between 2⁶ and 2⁸
+; times longer (its square, 2¹² to 2¹⁶ times larger)
+(observed (&lt; (^ 2 12)
+  (÷ (× 4 (^ π 2) (^ (distance sun galaxy-centre) 3))
+     (× G (mass galaxy-centre) (^ (period sun galaxy-centre) 2)))
+  (^ 2 16)))</code></pre>
+  <p>The centre's mass marks it out: no other body in the Galaxy is so heavy. But it is not what keeps our star on its orbit. That is the mass of the whole Galaxy inside the orbit, stars, gas and matter that gives no light, which is many thousand times larger. So our star's period is far shorter than the rule for orbits would give with the centre's mass alone; most stars near ours take about as long.</p>
+  <p>The Galaxy gives three directions, which any reader near us can find. New: <code>toward-centre</code>, the direction from our star to the centre; <code>along-rotation</code>, the direction in which the stars around ours go round the centre, on average; and <code>galactic-pole</code>, the cross of the two. With the hand of <code>cross</code> fixed by the lessons on spin and on antimatter, these three name every direction.</p>
+  <pre><code>
+; from one body, another is seen in a direction; seen from the
+; other, the first lies in the opposite direction
+(∀ u bodies (∀ v bodies
+  (implies (> (distance u v) 0) (= (dot (direction-from u v) (direction-from u v)) 1))))
+(∀ u bodies (∀ v bodies
+  (implies (> (distance u v) 0) (= (dot (direction-from u v) (direction-from v u)) (neg 1)))))
+
+; toward the centre, and along the rotation: two directions at right
+; angles
+(= toward-centre (direction-from sun galaxy-centre))
+(∃ u directions (= u toward-centre))
+(∃ u directions (= u along-rotation))
+
+(= (dot toward-centre along-rotation) 0)
+
+; the third: their cross
+(= galactic-pole (cross toward-centre along-rotation))
+(= (dot galactic-pole galactic-pole) 1)
+(= (dot galactic-pole toward-centre) 0)
+(= (dot galactic-pole along-rotation) 0)</code></pre>
+  <p>Our star moves, relative to the centre, almost along <code>along-rotation</code>: that is what makes it the direction of rotation. New: <code>velocity</code>, the velocity of one body relative to another, a vector whose dot with a direction is the speed in that direction.</p>
+  <pre><code>
+; relative to the centre, our star moves along the rotation at
+; between 1/2¹¹ and 9/2¹³ of the speed of light
+(observed (&lt; (÷ 1 (^ 2 11)) (÷ (dot (velocity sun galaxy-centre) along-rotation) c) (÷ 9 (^ 2 13))))
+; and a little toward the centre, and toward the pole
+(observed (&lt; 0 (÷ (dot (velocity sun galaxy-centre) toward-centre) c) (÷ 1 (^ 2 13))))
+(observed (&lt; 0 (÷ (dot (velocity sun galaxy-centre) galactic-pole) c) (÷ 1 (^ 2 14))))</code></pre>
+  <p>So far <code>along-rotation</code> is only at right angles to <code>toward-centre</code>: that leaves a whole circle of directions. The axes of the background radiation, which any reader can find, pin it down. The direction to the centre, which a reader can find too, comes first, then the direction of rotation, and the Galaxy's frame is tied to the background radiation's.</p>
+  <pre><code>
+; the direction to the centre, in the axes of the background
+; radiation
+(observed (&lt; (÷ 1 8) (dot toward-centre first-axis) (÷ 5 16)))
+(observed (&lt; (neg 1) (dot toward-centre third-axis) (neg (÷ 3 4))))
+
+; the direction of rotation, in the same axes
+(observed (&lt; (÷ 1 2) (dot along-rotation first-axis) 1))
+(observed (&lt; (÷ 1 8) (dot along-rotation second-axis) (÷ 7 8)))
+(observed (&lt; (÷ 1 8) (dot along-rotation third-axis) (÷ 3 4)))</code></pre>
+  <p><small>Sources: as for the lesson on the Sun in the Galaxy (Particle Data Group 2024, R. Schönrich, J. Binney and W. Dehnen 2010, GRAVITY Collaboration 2022 and 2019, CODATA 2022, WMAP and Planck), with the place and motion of Kepler-1647 from the NASA Exoplanet Archive (the TESS Input Catalog: distance and proper motion) and V. B. Kostov and others (2016) (its radial velocity). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+</article>
+</body>
+</html>

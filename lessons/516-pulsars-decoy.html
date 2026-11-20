@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pulsars (decoy) · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson" data-topic="astronomy" data-optional data-replaces="516-pulsars">
+  <h3>pulsars (decoy)</h3>
+  <p>This lesson is not in the message. It stands in for the lesson on pulsars in the decoy version only, and gives the pulsars as seen from Kepler-1647 (see the <a href="../decoy.html">decoy</a> page). From 1.2 kiloparsecs away every direction changes: the first pulsar ever found lies on the other side of the sky, and the nearby millisecond pulsar 31° from where the Sun sees it. The light from a pulsar also reaches Kepler-1647 earlier or later than it reaches the Sun, by up to 4000 years, so a pulsar is seen at another age: Vela turns faster. And the light of the explosion that made the Crab pulsar has not reached Kepler-1647 yet, so there the name <code>crab-pulsar</code> stands for another young pulsar in the remnant of an exploded star, PSR B1951+32 in Cygnus. Where a pulsar's distance is poorly known, its direction from Kepler-1647 is too, and the ranges are wider: one component of the first pulsar is left out.</p>
+  <p>Some stars end as neutron stars: a ball of neutrons the width of a city, turning many times each second and sending out a beam of radio light that sweeps past our star once each turn. These pulsars keep time better than almost anything, and each has its own period, so they serve as landmarks. New: the domain <code>pulsars</code>, <code>pulse-period</code> (the time of one turn), <code>slowing</code> (how much longer each turn gets per time: a plain number, time per time), and six pulsars by name. This lesson can be left out of a message.</p>
+  <pre><code>
+; a pulsar is a body; its period is a time, and the period grows a
+; little all the time
+(∀ u pulsars (∃ v bodies (= u v)))
+(∀ u pulsars (= (dim (pulse-period u)) T))
+(observed (∀ u pulsars (&gt; (slowing u) 0)))</code></pre>
+  <p>Each pulsar is given by its period, by how fast it slows, and by its direction from our star in the three directions of the Galaxy. Seen from anywhere else, the same pulsars lie in other directions; from the directions of several of them, a reader can find the place they were seen from. And since every period grows at its own known rate, the periods a reader measures tell how long ago the message was sent.</p>
+  <pre><code>
+; a young pulsar, the remnant of a star that exploded
+(∃ u pulsars (= u crab-pulsar))
+; one turn takes between 2¹³⁹ and 2¹⁴⁰ Planck times
+(observed (&lt; (^ 2 139) (÷ (pulse-period crab-pulsar) planck-time) (^ 2 140)))
+; each turn is longer than the one before; the period grows by
+; between 2⁻⁴⁸ and 2⁻⁴⁷ times the time that passes
+(observed (&lt; (÷ 1 (^ 2 48)) (slowing crab-pulsar) (÷ 1 (^ 2 47))))
+; seen from our star, it lies in this direction
+(observed (&lt; (÷ 7 32) (dot (direction-from sun crab-pulsar) toward-centre) (÷ 3 8)))
+(observed (&lt; (÷ 7 8) (dot (direction-from sun crab-pulsar) along-rotation) 1))
+(observed (&lt; (neg (÷ 1 16)) (dot (direction-from sun crab-pulsar) galactic-pole) (÷ 3 32)))
+
+; the Vela pulsar
+(∃ u pulsars (= u vela-pulsar))
+; one turn takes between 2¹³⁹ and 2¹⁴¹ Planck times
+(observed (&lt; (^ 2 139) (÷ (pulse-period vela-pulsar) planck-time) (^ 2 141)))
+; each turn is longer than the one before; the period grows by
+; between 2⁻⁴⁷ and 2⁻⁴¹ times the time that passes
+(observed (&lt; (÷ 1 (^ 2 47)) (slowing vela-pulsar) (÷ 1 (^ 2 41))))
+; seen from our star, it lies in this direction
+(observed (&lt; (neg (÷ 5 32)) (dot (direction-from sun vela-pulsar) toward-centre) 0))
+(observed (&lt; (neg 1) (dot (direction-from sun vela-pulsar) along-rotation) (neg (÷ 15 16))))
+(observed (&lt; (neg (÷ 3 16)) (dot (direction-from sun vela-pulsar) galactic-pole) (neg (÷ 1 32))))
+
+; a millisecond pulsar
+(∃ u pulsars (= u pulsar-j0437))
+; one turn takes between 2¹³⁶ and 2¹³⁷ Planck times
+(observed (&lt; (^ 2 136) (÷ (pulse-period pulsar-j0437) planck-time) (^ 2 137)))
+; each turn is longer than the one before; the period grows by
+; between 121/2⁷¹ and 149/2⁷¹ times the time that passes
+(observed (&lt; (÷ 121 (^ 2 71)) (slowing pulsar-j0437) (÷ 149 (^ 2 71))))
+; seen from our star, it lies in this direction
+(observed (&lt; (neg (÷ 3 16)) (dot (direction-from sun pulsar-j0437) toward-centre) (neg (÷ 1 32))))
+(observed (&lt; (neg 1) (dot (direction-from sun pulsar-j0437) along-rotation) (neg (÷ 29 32))))
+(observed (&lt; (neg (÷ 1 4)) (dot (direction-from sun pulsar-j0437) galactic-pole) (neg (÷ 1 8))))
+
+; one of the fastest pulsars known
+(∃ u pulsars (= u pulsar-j1939))
+; one turn takes between 2¹³⁴ and 2¹³⁵ Planck times
+(observed (&lt; (^ 2 134) (÷ (pulse-period pulsar-j1939) planck-time) (^ 2 135)))
+; each turn is longer than the one before; the period grows by
+; between 111/2⁷⁰ and 137/2⁷⁰ times the time that passes
+(observed (&lt; (÷ 111 (^ 2 70)) (slowing pulsar-j1939) (÷ 137 (^ 2 70))))
+; seen from our star, it lies in this direction
+(observed (&lt; (÷ 5 16) (dot (direction-from sun pulsar-j1939) toward-centre) (÷ 25 32)))
+(observed (&lt; (÷ 21 32) (dot (direction-from sun pulsar-j1939) along-rotation) 1))
+(observed (&lt; (neg (÷ 3 16)) (dot (direction-from sun pulsar-j1939) galactic-pole) (÷ 1 16)))
+
+; one of the brightest pulsars
+(∃ u pulsars (= u pulsar-j0332))
+; one turn takes between 2¹⁴³ and 2¹⁴⁴ Planck times
+(observed (&lt; (^ 2 143) (÷ (pulse-period pulsar-j0332) planck-time) (^ 2 144)))
+; each turn is longer than the one before; the period grows by
+; between 2⁻⁴⁹ and 2⁻⁴⁸ times the time that passes
+(observed (&lt; (÷ 1 (^ 2 49)) (slowing pulsar-j0332) (÷ 1 (^ 2 48))))
+; seen from our star, it lies in this direction
+(observed (&lt; (neg 1) (dot (direction-from sun pulsar-j0332) toward-centre) (neg (÷ 7 16))))
+(observed (&lt; (neg 1) (dot (direction-from sun pulsar-j0332) along-rotation) (÷ 7 8)))
+(observed (&lt; (neg (÷ 7 32)) (dot (direction-from sun pulsar-j0332) galactic-pole) 0))
+
+; the first pulsar to be found
+(∃ u pulsars (= u pulsar-j1921))
+; one turn takes between 2¹⁴⁴ and 2¹⁴⁵ Planck times
+(observed (&lt; (^ 2 144) (÷ (pulse-period pulsar-j1921) planck-time) (^ 2 145)))
+; each turn is longer than the one before; the period grows by
+; between 2⁻⁵⁰ and 2⁻⁴⁹ times the time that passes
+(observed (&lt; (÷ 1 (^ 2 50)) (slowing pulsar-j1921) (÷ 1 (^ 2 49))))
+; seen from our star, it lies in this direction (its part toward the
+; centre depends on its distance, which is poorly known)
+(observed (&lt; (neg 1) (dot (direction-from sun pulsar-j1921) along-rotation) (neg (÷ 15 32))))
+(observed (&lt; (neg (÷ 11 32)) (dot (direction-from sun pulsar-j1921) galactic-pole) (÷ 1 16)))</code></pre>
+  <p><small>Sources: ATNF Pulsar Catalogue 2.6.1 (periods, slowing, directions and both distances of the six pulsars and of PSR B1951+32), the place of Kepler-1647 from the NASA Exoplanet Archive (the TESS Input Catalog), CODATA 2022 (the Planck time). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+</article>
+</body>
+</html>

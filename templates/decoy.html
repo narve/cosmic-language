@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cosmic Language Decoy</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<header>
+  <small>Draft · design phase · 2026-11-20</small>
+  <h1>The Decoy: Kepler-1647</h1>
+  <p>The decoy is a fourth version of the message, made for fun: the full message, with the lessons that say where it comes from replaced by lessons about another star system, under the same names. A blind reader gets it as if it were the real thing, and we see whether the reader places the sender there. It says false things about the sender, so it is not meant to be sent. The decoy system is Kepler-1647, a pair of stars 1.2 kiloparsecs (about 4000 light-years) from the Sun, with a giant planet in their habitable zone.</p>
+</header>
+
+<main>
+  <section>
+    <h2>Why a new decoy</h2>
+    <p>The first decoy was Proxima Centauri, the nearest star, with its planet Proxima b. A blind reader of it placed the sender at Proxima at once (<a href="https://github.com/narve/cosmic-language/blob/main/build/check/blind/results/2026-11-19-interpretation-decoy.txt">the run of 2026-11-19</a>). But Proxima is so close that only the lesson on the Sun had to change: seen from it, no pulsar moves by more than about half a degree, and the Galaxy looks the same. So that run tested only the numbers of one star and one planet, not whether a reader can find the place from the Galaxy and the pulsars.</p>
+    <p>A better decoy has to meet three conditions:</p>
+    <ul>
+      <li><strong>Its star is clearly not the Sun</strong>, and different enough that the message has to describe it differently, not only with other numbers.</li>
+      <li><strong>It is far enough from the Sun</strong> that the pulsars lie in other directions, so the lessons on the Galaxy and on pulsars must be worked out again from there.</li>
+      <li><strong>It is well measured</strong>: masses, radii, temperatures, the planet's orbit, and the distance and motion of the system, so every range can be checked like those of the full message.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>The system</h2>
+    <p>Kepler-1647 was found by the Kepler space telescope: the two stars eclipse each other every 11.26 days, and the planet passed in front of them three times in four years. The eclipses and the planet's pull on them give the masses and radii of both stars (V. B. Kostov and others, 2016); Gaia's parallax gives the distance.</p>
+    <table>
+      <thead>
+        <tr><th>Body</th><th>Mass</th><th>Radius</th><th>Temperature</th><th>Luminosity</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Star A (<code>sun</code> in the decoy), an F star</td><td>1.221 ± 0.011 M☉</td><td>1.790 ± 0.006 R☉</td><td>6210 ± 100 K</td><td>4.3 L☉</td></tr>
+        <tr><td>Star B (the companion), almost a twin of the Sun</td><td>0.968 ± 0.004 M☉</td><td>0.966 ± 0.006 R☉</td><td>5770 ± 125 K</td><td>0.93 L☉</td></tr>
+        <tr><td>Kepler-1647 b (<code>earth</code> in the decoy), a gas giant</td><td>1.5 ± 0.65 Jupiter masses</td><td>1.06 Jupiter radii</td><td>about 230 K (from the light it gets)</td><td></td></tr>
+      </tbody>
+    </table>
+    <p>The two stars go round each other in 11.26 days, at 0.128 AU. The planet goes round both in 1107.6 days, at 2.72 AU, and gets about 0.7 times the light the Earth gets: it stays in the binary's habitable zone through its whole orbit. As a gas giant it is not itself habitable, but it could hold moons that are (Kostov and others: "there is, however, no evidence for such moons in the available data"). The system lies at Galactic longitude 75.5° and latitude 6.8°, in Cygnus, 1212 ± 22 pc from the Sun; it is 4.4 billion years old, about as old as the Sun.</p>
+  </section>
+
+  <section>
+    <h2>What the message says differently</h2>
+    <p>The decoy introduces the same symbols, in the same lessons, as the full message; only the sentences differ. Three things change in what is said, not only in the numbers:</p>
+    <ul>
+      <li><strong>Our star has a companion.</strong> A second star goes round ours, and only one: <code>(∃ u stars (and (not (= u sun)) (orbits u sun)))</code> and <code>(∀ u stars (∀ v stars (implies (and (orbits u sun) (orbits v sun)) (= u v))))</code>. It has no name of its own; each sentence about it says "the star that goes round ours". Its mass, radius, temperature and orbit are given that way.</li>
+      <li><strong>Our planet goes round both stars.</strong> The rule for orbits in the lesson on stars holds for two bodies; for the planet it holds with the mass of both stars, so the decoy states it with three masses, <code>(+ (mass sun) (mass u) (mass earth))</code>, and does not say <code>(orbits earth sun)</code>, which would claim the two-body rule with our star's mass alone.</li>
+      <li><strong>We live on a moon.</strong> <code>(stated (∃ u bodies (and (at we u) (orbits u earth))))</code>, and neither on the planet nor on the star.</li>
+    </ul>
+    <p>And the numbers, against those of the full message:</p>
+    <table>
+      <thead>
+        <tr><th>Quantity</th><th>Full message (the Sun, the Earth)</th><th>Decoy (Kepler-1647)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>mass of our star, in proton masses</td><td>2¹⁸⁹ to 2¹⁹⁰</td><td>7 × 2¹⁸⁷ to 2¹⁹⁰</td></tr>
+        <tr><td>its radius, in Planck lengths</td><td>2¹⁴⁴ to 2¹⁴⁵</td><td>2¹⁴⁵ to 2¹⁴⁶</td></tr>
+        <tr><td>its temperature, in triple points of water</td><td>21 to 22</td><td>2⁴ to 2⁵</td></tr>
+        <tr><td>its luminosity, in c⁵ ÷ G</td><td>2⁻⁸⁷ to 2⁻⁸⁶</td><td>2⁻⁸⁵ to 2⁻⁸³</td></tr>
+        <tr><td>helium per hydrogen atom</td><td>1/16 to 1/8</td><td>not given (not measured)</td></tr>
+        <tr><td>the companion: mass, radius, temperature</td><td>none</td><td>2¹⁸⁹ to 2¹⁹⁰; 2¹⁴⁴ to 2¹⁴⁵; 2⁴ to 2⁵</td></tr>
+        <tr><td>the companion's orbit: axis, period</td><td>none</td><td>2¹⁴⁹ to 2¹⁵⁰ Planck lengths; 2¹⁶³ to 2¹⁶⁴ Planck times</td></tr>
+        <tr><td>our planet's axis, in Planck lengths</td><td>2¹⁵² to 2¹⁵³</td><td>2¹⁵⁴ to 2¹⁵⁵</td></tr>
+        <tr><td>its period, in Planck times</td><td>2¹⁶⁸ to 2¹⁶⁹</td><td>2¹⁷⁰ to 2¹⁷¹</td></tr>
+        <tr><td>its radius, in Planck lengths</td><td>not given</td><td>2¹⁴¹ to 2¹⁴²</td></tr>
+        <tr><td>its mass, in proton masses</td><td>2¹⁷¹ to 2¹⁷²</td><td>less than 2¹⁸² (only an upper bound is known)</td></tr>
+      </tbody>
+    </table>
+    <p>The temperatures and the luminosity are wide because a star's temperature is measured to only about 2 %; the planet's mass is known only roughly, from how it pulls the two stars, so it gets an upper bound only.</p>
+  </section>
+
+  <section>
+    <h2>The Galaxy seen from Kepler-1647</h2>
+    <p>Kepler-1647 is 1.2 kpc from the Sun: 0.3 kpc nearer the Galactic centre, 1.17 kpc ahead along the rotation and 0.14 kpc above the plane. Its distance from the centre is 8.06 kpc instead of 8.28, which stays in the same range, and so do its period round the centre and the ratio that shows the centre alone cannot hold it. But the direction to the centre is turned by 8.4° against the Sun's, and with it the direction of rotation and, by 1°, the pole. The axes of the background radiation are the same everywhere (they are defined in its own rest frame), so the Galaxy's directions, given in those axes, change: two ranges are changed for that (the direction to the centre along the first axis, now 1/8 to 5/16; the direction of rotation along the third, now 1/8 to 3/4).</p>
+    <p>The star's own motion, from Gaia's proper motion and its radial velocity (18.0 km/s), adds to the Sun's: relative to the centre it moves at 257 km/s along the rotation, 27 km/s toward the centre and 13 km/s toward the pole. The first is faster than the Sun's 246 km/s, too near the bound of 2⁻¹⁰ c, so its range is now 2⁻¹¹ to 9/2¹³ of the speed of light.</p>
+  </section>
+
+  <section>
+    <h2>The pulsars seen from Kepler-1647</h2>
+    <p>Seen from 1.2 kpc away, the six pulsars lie in other directions; the nearer the pulsar, the larger the change. The direction of each is worked out from its direction and distance from the Sun (ATNF), and then given in the decoy's own Galactic directions:</p>
+    <table>
+      <thead>
+        <tr><th>Pulsar</th><th>Distance from the Sun</th><th>From Kepler-1647</th><th>Direction changed by</th><th>Light reaches Kepler-1647</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>J1921+2153 (the first found)</td><td>0.30 kpc</td><td>0.94 kpc</td><td>154°: on the other side of the sky</td><td>2100 years older</td></tr>
+        <tr><td>J0437−4715 (millisecond)</td><td>0.16 kpc</td><td>1.34 kpc</td><td>31°</td><td>3900 years older</td></tr>
+        <tr><td>J0332+5434</td><td>1.68 kpc</td><td>1.70 kpc</td><td>42°</td><td>about the same</td></tr>
+        <tr><td>J1939+2134 (millisecond)</td><td>3.5 kpc</td><td>2.4 kpc</td><td>10°</td><td>3600 years younger</td></tr>
+        <tr><td>Vela</td><td>0.28 kpc</td><td>1.49 kpc</td><td>7°</td><td>3900 years older</td></tr>
+        <tr><td>B1951+32 (for the Crab)</td><td>3.0 kpc</td><td>1.8 kpc</td><td>5°</td><td>3900 years younger</td></tr>
+      </tbody>
+    </table>
+    <p>Because the light that reaches Kepler-1647 left a pulsar at another time, the pulsar is seen at another age. For the old millisecond pulsars and the slow ones that changes nothing the message can show. Vela is young: seen 3900 years earlier, it turned in about 0.074 s instead of 0.089 s, so its period now spans two powers of two and its slowing a wide range. The Crab is younger still: its star was seen to explode in 1054, and seen from Kepler-1647 it is 2200 years earlier, so there the explosion is still to come and there is no Crab pulsar. In the decoy, the name <code>crab-pulsar</code> stands for PSR B1951+32, a young pulsar (107 000 years) in the remnant of another exploded star, CTB 80, which lies in Cygnus, near Kepler-1647 in the sky.</p>
+    <p>A pulsar's distance is often poorly known, and from 1.2 kpc away its direction depends on it. The catalogue gives two distances for each pulsar, its best one and one from the dispersion of its pulses; the difference between them is taken as the uncertainty. For J1921 they are 0.30 and 0.81 kpc, and its direction along the centre can be anywhere: the decoy leaves that component out. J0332's direction along the rotation is likewise left nearly open.</p>
+  </section>
+
+  <section>
+    <h2>How the numbers are checked</h2>
+    <p>Like the full message, the decoy is checked by the build: every <code>observed</code> range must have both bounds at least 5 standard uncertainties from the reference value (85 ranges, including those inside the sentences about the companion). The reference values are made from downloaded sources in <code>build/check/reference/sources/</code>: the NASA Exoplanet Archive's row for Kepler-1647, the LaTeX source of Kostov and others (2016) for the second star and the orbit of the two, and the ATNF catalogue for the pulsars. The geometry (the decoy's Galactic directions, the star's velocity, the pulsar directions and light delays) is computed in <code>build/check/measurements.ts</code>, with the uncertainty of each input carried through: the Sun's distance from the centre and its motion, the circular speed, the distance, proper motion and radial velocity of Kepler-1647, and the pulsars' distances. A pulsar's period seen at another age is extrapolated from its slowing, with a quarter of the change as model uncertainty.</p>
+  </section>
+
+  <section>
+    <h2>Other systems considered</h2>
+    <ul>
+      <li><strong>Kepler-16</strong>, 75 pc: an orange and a red dwarf with a Saturn-mass planet going round both, all masses measured very precisely. Two pulsars move by 8° to 9°. But in powers of two its star's mass and radius and its planet's orbit fall in the same ranges as the Sun's and the Earth's, and the planet is cold (about 180 K), outside the habitable zone.</li>
+      <li><strong>TRAPPIST-1</strong>, 12.5 pc: an ultracool dwarf with seven Earth-sized planets. Too near: no pulsar moves by more than 4.5°.</li>
+      <li><strong>Kepler-62, Kepler-186, Kepler-442, Kepler-452</strong>, 180 to 550 pc: rocky planets in the habitable zone, but their masses have not been measured.</li>
+      <li><strong>Planets found by microlensing toward the Galactic bulge</strong>, several kpc away: these would change even the Galaxy lesson's distances, but nothing is known of their stars' radius, temperature or luminosity.</li>
+      <li><strong>Proxima Centauri</strong>, 1.3 pc: the first decoy (see above).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Files and lessons</h2>
+    <p>The decoy message: <a href="decoy/message.txt">message.txt</a>, <a href="decoy/message.bits">message.bits</a>, <a href="decoy/message.bin">message.bin</a>, <a href="decoy/message.bin.txt">message.bin.txt</a>. The replacing lessons: <a href="lessons/512-the-sun-decoy.html">the Sun (decoy)</a>, <a href="lessons/514-the-sun-in-the-galaxy-decoy.html">the Sun in the Galaxy (decoy)</a> and <a href="lessons/516-pulsars-decoy.html">pulsars (decoy)</a>. The other versions are on the <a href="versions.html">versions</a> page.</p>
+    <p><small>Sources: V. B. Kostov and others, <cite>Kepler-1647b: the largest and longest-period Kepler transiting circumbinary planet</cite>, Astrophys. J. 827, 86 (2016), <a href="https://arxiv.org/abs/1512.00189">arXiv:1512.00189</a>; the NASA Exoplanet Archive (Kepler-1647, with the distance and motion from the TESS Input Catalog); the ATNF Pulsar Catalogue 2.6.1; and the sources of the lessons on the Sun in the Galaxy and on pulsars. Details in the <a href="specification.html#reference">specification, §8.4</a>.</small></p>
+  </section>
+</main>
+
+<footer>cosmic-language · decoy · draft</footer>
+</body>
+</html>

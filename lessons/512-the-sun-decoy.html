@@ -11,40 +11,64 @@
 <body>
 <article class="lesson" data-topic="astronomy" data-optional data-replaces="512-the-sun">
   <h3>the Sun (decoy)</h3>
-  <p>This lesson is not in the message. It stands in for the lesson on the Sun in the decoy version only, which is made for fun: to see whether a blind reader places the sender at another star. Here <code>sun</code> and <code>earth</code> are Proxima Centauri, the nearest star, and its planet Proxima b. It is near enough that the lessons on the Galaxy and on pulsars still hold as they are: seen from it, no pulsar's direction changes by more than about half a degree.</p>
+  <p>This lesson is not in the message. It stands in for the lesson on the Sun in the decoy version only, which is made for fun: to see whether a blind reader places the sender at another star. Here <code>sun</code> is Kepler-1647 A, a star larger and hotter than the Sun, 1.2 kiloparsecs away (about 4000 light-years). It does not shine alone: a second star, almost a twin of the Sun, goes round it every 11 days. <code>earth</code> is the giant planet Kepler-1647 b, which goes round both stars in their habitable zone, and the sender lives on a moon of it. The system is so far from the Sun that the lessons on the Galaxy and on pulsars are replaced too: seen from there, the pulsars lie in other directions, and some of them at another age. Why this system was chosen, and how the numbers were found, is on the <a href="../decoy.html">decoy</a> page.</p>
   <pre><code>
 ; our star is a star, and our planet is a body
 (∃ u stars (= u sun))
 (∃ u bodies (= u earth))
 
-; our star's mass: between 2¹⁸⁶ and 2¹⁸⁷ proton masses
-(observed (&lt; (^ 2 186) (÷ (mass sun) (mass proton)) (^ 2 187)))
-; its radius: between 35 × 2¹³⁵ and 244 × 2¹³⁵ Planck lengths
-(observed (&lt; (× 35 (^ 2 135)) (÷ (radius sun) planck-length) (× 244 (^ 2 135))))
-; its temperature: between 2³ and 2⁴ times the triple point of water
-(observed (&lt; (^ 2 3) (÷ (temperature sun) (triple-point water)) (^ 2 4)))
-; its luminosity: between 117/2¹⁰³ and 206/2¹⁰³ of the Planck unit
-; of power, c⁵ ÷ G
-(observed (&lt; (÷ 117 (^ 2 103)) (÷ (luminosity sun) (÷ (^ c 5) G)) (÷ 206 (^ 2 103))))</code></pre>
-  <p>Our planet goes round our star. Its orbit and its mass are given in units that any reader has: Planck lengths, Planck times and proton masses.</p>
+; our star's mass: between 7 × 2¹⁸⁷ and 2¹⁹⁰ proton masses
+(observed (&lt; (× 7 (^ 2 187)) (÷ (mass sun) (mass proton)) (^ 2 190)))
+; its radius: between 2¹⁴⁵ and 2¹⁴⁶ Planck lengths
+(observed (&lt; (^ 2 145) (÷ (radius sun) planck-length) (^ 2 146)))
+; its temperature: between 2⁴ and 2⁵ times the triple point of water
+(observed (&lt; (^ 2 4) (÷ (temperature sun) (triple-point water)) (^ 2 5)))
+; its luminosity: between 2⁻⁸⁵ and 2⁻⁸³ of the Planck unit of power,
+; c⁵ ÷ G
+(observed (&lt; (÷ 1 (^ 2 85)) (÷ (luminosity sun) (÷ (^ c 5) G)) (÷ 1 (^ 2 83))))</code></pre>
+  <p>A second star goes round ours, close by, and no other star does. It has no name in the message: each sentence about it says "the star that goes round ours". Its mass, size and temperature are close to those of our star, a little smaller.</p>
   <pre><code>
-; our planet orbits our star
-(observed (orbits earth sun))
-; the size of its orbit: between 2¹⁴⁸ and 2¹⁴⁹ Planck lengths
-(observed (&lt; (^ 2 148) (÷ (axis earth sun) planck-length) (^ 2 149)))
+; one other star goes round ours, and only one
+(observed (∃ u stars (and (not (= u sun)) (orbits u sun))))
+(observed (∀ u stars (∀ v stars (implies (and (orbits u sun) (orbits v sun)) (= u v)))))
+
+; its mass: between 2¹⁸⁹ and 2¹⁹⁰ proton masses
+(observed (∃ u stars (and (orbits u sun) (&lt; (^ 2 189) (÷ (mass u) (mass proton)) (^ 2 190)))))
+; its radius: between 2¹⁴⁴ and 2¹⁴⁵ Planck lengths
+(observed (∃ u stars (and (orbits u sun) (&lt; (^ 2 144) (÷ (radius u) planck-length) (^ 2 145)))))
+; its temperature: between 2⁴ and 2⁵ times the triple point of water
+(observed (∃ u stars (and (orbits u sun) (&lt; (^ 2 4) (÷ (temperature u) (triple-point water)) (^ 2 5)))))
+
+; the size of its orbit: between 2¹⁴⁹ and 2¹⁵⁰ Planck lengths
+(observed (∃ u stars (and (orbits u sun) (&lt; (^ 2 149) (÷ (axis u sun) planck-length) (^ 2 150)))))
 ; one round takes between 2¹⁶³ and 2¹⁶⁴ Planck times
-(observed (&lt; (^ 2 163) (÷ (period earth sun) planck-time) (^ 2 164)))
-; its mass is more than 2¹⁷⁰ proton masses: only a lower bound
-; is known, as the true mass depends on the tilt of its orbit
-(observed (&lt; (^ 2 170) (÷ (mass earth) (mass proton))))</code></pre>
-  <p>This is where we are. New: <code>at</code>, a party living on a body. Like everything we say about ourselves, it is <code>stated</code>: this star is our star.</p>
+(observed (∃ u stars (and (orbits u sun) (&lt; (^ 2 163) (÷ (period u sun) planck-time) (^ 2 164)))))</code></pre>
+  <p>Our planet goes round both stars, far outside their own orbit. So the rule for orbits holds for it with the mass of all three: the period of our planet is that of a body going round one star as heavy as the two together. Its orbit, size and mass are given in units that any reader has: Planck lengths, Planck times and proton masses.</p>
   <pre><code>
-; we live on the planet, which goes round the star
-(stated (at we earth))
-(stated (∃ u bodies (and (at we u) (orbits u sun))))
-; we do not live on the star itself
+; our planet goes round both stars: period² = 4π² × axis³ ÷ (G ×
+; the sum of the masses of the two stars and the planet)
+(observed (∃ u stars (and (orbits u sun)
+  (= (^ (period earth sun) 2)
+     (÷ (× 4 (^ π 2) (^ (axis earth sun) 3))
+        (× G (+ (mass sun) (mass u) (mass earth))))))))
+
+; the size of its orbit: between 2¹⁵⁴ and 2¹⁵⁵ Planck lengths
+(observed (&lt; (^ 2 154) (÷ (axis earth sun) planck-length) (^ 2 155)))
+; one round takes between 2¹⁷⁰ and 2¹⁷¹ Planck times
+(observed (&lt; (^ 2 170) (÷ (period earth sun) planck-time) (^ 2 171)))
+; its radius: between 2¹⁴¹ and 2¹⁴² Planck lengths
+(observed (&lt; (^ 2 141) (÷ (radius earth) planck-length) (^ 2 142)))
+; its mass is less than 2¹⁸² proton masses: only an upper bound is
+; known, from how it pulls the two stars
+(observed (&lt; (÷ (mass earth) (mass proton)) (^ 2 182)))</code></pre>
+  <p>This is where we are. New: <code>at</code>, a party living on a body. Like everything we say about ourselves, it is <code>stated</code>: we live on a body that goes round our planet, not on the planet, which has no solid ground, and not on a star.</p>
+  <pre><code>
+; we live on a body that goes round our planet
+(stated (∃ u bodies (and (at we u) (orbits u earth))))
+; not on the planet itself, and not on our star
+(stated (not (at we earth)))
 (stated (not (at we sun)))</code></pre>
-  <p><small>Sources: NASA Exoplanet Archive, composite parameters of Proxima Cen b, from A. Suárez Mascareño and others (2025); NASA Sun and Earth fact sheets (the units of the archive); CODATA 2022 (the Planck units and the proton mass). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+  <p><small>Sources: NASA Exoplanet Archive, Kepler-1647 (star A and the planet from V. B. Kostov and others, 2016; the distance and motion from the TESS Input Catalog); V. B. Kostov and others (2016) (the second star and the orbit of the two); NASA Sun fact sheet and the IAU's nominal Earth radius (the units of the archive); CODATA 2022 (the Planck units, the proton mass and the Stefan–Boltzmann constant), BIPM (water's triple point). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
 </article>
 </body>
 </html>
