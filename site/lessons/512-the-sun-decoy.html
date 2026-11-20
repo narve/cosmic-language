@@ -43,7 +43,7 @@
 (observed (∃ u stars (and (orbits u sun) (&lt; (^ 2 149) (÷ (axis u sun) planck-length) (^ 2 150)))))
 ; one round takes between 2¹⁶³ and 2¹⁶⁴ Planck times
 (observed (∃ u stars (and (orbits u sun) (&lt; (^ 2 163) (÷ (period u sun) planck-time) (^ 2 164)))))</code></pre>
-  <p>Our planet goes round both stars, far outside their own orbit. So the rule for orbits holds for it as if the two stars were one star as heavy as both: the mass in the rule is that of all three bodies together. Its orbit, size and mass are given in units that any reader has: Planck lengths, Planck times and proton masses.</p>
+  <p>Our planet goes round both stars, far outside their own orbit. So the rule for orbits holds for it as if the two stars were one star as heavy as both: the mass in the rule is that of all three bodies together. For that reason the message never says that our planet <code>orbits</code> our star: the rule of the lesson on stars would then count only our star's mass, and contradict this one. <code>axis</code> and <code>period</code> still describe the planet's orbit, measured from our star, but the lesson on stars gives their dimensions only for a body that <code>orbits</code> another, so they are stated here. Its orbit, size and mass are given in units that any reader has: Planck lengths, Planck times and proton masses.</p>
   <pre><code>
 ; our planet goes round both stars: period² = 4π² × axis³
 ; ÷ (G × the sum of the masses of the two stars and the planet)
@@ -51,6 +51,10 @@
   (= (^ (period earth sun) 2)
      (÷ (× 4 (^ π 2) (^ (axis earth sun) 3))
         (× G (+ (mass sun) (mass u) (mass earth))))))))
+
+; the size of its orbit is a length, one round a time
+(= (dim (axis earth sun)) L)
+(= (dim (period earth sun)) T)
 
 ; the size of its orbit: between 2¹⁵⁴ and 2¹⁵⁵ Planck lengths
 (observed (&lt; (^ 2 154) (÷ (axis earth sun) planck-length) (^ 2 155)))
