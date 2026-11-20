@@ -151,11 +151,11 @@
 (= (atoms hydrogen-chloride) (list hydrogen chlorine))
 (= (bonds hydrogen-chloride) (list (list 1 2 1)))
 
-; sodium chloride: one sodium and one chlorine
+; sodium chloride: one sodium and one chlorine, held together by
+; charge, not by a shared pair, so it has no bonds
 (= (count sodium sodium-chloride) 1)
 (= (count chlorine sodium-chloride) 1)
-(= (atoms sodium-chloride) (list sodium chlorine))
-(= (bonds sodium-chloride) (list (list 1 2 1)))</code></pre>
+(= (atoms sodium-chloride) (list sodium chlorine))</code></pre>
   <p>At one particular temperature and pressure, a substance exists as solid, liquid and gas together: its triple point. Melting and boiling happen at different temperatures under different pressures, but the three forms exist together at one temperature and one pressure only, and both are fixed by the substance. So a triple point needs no pressure to be named with it, and it is the same everywhere. Here are four, from hydrogen gas to water. The first three are given as a part of water's: a ratio of two temperatures is a plain number and needs no unit.</p>
   <pre><code>
 ; hydrogen gas, neon, argon and water, in the order of their triple
