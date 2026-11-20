@@ -36,7 +36,7 @@ export const CHECKERS: Checker[] = [
     about: "groups start with an operator of the right arity, variables are bound, ? only in quote, type names only where a type is meant, every symbol is used, a new symbol is in at least 3 sentences of its lesson (spec §10.1)",
     run: ({ versions, registry }) => {
       checkStructure(versions.full, registry);
-      checkStructure(versions.decoy, registry);
+      checkStructure(versions.decoy, registry, false); // the decoy leaves some lessons out (data-not-in-decoy)
       return "full and decoy";
     },
   },

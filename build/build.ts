@@ -98,9 +98,10 @@ async function build(): Promise<void> {
     return { article, blocks };
   };
   const message: Message = { articles: articles.map(read), topics };
-  // Decoy: the full message with each replaced lesson swapped for its replacement, in the same place: for fun, to see
-  // whether a blind reader places the sender at another star. Its measured ranges are not checked.
-  const decoy: Message = { articles: articles.map((article) => read(replacements.get(article.slug) ?? article)), topics };
+  // Decoy: the full message with each replaced lesson swapped for its replacement, in the same place, and the lessons
+  // marked data-not-in-decoy left out: for fun, to see whether a blind reader places the sender at another star.
+  const decoyArticles = articles.filter((article) => !article.notInDecoy).map((article) => replacements.get(article.slug) ?? article);
+  const decoy: Message = { articles: decoyArticles.map(read), topics };
 
   // Three versions of the message. Full: every lesson (docs/message.*). Cautious: everything except the optional
   // lessons, which reveal where and who we are (docs/cautious/). Minimal: only the game and what it needs, the lessons
@@ -161,7 +162,7 @@ async function build(): Promise<void> {
     full: articles,
     cautious: articles.filter((article) => !optional.has(article.slug)),
     minimal: articles.filter((article) => inMinimal.has(article.slug)),
-    decoy: articles.map((article) => replacements.get(article.slug) ?? article),
+    decoy: decoyArticles,
   };
 
   // Where each version's message files are, and its length in bits, for <cl-files>.
@@ -199,7 +200,7 @@ async function build(): Promise<void> {
   const tokens = message.articles.reduce((n, a) => n + a.blocks.reduce((m, b) => m + b.tokens.length, 0), 0);
   console.log(`${articles.length} articles, ${tokens} tokens, ${binary.length} bits (${binary.bytes.length} bytes)`);
   const minimalTokens = minimal.articles.reduce((n, a) => n + a.blocks.reduce((m, b) => m + b.tokens.length, 0), 0);
-  console.log(`decoy: ${decoy.articles.length} articles, ${decoyBinary.length} bits (${decoyBinary.bytes.length} bytes), ${replacements.size} ${replacements.size === 1 ? "lesson" : "lessons"} replaced`);
+  console.log(`decoy: ${decoy.articles.length} articles, ${decoyBinary.length} bits (${decoyBinary.bytes.length} bytes), ${replacements.size} ${replacements.size === 1 ? "lesson" : "lessons"} replaced, ${articles.length - decoyArticles.length} left out`);
   console.log(`cautious: ${cautious.articles.length} articles, ${cautiousBinary.length} bits (${cautiousBinary.bytes.length} bytes)`);
   console.log(`minimal: ${minimal.articles.length} articles, ${minimalTokens} tokens, ${minimalBinary.length} bits (${minimalBinary.bytes.length} bytes)`);
   for (const line of checks) console.log(`check ${line}`);

@@ -12,7 +12,7 @@
 <header>
   <small>Draft · design phase · 2026-11-20</small>
   <h1>The Decoy: Kepler-1647</h1>
-  <p>The decoy is a fourth version of the message, made for fun: the full message, with the lessons that say where it comes from replaced by lessons about another star system, under the same names. A blind reader gets it as if it were the real thing, and we see whether the reader places the sender there. It says false things about the sender, so it is not meant to be sent. The decoy system is Kepler-1647, a pair of stars 1.2 kiloparsecs (about 4000 light-years) from the Sun, with a giant planet in their habitable zone.</p>
+  <p>The decoy is a fourth version of the message, made for fun: the full message, with the lessons that say where it comes from replaced by lessons about another star system, under the same names. The lesson on humans is left out, until a description of the senders there replaces it. A blind reader gets it as if it were the real thing, and we see whether the reader places the sender there. It says false things about the sender, so it is not meant to be sent. The decoy system is Kepler-1647, a pair of stars 1.2 kiloparsecs (about 4000 light-years) from the Sun, with a giant planet in their habitable zone.</p>
 </header>
 
 <main>
@@ -101,7 +101,7 @@
 
   <section>
     <h2>How the numbers are checked</h2>
-    <p>Like the full message, the decoy is checked by the build: every <code>observed</code> range must have both bounds at least 5 standard uncertainties from the reference value (92 ranges, including those inside the sentences about the companion). The reference values are made from downloaded sources in <code>build/check/reference/sources/</code>: the NASA Exoplanet Archive's row for Kepler-1647, the LaTeX source of Kostov and others (2016) for the second star and the orbit of the two, and the ATNF catalogue for the pulsars. The geometry (the decoy's Galactic directions, the star's velocity, the pulsar directions and light delays) is computed in <code>build/check/measurements.ts</code>, with the uncertainty of each input carried through: the Sun's distance from the centre and its motion, the circular speed, the distance, proper motion and radial velocity of Kepler-1647, and the pulsars' distances. A pulsar's period seen at another age is extrapolated from its slowing, with a quarter of the change as model uncertainty.</p>
+    <p>Like the full message, the decoy is checked by the build: every <code>observed</code> range must have both bounds at least 5 standard uncertainties from the reference value (88 ranges, including those inside the sentences about the companion). The reference values are made from downloaded sources in <code>build/check/reference/sources/</code>: the NASA Exoplanet Archive's row for Kepler-1647, the LaTeX source of Kostov and others (2016) for the second star and the orbit of the two, and the ATNF catalogue for the pulsars. The geometry (the decoy's Galactic directions, the star's velocity, the pulsar directions and light delays) is computed in <code>build/check/measurements.ts</code>, with the uncertainty of each input carried through: the Sun's distance from the centre and its motion, the circular speed, the distance, proper motion and radial velocity of Kepler-1647, and the pulsars' distances. A pulsar's period seen at another age is extrapolated from its slowing, with a quarter of the change as model uncertainty.</p>
   </section>
 
   <section>

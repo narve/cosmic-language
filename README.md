@@ -99,7 +99,8 @@ lessons:
 - **cautious**: everything except the lessons marked `data-optional` (the Sun, the Galaxy, pulsars, earthly
   molecules, humans);
 - **minimal**: the lessons with the topic `minimal` (the signal, the mathematics and the prisoner's dilemma);
-- **decoy**: the full message with each lesson marked `data-replaces="slug"` swapped in for the lesson it replaces.
+- **decoy**: the full message with each lesson marked `data-replaces="slug"` swapped in for the lesson it replaces,
+  and the lessons marked `data-not-in-decoy` (today *humans*) left out.
 
 On the generated pages, the build adds ids, syntax markup, a "New in this lesson" list, links to the vocabulary, and
 after each message block the symbols, chunks and bits views. It never changes what a lesson says.

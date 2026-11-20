@@ -10,6 +10,7 @@ export interface Article {
   topics: string[]; // from data-topic; the first one groups the lesson in runs
   optional: boolean; // data-optional: may be left out of a message, so no other lesson may use what it introduces
   replaces?: string; // data-replaces: the slug of the lesson this one stands in for, in the decoy version only
+  notInDecoy: boolean; // data-not-in-decoy: left out of the decoy version, with no replacement
   number: number; // position in the message
   source: string; // the whole file
 }
@@ -48,6 +49,7 @@ export function loadArticles(window: Window, dir: string, topics: Topic[]): Arti
       topics,
       optional: article.hasAttribute("data-optional"),
       replaces: article.getAttribute("data-replaces") ?? undefined,
+      notInDecoy: article.hasAttribute("data-not-in-decoy"),
       number: 0,
       source,
     };
@@ -60,6 +62,7 @@ export function loadArticles(window: Window, dir: string, topics: Topic[]): Arti
     const original = loaded.find((other) => other.slug === article.replaces && !other.replaces);
     if (!original) throw new BuildError(`${article.slug}: data-replaces names "${article.replaces}", which is not a lesson`);
     article.number = original.number;
+    if (original.notInDecoy) throw new BuildError(`${article.slug}: replaces "${original.slug}", which is marked data-not-in-decoy`);
   }
   return loaded;
 }

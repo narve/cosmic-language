@@ -2,7 +2,7 @@
 // - the hole ? of a question appears only inside quote;
 // - an unquoted group starts with an operator and has the number of arguments its arity allows;
 // - ∀, ∃ and sequence bind a variable, and every variable is bound (sentences are closed);
-// - every symbol in the registry is used (checkStructure, on the full version);
+// - every symbol in the registry is used (checkStructure, on the full version only: the decoy leaves lessons out);
 // - in every version, the ids of each type first appear in the order 1, 2, 3 … with none missing (checkIdOrder);
 // - a symbol is in at least EXAMPLES sentences of the lesson that introduces it;
 // - a type name (an alias for the number of a type) stands only where a type is meant: as an argument of a
@@ -183,7 +183,7 @@ export function checkIdOrder(message: Message, registry: Registry, version: stri
 }
 
 // Throws on a broken rule.
-export function checkStructure(message: Message, registry: Registry): void {
+export function checkStructure(message: Message, registry: Registry, everySymbolUsed = true): void {
   const first = new Map<string, First>(); // in order of first appearance
   for (const { article, blocks } of message.articles) {
     blocks.forEach((block, index) => {
@@ -198,7 +198,7 @@ export function checkStructure(message: Message, registry: Registry): void {
       }
     });
   }
-  for (const [name, entry] of registry) {
+  for (const [name, entry] of everySymbolUsed ? registry : []) {
     if (entry.alias) continue; // a type name is a number, not a symbol
     if (!first.has(name)) throw new BuildError(`the symbol "${name}" is in the registry but not in the message`);
   }
