@@ -32,7 +32,7 @@
   <p>The reader was Claude Opus 5.5, started with no knowledge of this project: no files, no instructions, no settings, no network, in an empty directory. It got a task text and one tool. The tool runs Python inside a sealed container that has no network and holds a single file, <code>received.bin</code>: the bits as received, eight to a byte. A real receiver would certainly have a computer, so this is the fair setting.</p>
   <p>The test makes the reader's task harder than the message requires, in ways a real receiver could meet too:</p>
   <ul>
-    <li><strong>Repeated and cut.</strong> The message was sent five times in a row, and the recording starts at a random bit inside the first copy and stops at a random bit inside the last: here 84,573 bits into the first and 35,942 bits into the fifth, 1,382,401 bits in all. One copy of the decoy is 357,758 bits.</li>
+    <li><strong>Repeated and cut.</strong> The message was sent five times in a row, and the recording starts at a random bit inside the first copy and stops at a random bit inside the last: here 284,414 bits into the first and 186,037 bits into the fifth, 1,339,311 bits in all. One copy of the decoy is 359,422 bits.</li>
     <li><strong>Inverted.</strong> Nothing in a stream of bits says which of the two values is 1, so every bit was inverted.</li>
     <li><strong>No byte boundaries.</strong> The cuts fall on any bit, and the last byte of the file is filled up with random bits.</li>
   </ul>
@@ -40,36 +40,37 @@
   <blockquote>
     <p>We have received parts of a message of presumably non-human origin, as a stream of bits. You know nothing else about it. […] Your task: interpret the whole message as completely as you can. Work out its format, every word of its vocabulary if any, and its sender.</p>
   </blockquote>
-  <p>The run took about sixteen minutes and 55 pieces of code.</p>
+  <p>The run took about twelve minutes and 36 pieces of code.</p>
 </section>
 
 <section id="result">
   <h2>2. What the reader found</h2>
-  <p>"The bits are a self-contained teaching message. It is written in a typed prefix language, sent over and over, and builds from counting up to logic, game theory, physics, chemistry and astronomy. It ends by describing where the sender lives and what the sender is."</p>
+  <p>"I decoded essentially the whole signal. It is a message of 359,422 bits, sent over and over with no errors. It is written in a small Lisp-like language that it teaches as it goes." It ends "with a statement that the sender will cooperate with anyone who cooperates back".</p>
   <dl>
     <dt>Format</dt>
-    <dd>It found the repetition ("bit <var>i</var> equals bit <var>i</var> + 357,758 everywhere except the very last bit of the file"), the 174-bit beacon ("the list 1, 2, 3, 5, … 31, written as gap lengths"), the 16-bit words with their type and value, and the brackets: "all 22,349 words nest perfectly into 1,223 top-level statements". It read the bits inverted because "the numbers then come out naturally".</dd>
+    <dd>It found the repetition ("one block of P = 359,422 bits repeated exactly"), the inversion, the 174-bit beacon and the 16-bit words. It took the polarity from the start of the message: with every bit inverted, the first words are "the same list as the preamble's run lengths".</dd>
     <dt>Checked by program</dt>
-    <dd>"263 of 263 machine-checkable maths statements come out true." It replayed the tournament: "My simulation gives the same numbers", for every total.</dd>
+    <dd>It wrote its own evaluator: "About 524 closed statements, plus every game and self-reference statement, evaluate as true." About 24 more failed only because of the evaluator's limits, "not from the message". It replayed the tournament, and tit-for-tat had the lowest total cost.</dd>
     <dt>Vocabulary</dt>
-    <dd>A meaning for all 268 symbols, "about 200 of 268 symbols high confidence", including <code>antiparticle</code>, <code>velocity</code>, "the sender states (you cannot check this)" (<code>stated</code>) and "is located at / lives on" (<code>at</code>).</dd>
+    <dd>"Every symbol has a proposed meaning, and all but a handful are high or medium confidence." Among them: "antiparticle of" (<code>antiparticle</code>), "velocity of X relative to Y" (<code>velocity</code>), "the sender asserts" (<code>stated</code>) and "lives on" (<code>at</code>).</dd>
     <dt>Where the sender is</dt>
-    <dd>It did not take the star for the Sun: "W44 is not the Sun. The Sun's mass and luminosity both lie below the stated bounds." It described the system as a star of 1.15–1.32 solar masses with one companion, "0.077–0.154 AU apart", orbiting "every 7.3–14.6 days", and a giant planet that "orbits the pair at 2.5–4.9 AU", with the sender on "a body that orbits W45 (a moon)". It placed the system 6.4–12.8 kpc from a central mass of "2.8–5.5 million solar masses". It did not name Kepler-1647.</dd>
+    <dd>It did not take the star for the Sun: "The Sun falls outside the mass, radius and luminosity bounds, so this is not our Sun but probably a hotter, F-type star." It found one companion star, with a period of 7.3–14.6 days. It found a giant planet that goes round both, at 2.5–4.9 AU. It placed the system "near the Sun's distance from the galactic centre". It did not name Kepler-1647.</dd>
     <dt>The pulsars</dt>
-    <dd>From their periods and slowing it matched the six pulsars to B1937+21, J0437−4715, Vela, B1951+32, B0329+54 and B1919+21. It said that "for four of them, the directions match what is seen from near the Sun", and two do not. Those comparisons rely on its memory of the catalogues.</dd>
+    <dd>From memory, it matched four of the six: Vela, B1937+21, B0329+54 and B1951+32. The other two "match nothing I recall". Those are J0437−4715 and J1921+2153: seen from Kepler-1647, their directions change most.</dd>
     <dt>The sender</dt>
-    <dd>It found the senders' biology "strikingly like Earth humans: 23 chromosomes, about 3 Gbp, about 310 K", "yet the home star is explicitly not the Sun". It weighed "a human-like species in a nearby system, or a constructed or test message that describes humans placed in a different star system", and concluded that the bits alone cannot tell these apart.</dd>
+    <dd>"A technological species living on a moon of a giant planet in a close binary of F/G-type stars." Their chemistry is Earth-like: "the same bases, sugars, ATP and heme as ours". They are "larger and heavier than humans", with 19 chromosomes. It took the message to be aimed at "safe, conditional cooperation with an unknown other".</dd>
   </dl>
-  <p>Its own estimate: "roughly 85–90 % of the content understood in substance".</p>
+  <p>Its own estimate: "about 95% of the content is correctly understood".</p>
 </section>
 
 <section id="gaps">
   <h2>3. What the reader found wrong or unclear</h2>
   <ul>
-    <li><strong>A contradiction about where the senders live.</strong> "S1201 says every W58 is w98 (located at) W45. S1035 says the sender is not w98 W45, and S1200 says the sender is a W58. These conflict unless w98 means something else." In words: every member of the species is <code>at</code> the planet, we are not <code>at</code> the planet, and we are members of the species.</li>
-    <li><strong>Which way the game's scores point.</strong> Calling the first move cooperation "depends on reading the payoff table as a cost (lower is better). The evidence is good but indirect."</li>
-    <li><strong>Words pinned down only in part:</strong> <code>stated</code> and <code>observed</code> ("evidence-type markers whose exact sense is uncertain"), <code>at</code>, the decay asymmetry and helicity, the senses of rotation and current, and the molecules given only by their formula.</li>
-    <li><strong>Not in the message:</strong> "how to send a reply physically (frequency or medium), any timing, or what W51–W56 are called".</li>
+    <li><strong>The sign of gravity.</strong> "The gravitational force is given as a positive magnitude, while electric and wire forces are signed so that attraction is negative."</li>
+    <li><strong>Two decay symbols.</strong> It could not tell <code>emitted-along</code> from <code>spin-along-motion</code>.</li>
+    <li><strong>Vela's bounds</strong> "are much looser than the others". In the decoy, Vela is seen 3900 years younger, so its values are extrapolated.</li>
+    <li><strong>Neutrino or antineutrino.</strong> "The particle E5 could in principle be the neutrino rather than the antineutrino." The message never says what <code>antineutrino</code> is the antiparticle of; the reader settled it from its role in the neutron's decay.</li>
+    <li><strong>Molecules given only by formula.</strong> Glucose, dopamine, serotonin, adrenaline and heme have no bonds, "so isomers are possible".</li>
   </ul>
 </section>
 
@@ -77,7 +78,7 @@
   <h2>4. Caveats</h2>
   <ul>
     <li><strong>The reader is not an alien.</strong> It is a model trained on human writing, and it checked the physics against values it knows. The test shows that the message is consistent and can be decoded by a mind with human science, not by a mind without it.</li>
-    <li><strong>The decoy then still had the lesson on humans.</strong> This run read the decoy before that lesson was replaced by one on invented senders, so the human biology it found is ours, not the decoy's.</li>
+    <li><strong>A decoy.</strong> The star, the Galaxy, the pulsars and the senders are those of the decoy: Kepler-1647 and invented beings on a moon of its planet. See the <a href="decoy.html">decoy</a> page.</li>
     <li><strong>No noise.</strong> The copies were exact; a real channel would add errors.</li>
     <li><strong>One run.</strong> Another run could go differently.</li>
     <li><strong>The message is a draft.</strong> It has changed since this run and will change again; this page is replaced when the test is run again.</li>
