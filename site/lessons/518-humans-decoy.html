@@ -11,7 +11,7 @@
 <body>
 <article class="lesson" data-topic="life" data-optional data-replaces="518-humans">
   <h3>humans (decoy)</h3>
-  <p>This lesson is not in the message. It stands in for the lesson on humans in the decoy version only, which is made for fun: to see whether a blind reader places the sender at another star. Here <code>humans</code> are the senders of the decoy, invented for it: beings of a large moon of the giant planet Kepler-1647 b. Nothing in this lesson was measured. The beings are made to fit their world: the moon pulls less than the Earth does, so they are taller and more slender than we are; it gets less light, from two suns, so they run a little cooler. Their chemistry is the one of the lesson on earthly molecules, which the decoy keeps: water, DNA, heme in the blood. How they were made up is on the <a href="../decoy.html">decoy</a> page.</p>
+  <p>This lesson is not in the message. It stands in for the lesson on humans in the decoy version only, which is made for fun: to see whether a blind reader places the sender at another star. Here <code>humans</code> are the senders of the decoy, invented for it: beings of a large moon of the giant planet Kepler-1647 b. Nothing in this lesson was measured. The beings are made to fit their world: the moon pulls less than the Earth does, so they are taller and more slender than we are; it gets less light, from two suns, so they run a little cooler. Their chemistry is that of the lesson on the chemistry of life (decoy): water, heme in the blood, and a hereditary molecule that is not DNA. How they were made up is on the <a href="../decoy.html">decoy</a> page.</p>
   <p>The senders are <code>humans</code>: living things, each a party that can send and receive messages. They all live on one body that goes round the planet, as the lesson on the Sun (decoy) said of us.</p>
   <pre><code>
 ; every human is a party
@@ -38,7 +38,7 @@
 (observed (&lt; (÷ 17 16) (÷ (average u humans (temperature u)) (triple-point water)) (÷ 9 8)))
 ; every living human is warmer than the triple point of water
 (observed (∀ u humans (&gt; (temperature u) (triple-point water))))</code></pre>
-  <p>What we are made of. Most of our atoms are hydrogen, then oxygen, carbon and nitrogen, with smaller amounts of eight more elements. Water is the most common molecule in us by far, and more than half of our mass. All the molecules of the lesson on earthly molecules are in us too.</p>
+  <p>What we are made of. Most of our atoms are hydrogen, then oxygen, carbon and nitrogen, with smaller amounts of eight more elements. Water is the most common molecule in us by far, and more than half of our mass. All the molecules of the lesson on the chemistry of life are in us too.</p>
   <pre><code>
 ; in every human: more hydrogen atoms than oxygen, more oxygen than
 ; carbon, more carbon than nitrogen
@@ -55,11 +55,11 @@
     (&gt; (count v u) 0))))
 ; and more than half of a human's mass is water, on average
 (observed (&gt; (average u humans (÷ (× (count water u) (mass water)) (mass u))) (÷ 1 2)))</code></pre>
-  <p>Our heredity is DNA. <code>genome</code> gives one full set of the DNA molecules in a cell; a cell of ours holds two such sets, one from each parent. Our set is 19 molecules, together about six and a half thousand million base pairs.</p>
+  <p>Our heredity is the double helix of the lesson on the chemistry of life, which <code>dna</code> names here. <code>genome</code> gives one full set of these molecules in a cell; a cell of ours holds two such sets, one from each parent. Our set is 19 molecules, together about six and a half thousand million base pairs.</p>
   <pre><code>
-; a set of a human's DNA: 19 molecules
+; a set of a human's hereditary molecules: 19 of them
 (observed (∀ u humans (= (length (genome u)) 19)))
-; each of them is DNA
+; each of them is one of the hereditary molecules
 (observed (∀ u humans (∀ v (genome u) (∃ w dna (= w v)))))
 ; together between 2³² and 2³³ base pairs, about 1.5 × 2³²
 (observed (&lt; (^ 2 32)

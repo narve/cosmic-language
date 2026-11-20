@@ -105,7 +105,7 @@
     <ul>
       <li><strong>Their world</strong> is a large moon of Kepler-1647 b, about 0.4 Earth masses and 0.8 Earth radii, so it pulls about 0.6 times as hard as the Earth. It turns one face to the giant, which hangs still in its sky. It gets about 0.7 times the light the Earth gets, bluer, from two suns that eclipse each other every 5.6 days; a thick air of nitrogen and oxygen, with more carbon dioxide than ours, keeps it warm.</li>
       <li><strong>Their bodies</strong> are tall and slender in the weaker pull: 3.1 m and 160 kg on average (a human scaled up to that height would weigh about 380 kg). They are warm-blooded, but run cooler than we do, at about 298 K (25 °C).</li>
-      <li><strong>Their chemistry</strong> is ours, because the decoy keeps the lesson on earthly molecules, which says what the air of our planet is and what bodies like ours are built from: water, DNA, ATP, heme. Their heredity is DNA in 19 molecules per set, about 6.4 thousand million base pairs, two sets per cell.</li>
+      <li><strong>Their chemistry</strong> is ours in the small molecules: the air, glucose, the amino acids, urea, the signal molecules and heme. Their heredity is not DNA (see below): 19 molecules per set, about 6.4 thousand million base pairs, two sets per cell.</li>
     </ul>
     <table>
       <thead>
@@ -116,11 +116,34 @@
         <tr><td>average height, in Planck lengths</td><td>2¹¹⁶ to 2¹¹⁷</td><td>2¹¹⁷ to 2¹¹⁸ (3.1 ± 0.05 m)</td></tr>
         <tr><td>nobody as tall as, in Planck lengths</td><td>2¹¹⁸</td><td>2¹¹⁸</td></tr>
         <tr><td>average temperature, in triple points of water</td><td>9/8 to 73/64</td><td>17/16 to 9/8 (298 ± 1 K)</td></tr>
-        <tr><td>DNA molecules per set</td><td>23</td><td>19</td></tr>
+        <tr><td>hereditary molecules per set</td><td>23</td><td>19</td></tr>
         <tr><td>base pairs per set</td><td>2³¹ to 2³²</td><td>2³² to 2³³ (6.4 ± 0.07 × 10⁹)</td></tr>
       </tbody>
     </table>
     <p>The sentences on what they are made of are those of the lesson on humans. Where we live changes: all of them live on one body that goes round the planet, <code>(stated (∃ v bodies (and (orbits v earth) (∀ u humans (at u v)))))</code>. The values with their uncertainties are in <code>build/check/measurements.ts</code>, so the build checks the ranges as it checks measured ones; the uncertainties are chosen, not measured.</p>
+  </section>
+
+  <section>
+    <h2>Their hereditary molecule</h2>
+    <p>The lesson on the chemistry of life is replaced too, so that the senders' heredity is not DNA. Their hereditary molecule is invented, but built from real chemistry: a backbone of threose and phosphate, as in TNA, a nucleic acid made in laboratories on Earth that pairs like DNA; and four bases that pair by three hydrogen bonds each, two of them found in some viruses (2,6-diaminopurine and 5-hydroxymethyluracil) and two from a pair made in the laboratory (xanthine and 2,4-diaminopyrimidine). The decoy keeps the names of the full message, as it does for <code>sun</code>:</p>
+    <table>
+      <thead>
+        <tr><th>Name</th><th>Full message</th><th>Decoy</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>dna</code></td><td>DNA</td><td>their hereditary molecules</td></tr>
+        <tr><td><code>adenine</code>, its <code>partner</code> <code>thymine</code></td><td>adenine (C₅H₅N₅), thymine (C₅H₆N₂O₂)</td><td>2,6-diaminopurine (C₅H₆N₆), 5-hydroxymethyluracil (C₅H₆N₂O₃)</td></tr>
+        <tr><td><code>guanine</code>, its <code>partner</code> <code>cytosine</code></td><td>guanine (C₅H₅N₅O), cytosine (C₄H₅N₃O)</td><td>xanthine (C₅H₄N₄O₂), 2,4-diaminopyrimidine (C₄H₆N₄)</td></tr>
+        <tr><td><code>uracil</code>, <code>ribose</code></td><td>uracil, ribose (the copies that carry the message in a cell)</td><td>the same</td></tr>
+        <tr><td><code>deoxyribose</code></td><td>deoxyribose (C₅H₁₀O₄)</td><td>threose (C₄H₈O₄)</td></tr>
+        <tr><td><code>atp</code></td><td>ATP (C₁₀H₁₆N₅O₁₃P₃)</td><td>the triphosphate of 2,6-diaminopurine (C₁₀H₁₇N₆O₁₃P₃)</td></tr>
+        <tr><td>the hand of the helix</td><td>right-handed</td><td>left-handed</td></tr>
+        <tr><td>base pairs per turn</td><td>2³ to 13 (about 10.4)</td><td>11 to 13 (12 ± 0.15)</td></tr>
+        <tr><td>rise per base pair, in Planck lengths</td><td>2⁸³ to 2⁸⁵</td><td>2⁸³ to 2⁸⁴ (2.7 ± 0.08 Å)</td></tr>
+        <tr><td>one turn, in Planck lengths</td><td>2⁸⁷ to 2⁸⁸</td><td>2⁸⁷ to 2⁸⁸ (32 Å)</td></tr>
+      </tbody>
+    </table>
+    <p>The rest of the lesson is unchanged: the two strands run in opposite directions, so each molecule holds as many of the first base as of the second, and as many of the third as of the fourth. Because the helix turns the other way, the decoy gives the number of base pairs per turn with <code>abs</code>. In the decoy's views of the symbols, these names still show the formulas of the full message, which are in the vocabulary.</p>
   </section>
 
   <section>
@@ -137,7 +160,7 @@
 
   <section>
     <h2>How the numbers are checked</h2>
-    <p>Like the full message, the decoy is checked by the build: every <code>observed</code> range must have both bounds at least 5 standard uncertainties from the reference value (92 ranges, including those inside the sentences about the companion and the four about the invented senders). The reference values are made from downloaded sources in <code>build/check/reference/sources/</code>: the NASA Exoplanet Archive's row for Kepler-1647, the LaTeX source of Kostov and others (2016) for the second star and the orbit of the two, and the ATNF catalogue for the pulsars. The geometry (the decoy's Galactic directions, the star's velocity, the pulsar directions and light delays) is computed in <code>build/check/measurements.ts</code>, with the uncertainty of each input carried through: the Sun's distance from the centre and its motion, the circular speed, the distance, proper motion and radial velocity of Kepler-1647, and the pulsars' distances. A pulsar's period seen at another age is extrapolated from its slowing, with a quarter of the change as model uncertainty.</p>
+    <p>Like the full message, the decoy is checked by the build: every <code>observed</code> range must have both bounds at least 5 standard uncertainties from the reference value (92 ranges, including those inside the sentences about the companion and the seven about the invented senders and their hereditary molecule). The reference values are made from downloaded sources in <code>build/check/reference/sources/</code>: the NASA Exoplanet Archive's row for Kepler-1647, the LaTeX source of Kostov and others (2016) for the second star and the orbit of the two, and the ATNF catalogue for the pulsars. The geometry (the decoy's Galactic directions, the star's velocity, the pulsar directions and light delays) is computed in <code>build/check/measurements.ts</code>, with the uncertainty of each input carried through: the Sun's distance from the centre and its motion, the circular speed, the distance, proper motion and radial velocity of Kepler-1647, and the pulsars' distances. A pulsar's period seen at another age is extrapolated from its slowing, with a quarter of the change as model uncertainty.</p>
   </section>
 
   <section>
@@ -153,7 +176,7 @@
 
   <section>
     <h2>Files and lessons</h2>
-    <p>The decoy message: <a href="decoy/message.txt">message.txt</a>, <a href="decoy/message.bits">message.bits</a>, <a href="decoy/message.bin">message.bin</a>, <a href="decoy/message.bin.txt">message.bin.txt</a>. The replacing lessons: <a href="lessons/512-the-sun-decoy.html">the Sun (decoy)</a>, <a href="lessons/514-the-sun-in-the-galaxy-decoy.html">the Sun in the Galaxy (decoy)</a> , <a href="lessons/516-pulsars-decoy.html">pulsars (decoy)</a> and <a href="lessons/518-humans-decoy.html">humans (decoy)</a>. The other versions are on the <a href="versions.html">versions</a> page.</p>
+    <p>The decoy message: <a href="decoy/message.txt">message.txt</a>, <a href="decoy/message.bits">message.bits</a>, <a href="decoy/message.bin">message.bin</a>, <a href="decoy/message.bin.txt">message.bin.txt</a>. The replacing lessons: <a href="lessons/512-the-sun-decoy.html">the Sun (decoy)</a>, <a href="lessons/514-the-sun-in-the-galaxy-decoy.html">the Sun in the Galaxy (decoy)</a>, <a href="lessons/516-pulsars-decoy.html">pulsars (decoy)</a>, <a href="lessons/517-the-chemistry-of-life-decoy.html">the chemistry of life (decoy)</a> and <a href="lessons/518-humans-decoy.html">humans (decoy)</a>. The other versions are on the <a href="versions.html">versions</a> page.</p>
     <p><small>Sources: V. B. Kostov and others, <cite>Kepler-1647b: the largest and longest-period Kepler transiting circumbinary planet</cite>, Astrophys. J. 827, 86 (2016), <a href="https://arxiv.org/abs/1512.00189">arXiv:1512.00189</a>; the NASA Exoplanet Archive (Kepler-1647, with the distance and motion from the TESS Input Catalog); the ATNF Pulsar Catalogue 2.6.1; and the sources of the lessons on the Sun in the Galaxy and on pulsars. Details in the <a href="specification.html#reference">specification, §8.4</a>.</small></p>
   </section>
 </main>

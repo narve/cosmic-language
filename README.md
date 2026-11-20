@@ -96,8 +96,8 @@ There is no source file per version: the build makes `docs/full/`, `docs/cautiou
 lessons:
 
 - **full**: every lesson (`docs/message.*`);
-- **cautious**: everything except the lessons marked `data-optional` (the Sun, the Galaxy, pulsars, earthly
-  molecules, humans);
+- **cautious**: everything except the lessons marked `data-optional` (the Sun, the Galaxy, pulsars, the
+  chemistry of life, humans);
 - **minimal**: the lessons with the topic `minimal` (the signal, the mathematics and the prisoner's dilemma);
 - **decoy**: the full message with each lesson marked `data-replaces="slug"` swapped in for the lesson it replaces,
   and the lessons marked `data-not-in-decoy` (none today) left out.

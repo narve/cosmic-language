@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The chemistry of life · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson" data-topic="life chemistry" data-optional>
+  <h3>the chemistry of life</h3>
+  <p>The molecules of the lesson on common molecules are found all over the Galaxy. The ones here matter to us in particular: the air of our planet, and the molecules that life on it, and our own bodies, are built from and run on. Each is given by how many atoms of each element it contains. Most are made of hydrogen, carbon, nitrogen and oxygen only; a few also hold phosphorus, sulfur or iron.</p>
+  <p>Our air is mostly two molecules, each made of two atoms of one element. Dinitrogen shares three pairs, dioxygen two. Free dioxygen is rare between the stars and reacts easily; on our planet it is made all the time by living things.</p>
+  <pre><code>
+; dinitrogen: two nitrogen atoms sharing three pairs
+(= (count nitrogen dinitrogen) 2)
+(= (atoms dinitrogen) (list nitrogen nitrogen))
+(= (bonds dinitrogen) (list (list 1 2 3)))
+; 14 electrons, as many as carbon monoxide
+(= (count electron dinitrogen) (count electron carbon-monoxide))
+
+; dioxygen: two oxygen atoms sharing two pairs
+(= (count oxygen dioxygen) 2)
+(= (atoms dioxygen) (list oxygen oxygen))
+(= (bonds dioxygen) (list (list 1 2 2)))
+(= (count electron dioxygen) 16)</code></pre>
+  <p>Glucose is the sugar that living things store and burn for energy. Glycine is the simplest of the amino acids, the building blocks of proteins.</p>
+  <pre><code>
+; glucose: 6 carbon, 12 hydrogen, 6 oxygen
+(= (count carbon glucose) 6)
+(= (count hydrogen glucose) 12)
+(= (count oxygen glucose) 6)
+(= (count nitrogen glucose) 0)
+
+; glycine: 2 carbon, 5 hydrogen, 1 nitrogen, 2 oxygen
+(= (count carbon glycine) 2)
+(= (count hydrogen glycine) 5)
+(= (count nitrogen glycine) 1)
+(= (count oxygen glycine) 2)</code></pre>
+  <p>The hereditary molecules of life here, DNA and RNA, are long chains that carry a message written in four letters. The letters are bases: adenine, thymine, guanine and cytosine in DNA; in RNA, uracil takes the place of thymine. Thymine is uracil with one carbon and two hydrogen more.</p>
+  <pre><code>
+; adenine: 5 carbon, 5 hydrogen, 5 nitrogen, and no oxygen
+(= (count carbon adenine) 5)
+(= (count hydrogen adenine) 5)
+(= (count nitrogen adenine) 5)
+(= (count oxygen adenine) 0)
+
+; thymine: 5 carbon, 6 hydrogen, 2 nitrogen, 2 oxygen
+(= (count carbon thymine) 5)
+(= (count hydrogen thymine) 6)
+(= (count nitrogen thymine) 2)
+(= (count oxygen thymine) 2)
+
+; guanine: 5 carbon, 5 hydrogen, 5 nitrogen, 1 oxygen
+(= (count carbon guanine) 5)
+(= (count hydrogen guanine) 5)
+(= (count nitrogen guanine) 5)
+(= (count oxygen guanine) 1)
+
+; cytosine: 4 carbon, 5 hydrogen, 3 nitrogen, 1 oxygen
+(= (count carbon cytosine) 4)
+(= (count hydrogen cytosine) 5)
+(= (count nitrogen cytosine) 3)
+(= (count oxygen cytosine) 1)
+
+; uracil: 4 carbon, 4 hydrogen, 2 nitrogen, 2 oxygen
+(= (count carbon uracil) 4)
+(= (count hydrogen uracil) 4)
+(= (count nitrogen uracil) 2)
+(= (count oxygen uracil) 2)
+
+; thymine has one carbon and two hydrogen more than uracil, and the
+; same nitrogen and oxygen
+(= (count carbon thymine) (+ (count carbon uracil) 1))
+(= (count hydrogen thymine) (+ (count hydrogen uracil) 2))
+(= (count nitrogen thymine) (count nitrogen uracil))
+(= (count oxygen thymine) (count oxygen uracil))</code></pre>
+  <p>Two more amino acids carry sulfur: cysteine and methionine. Ribose is the sugar of RNA, and deoxyribose, with one oxygen less, the sugar of DNA. ATP, built from adenine, ribose and three phosphates, carries energy inside every living cell here.</p>
+  <pre><code>
+; cysteine: 3 carbon, 7 hydrogen, 1 nitrogen, 2 oxygen, 1 sulfur
+(= (count carbon cysteine) 3)
+(= (count hydrogen cysteine) 7)
+(= (count nitrogen cysteine) 1)
+(= (count oxygen cysteine) 2)
+(= (count sulfur cysteine) 1)
+
+; methionine: 5 carbon, 11 hydrogen, 1 nitrogen, 2 oxygen, 1 sulfur
+(= (count carbon methionine) 5)
+(= (count hydrogen methionine) 11)
+(= (count nitrogen methionine) 1)
+(= (count oxygen methionine) 2)
+(= (count sulfur methionine) 1)
+
+; ribose: 5 carbon, 10 hydrogen, 5 oxygen
+(= (count carbon ribose) 5)
+(= (count hydrogen ribose) 10)
+(= (count oxygen ribose) 5)
+
+; deoxyribose: the same, with one oxygen less
+(= (count carbon deoxyribose) (count carbon ribose))
+(= (count hydrogen deoxyribose) (count hydrogen ribose))
+(= (count oxygen deoxyribose) (− (count oxygen ribose) 1))
+
+; ATP: 10 carbon, 16 hydrogen, 5 nitrogen, 13 oxygen, 3 phosphorus
+(= (count carbon atp) 10)
+(= (count hydrogen atp) 16)
+(= (count nitrogen atp) 5)
+(= (count oxygen atp) 13)
+(= (count phosphorus atp) 3)
+; its nitrogen is all in its adenine
+(= (count nitrogen atp) (count nitrogen adenine))</code></pre>
+  <p>A DNA molecule is two long strands, each a chain of bases held on a backbone of sugar and phosphate. <code>strands</code> gives them as two lists of bases. Each strand has a direction of its own, set by how its backbone is built, and each list is read in that direction. Across the two strands, each base sits opposite its <code>partner</code>: adenine opposite thymine, guanine opposite cytosine.</p>
+  <pre><code>
+; every DNA molecule has two strands
+(observed (∀ u dna (= (length (strands u)) 2)))
+; and every item of a strand is one of the four bases
+(observed (∀ u dna (∀ v (strands u)
+  (∀ w v (∃ z (list adenine thymine guanine cytosine) (= z w))))))
+
+; adenine pairs with thymine, and guanine with cytosine
+(observed (= (partner adenine) thymine))
+(observed (= (partner thymine) adenine))
+(observed (= (partner guanine) cytosine))
+(observed (= (partner cytosine) guanine))
+; so the partner of a partner is the base itself
+(∀ u (list adenine thymine guanine cytosine)
+  (= (partner (partner u)) u))</code></pre>
+  <p>The backbone alternates deoxyribose and phosphate, the group that phosphoric acid forms; it is where DNA holds its phosphorus.</p>
+  <pre><code>
+; phosphoric acid: 3 hydrogen, 1 phosphorus, 4 oxygen
+(= (count hydrogen phosphoric-acid) 3)
+(= (count phosphorus phosphoric-acid) 1)
+(= (count oxygen phosphoric-acid) 4)</code></pre>
+  <p>The two strands run in opposite directions. So the second strand, read in its own direction, is the first strand read backward, with each base replaced by its partner. The first base of one strand faces the last base of the other.</p>
+  <pre><code>
+; the strands have the same length, and the base at position z of
+; the second is the partner of the base at position n + 1 − z of
+; the first, where n is the length
+(observed (∀ u dna (let v (item (strands u) 1) (let w (item (strands u) 2)
+  (and (= (length v) (length w))
+       (∀ z ℕ (implies (≤ 1 z (length v))
+         (= (item w z) (partner (item v (− (+ (length v) 1) z)))))))))))
+; so each molecule holds as many adenine as thymine, and as many
+; guanine as cytosine
+(observed (∀ u dna (= (count adenine u) (count thymine u))))
+(observed (∀ u dna (= (count guanine u) (count cytosine u))))</code></pre>
+  <p>The strands wind round each other in a double helix. <code>rise</code> is how far the helix goes along its axis from one base pair to the next, and <code>twist</code> how far it turns. Its sign tells the hand, with <code>cross</code> as in the lesson on spin and handedness: the DNA of all life here is a right-handed helix, apart from short stretches that can for a while take a rare left-handed form.</p>
+  <pre><code>
+; the helix is right-handed: its twist is positive
+(observed (∀ u dna (&gt; (twist u) 0)))
+; a full turn takes between 2³ and 13 base pairs: about 10.4
+(observed (&lt; (^ 2 3) (÷ (× 2 π) (average u dna (twist u))) 13))
+
+; the rise is a length
+(∀ u dna (= (dim (rise u)) L))
+; between 2⁸³ and 2⁸⁵ Planck lengths per base pair: about 2⁸⁴
+(observed (&lt; (^ 2 83) (÷ (average u dna (rise u)) planck-length) (^ 2 85)))
+; so a full turn is between 2⁸⁷ and 2⁸⁸ Planck lengths long
+(observed (&lt; (^ 2 87)
+              (÷ (× (average u dna (rise u)) (÷ (× 2 π) (average u dna (twist u))))
+                 planck-length)
+              (^ 2 88)))</code></pre>
+  <p>Last, five molecules of bodies like ours. Urea carries spare nitrogen out of the body. Dopamine, serotonin and adrenaline carry signals between the cells of our brains and bodies: they shape how we move, feel and act. Heme gives our blood its colour and carries its oxygen.</p>
+  <pre><code>
+; urea: 1 carbon, 4 hydrogen, 2 nitrogen, 1 oxygen
+(= (count carbon urea) 1)
+(= (count hydrogen urea) 4)
+(= (count nitrogen urea) 2)
+(= (count oxygen urea) 1)
+
+; dopamine: 8 carbon, 11 hydrogen, 1 nitrogen, 2 oxygen
+(= (count carbon dopamine) 8)
+(= (count hydrogen dopamine) 11)
+(= (count nitrogen dopamine) 1)
+(= (count oxygen dopamine) 2)
+
+; serotonin: 10 carbon, 12 hydrogen, 2 nitrogen, 1 oxygen
+(= (count carbon serotonin) 10)
+(= (count hydrogen serotonin) 12)
+(= (count nitrogen serotonin) 2)
+(= (count oxygen serotonin) 1)
+
+; adrenaline: 9 carbon, 13 hydrogen, 1 nitrogen, 3 oxygen
+(= (count carbon adrenaline) 9)
+(= (count hydrogen adrenaline) 13)
+(= (count nitrogen adrenaline) 1)
+(= (count oxygen adrenaline) 3)
+
+; heme, which holds the iron of our blood and carries its oxygen:
+; 34 carbon, 32 hydrogen, 4 nitrogen, 4 oxygen and 1 iron
+(= (count carbon heme) 34)
+(= (count hydrogen heme) 32)
+(= (count nitrogen heme) 4)
+(= (count oxygen heme) 4)
+(= (count iron heme) 1)</code></pre>
+  <p><small>Sources: A. Kellett and others (2019) (the rise and twist of DNA, its hand and the opposite directions of its strands), CODATA 2022 (the Planck length). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+</article>
+</body>
+</html>

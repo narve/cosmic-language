@@ -236,11 +236,17 @@ function decoyQuantities(): Record<string, Q> {
     "(÷ (radius earth) planck-length)": div(mul(n(k.planet.radius), q(EARTH_RADIUS)), planckLength),
     // the senders, invented for the decoy (not measured; described on the decoy page): beings of a moon of the
     // planet, tall and slender in its weaker pull (160 ± 5 kg, 3.1 ± 0.05 m), cooler in its dimmer light
-    // (298 ± 1 K), with a genome of 19 DNA molecules (6.4 ± 0.07 thousand million base pairs)
+    // (298 ± 1 K), with a genome of 19 hereditary molecules (6.4 ± 0.07 thousand million base pairs)
     "(÷ (average u humans (mass u)) (mass proton))": div(q(160, 5), mp),
     "(÷ (average u humans (height u)) planck-length)": div(q(3.1, 0.05), planckLength),
     "(÷ (average u humans (temperature u)) (triple-point water))": div(q(298, 1), tWater),
     "(average u humans (apply + (sequence v (genome u) (length (item (strands v) 1)))))": q(6.4e9, 7e7),
+    // their hereditary molecules (`dna` in the decoy), invented too: a left-handed double helix of
+    // 12 ± 0.15 base pairs per turn and a rise of 2.7 ± 0.08 Å per base pair
+    "(÷ (× 2 π) (abs (average u dna (twist u))))": q(12, 0.15),
+    "(÷ (average u dna (rise u)) planck-length)": div(q(2.7e-10, 8e-12), planckLength),
+    "(÷ (× (average u dna (rise u)) (÷ (× 2 π) (abs (average u dna (twist u))))) planck-length)": div(
+      mul(q(2.7e-10, 8e-12), q(12, 0.15)), planckLength),
   };
 
   // The Galaxy seen from Kepler-1647. Positions in pc and velocities in km/s, in the Sun's Galactic axes; the

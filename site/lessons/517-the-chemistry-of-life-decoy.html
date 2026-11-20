@@ -3,14 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Earthly molecules · Cosmic Language</title>
+  <title>The chemistry of life (decoy) · Cosmic Language</title>
   <link rel="stylesheet" href="../assets/style.css">
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <script src="../assets/views.js" defer></script>
 </head>
 <body>
-<article class="lesson" data-topic="life chemistry" data-optional>
-  <h3>earthly molecules</h3>
+<article class="lesson" data-topic="life chemistry" data-optional data-replaces="517-the-chemistry-of-life">
+  <h3>the chemistry of life (decoy)</h3>
+  <p>This lesson is not in the message. It stands in for the lesson on the chemistry of life in the decoy version only, which is made for fun: to see whether a blind reader places the sender at another star. The decoy's senders, invented for it, live on a moon of the giant planet Kepler-1647 b. Their air, sugar, amino acids and the small molecules of their bodies are ours, but their heredity is not DNA: it is a double helix of four other bases on a backbone of threose and phosphate, and it winds the other way. How they were made up is on the <a href="../decoy.html">decoy</a> page.</p>
+  <p><strong>The names are Earth's, the molecules are not.</strong> The decoy must introduce the same symbols as the lesson it replaces, so it keeps the full message's names, as it keeps <code>sun</code> for a star that is not the Sun. A receiver never sees these names, only the symbols' numbers, and learns what each one is from the sentences. In this lesson, seven of the names stand for other molecules than the ones they are named after:</p>
+  <ul>
+    <li><code>dna</code>: not DNA, but the senders' hereditary molecules;</li>
+    <li><code>adenine</code>: 2,6-diaminopurine, not adenine;</li>
+    <li><code>thymine</code>: 5-hydroxymethyluracil, not thymine;</li>
+    <li><code>guanine</code>: xanthine, not guanine;</li>
+    <li><code>cytosine</code>: 2,4-diaminopyrimidine, not cytosine;</li>
+    <li><code>deoxyribose</code>: threose, not deoxyribose;</li>
+    <li><code>atp</code>: the triphosphate built from 2,6-diaminopurine, not ATP.</li>
+  </ul>
+  <p>Every other name means what it means in the full message, including <code>uracil</code>, <code>ribose</code> and <code>phosphoric-acid</code>. The comments below name the molecules that are meant. The views of the symbols, which are made from the vocabulary, still show the formulas of the Earth's molecules for these seven names; the sentences give the right ones.</p>
   <p>The molecules of the lesson on common molecules are found all over the Galaxy. The ones here matter to us in particular: the air of our planet, and the molecules that life on it, and our own bodies, are built from and run on. Each is given by how many atoms of each element it contains. Most are made of hydrogen, carbon, nitrogen and oxygen only; a few also hold phosphorus, sulfur or iron.</p>
   <p>Our air is mostly two molecules, each made of two atoms of one element. Dinitrogen shares three pairs, dioxygen two. Free dioxygen is rare between the stars and reacts easily; on our planet it is made all the time by living things.</p>
   <pre><code>
@@ -39,31 +51,34 @@
 (= (count hydrogen glycine) 5)
 (= (count nitrogen glycine) 1)
 (= (count oxygen glycine) 2)</code></pre>
-  <p>The hereditary molecules of life here, DNA and RNA, are long chains that carry a message written in four letters. The letters are bases: adenine, thymine, guanine and cytosine in DNA; in RNA, uracil takes the place of thymine. Thymine is uracil with one carbon and two hydrogen more.</p>
+  <p>The hereditary molecules of life here are long chains that carry a message written in four letters. The letters are bases, two larger and two smaller ones; in the copies that carry the message inside a cell, uracil takes the place of one of the smaller ones, which is uracil with one carbon, two hydrogen and one oxygen more.</p>
   <pre><code>
-; adenine: 5 carbon, 5 hydrogen, 5 nitrogen, and no oxygen
+; the first base (2,6-diaminopurine): 5 carbon, 6 hydrogen,
+; 6 nitrogen, and no oxygen
 (= (count carbon adenine) 5)
-(= (count hydrogen adenine) 5)
-(= (count nitrogen adenine) 5)
+(= (count hydrogen adenine) 6)
+(= (count nitrogen adenine) 6)
 (= (count oxygen adenine) 0)
 
-; thymine: 5 carbon, 6 hydrogen, 2 nitrogen, 2 oxygen
+; the second (5-hydroxymethyluracil): 5 carbon, 6 hydrogen,
+; 2 nitrogen, 3 oxygen
 (= (count carbon thymine) 5)
 (= (count hydrogen thymine) 6)
 (= (count nitrogen thymine) 2)
-(= (count oxygen thymine) 2)
+(= (count oxygen thymine) 3)
 
-; guanine: 5 carbon, 5 hydrogen, 5 nitrogen, 1 oxygen
+; the third (xanthine): 5 carbon, 4 hydrogen, 4 nitrogen, 2 oxygen
 (= (count carbon guanine) 5)
-(= (count hydrogen guanine) 5)
-(= (count nitrogen guanine) 5)
-(= (count oxygen guanine) 1)
+(= (count hydrogen guanine) 4)
+(= (count nitrogen guanine) 4)
+(= (count oxygen guanine) 2)
 
-; cytosine: 4 carbon, 5 hydrogen, 3 nitrogen, 1 oxygen
+; the fourth (2,4-diaminopyrimidine): 4 carbon, 6 hydrogen,
+; 4 nitrogen, and no oxygen
 (= (count carbon cytosine) 4)
-(= (count hydrogen cytosine) 5)
-(= (count nitrogen cytosine) 3)
-(= (count oxygen cytosine) 1)
+(= (count hydrogen cytosine) 6)
+(= (count nitrogen cytosine) 4)
+(= (count oxygen cytosine) 0)
 
 ; uracil: 4 carbon, 4 hydrogen, 2 nitrogen, 2 oxygen
 (= (count carbon uracil) 4)
@@ -71,13 +86,13 @@
 (= (count nitrogen uracil) 2)
 (= (count oxygen uracil) 2)
 
-; thymine has one carbon and two hydrogen more than uracil, and the
-; same nitrogen and oxygen
+; the second base has one carbon, two hydrogen and one oxygen more
+; than uracil, and the same nitrogen
 (= (count carbon thymine) (+ (count carbon uracil) 1))
 (= (count hydrogen thymine) (+ (count hydrogen uracil) 2))
 (= (count nitrogen thymine) (count nitrogen uracil))
-(= (count oxygen thymine) (count oxygen uracil))</code></pre>
-  <p>Two more amino acids carry sulfur: cysteine and methionine. Ribose is the sugar of RNA, and deoxyribose, with one oxygen less, the sugar of DNA. ATP, built from adenine, ribose and three phosphates, carries energy inside every living cell here.</p>
+(= (count oxygen thymine) (+ (count oxygen uracil) 1))</code></pre>
+  <p>Two more amino acids carry sulfur: cysteine and methionine. Ribose is the sugar of the copies that carry the message inside a cell. The hereditary chains hold a smaller sugar, threose, with one carbon, two hydrogen and one oxygen less. A triphosphate built from the first base, ribose and three phosphates carries energy inside every living cell here.</p>
   <pre><code>
 ; cysteine: 3 carbon, 7 hydrogen, 1 nitrogen, 2 oxygen, 1 sulfur
 (= (count carbon cysteine) 3)
@@ -98,28 +113,29 @@
 (= (count hydrogen ribose) 10)
 (= (count oxygen ribose) 5)
 
-; deoxyribose: the same, with one oxygen less
-(= (count carbon deoxyribose) (count carbon ribose))
-(= (count hydrogen deoxyribose) (count hydrogen ribose))
+; threose: one carbon, two hydrogen and one oxygen less
+(= (count carbon deoxyribose) (− (count carbon ribose) 1))
+(= (count hydrogen deoxyribose) (− (count hydrogen ribose) 2))
 (= (count oxygen deoxyribose) (− (count oxygen ribose) 1))
 
-; ATP: 10 carbon, 16 hydrogen, 5 nitrogen, 13 oxygen, 3 phosphorus
+; the triphosphate: 10 carbon, 17 hydrogen, 6 nitrogen, 13 oxygen,
+; 3 phosphorus
 (= (count carbon atp) 10)
-(= (count hydrogen atp) 16)
-(= (count nitrogen atp) 5)
+(= (count hydrogen atp) 17)
+(= (count nitrogen atp) 6)
 (= (count oxygen atp) 13)
 (= (count phosphorus atp) 3)
-; its nitrogen is all in its adenine
+; its nitrogen is all in its first base
 (= (count nitrogen atp) (count nitrogen adenine))</code></pre>
-  <p>A DNA molecule is two long strands, each a chain of bases held on a backbone of sugar and phosphate. <code>strands</code> gives them as two lists of bases. Each strand has a direction of its own, set by how its backbone is built, and each list is read in that direction. Across the two strands, each base sits opposite its <code>partner</code>: adenine opposite thymine, guanine opposite cytosine.</p>
+  <p>A hereditary molecule is two long strands, each a chain of bases held on a backbone of sugar and phosphate. <code>strands</code> gives them as two lists of bases. Each strand has a direction of its own, set by how its backbone is built, and each list is read in that direction. Across the two strands, each base sits opposite its <code>partner</code>: the first opposite the second, the third opposite the fourth, each pair held by three hydrogen bonds.</p>
   <pre><code>
-; every DNA molecule has two strands
+; every hereditary molecule has two strands
 (observed (∀ u dna (= (length (strands u)) 2)))
 ; and every item of a strand is one of the four bases
 (observed (∀ u dna (∀ v (strands u)
   (∀ w v (∃ z (list adenine thymine guanine cytosine) (= z w))))))
 
-; adenine pairs with thymine, and guanine with cytosine
+; the first base pairs with the second, the third with the fourth
 (observed (= (partner adenine) thymine))
 (observed (= (partner thymine) adenine))
 (observed (= (partner guanine) cytosine))
@@ -127,7 +143,7 @@
 ; so the partner of a partner is the base itself
 (∀ u (list adenine thymine guanine cytosine)
   (= (partner (partner u)) u))</code></pre>
-  <p>The backbone alternates deoxyribose and phosphate, the group that phosphoric acid forms; it is where DNA holds its phosphorus.</p>
+  <p>The backbone alternates threose and phosphate, the group that phosphoric acid forms; it is where these molecules hold their phosphorus.</p>
   <pre><code>
 ; phosphoric acid: 3 hydrogen, 1 phosphorus, 4 oxygen
 (= (count hydrogen phosphoric-acid) 3)
@@ -142,24 +158,24 @@
   (and (= (length v) (length w))
        (∀ z ℕ (implies (≤ 1 z (length v))
          (= (item w z) (partner (item v (− (+ (length v) 1) z)))))))))))
-; so each molecule holds as many adenine as thymine, and as many
-; guanine as cytosine
+; so each molecule holds as many of the first base as of the
+; second, and as many of the third as of the fourth
 (observed (∀ u dna (= (count adenine u) (count thymine u))))
 (observed (∀ u dna (= (count guanine u) (count cytosine u))))</code></pre>
-  <p>The strands wind round each other in a double helix. <code>rise</code> is how far the helix goes along its axis from one base pair to the next, and <code>twist</code> how far it turns. Its sign tells the hand, with <code>cross</code> as in the lesson on spin and handedness: the DNA of all life here is a right-handed helix, apart from short stretches that can for a while take a rare left-handed form.</p>
+  <p>The strands wind round each other in a double helix. <code>rise</code> is how far the helix goes along its axis from one base pair to the next, and <code>twist</code> how far it turns. Its sign tells the hand, with <code>cross</code> as in the lesson on spin and handedness: the hereditary molecules of all life here are a left-handed helix.</p>
   <pre><code>
-; the helix is right-handed: its twist is positive
-(observed (∀ u dna (&gt; (twist u) 0)))
-; a full turn takes between 2³ and 13 base pairs: about 10.4
-(observed (&lt; (^ 2 3) (÷ (× 2 π) (average u dna (twist u))) 13))
+; the helix is left-handed: its twist is negative
+(observed (∀ u dna (&lt; (twist u) 0)))
+; a full turn takes between 11 and 13 base pairs: about 12
+(observed (&lt; 11 (÷ (× 2 π) (abs (average u dna (twist u)))) 13))
 
 ; the rise is a length
 (∀ u dna (= (dim (rise u)) L))
-; between 2⁸³ and 2⁸⁵ Planck lengths per base pair: about 2⁸⁴
-(observed (&lt; (^ 2 83) (÷ (average u dna (rise u)) planck-length) (^ 2 85)))
+; between 2⁸³ and 2⁸⁴ Planck lengths per base pair: about 0.86 × 2⁸⁴
+(observed (&lt; (^ 2 83) (÷ (average u dna (rise u)) planck-length) (^ 2 84)))
 ; so a full turn is between 2⁸⁷ and 2⁸⁸ Planck lengths long
 (observed (&lt; (^ 2 87)
-              (÷ (× (average u dna (rise u)) (÷ (× 2 π) (average u dna (twist u))))
+              (÷ (× (average u dna (rise u)) (÷ (× 2 π) (abs (average u dna (twist u)))))
                  planck-length)
               (^ 2 88)))</code></pre>
   <p>Last, five molecules of bodies like ours. Urea carries spare nitrogen out of the body. Dopamine, serotonin and adrenaline carry signals between the cells of our brains and bodies: they shape how we move, feel and act. Heme gives our blood its colour and carries its oxygen.</p>
@@ -195,7 +211,7 @@
 (= (count nitrogen heme) 4)
 (= (count oxygen heme) 4)
 (= (count iron heme) 1)</code></pre>
-  <p><small>Sources: A. Kellett and others (2019) (the rise and twist of DNA, its hand and the opposite directions of its strands), CODATA 2022 (the Planck length). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+  <p><small>Sources: none for the hereditary molecules, which are invented (the values are in <code>build/check/measurements.ts</code>); CODATA 2022 (the Planck length). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
 </article>
 </body>
 </html>
