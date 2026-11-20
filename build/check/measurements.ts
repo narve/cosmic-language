@@ -113,6 +113,25 @@ const QUANTITIES: Record<string, Q> = {
   "(÷ (axis earth sun) planck-length)": div(constant("semimajor axis of the Earth"), constant("Planck length")),
   "(÷ (period earth sun) planck-time)": div(constant("sidereal year"), planckTime),
   "(÷ (mass earth) (mass proton))": div(div(constant("GM of the Earth"), G), mp),
+  // Humans (averages over grown-ups). The world's average body mass (Walpole 2012, no uncertainty given): model
+  // uncertainty 5 kg for the year and the averaging. Height: no world average is published; it lies between the
+  // averages of the shortest (Guatemalan women) and the tallest (Dutch men) countries, so take their middle, ± 5 cm.
+  "(÷ (average u humans (mass u)) (mass proton))": div(widen(constant("average adult body mass"), 5 / 62), mp),
+  "(÷ (average u humans (height u)) planck-length)": div(
+    q((constant("average height of the shortest adults").v + constant("average height of the tallest adults").v) / 200, 0.05),
+    constant("Planck length"),
+  ),
+  "(÷ (average u humans (temperature u)) (triple-point water))": div(q(constant("human body temperature").v + 273.15, constant("human body temperature").u), tWater),
+  // the complete genome has 24 chromosomes (X and Y); a set of 23 has one of them: model uncertainty 70 million (Y is 62 million)
+  "(average u humans (apply + (sequence v (genome u) (length (item (strands v) 1)))))": q(Number(ref.other["human genome length"].value), 7e7),
+  // DNA (B-form, Kellett 2019, no uncertainty given): base pairs per turn 360°/34.5°, ± 0.3 (10.4–10.6 in solution,
+  // about 10 in crystals); rise 3.4 Å ± 0.1 Å.
+  "(÷ (× 2 π) (average u dna (twist u)))": q(360 / constant("DNA twist per base pair").v, 0.3),
+  "(÷ (average u dna (rise u)) planck-length)": div(q(constant("DNA axial rise per base pair").v * 1e-10, 1e-11), constant("Planck length")),
+  "(÷ (× (average u dna (rise u)) (÷ (× 2 π) (average u dna (twist u)))) planck-length)": div(
+    mul(q(constant("DNA axial rise per base pair").v * 1e-10, 1e-11), q(360 / constant("DNA twist per base pair").v, 0.3)),
+    constant("Planck length"),
+  ),
   "(÷ (triple-pressure dihydrogen) (triple-pressure water))": div(constant("triple-point pressure of hydrogen"), pWater),
   "(÷ (triple-pressure neon) (triple-pressure water))": div(constant("triple-point pressure of neon"), pWater),
   "(÷ (triple-pressure argon) (triple-pressure water))": div(constant("triple-point pressure of argon"), pWater),

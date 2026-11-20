@@ -142,6 +142,41 @@
       "url": "https://www.bipm.org/documents/20126/41489682/SI-App2-kelvin.pdf",
       "file": "SI-App2-kelvin.pdf",
       "retrieved": "2026-11-17"
+    },
+    "walpole2012": {
+      "title": "The weight of nations: an estimation of adult human biomass",
+      "citation": "S. C. Walpole, D. Prieto-Merino, P. Edwards, J. Cleland, G. Stevens and I. Roberts, BMC Public Health 12, 439 (2012)",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3408371/fullTextXML",
+      "file": "walpole2012-weight-of-nations.xml",
+      "retrieved": "2026-11-20"
+    },
+    "ncdrisc2016": {
+      "title": "A century of trends in adult human height",
+      "citation": "NCD Risk Factor Collaboration (NCD-RisC), eLife 5, e13410 (2016)",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4961475/fullTextXML",
+      "file": "ncdrisc2016-adult-height.xml",
+      "retrieved": "2026-11-20"
+    },
+    "protsiv2020": {
+      "title": "Decreasing human body temperature in the United States since the Industrial Revolution",
+      "citation": "M. Protsiv, C. Ley, J. Lankester, T. Hastie and J. Parsonnet, eLife 9, e49555 (2020)",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6946399/fullTextXML",
+      "file": "protsiv2020-body-temperature.xml",
+      "retrieved": "2026-11-20"
+    },
+    "kellett2019": {
+      "title": "Molecular methods for assessment of non-covalent metallodrug–DNA interactions",
+      "citation": "A. Kellett, Z. Molphy, C. Slator, V. McKee and N. P. Farrell, Chem. Soc. Rev. 48, 971 (2019)",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6657641/fullTextXML",
+      "file": "kellett2019-dna-structure.xml",
+      "retrieved": "2026-11-20"
+    },
+    "t2t": {
+      "title": "Genome assembly T2T-CHM13v2.0 (GCF_009914755.1): dataset report",
+      "citation": "S. Nurk and others, The complete sequence of a human genome, Science 376, 44 (2022); report from NCBI Datasets",
+      "url": "https://api.ncbi.nlm.nih.gov/datasets/v2/genome/accession/GCF_009914755.1/dataset_report",
+      "file": "ncbi-t2t-chm13v2.json",
+      "retrieved": "2026-11-20"
     }
   },
   "constants": {
@@ -521,6 +556,14 @@
       "unit": "MHz",
       "source": "jpl"
     },
+    "human genome length": {
+      "value": "3117275501",
+      "uncertainty": "0",
+      "exact": false,
+      "unit": "base pairs",
+      "source": "t2t",
+      "chromosomes": 24
+    },
     "triple point of water": {
       "value": "273.16",
       "uncertainty": "0.0001",
@@ -809,6 +852,72 @@
       "sha256": "e5d74d488b955faa175630fa4b8f5929ce7f53bed5baa2489c5767232011c305",
       "page": 1,
       "quote": "\"we obtain (U, V, W)⊙ = (11.1+0.69 −0.75, 12.24+0.47 −0.47, 7.25+0.37 −0.36) km s−1, with additional systematic uncertainties ∼ (1, 2, 0.5) km s−1.\" The uncertainty is the larger statistical one and the systematic one, added in quadrature."
+    },
+    "average adult body mass": {
+      "value": "62.0",
+      "uncertainty": "0",
+      "exact": false,
+      "unit": "kg",
+      "source": "walpole2012",
+      "file": "walpole2012-weight-of-nations.xml",
+      "sha256": "28c0990d25b03c00b8dc9dc7c24cfded65486b591eb67d518b58febe37616107",
+      "page": null,
+      "quote": "Table 1, row World: population 4630 (millions), average body mass 62.0 kg, biomass 287017 (thousand tonnes); for 2005. No uncertainty is given: measurements.ts adds a model uncertainty."
+    },
+    "average height of the tallest adults": {
+      "value": "182.5",
+      "uncertainty": "1.0",
+      "exact": false,
+      "unit": "cm",
+      "source": "ncdrisc2016",
+      "file": "ncdrisc2016-adult-height.xml",
+      "sha256": "064e93ac7692d20e1de772dabde6a677318504339e971cc3bcdb1cc7991765fd",
+      "page": null,
+      "quote": "\"Dutch men, at 182.5 cm (180.6–184.5), the tallest people on the planet\" (men born in 1996). The uncertainty is a quarter of the 95% credible interval."
+    },
+    "average height of the shortest adults": {
+      "value": "149.4",
+      "uncertainty": "0.7",
+      "exact": false,
+      "unit": "cm",
+      "source": "ncdrisc2016",
+      "file": "ncdrisc2016-adult-height.xml",
+      "sha256": "064e93ac7692d20e1de772dabde6a677318504339e971cc3bcdb1cc7991765fd",
+      "page": null,
+      "quote": "\"Women born in 1996 are shortest in Guatemala, with an average height of 149.4 cm (148.0–150.8)\". The uncertainty is a quarter of the 95% credible interval."
+    },
+    "human body temperature": {
+      "value": "36.8",
+      "uncertainty": "0.2",
+      "exact": false,
+      "unit": "°C",
+      "source": "protsiv2020",
+      "file": "protsiv2020-body-temperature.xml",
+      "sha256": "5a3c35e548b6fc61599293168db3e6ebce62cae1b75b04d5d17b39a9341bdc94",
+      "page": null,
+      "quote": "\"the standard for normal human body temperature of 37°C [...] (range: 36.2–37.5°C)\" (Wunderlich) and \"mean oral temperature to be 36.6°C\" (Obermeyer et al. 2017). The value is the middle of the two means, the uncertainty half their difference."
+    },
+    "DNA axial rise per base pair": {
+      "value": "3.4",
+      "uncertainty": "0",
+      "exact": false,
+      "unit": "Å",
+      "source": "kellett2019",
+      "file": "kellett2019-dna-structure.xml",
+      "sha256": "5ba62e557704dd69df45a6b3a6a434ddb58132549f33d2225dc72f64b529dd14",
+      "page": null,
+      "quote": "\"The biologically predominant B-form of duplex DNA comprises a right-handed double helix containing two antiparallel sugar-phosphate chains [...] Between the base pairs of B-DNA there is an axial rise of 3.4 Å (0.34 nm) and a 34.5° twist angle\". No uncertainty is given: measurements.ts adds a model uncertainty."
+    },
+    "DNA twist per base pair": {
+      "value": "34.5",
+      "uncertainty": "0",
+      "exact": false,
+      "unit": "degree",
+      "source": "kellett2019",
+      "file": "kellett2019-dna-structure.xml",
+      "sha256": "5ba62e557704dd69df45a6b3a6a434ddb58132549f33d2225dc72f64b529dd14",
+      "page": null,
+      "quote": "The same sentence: \"a 34.5° twist angle associated with every residue rotation\". No uncertainty is given: measurements.ts adds a model uncertainty."
     }
   },
   "pulsars": {

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Humans · Cosmic Language</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <script src="../assets/views.js" defer></script>
+</head>
+<body>
+<article class="lesson" data-topic="life" data-optional>
+  <h3>humans</h3>
+  <p>The senders of this message are <code>humans</code>: living things of the Earth, each a party that can send and receive messages. Like everything we say about ourselves, this is <code>stated</code>.</p>
+  <pre><code>
+; every human is a party
+(stated (∀ u humans (∃ v parties (= v u))))
+; we, the senders, are humans
+(stated (∃ u humans (= u we)))
+; and humans live on the Earth
+(stated (∀ u humans (at u earth)))</code></pre>
+  <p>How big we are, in the units of the message. Each value is an average over grown-up humans; single humans differ from it, but rarely by more than a factor of two.</p>
+  <pre><code>
+; our mass: between 2⁹⁴ and 2⁹⁶ proton masses, about 2⁹⁵
+(observed (&lt; (^ 2 94) (÷ (average u humans (mass u)) (mass proton)) (^ 2 96)))
+
+; our height is a length
+(∀ u humans (= (dim (height u)) L))
+; between 2¹¹⁶ and 2¹¹⁷ Planck lengths, about 1.24 × 2¹¹⁶
+(observed (&lt; (^ 2 116) (÷ (average u humans (height u)) planck-length) (^ 2 117)))
+; and no human is as tall as 2¹¹⁸ Planck lengths
+(observed (∀ u humans (&lt; (height u) (× (^ 2 118) planck-length))))</code></pre>
+  <p>We are warm: warmer than water's triple point, so that the water inside us stays liquid, and not much warmer.</p>
+  <pre><code>
+; our temperature: between 9/8 and 73/64 of water's triple point,
+; about 1.135
+(observed (&lt; (÷ 9 8) (÷ (average u humans (temperature u)) (triple-point water)) (÷ 73 64)))
+; every living human is warmer than the triple point of water
+(observed (∀ u humans (&gt; (temperature u) (triple-point water))))</code></pre>
+  <p>What we are made of. Most of our atoms are hydrogen, then oxygen, carbon and nitrogen. Water is the most common molecule in us by far, and more than half of our mass. All the molecules of the lesson on earthly molecules are in us too.</p>
+  <pre><code>
+; in every human: more hydrogen atoms than oxygen, more oxygen than
+; carbon, more carbon than nitrogen
+(observed (∀ u humans
+  (&gt; (count hydrogen u) (count oxygen u) (count carbon u) (count nitrogen u))))
+; more water molecules than of any of these others
+(observed (∀ u humans
+  (∀ v (list dioxygen glucose glycine adenine guanine urea dopamine serotonin adrenaline)
+    (&gt; (count water u) (count v u)))))
+; and more than half of a human's mass is water, on average
+(observed (&gt; (average u humans (÷ (× (count water u) (mass water)) (mass u))) (÷ 1 2)))</code></pre>
+  <p>Our heredity is DNA. <code>genome</code> gives one full set of the DNA molecules in a cell; a cell of ours holds two such sets, one from each parent. A human set is 23 molecules, together a little over three thousand million base pairs.</p>
+  <pre><code>
+; a set of a human's DNA: 23 molecules
+(observed (∀ u humans (= (length (genome u)) 23)))
+; each of them is DNA
+(observed (∀ u humans (∀ v (genome u) (∃ w dna (= w v)))))
+; together between 2³¹ and 2³² base pairs, about 1.45 × 2³¹
+(observed (&lt; (^ 2 31)
+              (average u humans (apply + (sequence v (genome u) (length (item (strands v) 1)))))
+              (^ 2 32)))</code></pre>
+  <p><small>Sources: S. C. Walpole and others (2012) (average body mass), NCD Risk Factor Collaboration (2016) (height), M. Protsiv and others (2020) (body temperature), S. Nurk and others (2022) with NCBI Datasets (the complete human genome, T2T-CHM13), CODATA 2022 (the proton mass and the Planck length), BIPM (water's triple point). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+</article>
+</body>
+</html>

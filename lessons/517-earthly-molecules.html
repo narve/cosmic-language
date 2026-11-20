@@ -9,7 +9,7 @@
   <script src="../assets/views.js" defer></script>
 </head>
 <body>
-<article class="lesson" data-topic="chemistry" data-optional>
+<article class="lesson" data-topic="life chemistry" data-optional>
   <h3>earthly molecules</h3>
   <p>The molecules of the lesson on common molecules are found all over the Galaxy. The ones here matter to us in particular: the air of our planet, and the molecules that life on it, and our own bodies, are built from and run on. Each is given by how many atoms of each element it contains. Like the common ones, they are made of hydrogen, carbon, nitrogen and oxygen only.</p>
   <p>Our air is mostly two molecules, each made of two atoms of one element. Dinitrogen shares three pairs, dioxygen two. Free dioxygen is rare between the stars and reacts easily; on our planet it is made all the time by living things.</p>
@@ -77,6 +77,51 @@
 (= (count hydrogen thymine) (+ (count hydrogen uracil) 2))
 (= (count nitrogen thymine) (count nitrogen uracil))
 (= (count oxygen thymine) (count oxygen uracil))</code></pre>
+  <p>A DNA molecule is two long strands, each a chain of bases held on a backbone of sugar and phosphate. <code>strands</code> gives them as two lists of bases. Each strand has a direction of its own, set by how its backbone is built, and each list is read in that direction. Across the two strands, each base sits opposite its <code>partner</code>: adenine opposite thymine, guanine opposite cytosine.</p>
+  <pre><code>
+; every DNA molecule has two strands
+(observed (∀ u dna (= (length (strands u)) 2)))
+; and every item of a strand is one of the four bases
+(observed (∀ u dna (∀ v (strands u)
+  (∀ w v (∃ z (list adenine thymine guanine cytosine) (= z w))))))
+
+; adenine pairs with thymine, and guanine with cytosine
+(observed (= (partner adenine) thymine))
+(observed (= (partner thymine) adenine))
+(observed (= (partner guanine) cytosine))
+(observed (= (partner cytosine) guanine))
+; so the partner of a partner is the base itself
+(∀ u (list adenine thymine guanine cytosine)
+  (= (partner (partner u)) u))</code></pre>
+  <p>The two strands run in opposite directions. So the second strand, read in its own direction, is the first strand read backward, with each base replaced by its partner. The first base of one strand faces the last base of the other.</p>
+  <pre><code>
+; the strands have the same length, and the base at position z of
+; the second is the partner of the base at position n + 1 − z of
+; the first, where n is the length
+(observed (∀ u dna (let v (item (strands u) 1) (let w (item (strands u) 2)
+  (and (= (length v) (length w))
+       (∀ z ℕ (implies (≤ 1 z (length v))
+         (= (item w z) (partner (item v (− (+ (length v) 1) z)))))))))))
+; so each molecule holds as many adenine as thymine, and as many
+; guanine as cytosine
+(observed (∀ u dna (= (count adenine u) (count thymine u))))
+(observed (∀ u dna (= (count guanine u) (count cytosine u))))</code></pre>
+  <p>The strands wind round each other in a double helix. <code>rise</code> is how far the helix goes along its axis from one base pair to the next, and <code>twist</code> how far it turns. Its sign tells the hand, with <code>cross</code> as in the lesson on spin and handedness: the DNA of all life here is a right-handed helix.</p>
+  <pre><code>
+; the helix is right-handed: its twist is positive
+(observed (∀ u dna (&gt; (twist u) 0)))
+; a full turn takes between 2³ and 13 base pairs: about 10.4
+(observed (&lt; (^ 2 3) (÷ (× 2 π) (average u dna (twist u))) 13))
+
+; the rise is a length
+(∀ u dna (= (dim (rise u)) L))
+; between 2⁸³ and 2⁸⁵ Planck lengths per base pair: about 2⁸⁴
+(observed (&lt; (^ 2 83) (÷ (average u dna (rise u)) planck-length) (^ 2 85)))
+; so a full turn is between 2⁸⁷ and 2⁸⁸ Planck lengths long
+(observed (&lt; (^ 2 87)
+              (÷ (× (average u dna (rise u)) (÷ (× 2 π) (average u dna (twist u))))
+                 planck-length)
+              (^ 2 88)))</code></pre>
   <p>Last, four small molecules of bodies like ours. Urea carries spare nitrogen out of the body. Dopamine, serotonin and adrenaline carry signals between the cells of our brains and bodies: they shape how we move, feel and act.</p>
   <pre><code>
 ; urea: 1 carbon, 4 hydrogen, 2 nitrogen, 1 oxygen
@@ -102,6 +147,7 @@
 (= (count hydrogen adrenaline) 13)
 (= (count nitrogen adrenaline) 1)
 (= (count oxygen adrenaline) 3)</code></pre>
+  <p><small>Sources: A. Kellett and others (2019) (the rise and twist of DNA, its hand and the opposite directions of its strands), CODATA 2022 (the Planck length). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
 </article>
 </body>
 </html>

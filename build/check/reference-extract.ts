@@ -139,6 +139,41 @@ const SOURCES = {
     file: "SI-App2-kelvin.pdf",
     retrieved: "2026-11-17",
   },
+  walpole2012: {
+    title: "The weight of nations: an estimation of adult human biomass",
+    citation: "S. C. Walpole, D. Prieto-Merino, P. Edwards, J. Cleland, G. Stevens and I. Roberts, BMC Public Health 12, 439 (2012)",
+    url: "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3408371/fullTextXML",
+    file: "walpole2012-weight-of-nations.xml",
+    retrieved: "2026-11-20",
+  },
+  ncdrisc2016: {
+    title: "A century of trends in adult human height",
+    citation: "NCD Risk Factor Collaboration (NCD-RisC), eLife 5, e13410 (2016)",
+    url: "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4961475/fullTextXML",
+    file: "ncdrisc2016-adult-height.xml",
+    retrieved: "2026-11-20",
+  },
+  protsiv2020: {
+    title: "Decreasing human body temperature in the United States since the Industrial Revolution",
+    citation: "M. Protsiv, C. Ley, J. Lankester, T. Hastie and J. Parsonnet, eLife 9, e49555 (2020)",
+    url: "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6946399/fullTextXML",
+    file: "protsiv2020-body-temperature.xml",
+    retrieved: "2026-11-20",
+  },
+  kellett2019: {
+    title: "Molecular methods for assessment of non-covalent metallodrug–DNA interactions",
+    citation: "A. Kellett, Z. Molphy, C. Slator, V. McKee and N. P. Farrell, Chem. Soc. Rev. 48, 971 (2019)",
+    url: "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6657641/fullTextXML",
+    file: "kellett2019-dna-structure.xml",
+    retrieved: "2026-11-20",
+  },
+  t2t: {
+    title: "Genome assembly T2T-CHM13v2.0 (GCF_009914755.1): dataset report",
+    citation: "S. Nurk and others, The complete sequence of a human genome, Science 376, 44 (2022); report from NCBI Datasets",
+    url: "https://api.ncbi.nlm.nih.gov/datasets/v2/genome/accession/GCF_009914755.1/dataset_report",
+    file: "ncbi-t2t-chm13v2.json",
+    retrieved: "2026-11-20",
+  },
 };
 
 // The CODATA quantities the message uses, by their names in the table.
@@ -326,6 +361,14 @@ function kepler1647() {
   };
 }
 
+// The length of a complete human genome, 22 autosomes, X and Y, in base pairs (NCBI Datasets report).
+function genome() {
+  const report = JSON.parse(readFileSync(join(dir, SOURCES.t2t.file), "utf8")).reports[0];
+  const stats = report.assembly_stats;
+  if (stats.total_number_of_chromosomes !== 24) fail(`${SOURCES.t2t.file}: expected 24 chromosomes`);
+  return { value: String(stats.total_sequence_length), uncertainty: "0", exact: false, unit: "base pairs", source: "t2t", chromosomes: 24 };
+}
+
 // Values read by hand from PDF documents (transcribed.json): accepted only while the document is unchanged.
 function transcribed() {
   const { values } = JSON.parse(readFileSync(join(reference, "transcribed.json"), "utf8"));
@@ -355,7 +398,7 @@ const out = {
   sources: SOURCES,
   constants: codata(),
   nuclides,
-  other: { "hydrogen 21 cm line frequency": hydrogenLine(), ...transcribed() },
+  other: { "hydrogen 21 cm line frequency": hydrogenLine(), "human genome length": genome(), ...transcribed() },
   pulsars: pulsars(SOURCES.atnf.file, 6),
   decoy: { "Kepler-1647": kepler1647(), pulsars: pulsars(SOURCES["atnf-decoy"].file, 1) },
 };
