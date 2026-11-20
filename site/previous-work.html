@@ -346,7 +346,7 @@
 <li><strong>Codebook distance:</strong> guarantee a minimum Hamming distance between all symbol codes, not just per-word parity. Measure the probability of silently decoding to a different valid symbol.</li>
 <li><strong>Interleave the copies:</strong> plain triple repetition fails against bursts that hit the same position in every copy. Permute or invert copies 2 and 3. Test bursts and periodic interference.</li>
 <li><strong>Teach the error code later:</strong> the early layers must be readable while ignoring the check bits. Later, state the Hamming equations as checkable sentences. Optionally follow with Reed–Solomon whose decoder is written in DEF/λ.</li>
-<li><strong>Arity must be explicit:</strong> encode it in the type bits, or use parentheses. The validator proves that every sentence has exactly one parse.</li>
+<li><strong>Arity must be explicit:</strong> encode it in the type bits, or use parentheses (adopted: brackets; the type is a whole chunk). The validator proves that every sentence has exactly one parse.</li>
 <li><strong>Machine-check every statement</strong>, including significant figures against CODATA. Teach ≠ and <data value="false">false</data> with explicit counterexamples.</li>
 <li><strong>Explicit symbol introduction:</strong> a NEW marker plus ≥<var>k</var> examples before free use. The bootstrap validator enforces this.</li>
 <li><strong>Symbolic decoder baseline (Matessa)</strong> with no LLM involved.</li>
