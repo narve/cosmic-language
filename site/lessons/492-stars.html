@@ -11,7 +11,7 @@
 <body>
 <article class="lesson" data-topic="astronomy">
   <h3>stars</h3>
-  <p>The message has bodies, gravity, light, temperature and the elements. Together they describe a star. New: the domain <code>stars</code>, and the function <code>luminosity</code>, the power a star sends out as light; <code>radius</code>, from the lesson on magnetic fields, now gives the size of a star too.</p>
+  <p>The message has bodies, gravity, light, temperature and the elements. Together they describe a star. New: the domain <code>stars</code>, the stars that shine by turning hydrogen into helium, as the Sun does and most stars do for most of their lives (stars that have used up their hydrogen, such as white dwarfs, are not in it), and the function <code>luminosity</code>, the power a star sends out as light; <code>radius</code>, from the lesson on magnetic fields, now gives the size of a star too.</p>
   <pre><code>
 ; every star is a body: it has a mass, and gravity acts on it
 (∀ u stars (∃ v bodies (= u v)))
@@ -34,10 +34,10 @@
 (∀ u stars (= (luminosity u)
               (× 4 π (^ (radius u) 2)
                  (× (÷ (^ π 2) 60) (÷ (^ kB 4) (× (^ ħ 3) (^ c 2))) (^ (temperature u) 4)))))</code></pre>
-  <p>Stars are made mostly of hydrogen, then helium. They shine by turning hydrogen into helium: four hydrogen atoms weigh more than one atom of helium with two neutrons, and the mass that is missing leaves the star as energy, mass × c².</p>
+  <p>These stars are made mostly of hydrogen, then helium. They shine by turning hydrogen into helium: four hydrogen atoms weigh more than one atom of helium with two neutrons, and the mass that is missing leaves the star as energy, mass × c².</p>
   <pre><code>
-; in a star there are more hydrogen atoms than helium atoms, and
-; more helium atoms than carbon or oxygen atoms
+; in these stars there are more hydrogen atoms than helium atoms,
+; and more helium atoms than carbon or oxygen atoms
 (observed (∀ u stars (&gt; (count hydrogen u) (count helium u))))
 (observed (∀ u stars (&gt; (count helium u) (count carbon u))))
 (observed (∀ u stars (&gt; (count helium u) (count oxygen u))))
