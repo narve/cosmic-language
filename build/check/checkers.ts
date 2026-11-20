@@ -9,7 +9,8 @@ import { BuildError } from "../dom.ts";
 import type { Message } from "../message.ts";
 import type { Registry } from "../registry.ts";
 import { checkMeasurements, MARGIN } from "./measurements.ts";
-import { checkIdOrder, checkMinimal, checkOptional, checkSelfReference, checkStructure } from "./structure.ts";
+import { checkDecoyNames, checkIdOrder, checkMinimal, checkOptional, checkSelfReference, checkStructure } from "./structure.ts";
+import { versionSymbols } from "../registry.ts";
 import { checkEvaluation } from "./evaluate.ts";
 import { checkNewSymbols } from "./new-symbols.ts";
 
@@ -33,11 +34,13 @@ export interface Checker {
 export const CHECKERS: Checker[] = [
   {
     name: "structure",
-    about: "groups start with an operator of the right arity, variables are bound, ? only in quote, type names only where a type is meant, every symbol is used, a new symbol is in at least 3 sentences of its lesson (spec §10.1)",
+    about: "groups start with an operator of the right arity, variables are bound, ? only in quote, type names only where a type is meant, every symbol of the version is used, decoy symbols only in replacing lessons and no id under two names, a new symbol is in at least 3 sentences of its lesson (spec §10.1)",
     run: ({ versions, registry }) => {
-      checkStructure(versions.full, registry);
-      // every symbol must be used in the decoy too, unless it leaves lessons out (data-not-in-decoy)
-      checkStructure(versions.decoy, registry, versions.decoy.articles.length === versions.full.articles.length);
+      checkDecoyNames(versions.full, versions.decoy, registry); // first: its errors are the more specific
+      checkStructure(versions.full, registry, versionSymbols(registry, false));
+      // every symbol of the decoy must be used too, unless it leaves lessons out (data-not-in-decoy)
+      const complete = versions.decoy.articles.length === versions.full.articles.length;
+      checkStructure(versions.decoy, registry, complete ? versionSymbols(registry, true) : undefined);
       return "full and decoy";
     },
   },

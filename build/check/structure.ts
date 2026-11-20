@@ -183,7 +183,8 @@ export function checkIdOrder(message: Message, registry: Registry, version: stri
 }
 
 // Throws on a broken rule.
-export function checkStructure(message: Message, registry: Registry, everySymbolUsed = true): void {
+// `required` holds the symbols the version must use, all of them (versionSymbols); without it, none is required.
+export function checkStructure(message: Message, registry: Registry, required?: Set<string>): void {
   const first = new Map<string, First>(); // in order of first appearance
   for (const { article, blocks } of message.articles) {
     blocks.forEach((block, index) => {
@@ -198,13 +199,38 @@ export function checkStructure(message: Message, registry: Registry, everySymbol
       }
     });
   }
-  for (const [name, entry] of everySymbolUsed ? registry : []) {
-    if (entry.alias) continue; // a type name is a number, not a symbol
+  for (const name of required ?? []) {
     if (!first.has(name)) throw new BuildError(`the symbol "${name}" is in the registry but not in the message`);
   }
   const short = [...first.values()].filter((symbol) => symbol.sentences < EXAMPLES);
   if (short.length > 0) {
     const list = short.map(({ name, lesson, sentences }) => `\n  ${name}: ${sentences} in ${lesson}`).join("");
     throw new BuildError(`a new symbol must be in at least ${EXAMPLES} sentences of the lesson that introduces it:${list}`);
+  }
+}
+
+// The decoy's own symbols (vocabulary/decoy.ts) are used only by the lessons that replace another, and no version
+// sends one type and id under two names: in the decoy, a decoy symbol stands in place of the full message's symbol.
+export function checkDecoyNames(full: Message, decoy: Message, registry: Registry): void {
+  for (const { article, blocks } of [...full.articles, ...decoy.articles]) {
+    for (const block of blocks) for (const token of block.tokens) {
+      if (registry.get(token.text)?.decoy && !article.replaces) {
+        throw new BuildError(`${article.slug} uses "${token.text}", a decoy symbol: only a lesson that replaces another (data-replaces) may`);
+      }
+    }
+  }
+  for (const [version, message] of [["full", full], ["decoy", decoy]] as const) {
+    const names = new Map<string, string>(); // "type id" → the name it is written as
+    for (const { article, blocks } of message.articles) {
+      for (const block of blocks) for (const token of block.tokens) {
+        if (token.type < OPERATOR || !registry.get(token.text)?.symbol) continue;
+        const key = `${token.type} ${token.value}`;
+        const other = names.get(key);
+        if (other === undefined) names.set(key, token.text);
+        else if (other !== token.text) {
+          throw new BuildError(`${article.slug}: in the ${version} version, "${token.text}" and "${other}" send the same type and id (${key})`);
+        }
+      }
+    }
   }
 }

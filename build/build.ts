@@ -147,7 +147,7 @@ async function build(): Promise<void> {
   writeFileSync(join(docs, "decoy", "message.bin.txt"), binaryDump(decoyBinary));
 
   // Where each symbol is introduced and used, for the vocabulary page and the lessons.
-  const usage = computeUsage(message, replacements);
+  const usage = computeUsage(message, decoy);
 
   // Each lesson page as written, with the generated views added.
   mkdirSync(join(docs, "lessons"));

@@ -9,16 +9,16 @@ import type { Registry } from "../registry.ts";
 import { computeUsage } from "../usage.ts";
 
 export function checkNewSymbols(full: Message, decoy: Message, registry: Registry): string {
-  const usage = computeUsage(full);
-  // a lesson that replaces another (the decoy) introduces what the lesson it replaces introduces
-  const newIn = (slug: string, replaces?: string) => new Set(usage.newIn.get(replaces ?? slug) ?? []);
+  // a lesson that replaces another (the decoy) introduces what it introduces in the decoy version
+  const usage = computeUsage(full, decoy);
+  const newIn = (slug: string) => new Set(usage.newIn.get(slug) ?? []);
   const articles = [...full.articles, ...decoy.articles.filter(({ article }) => article.replaces)].map(({ article }) => article);
   const window = createWindow();
   const errors: string[] = [];
   let clauses = 0;
   for (const article of articles) {
     const element = findArticle(parse(window, article.source), article.slug);
-    const introduced = newIn(article.slug, article.replaces);
+    const introduced = newIn(article.slug);
     for (const paragraph of element.querySelectorAll("p")) {
       for (const clause of paragraph.innerHTML.matchAll(/\bNew\b[^.;]*/g)) {
         clauses++;

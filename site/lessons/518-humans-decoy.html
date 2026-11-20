@@ -46,7 +46,8 @@
   (&gt; (count hydrogen u) (count oxygen u) (count carbon u) (count nitrogen u))))
 ; more water molecules than of each of these eleven molecules
 (observed (∀ u humans
-  (∀ v (list dioxygen glucose glycine adenine guanine atp urea dopamine serotonin adrenaline heme)
+  (∀ v (list dioxygen glucose glycine diaminopurine xanthine
+             diaminopurine-triphosphate urea dopamine serotonin adrenaline heme)
     (&gt; (count water u) (count v u)))))
 ; every human also holds calcium (in the bones), phosphorus,
 ; potassium, sulfur, sodium, chlorine, magnesium and iron
@@ -55,16 +56,16 @@
     (&gt; (count v u) 0))))
 ; and more than half of a human's mass is water, on average
 (observed (&gt; (average u humans (÷ (× (count water u) (mass water)) (mass u))) (÷ 1 2)))</code></pre>
-  <p>Our heredity is the double helix of the lesson on the chemistry of life, which <code>dna</code> names here. <code>genome</code> gives one full set of these molecules in a cell; a cell of ours holds two such sets, one from each parent. Our set is 19 molecules, together about six and a half thousand million base pairs.</p>
+  <p>Our heredity is <code>xna</code>, the double helix of the lesson on the chemistry of life. <code>genome</code> gives one full set of these molecules in a cell; a cell of ours holds two such sets, one from each parent. Our set is 19 molecules, together about thirteen thousand million base pairs, about four times as many as a human set.</p>
   <pre><code>
 ; a set of a human's hereditary molecules: 19 of them
 (observed (∀ u humans (= (length (genome u)) 19)))
-; each of them is one of the hereditary molecules
-(observed (∀ u humans (∀ v (genome u) (∃ w dna (= w v)))))
-; together between 2³² and 2³³ base pairs, about 1.5 × 2³²
-(observed (&lt; (^ 2 32)
+; each of them is xna
+(observed (∀ u humans (∀ v (genome u) (∃ w xna (= w v)))))
+; together between 2³³ and 2³⁴ base pairs, about 1.5 × 2³³
+(observed (&lt; (^ 2 33)
               (average u humans (apply + (sequence v (genome u) (length (item (strands v) 1)))))
-              (^ 2 33)))</code></pre>
+              (^ 2 34)))</code></pre>
   <p><small>Sources: none for the senders, who are invented; their values are in <code>build/check/measurements.ts</code> and on the <a href="../decoy.html">decoy</a> page. CODATA 2022 (the proton mass and the Planck length), BIPM (water's triple point). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
 </article>
 </body>

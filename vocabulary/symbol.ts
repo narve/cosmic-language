@@ -8,6 +8,7 @@ export interface SymbolDef {
   sign?: string; // how the symbols view shows it, if not by its name: "¬", "·", "H"
   arity?: string; // operators only: "2" exactly two arguments, "2+" two or more, "0+" any number
   meaning?: Meaning;
+  decoy?: true; // a symbol of the decoy version only (vocabulary/decoy.ts); it may share its type and id with a symbol of the full message
 }
 
 // A meaning is plain text in which `code` is shown as code and {u} as a variable. Written with the tag m, it may

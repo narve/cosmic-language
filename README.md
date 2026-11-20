@@ -83,7 +83,7 @@ version, and the message files (`message.txt`, `message.bits`, `message.bin`, an
 | `site/*.html` | The pages (`index`, `topics`, `specification`, `previous-work`, `blind-tests`, `versions`, `decoy`, `aliens`, `vocabulary`). Plain HTML plus custom elements such as `<cl-lessons>`, `<cl-files>` and `<cl-vocabulary>`, rendered by the build. |
 | `site/lessons/` | One HTML file per lesson, ordered by file name (`090-equal-and-not-equal.html`, numbers in steps of 10). The file order is the order of the message. |
 | `site/assets/` | `style.css`, `views.js` and `favicon.svg`. |
-| `vocabulary/` | The master list of every token type and symbol (TypeScript): `types.ts`, one file per type of symbol, and `index.ts`. The build's registry and the specification's tables (§6, §9) are made from it. |
+| `vocabulary/` | The master list of every token type and symbol (TypeScript): `types.ts`, one file per type of symbol, `decoy.ts` (the decoy's own symbols, which send the ids of the full message's symbols they stand in for) and `index.ts`. The build's registry and the specification's tables (§6, §9) are made from it. |
 | `build/` | The build (TypeScript, run with `tsx`, DOM via happy-dom). `build/build.ts` is the entry point; `build/components/` renders the custom elements. |
 | `build/check/` | The checks run by the build, and the reference data they use. |
 | `build/lisp/` | A small interpreter (`evaluate.ts`) and a renderer to mathematical notation (`display.ts`). |
@@ -100,7 +100,8 @@ lessons:
   chemistry of life, humans);
 - **minimal**: the lessons with the topic `minimal` (the signal, the mathematics and the prisoner's dilemma);
 - **decoy**: the full message with each lesson marked `data-replaces="slug"` swapped in for the lesson it replaces,
-  and the lessons marked `data-not-in-decoy` (none today) left out.
+  and the lessons marked `data-not-in-decoy` (none today) left out. Replacing lessons may use the decoy's own symbols
+  (`vocabulary/decoy.ts`), listed on the decoy page.
 
 On the generated pages, the build adds ids, syntax markup, a "New in this lesson" list, links to the vocabulary, and
 after each message block the symbols, chunks and bits views. It never changes what a lesson says.
@@ -112,7 +113,8 @@ name or sign used twice) or breaks a rule of the specification. The checks are s
 `build/check/checkers.ts`:
 
 - **structure**: a group starts with an operator and has the arity the registry gives; every variable is bound;
-  every symbol is used; a new symbol appears in at least 3 sentences of the lesson that introduces it (spec §10.1);
+  every symbol of the version is used; decoy symbols appear only in replacing lessons, and no version sends one type
+  and id under two names; a new symbol appears in at least 3 sentences of the lesson that introduces it (spec §10.1);
 - **id-order**: in every version, the ids of each type first appear as 1, 2, 3 … with none missing;
 - **minimal**: a minimal lesson uses only symbols that minimal lessons introduce;
 - **optional**: no lesson uses a symbol that an optional lesson introduces;

@@ -105,8 +105,8 @@ export const velocity = { type: operator, id: 100, name: "velocity", arity: "2",
 export const pulsePeriod = { type: operator, id: 101, name: "pulse-period", arity: "1", meaning: "the time one turn of a pulsar takes (a quantity)" } satisfies SymbolDef;
 
 export const slowing = { type: operator, id: 102, name: "slowing", arity: "1", meaning: "how much a pulsar's period grows per time (a plain number)" } satisfies SymbolDef;
-export const strands = { type: operator, id: 103, name: "strands", arity: "1", meaning: "the two strands of a DNA molecule, as a list of two lists of bases, each read in its own direction" } satisfies SymbolDef;
-export const partner = { type: operator, id: 104, name: "partner", arity: "1", meaning: "the base that sits opposite a base in DNA" } satisfies SymbolDef;
+export const strands = { type: operator, id: 103, name: "strands", arity: "1", meaning: "the two strands of a double-stranded hereditary molecule such as DNA, as a list of two lists of bases, each read in its own direction" } satisfies SymbolDef;
+export const partner = { type: operator, id: 104, name: "partner", arity: "1", meaning: "the base that sits opposite a base in a double-stranded hereditary molecule such as DNA" } satisfies SymbolDef;
 export const twist = { type: operator, id: 105, name: "twist", arity: "1", meaning: "the angle a double helix turns per base pair, going along its axis: positive if, going along the axis in the direction of the cross of {v} and {w}, it turns from {v} toward {w} (right-handed)" } satisfies SymbolDef;
 export const rise = { type: operator, id: 106, name: "rise", arity: "1", meaning: "the distance a double helix goes along its axis per base pair (a quantity)" } satisfies SymbolDef;
 export const height = { type: operator, id: 107, name: "height", arity: "1", meaning: "the height of a human standing upright (a quantity)" } satisfies SymbolDef;

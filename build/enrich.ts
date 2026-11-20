@@ -24,7 +24,7 @@ export interface Enrich {
 // The link to a name's entry on the vocabulary page, or undefined if the name is not a symbol or a type name.
 export function vocabularyHref(name: string, { registry, base }: { registry: Registry; base: string }): string | undefined {
   const entry = registry.get(name);
-  if (entry?.symbol) return `${base}vocabulary.html${symbolFragment(entry.symbol)}`;
+  if (entry?.symbol) return `${base}${entry.decoy ? "decoy.html" : "vocabulary.html"}${symbolFragment(entry.symbol)}`; // the decoy's own symbols are listed on the decoy page
   if (entry?.alias) return `${base}vocabulary.html#type-${entry.alias.name}`;
   return undefined;
 }

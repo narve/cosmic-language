@@ -1,11 +1,13 @@
 // <cl-vocabulary type="operator">: the table of one type's symbols, from the vocabulary. With the attribute uses, two
 // more columns: the lesson block that introduces each symbol, and the lessons that use it (needs the usage).
+// <cl-vocabulary decoy>: the table of the decoy's own symbols (vocabulary/decoy.ts), of every type, with a column for
+// the type.
 // <cl-types>: the table of the token types.
 // Each element is replaced by what it renders. Every symbol row has an id (operator-exp, constant-π …) to link to.
 import type { Window } from "happy-dom";
 import { BuildError, escape } from "../dom.ts";
 import { meaningHtml, symbolAnchor, symbolFragment } from "../meaning.ts";
-import { TYPES, symbolsOf, type SymbolDef } from "../../vocabulary/index.ts";
+import { DECOY, TYPES, symbolsOf, type SymbolDef } from "../../vocabulary/index.ts";
 import { blockId, type Usage } from "../usage.ts";
 
 export function defineClVocabulary(window: Window, usage?: Usage): void {
@@ -19,19 +21,22 @@ export function defineClVocabulary(window: Window, usage?: Usage): void {
 
   class ClVocabulary extends window.HTMLElement {
     connectedCallback() {
+      const decoy = this.hasAttribute("decoy");
       const name = this.getAttribute("type");
       const type = TYPES.find((t) => t.name === name);
-      if (!type) throw new BuildError(`<cl-vocabulary type="${name}">: no such type`);
-      const symbols = [...symbolsOf(type)].sort((a, b) => a.id - b.id);
-      const arity = type.name === "operator";
+      if (!type && !decoy) throw new BuildError(`<cl-vocabulary type="${name}">: no such type`);
+      const symbols = decoy
+        ? [...DECOY].sort((a, b) => a.type.id - b.type.id || a.id - b.id)
+        : [...symbolsOf(type!)].sort((a, b) => a.id - b.id);
+      const arity = symbols.some((symbol) => symbol.arity !== undefined);
       const meaning = symbols.some((symbol) => symbol.meaning !== undefined);
       const uses = this.hasAttribute("uses");
       if (uses && !usage) throw new BuildError("<cl-vocabulary uses> needs the usage of the symbols");
-      const head = ["Id", "Name", "Sign", ...(arity ? ["Arity"] : []), ...(meaning ? ["Meaning"] : []), ...(uses ? ["Introduced in", "Used in"] : [])];
+      const head = [...(decoy ? ["Type"] : []), "Id", "Name", "Sign", ...(arity ? ["Arity"] : []), ...(meaning ? ["Meaning"] : []), ...(uses ? ["Introduced in", "Used in"] : [])];
       const lesson = (place: { article: { slug: string; number: number; title: string }; block: number }, text: string) =>
         `<a href="lessons/${place.article.slug}.html#${blockId(place.article as never, place.block)}" title="${escape(place.article.title)}">${text}</a>`;
       const rows = symbols.map((symbol) => {
-        const cells = [String(symbol.id), `<code>${escape(symbol.name)}</code>`, escape(symbol.sign ?? "")];
+        const cells = [...(decoy ? [`<code>${escape(symbol.type.name)}</code>`] : []), String(symbol.id), `<code>${escape(symbol.name)}</code>`, escape(symbol.sign ?? "")];
         if (arity) cells.push(escape(symbol.arity ?? ""));
         if (meaning) cells.push(meaningHtml(symbol.meaning, link));
         if (uses) {
@@ -42,7 +47,7 @@ export function defineClVocabulary(window: Window, usage?: Usage): void {
         }
         return `      <tr id="${escape(symbolAnchor(symbol))}">${cells.map((cell) => `<td>${cell}</td>`).join("")}</tr>`;
       });
-      replace(this, `<table data-type="${type.id}">
+      replace(this, `<table${type ? ` data-type="${type.id}"` : ""}>
     <thead><tr>${head.map((h) => `<th>${h}</th>`).join("")}</tr></thead>
     <tbody>
 ${rows.join("\n")}

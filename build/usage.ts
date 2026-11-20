@@ -21,7 +21,26 @@ export function blockId(article: Article, block: number): string {
   return `${anchor(article)}-block-${block}`;
 }
 
-export function computeUsage(message: Message, replacements: Map<string, Article> = new Map()): Usage {
+export function computeUsage(message: Message, decoy?: Message): Usage {
+  const usage = usageOf(message);
+  if (!decoy) return usage;
+  // A lesson that replaces another (the decoy) introduces what it introduces in the decoy version, and the decoy's own
+  // symbols are introduced and used there.
+  const inDecoy = usageOf(decoy);
+  for (const { article } of decoy.articles) {
+    if (!article.replaces) continue;
+    usage.newIn.set(article.slug, inDecoy.newIn.get(article.slug) ?? []);
+    usage.newTypes.set(article.slug, inDecoy.newTypes.get(article.slug) ?? []);
+  }
+  for (const [name, place] of inDecoy.first) {
+    if (usage.first.has(name)) continue;
+    usage.first.set(name, place);
+    usage.uses.set(name, inDecoy.uses.get(name) ?? []);
+  }
+  return usage;
+}
+
+function usageOf(message: Message): Usage {
   const usage: Usage = { first: new Map(), uses: new Map(), newIn: new Map(), newTypes: new Map() };
   const types = new Set<number>();
   for (const { article, blocks } of message.articles) {
@@ -43,11 +62,6 @@ export function computeUsage(message: Message, replacements: Map<string, Article
         usage.uses.set(name, uses);
       }
     });
-  }
-  // A lesson that replaces another (the decoy) introduces what the lesson it replaces introduces.
-  for (const [slug, replacement] of replacements) {
-    usage.newIn.set(replacement.slug, usage.newIn.get(slug) ?? []);
-    usage.newTypes.set(replacement.slug, usage.newTypes.get(slug) ?? []);
   }
   return usage;
 }
