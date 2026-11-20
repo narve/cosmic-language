@@ -73,6 +73,18 @@
 ; and one thing we find bad whenever we meet it: a message that
 ; says something false
 (∀ u expressions (implies (= (eval u) false) (bad we (list (list u)))))</code></pre>
+  <p>Parties do not only talk; they also act toward each other, again and again, like the players of the prisoner's dilemma. <code>(strategy <var>u</var> <var>v</var>)</code> is the strategy that party <var>u</var> plays toward party <var>v</var>: given what has happened between them, it gives <var>u</var>'s next move. Strategies are chosen, like judgements, and nothing makes them the same for every pair of parties.</p>
+  <pre><code>
+; two parties can play different strategies toward each other
+(∃ u parties (∃ v parties (≠ (strategy u v) (strategy v u))))
+; and one party can play different strategies toward different
+; parties
+(∃ u parties (∃ v parties (∃ w parties
+  (≠ (strategy u v) (strategy u w)))))
+
+; a party that plays tit-for-tat toward another opens with peace
+(∀ u parties (∀ v parties (implies (= (strategy u v) tit-for-tat)
+  (= (move (strategy u v) (list)) (list cooperate)))))</code></pre>
 </article>
 </body>
 </html>
