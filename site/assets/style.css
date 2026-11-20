@@ -317,6 +317,7 @@ aside[data-new-symbols] li {
   border: 1px solid var(--line-strong);
   border-radius: 0.4rem;
   background: var(--bg-card);
+  margin: 0;
   white-space: nowrap;
 }
 aside[data-new-symbols] li small { margin-left: 0.25rem; color: var(--muted); }
