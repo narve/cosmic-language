@@ -51,19 +51,19 @@
   <pre><code>
 (∀ u expressions (implies (= (type u) number) (= (eval u) u)))
 (∀ u expressions (implies (= (type u) operator) (= (eval u) u)))</code></pre>
-  <p>An operation: apply the operator to the values of its arguments. Six operators work differently and are left out here: <code>quote</code> and <code>if</code>, which do not compute all their arguments, and <code>∀</code>, <code>∃</code>, <code>sequence</code> and <code>let</code>, which bind a variable.</p>
+  <p>An operation: apply the operator to the values of its arguments. Seven operators work differently and are left out here: <code>quote</code> and <code>if</code>, which do not compute all their arguments, and <code>∀</code>, <code>∃</code>, <code>sequence</code>, <code>average</code> and <code>let</code>, which bind a variable.</p>
   <pre><code>
 (∀ u expressions (implies (= (type u) brackets)
   (implies (&gt; (length u) 0)
   (implies (= (type (item u 1)) operator)
-  (implies (= (count (item u 1) (quote (quote if ∀ ∃ sequence let))) 0)
+  (implies (= (count (item u 1) (quote (quote if ∀ ∃ sequence average let))) 0)
     (= (eval u) (apply (item u 1) (sequence v (rest u) (eval v)))))))))</code></pre>
   <p>Quote gives its expression without computing it, and <code>if</code> computes only the branch it picks:</p>
   <pre><code>
 (∀ u expressions (= (eval (list (quote quote) u)) u))
 (∀ u expressions (∀ v expressions (∀ w expressions
   (= (eval (list (quote if) u v w)) (if (eval u) (eval v) (eval w))))))</code></pre>
-  <p>A constant, a particle, an element or another named thing has the thing it names as its value, as in <code>(= (eval (quote π)) π)</code> above. These few sentences define the value of every expression without variables. Expressions with variables, and with <code>∀</code>, <code>∃</code> and <code>sequence</code>, come next.</p>
+  <p>A constant, a particle, an element or another named thing has the thing it names as its value, as in <code>(= (eval (quote π)) π)</code> above. With these few sentences, every expression without variables and without a binder has a value. The binders (<code>∀</code>, <code>∃</code>, <code>sequence</code>, <code>average</code> and <code>let</code>) get no rules here: their value is what the earlier lessons taught them to mean.</p>
 </article>
 </body>
 </html>
