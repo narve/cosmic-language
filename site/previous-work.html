@@ -173,7 +173,7 @@
 <li><strong>Self-extracting formats and bootstrapping</strong> (background): TLV/ASN.1, self-extracting archives, compiler bootstraps (stage0/GNU Mes), &quot;the emulator in the archive&quot;. The shared pattern is a <em>tiny, verifiable core → interpreter → everything else</em>.</li>
 </ul>
 <hr>
-<h2>1. Comparison table</h2>
+<h2>F. Comparison table</h2>
 <table>
 <thead>
 <tr>
@@ -339,7 +339,7 @@
 </tr>
 </tbody></table>
 <hr>
-<h2>2. Key lessons for our design</h2>
+<h2>G. Key lessons for our design</h2>
 <p>These are the survey&#39;s recommendations as written before the design was settled; what was adopted is in the <a href="specification.html">specification</a>.</p>
 <ol>
 <li><strong>Beacon:</strong> a prime beacon at the start (the project later decided against a terminator: in repeated sending the beacon separates the copies), plus a fully predictable <em>calibration block</em> (word width, bit order, polarity). Validator: an autocorrelation detector must recover the word width at 10–25% bit errors.</li>
@@ -359,7 +359,7 @@
 <li><strong>Self-description as a fixed point:</strong> a metacircular parser/evaluator in the message&#39;s own language, which the validator runs on the message itself.</li>
 </ol>
 <hr>
-<h2>3. Bibliography</h2>
+<h2>H. Bibliography</h2>
 <p><strong>Languages and theory:</strong> <a href="https://en.wikipedia.org/wiki/Lincos_language">https://en.wikipedia.org/wiki/Lincos_language</a> · <a href="https://en.wikipedia.org/wiki/Astrolinguistics">https://en.wikipedia.org/wiki/Astrolinguistics</a> · <a href="https://en.wikipedia.org/wiki/Communication_with_extraterrestrial_intelligence">https://en.wikipedia.org/wiki/Communication_with_extraterrestrial_intelligence</a> · <a href="https://www.sciencefocus.com/space/alien-contact-a-brief-history-of-extraterrestrial-languages">https://www.sciencefocus.com/space/alien-contact-a-brief-history-of-extraterrestrial-languages</a> · <a href="https://github.com/paulfitz/cosmicos/">https://github.com/paulfitz/cosmicos/</a> · <a href="https://people.csail.mit.edu/paulfitz/cosmic/current/index.html">https://people.csail.mit.edu/paulfitz/cosmic/current/index.html</a> · <a href="https://www.math.arizona.edu/~devito">https://www.math.arizona.edu/~devito</a> · <a href="https://www.nbcnews.com/mach/space/here-s-how-we-might-talk-space-aliens-n770276">https://www.nbcnews.com/mach/space/here-s-how-we-might-talk-space-aliens-n770276</a> · <a href="https://accu.org/bookreviews/2001/glassborow_1032">https://accu.org/bookreviews/2001/glassborow_1032</a> · <a href="https://centauri-dreams.org/2021/12/17/all-your-base-are-belong-to-us-alien-computer-programs/">https://centauri-dreams.org/2021/12/17/all-your-base-are-belong-to-us-alien-computer-programs/</a> · <a href="https://link.springer.com/978-3-030-74844-9">https://link.springer.com/978-3-030-74844-9</a> · <a href="https://www.mit.edu/~dxh/marvin/web.media.mit.edu/~minsky/papers/AlienIntelligence.html">https://www.mit.edu/~dxh/marvin/web.media.mit.edu/~minsky/papers/AlienIntelligence.html</a> · <a href="https://www.nasa.gov/wp-content/uploads/2015/01/Archaeology_Anthropology_and_Interstellar_Communication_TAGGED.pdf">https://www.nasa.gov/wp-content/uploads/2015/01/Archaeology_Anthropology_and_Interstellar_Communication_TAGGED.pdf</a></p>
 <p><strong>Historic messages:</strong> <a href="https://www.scientificamerican.com/article/can-you-decode-an-alien-message/">https://www.scientificamerican.com/article/can-you-decode-an-alien-message/</a> · <a href="https://www.scientificamerican.com/article/the-arecibo-message-earths-first-interstellar-transmission-turns-50/">https://www.scientificamerican.com/article/the-arecibo-message-earths-first-interstellar-transmission-turns-50/</a> · <a href="https://en.wikipedia.org/wiki/Pioneer_plaque">https://en.wikipedia.org/wiki/Pioneer_plaque</a> · <a href="https://en.wikipedia.org/wiki/Voyager_Golden_Record">https://en.wikipedia.org/wiki/Voyager_Golden_Record</a> · <a href="https://www.pbs.org/the-farthest/science/pulsar-map">https://www.pbs.org/the-farthest/science/pulsar-map</a> · <a href="https://johnstonsarchive.net/astro/pulsarmap.html">https://johnstonsarchive.net/astro/pulsarmap.html</a> · <a href="https://en.wikipedia.org/wiki/Cosmic_Call">https://en.wikipedia.org/wiki/Cosmic_Call</a> · <a href="https://blog.plover.com/aliens/dd/p00.html">https://blog.plover.com/aliens/dd/p00.html</a> · <a href="https://michaelchorost.com/2024/07/19/will-extraterrestrials-understand-a-message-we-send/">https://michaelchorost.com/2024/07/19/will-extraterrestrials-understand-a-message-we-send/</a> · <a href="https://plus.maths.org/content/oops">https://plus.maths.org/content/oops</a> · <a href="https://www.smithsonianmag.com/science-nature/annotated-cosmic-call-primer-180960566/">https://www.smithsonianmag.com/science-nature/annotated-cosmic-call-primer-180960566/</a> · <a href="https://en.wikipedia.org/wiki/Teen_Age_Message">https://en.wikipedia.org/wiki/Teen_Age_Message</a> · <a href="https://www.universetoday.com/articles/messages-from-earth-beamed-to-alien-world">https://www.universetoday.com/articles/messages-from-earth-beamed-to-alien-world</a> · <a href="https://www.scientificamerican.com/blog/basic-space/good-morning-gliese-526-the-earth-says-hello/">https://www.scientificamerican.com/blog/basic-space/good-morning-gliese-526-the-earth-says-hello/</a> · <a href="https://www.scientificamerican.com/blog/observations/new-keys-to-help-extraterrestrials-unlock-our-messages/">https://www.scientificamerican.com/blog/observations/new-keys-to-help-extraterrestrials-unlock-our-messages/</a> · <a href="https://www.universetoday.com/articles/language-cosmos-hello-gj273b">https://www.universetoday.com/articles/language-cosmos-hello-gj273b</a> · <a href="https://arxiv.org/abs/2203.04288v2">https://arxiv.org/abs/2203.04288v2</a> · <a href="https://ar5iv.labs.arxiv.org/html/2411.09790">https://ar5iv.labs.arxiv.org/html/2411.09790</a></p>
 <p><strong>Decodability:</strong> <a href="https://arxiv.org/abs/0911.3976">https://arxiv.org/abs/0911.3976</a> · <a href="https://arxiv.org/abs/1706.00653">https://arxiv.org/abs/1706.00653</a> · <a href="https://www.sciencedirect.com/science/article/abs/pii/S0094576521006263">https://www.sciencedirect.com/science/article/abs/pii/S0094576521006263</a> · <a href="https://www.academia.edu/116342770/Algorithms_for_Decoding_Interstellar_Messages">https://www.academia.edu/116342770/Algorithms_for_Decoding_Interstellar_Messages</a> · <a href="https://arxiv.org/abs/2303.16045">https://arxiv.org/abs/2303.16045</a> · <a href="https://arxiv.org/abs/2405.07803">https://arxiv.org/abs/2405.07803</a> · <a href="https://www.sciencenews.org/article/decode-arecibo-alien-message-math">https://www.sciencenews.org/article/decode-arecibo-alien-message-math</a> · <a href="https://www.space.com/alien-signal-mars-decoded-esa-exomars">https://www.space.com/alien-signal-mars-decoded-esa-exomars</a></p>
@@ -368,7 +368,7 @@
 
 
 <section id="physics">
-<h2>F. From mathematics to physics, and to &quot;us&quot;</h2>
+<h2>I. From mathematics to physics, and to &quot;us&quot;</h2>
 <p><em>Second research report: how earlier projects made the leap from mathematics to the physical world and to the senders. Anything not confirmed by search or fetch is marked [unverified].</em></p>
 <h3>Summary</h3>
 <ul>
@@ -376,7 +376,7 @@
 <li><strong>Only one bridge was blind-tested and written up</strong> (Busch and Reddick, 2009). The decoder said the move from mathematics to physics was the hardest part, and everything after it was easy.</li>
 <li><strong>The two richest primers both ship false statements.</strong> Dutil–Dumas lists uranium-208, which does not exist, gets Avogadro&#39;s exponent wrong and has a typo in the neutron mass. The current CosmicOS source gives oxygen 16 protons instead of 8. So nobody before has managed to state physics without saying anything false. The way to do it is to write measured values as intervals with explicit bounds and to mark empirical statements as such. CosmicOS&#39;s <code>assume</code> marker and its <code>float:=</code> tolerance come closest.</li>
 </ul>
-<h3>F1. Project by project</h3>
+<h3>I1. Project by project</h3>
 <h4>Lincos (Freudenthal, 1960)</h4>
 <ul>
 <li><strong>Structure of Part I:</strong> four chapters: (1) mathematics, (2) time, (3) behaviour/conversation, (4) mass, space and motion, which also touches human bodies and the Solar System. So Part I did reach physics. Part II (Matter, Earth, Life, Behaviour 2) was planned but never written. Sources: <a href="https://en.wikipedia.org/wiki/Lincos_language">https://en.wikipedia.org/wiki/Lincos_language</a> and <a href="https://xenology.info/Xeno/24.2.4.htm">https://xenology.info/Xeno/24.2.4.htm</a></li>
@@ -521,7 +521,7 @@
 </ul>
 </li>
 </ul>
-<h3>F2. Taxonomy of bridging strategies</h3>
+<h3>I2. Taxonomy of bridging strategies</h3>
 <table>
 <thead>
 <tr>
@@ -592,7 +592,7 @@
 <td>Mostly needs a physical artifact or long-term dynamics.</td>
 </tr>
 </tbody></table>
-<h3>F3. Summary table</h3>
+<h3>I3. Summary table</h3>
 <table>
 <thead>
 <tr>
@@ -688,7 +688,7 @@
 <td>None; rational approximants used as values</td>
 </tr>
 </tbody></table>
-<h3>F4. Lessons for our design</h3>
+<h3>I4. Lessons for our design</h3>
 <ol>
 <li><p><strong>Introduce physical things as uninterpreted constants, fixed by descriptions.</strong> Busch&#39;s Sun and Earth are the model: the noun <em>is</em> the bundle of properties the receiver can check. &quot;Hydrogen&quot; then means whatever satisfies all the true statements made about it, which matches the &quot;identify, not define&quot; framing exactly.</p>
 </li>
@@ -722,9 +722,9 @@
 </section>
 
 <section id="intent">
-<h2>G. Agents, norms and peaceful intent: Lincos and Vakoch</h2>
+<h2>J. Agents, norms and peaceful intent: Lincos and Vakoch</h2>
 <p><em>Third research report: how Lincos teaches behaviour and conversation, what Vakoch and others proposed for communicating altruism and reciprocity, and how sent messages tried to signal peaceful intent. Freudenthal&#39;s book itself could not be retrieved (the Monoskop page returned 403), so the Lincos symbols come from secondary sources, mainly Latronico (2008), who quotes actual Lincos dialogues. Vakoch&#39;s Acta Astronautica abstracts were partly paywalled; details come from abstract excerpts and interviews. Unconfirmed claims are marked [unverified].</em></p>
-<h3>G1. Lincos, Chapter 3 (&quot;Behaviour&quot;)</h3>
+<h3>J1. Lincos, Chapter 3 (&quot;Behaviour&quot;)</h3>
 <h4>Freudenthal&#39;s philosophy</h4>
 <ul>
 <li><strong>Two ostensive anchors only.</strong> Without a shared language you can point only at <strong>numbers</strong> (counted pulses that &quot;both signify and represent their significance&quot;, §1.01) and <strong>time</strong> (pulses of stated length in seconds, then a clock). Every other concept is defined inside the language and traced back to these two anchors. He calls the number signs &quot;ideophonetic&quot; (§0.17). (Latronico.)</li>
@@ -884,7 +884,7 @@ Hb Inq Ha Qia t1t2 Hb Ani ℵ#                     Because I perceived it.
 <li><strong>Ollongren</strong> built a second-generation <em>Lingua Cosmica</em> on constructive logic, where all expressions are verifiable (<em>Astrolinguistics</em>, Springer 2013). His chapter in <em>Extraterrestrial Altruism</em> (ch. 16) argues that both Lincos and New Lincos can express human morality and altruism, &quot;even if the necessary encoding might not be perspicuous in all respects&quot;.</li>
 <li><strong>CosmicOS</strong> (Paul Fitzpatrick) is inspired by Lincos but aimed at <strong>programs</strong> (lambda calculus) rather than conversation. Its later sections build objects, a room-and-door world, and autonomous agents with rules, including one that &quot;breaks its own rule&quot;. It has no dialogue protocol.</li>
 </ul>
-<h3>G2. Vakoch and related work</h3>
+<h3>J2. Vakoch and related work</h3>
 <p><strong>Vakoch &amp; Matessa (2011), &quot;An algorithmic approach to communicating reciprocal altruism in interstellar messages: Drawing analogies between social and astrophysical phenomena&quot;.</strong> <em>Acta Astronautica</em> 68(3–4): 459–475, doi:10.1016/j.actaastro.2009.12.012.</p>
 <ul>
 <li>They model reciprocal altruism (short-term self-sacrifice for long-term benefit) through a <strong>stellar mass-loss analogy</strong>, scaled up to human interaction.</li>
@@ -1043,7 +1043,7 @@ Hb Inq Ha Qia t1t2 Hb Ani ℵ#                     Because I perceived it.
 </ul>
 </li>
 </ul>
-<h3>G3. Earlier attempts to express peaceful intent, with criticisms</h3>
+<h3>J3. Earlier attempts to express peaceful intent, with criticisms</h3>
 <table>
 <thead>
 <tr>
@@ -1104,7 +1104,7 @@ Hb Inq Ha Qia t1t2 Hb Ani ℵ#                     Because I perceived it.
 </tr>
 </tbody></table>
 <p>Common pattern: peaceful intent has always been <strong>asserted</strong> in natural language, gesture or imagery. That is the least decodable layer, and it is usually paired with location data. The decodable content has no intent layer at all.</p>
-<h3>G4. Lessons for a truth-only symbolic section on agents, norms and peace</h3>
+<h3>J4. Lessons for a truth-only symbolic section on agents, norms and peace</h3>
 <ol>
 <li><strong>Name utterances as events, and quote rather than assert.</strong> Introduce <code>(says A B (quote p))</code> with each utterance as an indexed event. The truth-only rule then holds even when a scene contains a false answer: <code>(says hb ha (quote (= x 1/4)))</code> is a <strong>true</strong> statement about the scene, while <code>(= x 1/4)</code> is never written bare.</li>
 <li><strong>Make agents things whose behaviour can be checked: executable or explicitly hypothetical.</strong> Either define agents as programs whose runs the message computes (as in CosmicOS), or mark scenes as <code>(scene k …)</code>, <code>(model …)</code> or <code>(suppose …)</code> contexts. Never make claims about real humans&#39; conversations unless they are marked <code>observed</code>.</li>
@@ -1120,7 +1120,7 @@ Hb Inq Ha Qia t1t2 Hb Ani ℵ#                     Because I perceived it.
 <li><strong>Keep peace content separate from location, and make questions to the receiver well-formed.</strong> Earlier messages paired goodwill with location. Unlike Cosmic Call p. 23, give every question an answer template, ask about shared mathematics and physics rather than their planet, keep one glyph to one meaning, and show a sample question answered first.</li>
 </ol>
 <p><strong>Process recommendation:</strong> test the section on naive decoders before finalising. Latronico&#39;s main warning is that each normative step depends on the receiver charitably revising its beliefs; testing shows where that charity breaks.</p>
-<h3>G5. Bibliography</h3>
+<h3>J5. Bibliography</h3>
 <p><strong>Lincos and commentary:</strong> <a href="https://en.wikipedia.org/wiki/Lincos_language">https://en.wikipedia.org/wiki/Lincos_language</a> · Latronico (2008), <a href="https://www.ledonline.it/acme/allegati/Acme-08-I-09-Latronico.pdf">https://www.ledonline.it/acme/allegati/Acme-08-I-09-Latronico.pdf</a> · <a href="https://xenology.info/Xeno/24.2.4.htm">https://xenology.info/Xeno/24.2.4.htm</a> · Monoskop, https://monoskop.org/log/?p=17877 (returned 403) ·<a href="https://www.openculture.com/2016/12/discover-lincos.html">https://www.openculture.com/2016/12/discover-lincos.html</a> · <a href="https://philpapers.org/rec/FRELDO-2">https://philpapers.org/rec/FRELDO-2</a> · <a href="https://en.wikipedia.org/wiki/Astrolinguistics">https://en.wikipedia.org/wiki/Astrolinguistics</a> · <a href="https://www.universiteitleiden.nl/en/research/research-output/science/astrolinguistics">https://www.universiteitleiden.nl/en/research/research-output/science/astrolinguistics</a> · <a href="https://cosmicos.github.io/">https://cosmicos.github.io/</a> · <a href="https://github.com/paulfitz/cosmicos">https://github.com/paulfitz/cosmicos</a></p>
 <p><strong>Vakoch and related:</strong> <a href="https://doi.org/10.1016/j.actaastro.2009.12.012">https://doi.org/10.1016/j.actaastro.2009.12.012</a> · <a href="https://doi.org/10.1016/S0094-5765(98)00029-0">https://doi.org/10.1016/S0094-5765(98)00029-0</a> · <a href="https://doi.org/10.1016/S0094-5765(98)00030-7">https://doi.org/10.1016/S0094-5765(98)00030-7</a> · <a href="https://link.springer.com/book/10.1007/978-3-642-37750-1">https://link.springer.com/book/10.1007/978-3-642-37750-1</a> · <a href="https://doi.org/10.1007/978-3-642-37750-1_16">https://doi.org/10.1007/978-3-642-37750-1_16</a> · <a href="https://greatergood.berkeley.edu/article/item/alien_kindness">https://greatergood.berkeley.edu/article/item/alien_kindness</a> · <a href="https://www.nasa.gov/wp-content/uploads/2015/01/archaeology_anthropology_and_interstellar_communication_tagged.pdf">https://www.nasa.gov/wp-content/uploads/2015/01/archaeology_anthropology_and_interstellar_communication_tagged.pdf</a> · <a href="https://www.berghahnbooks.com/blog/a-new-model-for-interstellar-communication">https://www.berghahnbooks.com/blog/a-new-model-for-interstellar-communication</a> · <a href="https://doi.org/10.48550/arxiv.0807.4518">https://doi.org/10.48550/arxiv.0807.4518</a> · <a href="https://doi.org/10.1016/j.actaastro.2010.10.012">https://doi.org/10.1016/j.actaastro.2010.10.012</a> · <a href="https://www.cato-unbound.org/2014/12/08/douglas-vakoch/importance-active-seti">https://www.cato-unbound.org/2014/12/08/douglas-vakoch/importance-active-seti</a> · <a href="https://davidbrin.com/nonfiction/shouldsetitransmit.html">https://davidbrin.com/nonfiction/shouldsetitransmit.html</a> · <a href="https://davidbrin.com/nonfiction/meti.html">https://davidbrin.com/nonfiction/meti.html</a> · <a href="https://setiathome.berkeley.edu/meti_statement_0.html">https://setiathome.berkeley.edu/meti_statement_0.html</a> · <a href="https://www.ieti.org/articles/sanmarin.pdf">https://www.ieti.org/articles/sanmarin.pdf</a> · <a href="https://en.wikipedia.org/wiki/San_Marino_Scale">https://en.wikipedia.org/wiki/San_Marino_Scale</a></p>
 <p><strong>Sent messages:</strong> <a href="https://en.wikipedia.org/wiki/Cosmic_Call">https://en.wikipedia.org/wiki/Cosmic_Call</a> · <a href="https://blog.plover.com/aliens/dd/intro.html">https://blog.plover.com/aliens/dd/intro.html</a> · <a href="https://blog.plover.com/aliens/dd/p21.html">https://blog.plover.com/aliens/dd/p21.html</a> · <a href="https://blog.plover.com/aliens/dd/p23.html">https://blog.plover.com/aliens/dd/p23.html</a> · <a href="https://arxiv.org/abs/2203.04288v2">https://arxiv.org/abs/2203.04288v2</a> · <a href="https://seti.org/decoding-message-sign-space-year-long-journey">https://seti.org/decoding-message-sign-space-year-long-journey</a> · <a href="https://www.livescience.com/space/extraterrestrial-life/father-daughter-team-decodes-alien-signal-from-mars-that-stumped-the-world-for-a-year">https://www.livescience.com/space/extraterrestrial-life/father-daughter-team-decodes-alien-signal-from-mars-that-stumped-the-world-for-a-year</a></p>
