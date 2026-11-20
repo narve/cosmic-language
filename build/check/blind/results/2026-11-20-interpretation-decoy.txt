@@ -1,0 +1,433 @@
+# Decoding report on /work/received.bin
+
+**Summary:** the bits are a self-contained teaching message. It is written in a typed prefix language, sent over and over, and builds from counting up to logic, game theory, physics, chemistry and astronomy. It ends by describing where the sender lives and what the sender is. It also sets out how the receiver could reply.
+
+I decoded the format exactly and read every statement. 263 of 263 machine-checkable maths statements come out true. A computer re-run of the game-theory tournament reproduces all of the message's numbers. About 40 measured quantities fall inside the message's stated bounds when compared with known physical values. All 268 symbols have a proposed meaning.
+
+One surprise: the sender says its star is not like the Sun, yet its biology is described as almost exactly human.
+
+How I label claims: **[S]** = the bits show it directly, **[I]** = inferred, **[G]** = guess. "S*n*" means top-level statement *n*, counting from 0 to 1222.
+
+---
+
+## 1. Format
+
+**The stream repeats [S].**
+- Bit *i* equals bit *i* + 357,758 everywhere except the very last bit of the file.
+- The file holds the tail of one copy (it starts partway into a word), then three complete copies, then 35,949 bits of a fourth copy.
+- The copies are bit-identical, so I found no sign of transmission noise and no error-correcting code.
+
+**Each copy has two parts [S]:**
+
+1. **Preamble, 174 bits.** It is written in a much simpler code: single marks separated by gaps of 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 and 31 bits ("1 0 1 00 1 000 1 00000 1 …"). That is the list 1, 2, 3, 5, … 31, written as gap lengths.
+2. **Exactly 22,349 sixteen-bit words.** 174 + 16 × 22,349 = 357,758, so nothing is left over.
+
+**Word layout.** I read the bits inverted. On that reading, every word is `0000 kkkk vvvvvvvv`: a 4-bit kind and an 8-bit value. The evidence:
+- [S] The first four bits are the same in all 22,349 words.
+- [S] Only kinds 0–9 ever occur.
+- [S] Kind 1 occurs only with value 0 or 1, and there are exactly 5,258 of each.
+- [I] Reading the bits un-inverted works equally well; I chose the inverted reading because the numbers then come out naturally (2 is 0x0002).
+
+**Word kinds.** My labels for kinds 2–9 are in brackets.
+
+| Kind | Meaning |
+|---|---|
+| 0 | number 0–255 |
+| 1 | "(" (value 0) or ")" (value 1) |
+| 2 | operator [w] |
+| 3 | constant [W] |
+| 4 | bound variable [v] |
+| 5 | particle [V] |
+| 6 | chemical element [x] |
+| 7 | physical dimension [X] |
+| 8 | physical constant [y] |
+| 9 | molecule [Y] |
+
+The message confirms this kind numbering itself:
+- [S] Its kind-of operator w43 returns 0 for a number and 1 for a bracketed expression.
+- [S] It returns 2 for `w7`, 3 for `W1`, 4 for `v1`, 5 for `V1`, 6 for `x1`, 7 for `X1`, 8 for `y1` and 9 for `Y2` (S537–544, 640, 720, 747, 759, 918).
+
+**Grammar [S].** "(" followed by an operator, then its arguments, then ")". Read this way, all 22,349 words nest perfectly into 1,223 top-level statements. Before them stand 21 bare numbers: `1 2 3 5 7 11 13 17 19 23 29 31 | 1 2 4 8 16 32 64 128 255`.
+
+**How I got here.** My first framing was off by one bit. That made the lowest bit of each number look like a random flag on the next word. Shifting the boundary by one bit made everything consistent, including the message's description of itself (see the vocabulary entry for W26).
+
+---
+
+## 2. What the message says, start to finish
+
+- **Header.** It lists 1 and the primes up to 31, repeating the preamble, then the powers of two up to 128 and then 255. [I] This shows the counting system, the place values of an 8-bit number, and the largest number one word can hold.
+- **S0–61: comparisons.** "=" is shown on the header numbers, e.g. `(w1 5 5)`. Then "≠", "<", ">", "≤" and "≥", including chains like `(w3 1 2 3)`.
+- **S62–157: arithmetic.** Addition, multiplication, numbers above 255 (`(w1 (w9 1 0) (w8 16 16))`, i.e. 256 = 16×16), subtraction, negatives and fractions.
+- **S158–283: logic.** True and false, not / and / or / implies, lists, "for all" and "there exists" (S208 shows that "for all" equals a conjunction), the natural numbers and rationals, and the laws of arithmetic stated with variables. For example, S245 states the distributive law.
+- **S284–323: working with lists.** Applying an operator across a list (fold), mapping, mean, probability, Cartesian product, tail, and if-then-else.
+- **S324–390: game theory.** A two-move game with a 2×2 payoff table (3, 7, 2, 5), eight strategies, and the results of a 255-round round-robin tournament. A computer re-run reproduces all 12 head-to-head totals and all 6 tournament totals exactly.
+- **S391–481: real and complex numbers.** Powers, i, absolute value, e^x, e, and π (bounded between 223/71 and 22/7, plus the Leibniz and Basel series), and e^{iπ} = −1.
+- **S482–517: geometry.** 3-D vectors, dot product, cosine, angle, cross product, and averaging over all directions.
+- **S518–632: talking about the language.** Quoting, kinds, let-binding, evaluation and substitution. "This message" (W26) is described element by element. Sender, receiver, agents and dialogues are defined, along with a question-and-answer convention and claims about the sender.
+- **S633–906: physics.** Electron, proton and neutron; elements H–Kr; isotopes and stability; hydrogen levels; units; light; ħ, G, the Coulomb constant, μ0, Planck units; the 21-cm line; gases, blackbody radiation and decay; spin, magnetic moments, parity violation; antimatter and CP violation; electron shells and noble gases.
+- **S892–985: chemistry.** 37 molecules, given as atom lists and bond lists; triple points of H2, Ne, Ar and H2O.
+- **S986–1097: astronomy.** Stars, Kepler's law, the cosmic microwave background and an axis frame built from it, the sender's binary star and planet, the galactic centre, galactic axes, and six pulsars with periods, slow-down rates and directions.
+- **S1098–1198: biochemistry.** DNA/RNA bases, sugars, ATP, amino acids, neurotransmitter-like molecules and heme; base pairing and the DNA double helix.
+- **S1199–1219: the sender.** Body mass, size, temperature and make-up, a 23-chromosome genome, and how it treats other agents.
+- **S1220–1222: the end.** It restates that tit-for-tat (W11) wins the tournament. [I] So the message closes on its "cooperate with those who cooperate" policy.
+
+---
+
+## 3. Vocabulary
+
+I could give a meaning to all 268 symbols, plus numbers and brackets; none is wholly uninterpretable. Notation: "kind 2, value 7" is written w7, and so on. "First" is the statement number of first use; each class is introduced strictly in order 1, 2, 3, …
+
+**Numbers and brackets**
+
+| In the bits | Meaning | First | Evidence | Confidence |
+|---|---|---|---|---|
+| kind 0, value n | the integer n (0–255) | header | all arithmetic checks hold | high |
+| 0x0100 / 0x0101 | "(" / ")" | S0 | perfect nesting; w43 gives kind 1 = expression | high |
+
+**Operators (w)**
+
+| Symbol | Meaning | First | Evidence | Confidence |
+|---|---|---|---|---|
+| w1 | = | 0 | `(w1 (w7 3 4) 7)` | high |
+| w2 | ≠ | 14 | `(w2 254 255)` | high |
+| w3 | < | 26 | `(w3 1 2 3)` | high |
+| w4 | > | 31 | `(w4 9 4 1 0)` | high |
+| w5 | ≤ | 50 | S401: ≤ ⇔ < or = | high |
+| w6 | ≥ | 53 | S402 | high |
+| w7 | + | 62 | `(w7 3 4)`=7 | high |
+| w8 | × | 80 | `(w8 15 15)`=225 | high |
+| w9 | base-256 number (any number of digits) | 100 | `(w9 1 0 0)`=256² | high |
+| w10 | minus | 111 | `(w10 5 3)`=2 | high |
+| w11 | negation | 122 | `(w10 0 3)=(w11 3)` | high |
+| w12 | divide | 137 | `(w12 6 3)`=2 | high |
+| w13 | not | 168 | truth table | high |
+| w14 | and | 173 | truth table | high |
+| w15 | or | 177 | truth table | high |
+| w16 | list | 186 | order matters (S187) | high |
+| w17 | length | 189 | `(w17 (w16 4 7 9))`=3 | high |
+| w18 | i-th element | 192 | `(w18 (4 7 9) 2)`=7 | high |
+| w19 | count of occurrences | 197 | `(w19 3 (3 1 3))`=2 | high |
+| w20 | for all | 206 | S208 | high |
+| w21 | there exists | 213 | S219–223 | high |
+| w22 | implies | 277 | truth table | high |
+| w23 | apply operator across a list | 284 | `(w23 w8 (2 3 4))`=24 | high |
+| w24 | map over a list | 291 | `→(1 4 9 16)` | high |
+| w25 | mean | 298 | mean(2,4,9)=5 | high |
+| w26 | probability / relative frequency | 302 | `(w26 6 (1..6))`=1/6 | high |
+| w27 | Cartesian product | 308 | S308 | high |
+| w28 | tail (all but first) | 313 | S313–315 | high |
+| w29 | if-then-else | 319 | S319–323 | high |
+| w30 | payoff (cost) table of the game | 328 | values 3, 5, 7, 2 | high (cost vs reward: medium) |
+| w31 | a strategy's move given the history | 339 | definitions; simulation | high |
+| w32 | history of n rounds | 359 | S359–363 | high |
+| w33 | total payoff over n rounds | 364 | 12 totals reproduced exactly | high |
+| w34 | power | 404 | 2³=8, 5⁰=1 | high |
+| w35 | absolute value | 450 | \|i\|=1, \|3+4i\|=5 | high |
+| w36 | exp | 459 | multiplicative law; e^{iπ}=−1 | high |
+| w37 | dot product | 486 | (1,2,3)·(4,5,6)=32 | high |
+| w38 | cosine | 497 | (e^{ix}+e^{−ix})/2 | high |
+| w39 | angle between vectors | 502 | S502–505 | high |
+| w40 | cross product | 506 | e₁×e₂=e₃ | high |
+| w41 | average over a set | 512 | mean of x² over directions = 1/3 | high |
+| w42 | quote (talk about an expression rather than evaluate it) | 518 | `(w42 (w7 2 3))≠5` | high |
+| w43 | kind of a quoted term | 537 | returns 0–9, matching the word's kind field | high |
+| w44 | let x = … in … | 545 | S546–553 | high |
+| w45 | evaluate | 555 | S555–578 | high |
+| w46 | fill the blank W27 with a value | 596 | S596–599 | high |
+| w47 | sender of | 603 | S603, 611 | medium |
+| w48 | receiver of | 604 | S604, 611 | medium |
+| w49 | "the sender states (you cannot check this)" | 614 | used only for claims about the sender | medium-low |
+| w50 | accepts as the right reply | 617 | "2+3=?" → 5 accepted | medium |
+| w51 | rejects as a reply | 618 | → 4 rejected | medium |
+| w52 | strategy agent a uses toward agent b | 630 | S630–632, 1215 | medium |
+| w53 | "measured / observed" | 633 | marks every empirical bound | medium |
+| w54 | mass | 633 | m_p/m_e between 1836 and 1837 | high |
+| w55 | electric charge | 637 | q_p = −q_e; neutron 0 | high |
+| w56 | nuclide (element, neutron count) | 721 | proton and neutron counts | high |
+| w57 | are stable | 727 | lists H-1, H-2, He-3, He-4, C-12, C-13, O-16 | medium-high |
+| w58 | energy of level n | 736 | Rydberg ratios 27/5 and 32/27 | high |
+| w59 | physical dimension of | 739 | dimensional formulas | high |
+| w60 | speed | 750 | photon speed = y1 | high |
+| w61 | wavelength | 754 | λ = c/f | high |
+| w62 | frequency | 754 | dimension 1/time | high |
+| w63 | photon energy | 760 | E = 2πħf | high |
+| w64 | photon from transition (atom, upper, lower) | 763 | S763–766 | high |
+| w65 | distance | 767 | symmetric, a length | high |
+| w66 | gravitational force | 769 | G·m₁m₂/r² | high |
+| w67 | electric (Coulomb) force | 779 | k·q₁q₂/r² | high |
+| w68 | electric current | 786 | dimension charge/time | high |
+| w69 | force per length between currents | 788 | −2·y5·I₁I₂/r | high |
+| w70 | mean kinetic energy | 807 | (3/2)kT | high |
+| w71 | temperature | 807 | dimension X5 | high |
+| w72 | blackbody power per area | 812 | π²k⁴T⁴/(60ħ³c²) | high |
+| w73 | mean lifetime | 821 | e^{−t/τ} | high |
+| w74 | fraction surviving after time t | 824 | S824–828 | high |
+| w75 | half-life | 824 | survival = 1/2 | high |
+| w76 | spin | 830 | ħ/2 for e, p, n; ħ for photon | high |
+| w77 | rotates in the sense v2→v3 | 835 | S835–837 | medium |
+| w78 | spin axis | 835 | = v2×v3 | medium-high |
+| w79 | decay asymmetry relative to parent spin | 839 | electron <0, V5 >0 | low-medium |
+| w80 | helicity of decay product | 842 | electron in (−1,0); V5 ≈ +1 | low-medium |
+| w81 | radius | 848 | loops, stars, planets | high |
+| w82 | magnetic field at loop centre | 851 | 2π·y5·I/r | medium-high |
+| w83 | sense of current circulation | 854 | parallels w77 | medium |
+| w84 | magnetic moment direction | 854 | p parallel to spin; e, n antiparallel | medium |
+| w85 | antiparticle of | 863 | e⁻↔V6; photon ↔ itself | high |
+| w86 | decay branching fraction | 868 | n → e = 1 | medium |
+| w87 | shell capacity | 873 | 2n² | high |
+| w88 | noble gases | 878 | He, Ne, Ar, Kr, Xe, Rn | medium-high |
+| w89 | atom list of a molecule | 907 | water = (O, H, H) | high |
+| w90 | bond list (i, j, bond order) | 908 | CO triple; CO₂ double bonds | high |
+| w91 | triple-point temperature | 969 | ratios match (see §4) | high |
+| w92 | triple-point pressure | 979 | ratios match | high |
+| w93 | luminosity | 990 | 4πR²σT⁴ | high |
+| w94 | orbits | 998 | Kepler III | high |
+| w95 | orbital period | 998 | dimension time | high |
+| w96 | orbit size (semi-major axis) | 999 | dimension length | high |
+| w97 | CMB temperature in a direction | 1002 | 2.7 K, anisotropy <1/256 | high |
+| w98 | is located at / lives on | 1034 | sender's claims | medium-low |
+| w99 | unit direction from a to b | 1042 | ±, unit length | high |
+| w100 | velocity of a relative to b | 1052 | ~150–330 km/s | medium-high |
+| w101 | pulsar period | 1061 | 1 ms–2.4 s | medium-high |
+| w102 | period slow-down rate | 1062 | 10⁻²⁰–10⁻¹³ | medium |
+| w103 | the two strands | 1160 | length 2; made of bases | high |
+| w104 | complementary base | 1162 | A↔T, G↔C | high |
+| w105 | twist per base pair | 1173 | 8–13 base pairs per turn | medium |
+| w106 | rise per base pair | 1175 | ~0.34 nm | medium-high |
+| w107 | body size | 1203 | 1.3–2.7 m | medium |
+| w108 | set of chromosomes | 1212 | size 23; each is DNA | medium-high |
+
+**Constants (W)**
+
+| Symbol | Meaning | First | Evidence | Confidence |
+|---|---|---|---|---|
+| W1 / W2 | true / false | 158 | `(w1 (w1 2 2) W1)` | high |
+| W3 | natural numbers 0, 1, 2, … | 229 | contains 0 (S230) | high |
+| W4 | rationals | 262 | contains 1/2 and −3 | high |
+| W5 / W6 | the two moves | 324 | game section | high |
+| W5 / W6 as cooperate / defect | guessed labels | 324 | assumes the table is a cost | medium |
+| W7 | set of moves {W5, W6} | 325 | — | high |
+| W8 | strategies | 339 | — | high |
+| W9 | always W5 | 339 | definition | high |
+| W10 | always W6 | 340 | definition | high |
+| W11 | tit-for-tat (open with W5, then copy) | 341 | definition | high |
+| W12 | suspicious tit-for-tat (open with W6) | 343 | definition | high |
+| W13 | grim trigger | 345 | definition | high |
+| W14 | win-stay / lose-shift | 347 | definition | high |
+| W15 | generous tit-for-tat (forgives 1/3 of the time) | 350 | definition | high |
+| W16 | random 50/50 | 353 | definition | high |
+| W17 | the tournament field {W9…W14} | 358 | — | high |
+| W18 | reals | 391 | — | high |
+| W19 | i | 434 | i² = −1 | high |
+| W20 | complex numbers | 446 | — | high |
+| W21 | e | 470 | between 8/3 and 11/4 | high |
+| W22 | π | 474 | between 223/71 and 22/7 | high |
+| W23 | 3-D vectors | 482 | — | high |
+| W24 | unit vectors | 493 | — | high |
+| W25 | expressions | 570 | — | high |
+| W26 | this message | 579 | element 1 = 1, 4 = 5, 12 = 31, 21 = 255, 22 = `(w1 1 1)`; `(w1 5 5)` occurs twice | high |
+| W27 | blank "?" | 596 | — | high |
+| W28 | the sender ("we") | 603 | — | medium-high |
+| W29 | the receiver ("you") | 604 | — | medium-high |
+| W30 | agents (those who communicate) | 607 | — | medium |
+| W31 | dialogues | 611 | — | medium |
+| W32 | atoms | 716 | — | high |
+| W33 | photons | 750 | — | high |
+| W34 | bodies with mass | 767 | — | medium-high |
+| W35 | current-carrying wires | 786 | — | medium |
+| W36 | gas particles | 807 | — | medium |
+| W37 | black bodies | 812 | — | medium-high |
+| W38 | durations | 823 | — | medium |
+| W39 | current loops | 848 | — | medium |
+| W40 | stars | 986 | — | high |
+| W41 | main axis of the CMB quadrupole | 1005 | — | medium |
+| W42 | second axis, perpendicular to W41 | 1006 | — | medium |
+| W43 | W41 × W42 | 1010 | — | high |
+| W44 | the sender's star | 1016 | — | high |
+| W45 | the sender's planet | 1017 | — | medium-high |
+| W46 | massive object at the galactic centre | 1037 | 2.8–5.5 million solar masses | medium-high |
+| W47 | direction to W46 | 1044 | — | high |
+| W48 | galactic rotation direction | 1046 | — | medium |
+| W49 | W47 × W48 | 1048 | — | high |
+| W50 | pulsars | 1060 | — | medium-high |
+| W51–W56 | six specific pulsars | 1063–1093 | — | medium |
+| W57 | double-stranded DNA | 1160 | — | high |
+| W58 | the sender's species | 1199 | — | medium-high |
+
+**Other classes**
+
+| Symbol | Meaning | First | Evidence | Confidence |
+|---|---|---|---|---|
+| v1–v4 | bound variables | 206 | — | high |
+| V1 | electron | 633 | mass ratio, charge | high |
+| V2 | proton | 633 | mass ratio, charge | high |
+| V3 | neutron | 633 | mass ratio, charge | high |
+| V4 | photon | 748 | massless, neutral | high |
+| V5 | electron antineutrino | 841 | neutral, lighter than electron, helicity ≈ +1 | medium |
+| V6 | positron | 860 | antiparticle of V1 | high |
+| V7 | neutral kaon | 869 | mass 973–975 electron masses; matter–antimatter asymmetry | medium |
+| x1–x36 | H, He, Li, … Kr (xn has n protons and n electrons) | 643–678 | — | high |
+| x54, x86 | Xe, Rn | 880 | 54 = 2+8+8+18+18 | high |
+| X1–X5 | mass, length, time, charge, temperature | 739–808 | — | high |
+| y1 | speed of light c | 750 | — | high |
+| y2 | ħ | 760 | — | high |
+| y3 | G | 769 | — | high |
+| y4 | Coulomb constant 1/4πε₀ | 779 | — | high |
+| y5 | μ₀/4π | 788 | y4/y5 = c² | high |
+| y6, y7, y8 | Planck length, time, mass | 794–796 | defining formulas | high |
+| y9 | the hydrogen 21-cm photon | 803 | — | medium-high |
+| y10 | Boltzmann's k | 807 | — | high |
+| y11 | Planck temperature | 816 | — | high |
+
+**Molecules (Y)** — atom counts are [S]; the names are [I].
+
+| Symbols | Meaning | Confidence |
+|---|---|---|
+| Y1–Y11 | H₂, H₂O, CH₄, NH₃, CO₂, CO, HCN, H₂CO, CH₃OH, C₂H₂, HC₃N (atoms and bonds both given) | high |
+| Y12–Y19 | SiO, CS, H₂S, SO₂, HCl, NaCl, N₂ (triple bond), O₂ (double bond) | high |
+| Y20 | C₆H₁₂O₆ (glucose or another hexose) | medium |
+| Y21 | C₂H₅NO₂ (glycine?) | medium |
+| Y22–Y26 | adenine, thymine, guanine, cytosine, uracil (pairing rules; T = U + CH₂) | high |
+| Y27, Y28 | cysteine, methionine | medium |
+| Y29, Y30 | ribose, deoxyribose | medium-high |
+| Y31 | ATP (C₁₀H₁₆N₅O₁₃P₃) | high |
+| Y32 | H₃PO₄ | medium-high |
+| Y33 | urea | medium-high |
+| Y34–Y36 | dopamine, serotonin, adrenaline (formula only) | low-medium |
+| Y37 | heme (C₃₄H₃₂N₄O₄Fe, formula only) | medium |
+
+---
+
+## 4. What a receiver learns
+
+**Mathematics and logic [S].** Everything below is stated exactly, with no measurement involved:
+- Arithmetic, numbers above 255, fractions and negatives.
+- Logic, sets and lists, the laws of arithmetic.
+- Complex numbers and the exponential function, e and π, the Leibniz and Basel series for π.
+- Vector algebra.
+
+All 263 statements that a small interpreter could evaluate came out true.
+
+**A language that can describe itself [S].**
+- Quoting, evaluation and a blank "?" are defined.
+- "This message" (W26) is described element by element, and the counts are checkable.
+- A reply convention is given:
+  - for the question "2+3 = ?", the reply "5" is accepted and "4" is rejected (S617–618);
+  - unsimplified answers like "1+4" are rejected (S622).
+- [I] This teaches the receiver how to answer in the same language.
+
+**Game theory [S].**
+- The game is a prisoner's dilemma with payoffs 2, 3, 5, 7.
+- In a 255-round round-robin the totals are: W11 5487, W13 5611, W9 5614, W14 5781, W10 6495, W12 6923. My simulation gives the same numbers.
+- [I] The table is a cost, where lower is better. Reasons:
+  - S338 is the textbook "2R < T + S" condition only under that reading;
+  - the strategy definitions then match the standard ones (tit-for-tat, grim trigger, win-stay/lose-shift);
+  - tit-for-tat then wins, which is the classic result.
+
+**Physics.** The [S] parts are the bounds and formulas in the message. The comparison with real values is my own check using known constants, not memory of other messages. All of these agree:
+- m_p/m_e between 1836 and 1837 (actual 1836.15).
+- m_n/m_e between 1838 and 1839.
+- Fine-structure constant between 1/138 and 1/137.
+- Electric force over gravitational force for a proton–electron pair: between 2¹³⁰ and 2¹³¹.
+- m_p and m_e relative to the Planck mass.
+- The 21-cm line (relative to the hydrogen 2→1 transition energy, to the Planck time, and to the Planck length).
+- Neutron lifetime: between 2¹⁵³ and 2¹⁵⁴ Planck times. This fits the mean life of about 880 s; the half-life would fall just outside.
+- Half-life of C-14 over that of tritium: between 2⁸ and 2⁹.
+- Helium-4 mass deficit, deuterium/hydrogen mass ratio, K⁰ mass.
+- Triple points of H₂, Ne and Ar relative to water, in both temperature and pressure (e.g. Ar/H₂O pressure between 112 and 113, actual 112.6). [I] These look like international temperature-scale reference points.
+- CMB temperature = 0.00995–0.0100 × water's triple point, i.e. 2.7255 K.
+
+The formulas stated are correct: Coulomb's law, gravity, the force between currents, blackbody radiation, ideal-gas energy, Planck units, and shell capacity 2n².
+
+The message also covers:
+- parity violation in neutron decay;
+- the magnetic-moment signs of proton, electron and neutron;
+- CP violation (K⁰ decays to positrons more often than to electrons, by 0.4–0.8 %);
+- that atoms contain electrons, not positrons.
+
+[I] Together these let a receiver tell "matter" from "antimatter", and left from right, without any shared reference object.
+
+**Chemistry and biology.**
+- [S] Common space molecules, DNA bases with A–T and G–C pairing, Chargaff's rule, sugars, ATP, amino acids, transmitters, heme.
+- DNA details all fit real DNA [I]: 8–13 base pairs per turn, rise 2⁸³–2⁸⁵ Planck lengths (actual 0.34 nm), pitch 2⁸⁷–2⁸⁸ (3.4 nm).
+
+**Where the sender is [S, with conversions I].**
+- **Star W44:**
+  - 1.15–1.32 solar masses, 1.0–2.1 solar radii, 4,400–8,700 K, 2.5–9.8 times the Sun's luminosity;
+  - it has one companion star of 0.66–1.32 solar masses;
+  - the two are 0.077–0.154 AU apart and orbit every 7.3–14.6 days.
+- **[I] W44 is not the Sun.** The Sun's mass and luminosity both lie below the stated bounds.
+- **Planet W45:**
+  - orbits the pair at 2.5–4.9 AU every 2.6–5.1 years;
+  - radius 45,000–90,000 km, mass under about 5.4 Jupiter masses;
+  - [I] a giant planet circling a binary star;
+  - Kepler's law is consistent with the stated masses.
+- **Galaxy:** the system lies 6.4–12.8 kpc from a central object of 2.8–5.5 million solar masses. It moves at 146–329 km/s along W48 and orbits the centre every 172–343 million years.
+- **Reference frame:** axes are fixed using the CMB quadrupole and octupole and the galactic axes.
+- **Pulsars:** the periods and slow-down rates match real pulsars (my identifications, from my own knowledge of pulsar catalogues, medium confidence):
+  - W54 ≈ B1937+21 (1.56 ms);
+  - W53 ≈ J0437−4715 (5.76 ms);
+  - W52 ≈ Vela;
+  - W51 ≈ B1951+32;
+  - W55 ≈ B0329+54;
+  - W56 ≈ B1919+21.
+  For four of them, the directions match what is seen from near the Sun. W53's and W56's directions do not.
+
+---
+
+## 5. The sender
+
+**What it states, marked w49 (the receiver cannot check these):**
+- "We" (W28) exist and have sent other messages (S614–615).
+- Every statement in this message is true (S616).
+- We live on a body that orbits W45 (a moon), not on W45 itself and not on the star (S1034–1036).
+- We are members of W58 (S1200).
+- We treat every other agent with tit-for-tat, opening with W5: "we start out cooperating and answer what you do" (S1215–1219).
+
+**What it states about W58, marked w53 (measured):**
+- Mass 33–132 kg, size 1.3–2.7 m (none larger than 5.4 m), body temperature 307–312 K (34–38 °C), all warmer than water's triple point.
+- Atom counts: H > O > C > N. Contains Ca, P, K, S, Na, Cl, Mg and Fe. More than half the mass is water.
+- 23 chromosomes of DNA, 2.1–4.3 billion base pairs in total.
+
+**What I infer:**
+- [I] The sender knows mathematics, quantum and particle physics, chemistry and astronomy well. It wants to be checkable: it gives bounds rather than claims, and labels measured facts and its own claims separately.
+- [I] It expects a reply and declares a cooperative, reciprocating intent.
+
+**What I am guessing:**
+- [G] The biology is strikingly like Earth humans: 23 chromosomes, about 3 Gbp, about 310 K, the same base pairs and transmitter molecules, H > O > C > N. Yet the home star is explicitly not the Sun, and four pulsar directions fit a viewpoint near the Sun.
+- [G] This suggests either a human-like species in a nearby system, or a constructed or test message that describes humans placed in a different star system.
+- [G] The bits alone cannot tell these apart, but the "non-human origin" assumption deserves scepticism.
+
+---
+
+## 6. Gaps and problems
+
+- **Polarity is a convention.** I read the bits inverted; the meaning is the same either way.
+- **The last bit of the file** is 0 where the other copies have 1 (word 2235, bit 14). It is probably padding to fill the final byte, possibly a bit error; I cannot tell which.
+- **Cooperate vs defect.** Calling W5 "cooperate" depends on reading the payoff table as a cost (lower is better). The evidence is good but indirect.
+- **Words with weaker meanings:**
+  - w49 and w53 are evidence-type markers whose exact sense is uncertain;
+  - w98 ("lives on"), w79/w80 (decay asymmetry and helicity), w77/w83, w102 and w105 are only partly pinned down;
+  - Y34–Y37 and some others are known only by formula, so their exact isomers are open.
+- **Internal inconsistency.** S1201 says every W58 is w98 (located at) W45. S1035 says the sender is not w98 W45, and S1200 says the sender is a W58. These conflict unless w98 means something else.
+- **Pulsar directions.** W56's direction does not fit B1919+21 as seen from the Sun, and W53's does not fit J0437. These comparisons rely on my own memory of the catalogues.
+- **Nothing found to be false.** Every checkable statement holds.
+- **Not stated anywhere:** how to send a reply physically (frequency or medium), any timing, or what W51–W56 are called. A known start time, the carrier frequency, or a reply would be needed to learn more.
+
+---
+
+## 7. Confidence
+
+| Part | Confidence |
+|---|---|
+| Format (repetition, preamble, 16-bit kind/value words, bracket grammar) | very high (~99 %): exact fit, self-confirmed by w43 and W26 |
+| Interpretation of the message's flow | high |
+| Vocabulary | about 200 of 268 symbols high confidence, about 55 medium, about 13 low |
+| Knowledge content | high for maths, game theory and physics (machine-checked or matched to known values); medium for astronomy identifications |
+| Sender | its own statements are read reliably; what they mean (human-like beings at another star versus a constructed message) is uncertain |
+| Overall | roughly 85–90 % of the content understood in substance |
+
+All files I made are in /work:
+- msg.txt — one full copy as bits
+- W.json — the 22,349 decoded words
+- stm.txt — the 1,223 decoded statements

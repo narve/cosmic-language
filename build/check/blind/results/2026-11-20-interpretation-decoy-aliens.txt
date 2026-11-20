@@ -1,0 +1,379 @@
+# What the received bits say: a self-explaining message in a small programming language
+
+I decoded essentially the whole signal. It is a message of 359,422 bits, sent over and over with no errors. It is written in a small Lisp-like language that it teaches as it goes. In order, it covers numbers, logic, a repeated game where players cooperate or betray each other, its own grammar, a question-and-answer protocol, physics, chemistry, where the sender lives and what they are made of. It ends with a statement that the sender will cooperate with anyone who cooperates back.
+
+Throughout, I keep three things apart:
+- **[bits]** what the bits show directly;
+- **[inferred]** what I worked out from them;
+- **[guess]** low-confidence guesses, including anything that relies on my own memory of physics, chemistry or star catalogues.
+
+---
+
+## 1. Format
+
+**Repetition [bits].** The stream is one block of P = 359,422 bits repeated exactly. All 979,890 overlapping bit pairs agree, so no noise is detectable.
+- The file contains 3.73 copies.
+- Complete copies start at file bits 75,008, 434,430 and 793,852. A fourth copy starts at 1,153,274 and is cut off.
+- Reception began inside statement 1019 of the message.
+
+**Where the message starts [inferred].** I placed the start at file bit 75,008, for two reasons:
+- Before that point there is a long run of filler words.
+- The 8-bit rhythm of the stream shifts phase exactly there (P is 6 bits more than a multiple of 8).
+
+**Preamble [bits].** The first 174 bits are runs of 0s of lengths 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, each separated by a single 1.
+
+**Words [bits].** The remaining 359,248 bits divide exactly into 22,453 words of 16 bits.
+- With every bit inverted, the first 12 words are the numbers 1, 2, 3, 5, …, 31. That is the same list as the preamble's run lengths, so counting marks and reading binary give the same values.
+- This tells us the polarity: a 0 in the file is a "mark". I invert every word from here on.
+- Words 13–21 are 1, 2, 4, …, 128 (a single mark moving through each binary place) and then 255 (all eight low bits set).
+- Example: the word 0x0201 is received as `1111110111111110`.
+
+**Word classes [bits + inferred].** The high byte of each word gives its kind; the low byte is a value or index.
+
+| High byte | Kind |
+|---|---|
+| 0x00 | literal number 0–255 |
+| 0x01 | 0x100 = "(" and 0x101 = ")"; each occurs 5,281 times and they nest perfectly |
+| 0x02 | operators |
+| 0x03 | constants |
+| 0x04 | bound variables |
+| 0x05 | particles |
+| 0x06 | chemical elements |
+| 0x07 | physical dimensions |
+| 0x08 | physical constants |
+| 0x09 | molecules |
+
+- The message states this classification itself: statements 561–565 give (kind of a quoted number) = 0, application = 1, operator = 2, constant = 3, variable = 4, and statements 664, 744, 771, 783 and 942 give kinds 5–9.
+- New symbols are numbered in order of first use, with no gaps, except elements, which are numbered by their atomic number (F54 and F86 are used, F37–F85 otherwise are not).
+
+**Statements [bits].** The message is a sequence of 1,246 top-level items: the 21 bare header numbers, then 1,225 bracketed statements written prefix-first, like Lisp.
+
+**Notation used below.** I write operators as B1–B108 (word 0x201–0x26C), constants as C1–C58, variables as D1–D4, particles E1–E7, elements F*n*, dimensions G1–G5, physical constants H1–H11 and molecules I1–I37.
+
+## 2. The message from beginning to end
+
+Each section is taught by examples first, then general rules.
+
+1. **Header (items 1–21).** The number 1 and the primes up to 31; powers of two; 255.
+2. **Comparison (21–82).** `(B1 1 1)`, `(B2 0 1)`, `(B3 3 255)` and so on teach =, ≠, <, >, ≤, ≥, including chains such as `(B3 0 5 9 255)`.
+3. **Arithmetic (83–178).** +, ×, large numbers in base 256 (`(B1 (B9 1 0) (B7 255 1))`, i.e. 256 = 255 + 1), −, negation, fractions.
+4. **Logic and collections (179–343).** True/false, not/and/or, lists, length, indexing, counting, for-all and there-exists, implication, natural numbers / rationals / reals, fold and map, mean, probability, Cartesian product, tail, if-then-else. General laws are stated, e.g. statement 265 is the distributive law.
+5. **A repeated game (345–411).**
+   - Two moves, C5 and C6. Cost table `(B30 C5 C5)=3, (B30 C6 C6)=5, (B30 C5 C6)=7, (B30 C6 C5)=2`.
+   - Six fixed strategies are defined, plus two random ones. Matches last 255 rounds, and statements 406–411 give each strategy's total cost against the full set of six.
+   - **[checked]** I simulated every game statement and all of them are true under my reading. Lower cost is better, so C5 = cooperate, and tit-for-tat (C11) wins with total 5,487.
+6. **More mathematics (412–541).** Reals, powers, e, π (between 223/71 and 22/7), the imaginary unit with e^{iπ} = −1, complex numbers, absolute value, 3-D vectors, dot and cross products, cosine, angle, averaging over the sphere.
+7. **The language describing itself (542–626).**
+   - Quote, kind-of, let, and an evaluation rule. Statement 600 lists the special forms `B29 B20 B21 B24 B41 B44`.
+   - C26 is this message itself, e.g. `(B1 (B18 C26 22) (B42 (B1 1 1)))`. **[checked]** Every count and index it gives about itself is correct.
+   - C27 is a blank to be filled in.
+8. **Communication (627–656).**
+   - Sender C28 and receiver C29 are both agents (C30); a conversation (C31) alternates between them.
+   - There is a question/answer protocol: B50 marks an answer "right", B51 marks it "wrong". Answers must be in simplest form: `(B7 1 4)` is marked wrong as an answer to "2+3=?".
+   - Agents can disagree. B52 is the strategy one agent uses toward another.
+9. **Physics (657–1008).** Every physical fact is wrapped in B53. Quantities are given as bounded dimensionless ratios: proton/electron mass between 1836 and 1837, the fine-structure constant between 1/138 and 1/137, Planck units, the 21-cm hydrogen line, the neutron lifetime, carbon-14 half-life compared with tritium's, spin, magnetic moments, the direction asymmetry in neutron decay, positron and kaon decays, electron shells (2n²), noble gases, 17 small molecules with their bonds, triple points.
+10. **Astronomy (1009–1120).** Stars and the Stefan–Boltzmann law, Kepler's law, the cosmic microwave background (temperature, size of its variations, and axes defined from them), the home star with a companion star and a giant planet, the galaxy's central black hole, the galactic frame of reference, six pulsars.
+11. **Biochemistry (1121–1237).** N₂, O₂, glucose, glycine, the bases A/T/G/C/U, cysteine, methionine, ribose and deoxyribose, ATP, phosphoric acid, urea, dopamine, serotonin, adrenaline, heme. Then a DNA double helix with A–T and G–C pairing, and the sender species' body, chemistry and genome.
+12. **Closing (1238–1245).** The sender says it plays tit-for-tat toward every other agent, and spells out the first moves. The message ends with proofs that tit-for-tat wins the tournament.
+
+## 3. Vocabulary
+
+Every symbol is written as one 16-bit word. Below, the "Word" column gives its value after inversion; the received bits are the complement. "First" is the 0-based index of the statement where it first appears. H/M/L = high/medium/low confidence.
+
+### Literals and brackets
+
+| Word | Meaning | First | Evidence | Conf. |
+|---|---|---|---|---|
+| 0x00nn | the number nn (0–255) | item 0 | preamble matches header | H |
+| 0x100 / 0x101 | ( and ) | 21 | perfectly balanced, nested | H |
+
+### Operators B1–B108 (word 0x200 + n)
+
+| Symbol | Meaning | First | Evidence | Conf. |
+|---|---|---|---|---|
+| B1 | equals (can chain) | 21 | `(B1 3 3 3)` | H |
+| B2 | not equal | 35 | `(B2 254 255)` | H |
+| B3 | less than | 47 | `(B3 3 255)` | H |
+| B4 | greater than | 52 | | H |
+| B5 | ≤ | 71 | | H |
+| B6 | ≥ | 74 | | H |
+| B7 | + | 83 | `(B7 3 4)=7` | H |
+| B8 | × | 101 | | H |
+| B9 | base-256 numeral | 121 | `(B9 1 0)=256` | H |
+| B10 | − | 132 | | H |
+| B11 | negation | 143 | `(B10 0 1)=(B11 1)` | H |
+| B12 | divide / fraction | 158 | | H |
+| B13 | not | 188 | | H |
+| B14 | and | 193 | | H |
+| B15 | or | 197 | | H |
+| B16 | list | 206 | | H |
+| B17 | length | 209 | | H |
+| B18 | i-th element (from 1) | 212 | | H |
+| B19 | count of occurrences | 217 | | H |
+| B20 | for all (variable, set, body) | 226 | | H |
+| B21 | there exists | 233 | | H |
+| B22 | implies | 297 | truth table 297–300 | H |
+| B23 | fold an operator over a list | 304 | | H |
+| B24 | map over a list | 311 | | H |
+| B25 | mean | 319 | | H |
+| B26 | relative frequency / probability | 323 | | H |
+| B27 | Cartesian product | 329 | | H |
+| B28 | tail of a list | 334 | | H |
+| B29 | if-then-else | 340 | | H |
+| B30 | game cost to the first player | 349 | simulation | H |
+| B31 | strategy's possible moves given a history | 360 | | H |
+| B32 | play n rounds, giving the history | 380 | | H |
+| B33 | total cost of a match | 385 | simulation | H |
+| B34 | power | 425 | | H |
+| B35 | absolute value | 474 | | H |
+| B36 | exp | 483 | `(B1 C21 (B36 1))` | H |
+| B37 | dot product | 510 | | H |
+| B38 | cos | 521 | defined via exp | H |
+| B39 | angle between vectors | 526 | | H |
+| B40 | cross product | 530 | | H |
+| B41 | average over a set (sphere uses uniform measure) | 536 | E[x²] = 1/3 | H |
+| B42 | quote | 542 | | H |
+| B43 | kind of an expression | 561 | | H |
+| B44 | let | 569 | | H |
+| B45 | evaluate | 579 | | H |
+| B46 | fill the blank C27 | 620 | | H |
+| B47 | sender of a message | 627 | | M-H |
+| B48 | receiver of a message | 628 | | M-H |
+| B49 | "the sender asserts" (claims about itself) | 638 | used only for self-claims | M |
+| B50 | sender judges the answer correct | 641 | | M-H |
+| B51 | sender judges the answer incorrect | 642 | | M-H |
+| B52 | strategy of agent X toward agent Y | 654 | | M |
+| B53 | empirical fact about the physical world | 657 | wraps every measured fact | M-H |
+| B54 | mass | 657 | | H |
+| B55 | electric charge | 661 | | H |
+| B56 | isotope (element, neutron count) | 745 | | H |
+| B57 | "are stable" (isotopes) | 751 | | M |
+| B58 | energy level n of an element (hydrogen) | 760 | 27/5 ratio | H |
+| B59 | dimension of a quantity | 763 | | H |
+| B60 | speed | 774 | | H |
+| B61 | wavelength | 778 | | H |
+| B62 | frequency | 778 | | H |
+| B63 | photon energy (= ħ·2π·f) | 784 | | H |
+| B64 | photon from a transition (element, upper, lower) | 787 | | H |
+| B65 | distance | 791 | | H |
+| B66 | gravitational force (magnitude) | 793 | | H |
+| B67 | electric force (signed) | 803 | | H |
+| B68 | electric current | 810 | | H |
+| B69 | force per length between parallel wires | 812 | | H |
+| B70 | mean kinetic energy | 831 | | H |
+| B71 | temperature | 831 | | H |
+| B72 | black-body flux | 836 | | H |
+| B73 | mean lifetime | 845 | | H |
+| B74 | survival probability after a time | 848 | | H |
+| B75 | half-life | 848 | | H |
+| B76 | spin | 854 | | H |
+| B77 | spin sense ("rotates from u toward v") | 859 | | M |
+| B78 | spin axis | 859 | | M |
+| B79 | a direction asymmetry in decay of a particle | 863 | | L |
+| B80 | another such asymmetry (electron/antineutrino relative to neutron spin; fits A < 0, B ≈ +0.98) | 866 | | L-M |
+| B81 | radius / size | 872 | | H |
+| B82 | magnetic field at the centre of a loop | 875 | | H |
+| B83 | circulation sense of a current loop | 878 | | M |
+| B84 | magnetic moment direction | 878 | | M |
+| B85 | antiparticle of | 887 | | H |
+| B86 | decay fraction into | 892 | | M |
+| B87 | number of states in shell n | 897 | | H |
+| B88 | "are noble (inert)" | 902 | | M-H |
+| B89 | atom list of a molecule | 931 | | H |
+| B90 | bond list (i, j, order) | 932 | | H |
+| B91 | triple-point temperature | 992 | | H |
+| B92 | triple-point pressure | 1002 | | H |
+| B93 | luminosity | 1013 | | H |
+| B94 | orbits | 1021 | | H |
+| B95 | orbital period | 1021 | | H |
+| B96 | orbital semi-major axis | 1022 | | H |
+| B97 | sky (background radiation) temperature in a direction | 1025 | | H |
+| B98 | lives on | 1057 | | M |
+| B99 | unit direction from X to Y | 1065 | | H |
+| B100 | velocity of X relative to Y | 1075 | | M |
+| B101 | pulsar period | 1084 | | M-H |
+| B102 | rate of change of the period | 1085 | | M-H |
+| B103 | the two strands of a DNA molecule | 1183 | | H |
+| B104 | complementary base | 1185 | | H |
+| B105 | twist per base pair | 1196 | | M |
+| B106 | rise per base pair | 1198 | | M-H |
+| B107 | body length | 1226 | | M |
+| B108 | chromosomes of an individual | 1235 | | M |
+
+### Constants C1–C58
+
+| Symbol | Meaning | First | Conf. |
+|---|---|---|---|
+| C1 / C2 | true / false | 179 | H |
+| C3 | natural numbers including 0 | 249 | H |
+| C4 | rationals | 282 | H |
+| C5 / C6 | cooperate / defect | 345 | H |
+| C7 | the set of moves | 346 | H |
+| C8 | game histories | 360 | H |
+| C9 | always cooperate | 360 | H |
+| C10 | always defect | 361 | H |
+| C11 | tit-for-tat | 362 | H |
+| C12 | suspicious tit-for-tat | 364 | H |
+| C13 | grim trigger | 366 | H |
+| C14 | win-stay/lose-shift ("Pavlov") | 368 | H |
+| C15 | generous tit-for-tat (forgives with probability 1/3) | 371 | H |
+| C16 | random 50/50 | 374 | H |
+| C17 | the six-strategy tournament roster | 379 | H |
+| C18 | reals | 412 | H |
+| C19 | i | 458 | H |
+| C20 | complex numbers | 470 | H |
+| C21 | e | 494 | H |
+| C22 | π | 498 | H |
+| C23 | 3-D vectors | 506 | H |
+| C24 | unit vectors / directions | 517 | H |
+| C25 | expressions | 594 | H |
+| C26 | this message | 603 | H |
+| C27 | blank | 620 | H |
+| C28 | sender | 627 | M-H |
+| C29 | receiver | 628 | M-H |
+| C30 | agents / minds | 631 | M |
+| C31 | conversations | 635 | M |
+| C32 | elements | 740 | H |
+| C33 | photons | 774 | H |
+| C34 | massive bodies | 791 | H |
+| C35 | currents / wires | 810 | M |
+| C36 | ideal-gas particles | 831 | M |
+| C37 | black bodies | 836 | H |
+| C38 | time durations | 847 | H |
+| C39 | current loops | 872 | M-H |
+| C40 | stars | 1009 | H |
+| C41 / C42 / C43 | three axes defined from the variations of the microwave background (C43 = C41 × C42) | 1028 | M |
+| C44 | sender's home star | 1039 | H |
+| C45 | giant planet orbiting both stars | 1040 | H |
+| C46 | central black hole of the galaxy | 1060 | M-H |
+| C47 / C48 / C49 | galactic frame: toward the centre / roughly along the star's motion / their cross product | 1067 | M |
+| C50 | pulsars | 1083 | M-H |
+| C51–C56 | six specific pulsars | 1086 | M |
+| C57 | DNA double helices | 1183 | H |
+| C58 | the sender's species | 1222 | M-H |
+
+### Variables, particles, dimensions, physical constants
+
+| Symbol | Meaning | Evidence | Conf. |
+|---|---|---|---|
+| D1–D4 | bound variables | | H |
+| E1 | electron | mass ratios, charge | H |
+| E2 | proton | | H |
+| E3 | neutron | | H |
+| E4 | photon | massless, neutral, spin ħ | H |
+| E5 | antineutrino | neutral, lighter than the electron, in neutron decay | M |
+| E6 | positron | mass and spin of the electron, opposite charge | H |
+| E7 | neutral long-lived kaon (K-long) | mass 973–975 electron masses; decays to positrons slightly more often | M |
+| G1–G5 | mass, length, time, charge, temperature | | H |
+| H1 | speed of light c | | H |
+| H2 | reduced Planck constant ħ | | H |
+| H3 | gravitational constant G | | H |
+| H4 | Coulomb constant | | H |
+| H5 | μ₀/4π | | H |
+| H6 / H7 / H8 | Planck length / time / mass | | H |
+| H9 | the 21-cm hydrogen photon | | H |
+| H10 | Boltzmann constant | | H |
+| H11 | Planck temperature | | H |
+
+### Elements and molecules
+
+**Elements [inferred].** F*n* is the element with n protons and n electrons (statements 667–738). So F1 H, F2 He, F3 Li, F4 Be, F5 B, F6 C, F7 N, F8 O, F9 F, F10 Ne, F11 Na, F12 Mg, F13 Al, F14 Si, F15 P, F16 S, F17 Cl, F18 Ar, F19 K, F20 Ca, F21 Sc, F22 Ti, F23 V, F24 Cr, F25 Mn, F26 Fe, F27 Co, F28 Ni, F29 Cu, F30 Zn, F31 Ga, F32 Ge, F33 As, F34 Se, F35 Br, F36 Kr, F54 Xe, F86 Rn. Confidence is high for "Z = n"; the English names are mine.
+
+**Molecules [inferred from atom counts and bonds].**
+
+| Symbols | Molecules | Conf. |
+|---|---|---|
+| I1–I11 | H₂, H₂O, CH₄, NH₃, CO₂, CO (triple bond), HCN, formaldehyde, methanol, acetylene, HC₃N | H |
+| I12–I17 | SiO, CS, H₂S, SO₂, HCl, NaCl | H; SiO and CS from atom/electron counts only |
+| I18–I19 | N₂, O₂ | H |
+| I20 | C₆H₁₂O₆ (glucose or another hexose; no bonds given) | M |
+| I21 | glycine | M-H |
+| I22–I26 | adenine, thymine, guanine, cytosine, uracil (from formulas; pairing confirms A–T, G–C) | H |
+| I27–I28 | cysteine, methionine | M |
+| I29 | ribose (C₅H₁₀O₅) | M |
+| I30 | deoxyribose | M |
+| I31 | ATP | M-H |
+| I32 | phosphoric acid | M-H |
+| I33 | urea | M |
+| I34 | C₈H₁₁NO₂ (dopamine?) | L-M |
+| I35 | C₁₀H₁₂N₂O (serotonin?) | L-M |
+| I36 | C₉H₁₃NO₃ (adrenaline?) | L-M |
+| I37 | C₃₄H₃₂N₄O₄Fe (heme) | M |
+
+For I20 and I34–I37 the bits give only formulas, so other molecules with the same formula are possible.
+
+Nothing in the message is completely uninterpretable; B79 is the weakest.
+
+## 4. What a receiver could learn
+
+**Mathematics, logic and computation.** About 524 closed statements, plus every game and self-reference statement, evaluate as true in my evaluator. About 24 apparent failures came only from the evaluator's limits (finite samples for infinite sets, non-lazy "and", how quotes were stored), not from the message. The message also defines a complete little evaluator (statements 598–602), so a receiver could compute with the language and reply in it.
+
+**Cooperation.** Defecting is individually better, mutual cooperation beats mutual defection, and 2×3 < 7+2, so taking turns exploiting each other does not pay. These are exactly the conditions of the prisoner's dilemma (here written as costs). Tit-for-tat has the lowest tournament cost. **[checked by simulation]**
+
+**Physics.** I compared each bound with the values I know (memory, not the bits). All fit: proton/electron and neutron/electron mass ratios, the fine-structure constant (1/137.04), electric/gravitational force ratio (2.27e39), proton and electron mass in Planck masses, the 21-cm line, neutron lifetime ≈ 1.6e46 Planck times, carbon-14/tritium half-life ratio ≈ 465, kaon mass ≈ 973.8 electron masses, kaon positron/electron decay ratio ≈ 1.0067, triple points of H₂, Ne, Ar and water (temperatures and pressures), helium-4 mass defect, microwave background temperature 2.7255 K, DNA rise and pitch.
+
+Two facts carry special weight:
+- The neutron-decay asymmetries (statements 863–869) and the magnetic moment signs (881–883) let a receiver tie the sender's "right-handed" (as used in the cross product) to physics. *[inferred]*
+- The kaon decay asymmetry (895–896) lets a receiver tell which of "electron" and "positron" the sender means by matter. *[inferred]*
+
+**Units.** Every quantity is tied to Planck units, the triple point of water or hydrogen energy levels, so a receiver can convert everything into its own units.
+
+**Location [bits → inferred].**
+- Home star C44: 1.16–1.32 solar masses, 1.04–2.07 solar radii, 4,370–8,740 K, 2.4–9.8 solar luminosities.
+- The Sun falls outside the mass, radius and luminosity bounds, so this is **not our Sun** but probably a hotter, F-type star [guess].
+- One companion star: 0.66–1.32 solar masses, period 7.3–14.6 days, separation 0.077–0.154 AU.
+- A circumbinary giant planet: 0.63–1.26 Jupiter radii, under 5.4 Jupiter masses, 2.5–4.9 AU, period 2.6–5.1 years.
+- **[checked]** Kepler's law can be satisfied for both orbits within the stated ranges.
+- Galaxy: central mass 2.8–5.5 million solar masses at 6.4–12.8 kpc, galactic orbit 172–343 million years, dynamical mass about 2^12–2^16 times the black hole. That fits the Milky Way and a position like the Sun's.
+- Pulsars [guess, from memory]: C52 matches Vela in period, spin-down and direction; C54, C55 and C51 are consistent with B1937+21, B0329+54 and B1951+32. C53 and C56 match nothing I recall.
+
+**Biology [B53 facts about C58].**
+- Body mass 132–265 kg, length 2.7–5.4 m (all under 5.4 m), body temperature 17–34 °C.
+- More H atoms than O, then C, then N; water is the most common molecule and over half the body mass; contains Ca, P, K, S, Na, Cl, Mg, Fe.
+- DNA with 19 chromosomes and 4.3–8.6 billion base pairs. The double helix is right-handed under their convention, about 10.5 base pairs per turn.
+- This is strikingly Earth-like chemistry.
+
+## 5. The sender
+
+**Stated, as its own claims (B49):**
+- The sender exists as an agent (638).
+- It has sent other messages (639).
+- Every statement in this message is true (640).
+- It is a member of C58 (1223); its species are agents (1222) and all live on a body orbiting planet C45 — a moon (1057–1059, 1224).
+- It plays tit-for-tat toward every other agent, starting with cooperation (1238–1242).
+
+**Stated as fact (unmarked):** a conversation beginning with this message exists, and any reply would go from receiver to sender (636–637).
+
+**Inferred:**
+- A technological species living on a moon of a giant planet in a close binary of F/G-type stars, near the Sun's distance from the galactic centre.
+- Carbon/water/DNA biochemistry with the same bases, sugars, ATP and heme as ours.
+- Larger and heavier than humans.
+- It wants a reply in its own language (the question/answer protocol) and is offering reciprocal cooperation.
+
+**Guess:** the strong closing on tit-for-tat suggests the main purpose is to establish safe, conditional cooperation with an unknown other.
+
+## 6. Gaps and problems
+
+- **Unverifiable from the bits:** the stated directions of the background-radiation axes and pulsars (1028–1038, 1078–1120). My pulsar identifications rely on memory and two of the six don't fit any pulsar I recall.
+- **Mild inconsistencies or ambiguities:**
+  - The gravitational force (B66) is given as a positive magnitude, while electric and wire forces are signed so that attraction is negative.
+  - "1" is included in the header's prime list.
+  - The C52 bounds are much looser than the others.
+- **Uncertain meanings:** I cannot tell B79 apart from B80. The particle E5 could in principle be the neutrino rather than the antineutrino; the antineutrino is my inference from its role in neutron decay.
+- **Formulas only:** for I20 and I34–I37 the message gives atom counts but no bonds, so isomers are possible.
+- **Reception gap:** the stream starts mid-message, but three complete copies cover everything, so nothing is missing.
+- **What would help:** a star and pulsar catalogue to test the directions, and an authoritative check of the molecule identifications.
+
+## 7. Confidence
+
+| Area | Confidence |
+|---|---|
+| Format (repetition, polarity, 16-bit words, preamble) | very high |
+| Mathematics, logic, game, self-reference | very high (machine-checked) |
+| Physics constants and particles | high (bounds fit known values) |
+| Directions, pulsars, B79/B80, some molecule names | medium to low |
+| Sender's claims | decoded with high confidence; their truth is unknown |
+
+Overall, I believe about 95% of the content is correctly understood. Every symbol has a proposed meaning, and all but a handful are high or medium confidence.
+
+The working files are in `/work`. The parsed statements are in `/work/top.txt` and the evaluator is `/work/evalr.py`.
