@@ -21,8 +21,8 @@
 (observed (&lt; (× 7 (^ 2 187)) (÷ (mass sun) (mass proton)) (^ 2 190)))
 ; its radius: between 2¹⁴⁵ and 2¹⁴⁶ Planck lengths
 (observed (&lt; (^ 2 145) (÷ (radius sun) planck-length) (^ 2 146)))
-; its temperature: between 2⁴ and 2⁵ times the triple point of water
-(observed (&lt; (^ 2 4) (÷ (temperature sun) (triple-point water)) (^ 2 5)))
+; its temperature: between 20 and 25 times the triple point of water
+(observed (&lt; 20 (÷ (temperature sun) (triple-point water)) 25))
 ; its luminosity: between 2⁻⁸⁵ and 2⁻⁸³ of the Planck unit of
 ; power, c⁵ ÷ G
 (observed (&lt; (÷ 1 (^ 2 85)) (÷ (luminosity sun) (÷ (^ c 5) G)) (÷ 1 (^ 2 83))))</code></pre>
@@ -36,8 +36,8 @@
 (observed (∃ u stars (and (orbits u sun) (&lt; (^ 2 189) (÷ (mass u) (mass proton)) (^ 2 190)))))
 ; its radius: between 2¹⁴⁴ and 2¹⁴⁵ Planck lengths
 (observed (∃ u stars (and (orbits u sun) (&lt; (^ 2 144) (÷ (radius u) planck-length) (^ 2 145)))))
-; its temperature: between 2⁴ and 2⁵ times the triple point of water
-(observed (∃ u stars (and (orbits u sun) (&lt; (^ 2 4) (÷ (temperature u) (triple-point water)) (^ 2 5)))))
+; its temperature: between 18 and 24 times the triple point of water
+(observed (∃ u stars (and (orbits u sun) (&lt; 18 (÷ (temperature u) (triple-point water)) 24))))
 
 ; the size of its orbit: between 2¹⁴⁹ and 2¹⁵⁰ Planck lengths
 (observed (∃ u stars (and (orbits u sun) (&lt; (^ 2 149) (÷ (axis u sun) planck-length) (^ 2 150)))))
