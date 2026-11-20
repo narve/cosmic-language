@@ -11,58 +11,58 @@
 <body>
 <article class="lesson" data-topic="conversations">
   <h3>good and bad</h3>
-  <p>A party can judge a conversation. New: <code>good</code> and <code>bad</code>. <code>(good <var>u</var> <var>z</var>)</code> means that <var>u</var> finds the conversation <var>z</var> good, and <code>(bad <var>u</var> <var>z</var>)</code> that <var>u</var> finds it bad. A conversation is written as a list of messages, and a message as a list of sentences: a question in the first message, a reply in the second. The conversations judged here are examples, not ones that took place. Good and bad are always someone's judgement, and the judgements here are ours.</p>
+  <p>A party can judge a conversation. New: <code>good</code> and <code>bad</code>. <code>(good <var>u</var> <var>z</var>)</code> means that <var>u</var> finds the conversation <var>z</var> good, and <code>(bad <var>u</var> <var>z</var>)</code> that <var>u</var> finds it bad. A conversation is written as a list of messages, and a message as a list of sentences: a question in the first message, a reply in the second. The conversations judged here are examples, not ones that took place. Good and bad are always someone's judgement, and the judgements here are ours, so they are <code>stated</code>, like everything else we say about ourselves; the two rules about judgements in general belong to what good and bad mean, and are not marked.</p>
   <pre><code>
 ; to "what is 2 + 3?", we find the reply 5 good
-(let w (quote (= (+ 2 3) ?))
-  (let v (fill w 5)
-    (good we (list (list w) (list v)))))
+(stated (let w (quote (= (+ 2 3) ?))
+          (let v (fill w 5)
+            (good we (list (list w) (list v))))))
 ; and the reply 4 bad: it is wrong
-(let w (quote (= (+ 2 3) ?))
-  (let v (fill w 4)
-    (bad we (list (list w) (list v)))))
+(stated (let w (quote (= (+ 2 3) ?))
+          (let v (fill w 4)
+            (bad we (list (list w) (list v))))))
 
 ; to "is 2 less than 3?", we find yes good
-(let w (quote (= (&lt; 2 3) ?))
-  (let v (fill w true)
-    (good we (list (list w) (list v)))))
+(stated (let w (quote (= (&lt; 2 3) ?))
+          (let v (fill w true)
+            (good we (list (list w) (list v))))))
 ; and no bad
-(let w (quote (= (&lt; 2 3) ?))
-  (let v (fill w false)
-    (bad we (list (list w) (list v)))))</code></pre>
+(stated (let w (quote (= (&lt; 2 3) ?))
+          (let v (fill w false)
+            (bad we (list (list w) (list v))))))</code></pre>
   <p>Good is not the same as true. A right reply can be bad, because it does not do what the question asked. Hans Freudenthal's Lincos (1960) took the same step: there a speaker calls the reply 10/4 to a question bad, although it is right, because it is not written in lowest terms.</p>
   <pre><code>
 ; a reply can be right and still bad
-(let w (quote (= (+ 2 3) ?))
-  (∃ v expressions
-    (and (= (eval (fill w v)) true)
-         (bad we (list (list w) (list (fill w v)))))))
+(stated (let w (quote (= (+ 2 3) ?))
+          (∃ v expressions
+            (and (= (eval (fill w v)) true)
+                 (bad we (list (list w) (list (fill w v))))))))
 ; these replies are right, but we find them bad: they do not say
 ; which number
-(let w (quote (= (+ 2 3) ?))
-  (∀ v (list (quote (+ 2 3)) (quote (+ 1 4)) (quote (÷ 15 3))
-             (quote (length (list 1 2 3 4 5))))
-    (bad we (list (list w) (list (fill w v))))))
+(stated (let w (quote (= (+ 2 3) ?))
+          (∀ v (list (quote (+ 2 3)) (quote (+ 1 4)) (quote (÷ 15 3))
+                     (quote (length (list 1 2 3 4 5))))
+            (bad we (list (list w) (list (fill w v)))))))
 
 ; to "which natural numbers are greater than 1 and less than 5?",
 ; we find the reply 2, 3, 4 good
-(let w (quote (∀ u ? (and (∃ v ℕ (= v u)) (&lt; 1 u 5))))
-  (let v (fill w (quote (list 2 3 4)))
-    (good we (list (list w) (list v)))))
+(stated (let w (quote (∀ u ? (and (∃ v ℕ (= v u)) (&lt; 1 u 5))))
+          (let v (fill w (quote (list 2 3 4)))
+            (good we (list (list w) (list v))))))
 ; and the reply 2, 3 bad: it is right, but it leaves one out
-(let w (quote (∀ u ? (and (∃ v ℕ (= v u)) (&lt; 1 u 5))))
-  (let v (fill w (quote (list 2 3)))
-    (bad we (list (list w) (list v)))))
+(stated (let w (quote (∀ u ? (and (∃ v ℕ (= v u)) (&lt; 1 u 5))))
+          (let v (fill w (quote (list 2 3)))
+            (bad we (list (list w) (list v))))))
 
 ; the same reply can be good after one question and bad after
 ; another: 1 + 1 = 2 is good after "what is 1 + 1?"
-(let w (quote (= (+ 1 1) ?))
-  (let v (quote (= (+ 1 1) 2))
-    (good we (list (list w) (list v)))))
+(stated (let w (quote (= (+ 1 1) ?))
+          (let v (quote (= (+ 1 1) 2))
+            (good we (list (list w) (list v))))))
 ; and bad after "what is 2 + 3?", which it does not answer
-(let w (quote (= (+ 2 3) ?))
-  (let v (quote (= (+ 1 1) 2))
-    (bad we (list (list w) (list v)))))</code></pre>
+(stated (let w (quote (= (+ 2 3) ?))
+          (let v (quote (= (+ 1 1) 2))
+            (bad we (list (list w) (list v))))))</code></pre>
   <p>A judgement belongs to the party that makes it. No party finds the same conversation both good and bad, but two parties can judge it differently.</p>
   <pre><code>
 ; nothing is both good and bad to the same party
@@ -73,7 +73,7 @@
 
 ; and one thing we find bad whenever we meet it: a message that
 ; says something false
-(∀ u expressions (implies (= (eval u) false) (bad we (list (list u)))))</code></pre>
+(stated (∀ u expressions (implies (= (eval u) false) (bad we (list (list u))))))</code></pre>
   <p>Parties do not only talk; they also act toward each other, again and again, like the players of the prisoner's dilemma. New: <code>strategy</code>. <code>(strategy <var>u</var> <var>v</var>)</code> is the strategy that party <var>u</var> plays toward party <var>v</var>: given what has happened between them, it gives <var>u</var>'s next move. Strategies are chosen, like judgements, and nothing makes them the same for every pair of parties.</p>
   <pre><code>
 ; two parties can play different strategies toward each other

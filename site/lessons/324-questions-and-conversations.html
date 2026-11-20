@@ -36,11 +36,8 @@
 (≠ you we)
 (≠ (sender message) (receiver message))
 
-; both are parties: those who can send and receive messages
-(∃ u parties (= u we))
+; you are a party: someone who can send and receive messages
 (∃ u parties (= u you))
-
-(∃ u parties (= u (sender message)))
 (∃ u parties (= u (receiver message)))</code></pre>
   <p>A reply is a message that goes back: its sender is the receiver of the message before it, and its receiver is that message's sender. New: the domain <code>conversations</code>: exactly the lists of messages in which every message is a reply to the one before. The first message opens the conversation.</p>
   <pre><code>
