@@ -1,4 +1,4 @@
-// Builds docs/ from the sources: copies assets/, renders lessons/ and templates/, writes the message.
+// Builds docs/ from site/, which has the same layout: copies site/assets/, renders site/lessons/ and the pages in site/, writes the message.
 // docs/ holds only generated files: the build deletes it and makes it again.
 import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
@@ -16,19 +16,20 @@ import { runCheckers } from "./check/checkers.ts";
 const root = resolve(import.meta.dirname, "..");
 const dir = (name: string) => join(root, name);
 const docs = dir("docs");
+const site = dir("site"); // the sources of the pages, laid out like docs/, so relative links work in both
 
 async function build(): Promise<void> {
   const window = createWindow();
   const registry = loadRegistry();
-  const topics = loadTopics(window, readFileSync(join(dir("templates"), "topics.html"), "utf8"));
-  const all = loadArticles(window, dir("lessons"), topics);
+  const topics = loadTopics(window, readFileSync(join(site, "topics.html"), "utf8"));
+  const all = loadArticles(window, join(site, "lessons"), topics);
   // Lessons that replace another (data-replaces) are only in the decoy version.
   const articles = all.filter((article) => !article.replaces);
   const replacements = new Map(all.filter((article) => article.replaces).map((article) => [article.replaces!, article]));
 
   rmSync(docs, { recursive: true, force: true });
   mkdirSync(docs);
-  cpSync(dir("assets"), join(docs, "assets"), { recursive: true });
+  cpSync(join(site, "assets"), join(docs, "assets"), { recursive: true });
 
   // The message, from the message blocks in file order.
   const read = (article: (typeof all)[number]) => {
@@ -96,9 +97,9 @@ async function build(): Promise<void> {
   }
 
   // Templates, with their custom elements rendered.
-  for (const file of readdirSync(dir("templates")).filter((f) => f.endsWith(".html"))) {
+  for (const file of readdirSync(site).filter((f) => f.endsWith(".html"))) {
     const page = createWindow();
-    page.document.write(readFileSync(join(dir("templates"), file), "utf8"));
+    page.document.write(readFileSync(join(site, file), "utf8"));
     defineClLessons(page, { articles, topics, registry, usage });
     defineClVocabulary(page, usage);
     await page.happyDOM.waitUntilComplete();

@@ -1,4 +1,4 @@
-// The lessons in lessons/ (ordered by file name, numbered by position) and their topics.
+// The lessons in site/lessons/ (ordered by file name, numbered by position) and their topics.
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Window } from "happy-dom";
@@ -14,7 +14,7 @@ export interface Article {
   source: string; // the whole file
 }
 
-// A topic, defined once as <section id="math"> in templates/topics.html: its title (h2) and introduction.
+// A topic, defined once as <section id="math"> in site/topics.html: its title (h2) and introduction.
 export interface Topic {
   name: string;
   title: string;
@@ -40,7 +40,7 @@ export function loadArticles(window: Window, dir: string, topics: Topic[]): Arti
     const topics = (article.getAttribute("data-topic") ?? "").split(/\s+/).filter(Boolean);
     if (topics.length === 0) throw new BuildError(`${file}: the article needs a data-topic`);
     for (const name of topics) {
-      if (!names.has(name)) throw new BuildError(`${file}: unknown topic "${name}" (see templates/topics.html)`);
+      if (!names.has(name)) throw new BuildError(`${file}: unknown topic "${name}" (see site/topics.html)`);
     }
     return {
       slug: file.slice(0, -".html".length),
@@ -106,7 +106,7 @@ export function groupRuns(articles: Article[], topics: Topic[]): Group[] {
   return groups;
 }
 
-// One group per topic, in the order of templates/topics.html; a lesson appears in each of its topics.
+// One group per topic, in the order of site/topics.html; a lesson appears in each of its topics.
 export function groupByTopic(articles: Article[], topics: Topic[]): Group[] {
   return topics
     .map((topic) => ({

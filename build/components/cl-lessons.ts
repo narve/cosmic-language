@@ -1,4 +1,4 @@
-// <cl-lessons>: lists the lessons of lessons/ as links, or includes them as articles.
+// <cl-lessons>: lists the lessons of site/lessons/ as links, or includes them as articles.
 // The element is replaced by what it renders.
 //
 //   as        links | articles            (default links)
@@ -6,7 +6,7 @@
 //   topic  one or more topic names  (only lessons in one of them; default all)
 //   group     none | runs | topic      (default none)
 //             runs: consecutive lessons of the same first topic, in message order
-//             topic: one group per topic, in the order of templates/topics.html
+//             topic: one group per topic, in the order of site/topics.html
 //   src       directory of the pages      (links with href="file"; default lessons/)
 //   views     generated views to add      (articles; default "symbols math chunks bits", "" for none)
 import type { Window } from "happy-dom";
