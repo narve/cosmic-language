@@ -12,7 +12,7 @@
 <header>
   <small>Draft · design phase</small>
   <h1>The Decoy: Kepler-1647</h1>
-  <p>The decoy is a fourth version of the message, made for fun: the full message, with the lessons that say where it comes from replaced by lessons about another star system, under the same names. The lesson on humans is left out, until a description of the senders there replaces it. A blind reader gets it as if it were the real thing, and we see whether the reader places the sender there. It says false things about the sender, so it is not meant to be sent. The decoy system is Kepler-1647, a pair of stars 1.2 kiloparsecs (about 4000 light-years) from the Sun, with a giant planet in their habitable zone.</p>
+  <p>The decoy is a fourth version of the message, made for fun: the full message, with the lessons that say where it comes from replaced by lessons about another star system, under the same names. The lesson on humans is replaced by one on invented senders who live on a moon of the giant planet. A blind reader gets it as if it were the real thing, and we see whether the reader places the sender there. It says false things about the sender, so it is not meant to be sent. The decoy system is Kepler-1647, a pair of stars 1.2 kiloparsecs (about 4000 light-years) from the Sun, with a giant planet in their habitable zone.</p>
 </header>
 
 <main>
@@ -100,8 +100,32 @@
   </section>
 
   <section>
+    <h2>The senders</h2>
+    <p>The lesson on humans is replaced by one on the decoy's senders. They are invented: nothing is known of life at Kepler-1647, and the planet has no known moons. They are made to fit the system, and to be told apart from us by every number the lesson gives.</p>
+    <ul>
+      <li><strong>Their world</strong> is a large moon of Kepler-1647 b, about 0.4 Earth masses and 0.8 Earth radii, so it pulls about 0.6 times as hard as the Earth. It turns one face to the giant, which hangs still in its sky. It gets about 0.7 times the light the Earth gets, bluer, from two suns that eclipse each other every 5.6 days; a thick air of nitrogen and oxygen, with more carbon dioxide than ours, keeps it warm.</li>
+      <li><strong>Their bodies</strong> are tall and slender in the weaker pull: 3.1 m and 160 kg on average (a human scaled up to that height would weigh about 380 kg). They are warm-blooded, but run cooler than we do, at about 298 K (25 °C).</li>
+      <li><strong>Their chemistry</strong> is ours, because the decoy keeps the lesson on earthly molecules, which says what the air of our planet is and what bodies like ours are built from: water, DNA, ATP, heme. Their heredity is DNA in 19 molecules per set, about 6.4 thousand million base pairs, two sets per cell.</li>
+    </ul>
+    <table>
+      <thead>
+        <tr><th>Quantity</th><th>Full message (humans)</th><th>Decoy (the senders)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>average mass, in proton masses</td><td>2⁹⁴ to 2⁹⁶</td><td>2⁹⁶ to 2⁹⁷ (160 ± 5 kg)</td></tr>
+        <tr><td>average height, in Planck lengths</td><td>2¹¹⁶ to 2¹¹⁷</td><td>2¹¹⁷ to 2¹¹⁸ (3.1 ± 0.05 m)</td></tr>
+        <tr><td>nobody as tall as, in Planck lengths</td><td>2¹¹⁸</td><td>2¹¹⁸</td></tr>
+        <tr><td>average temperature, in triple points of water</td><td>9/8 to 73/64</td><td>17/16 to 9/8 (298 ± 1 K)</td></tr>
+        <tr><td>DNA molecules per set</td><td>23</td><td>19</td></tr>
+        <tr><td>base pairs per set</td><td>2³¹ to 2³²</td><td>2³² to 2³³ (6.4 ± 0.07 × 10⁹)</td></tr>
+      </tbody>
+    </table>
+    <p>The sentences on what they are made of are those of the lesson on humans. Where we live changes: all of them live on one body that goes round the planet, <code>(stated (∃ v bodies (and (orbits v earth) (∀ u humans (at u v)))))</code>. The values with their uncertainties are in <code>build/check/measurements.ts</code>, so the build checks the ranges as it checks measured ones; the uncertainties are chosen, not measured.</p>
+  </section>
+
+  <section>
     <h2>How the numbers are checked</h2>
-    <p>Like the full message, the decoy is checked by the build: every <code>observed</code> range must have both bounds at least 5 standard uncertainties from the reference value (88 ranges, including those inside the sentences about the companion). The reference values are made from downloaded sources in <code>build/check/reference/sources/</code>: the NASA Exoplanet Archive's row for Kepler-1647, the LaTeX source of Kostov and others (2016) for the second star and the orbit of the two, and the ATNF catalogue for the pulsars. The geometry (the decoy's Galactic directions, the star's velocity, the pulsar directions and light delays) is computed in <code>build/check/measurements.ts</code>, with the uncertainty of each input carried through: the Sun's distance from the centre and its motion, the circular speed, the distance, proper motion and radial velocity of Kepler-1647, and the pulsars' distances. A pulsar's period seen at another age is extrapolated from its slowing, with a quarter of the change as model uncertainty.</p>
+    <p>Like the full message, the decoy is checked by the build: every <code>observed</code> range must have both bounds at least 5 standard uncertainties from the reference value (92 ranges, including those inside the sentences about the companion and the four about the invented senders). The reference values are made from downloaded sources in <code>build/check/reference/sources/</code>: the NASA Exoplanet Archive's row for Kepler-1647, the LaTeX source of Kostov and others (2016) for the second star and the orbit of the two, and the ATNF catalogue for the pulsars. The geometry (the decoy's Galactic directions, the star's velocity, the pulsar directions and light delays) is computed in <code>build/check/measurements.ts</code>, with the uncertainty of each input carried through: the Sun's distance from the centre and its motion, the circular speed, the distance, proper motion and radial velocity of Kepler-1647, and the pulsars' distances. A pulsar's period seen at another age is extrapolated from its slowing, with a quarter of the change as model uncertainty.</p>
   </section>
 
   <section>
@@ -117,7 +141,7 @@
 
   <section>
     <h2>Files and lessons</h2>
-    <p>The decoy message: <a href="decoy/message.txt">message.txt</a>, <a href="decoy/message.bits">message.bits</a>, <a href="decoy/message.bin">message.bin</a>, <a href="decoy/message.bin.txt">message.bin.txt</a>. The replacing lessons: <a href="lessons/512-the-sun-decoy.html">the Sun (decoy)</a>, <a href="lessons/514-the-sun-in-the-galaxy-decoy.html">the Sun in the Galaxy (decoy)</a> and <a href="lessons/516-pulsars-decoy.html">pulsars (decoy)</a>. The other versions are on the <a href="versions.html">versions</a> page.</p>
+    <p>The decoy message: <a href="decoy/message.txt">message.txt</a>, <a href="decoy/message.bits">message.bits</a>, <a href="decoy/message.bin">message.bin</a>, <a href="decoy/message.bin.txt">message.bin.txt</a>. The replacing lessons: <a href="lessons/512-the-sun-decoy.html">the Sun (decoy)</a>, <a href="lessons/514-the-sun-in-the-galaxy-decoy.html">the Sun in the Galaxy (decoy)</a> , <a href="lessons/516-pulsars-decoy.html">pulsars (decoy)</a> and <a href="lessons/518-humans-decoy.html">humans (decoy)</a>. The other versions are on the <a href="versions.html">versions</a> page.</p>
     <p><small>Sources: V. B. Kostov and others, <cite>Kepler-1647b: the largest and longest-period Kepler transiting circumbinary planet</cite>, Astrophys. J. 827, 86 (2016), <a href="https://arxiv.org/abs/1512.00189">arXiv:1512.00189</a>; the NASA Exoplanet Archive (Kepler-1647, with the distance and motion from the TESS Input Catalog); the ATNF Pulsar Catalogue 2.6.1; and the sources of the lessons on the Sun in the Galaxy and on pulsars. Details in the <a href="specification.html#reference">specification, §8.4</a>.</small></p>
   </section>
 </main>
