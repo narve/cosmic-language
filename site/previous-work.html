@@ -48,7 +48,7 @@
 <ul>
 <li><strong>2009–2010, Michael W. Busch and Rachel M. Reddick.</strong> &quot;Testing SETI Message Designs&quot;, arXiv 0911.3976.</li>
 <li><a href="https://arxiv.org/abs/0911.3976">https://arxiv.org/abs/0911.3976</a></li>
-<li><strong>Summary:</strong> A 75-kilobit binary message covering mathematics and physics. A blind decode of a damaged copy succeeded (reportedly in about 12 hours). The language was used in Lone Signal&#39;s hailing message (2013).</li>
+<li><strong>Summary:</strong> A 75-kilobit binary message covering mathematics and physics. A blind decode of a copy with the first 10–20 % and about 2 % of the later words missing succeeded in about 12 hours. The language was used in Lone Signal&#39;s hailing message (2013).</li>
 <li><strong>Relevance:</strong> A precedent for our blind test, including deliberately damaging the message. <em>Weakness:</em> N = 1, and the decoder was a scientist from the same culture. Our LLM test shares this weakness.</li>
 </ul>
 <h3>A6. CosmicOS (very relevant)</h3>
@@ -83,7 +83,7 @@
 <ul>
 <li><a href="https://www.scientificamerican.com/article/can-you-decode-an-alien-message/">https://www.scientificamerican.com/article/can-you-decode-an-alien-message/</a> ; <a href="https://www.scientificamerican.com/article/the-arecibo-message-earths-first-interstellar-transmission-turns-50/">https://www.scientificamerican.com/article/the-arecibo-message-earths-first-interstellar-transmission-turns-50/</a></li>
 <li><strong>Summary:</strong> 1,679 bits = 23 × 73. Contains the numbers 1–10, the atomic numbers of H, C, N, O and P, nucleotides, DNA, a human figure, the Solar System and the telescope. Most of the experts who tried Drake&#39;s 1961 prototype (551 = 19 × 29) failed to decode it.</li>
-<li><strong>Relevance:</strong> Borrow the semiprime dimensions, which are robust: Zenil found width 23 even with ~25% of bits flipped. <em>Avoid:</em> idiosyncratic numerals, dense biochemistry, no redundancy. <em>Note:</em> it is in LLMs&#39; training data, so the LLM test must avoid Arecibo-like surface features.</li>
+<li><strong>Relevance:</strong> Borrow the semiprime dimensions: Zenil and others found the width 23 with about 1.5 % of the bits wrong, and with far more only after each bit was repeated as a 6 × 6 block, so the robustness comes from redundancy. <em>Avoid:</em> idiosyncratic numerals, dense biochemistry, no redundancy. <em>Note:</em> it is in LLMs&#39; training data, so the LLM test must avoid Arecibo-like surface features.</li>
 </ul>
 <h3>B2. Pioneer plaques (1972/73)</h3>
 <ul>
@@ -114,7 +114,7 @@
 <h3>C3. Sónar Calling GJ 273b (2017–2018), the design most similar to ours</h3>
 <ul>
 <li><a href="https://www.scientificamerican.com/blog/observations/new-keys-to-help-extraterrestrials-unlock-our-messages/">https://www.scientificamerican.com/blog/observations/new-keys-to-help-extraterrestrials-unlock-our-messages/</a> ; <a href="https://www.universetoday.com/articles/language-cosmos-hello-gj273b">https://www.universetoday.com/articles/language-cosmos-hello-gj273b</a></li>
-<li><strong>Summary:</strong> 2-FSK. A &quot;hello&quot; of primes up to 193, then 8-bit words with a leading marker bit (<code>10000001</code> = 1). Teaches counting → arithmetic → Pythagoras → trigonometry → sine waves that describe the carrier itself → sound → music. A &quot;cosmic clock&quot; changed with each transmission. Everything was sent three times (&quot;whatever appears two out of three times&quot;).</li>
+<li><strong>Summary:</strong> 2-FSK. A &quot;hello&quot; of primes (up to 137 according to the project&#39;s site; one article says 193), then 8-bit words with a leading marker bit (<code>10000001</code> = 1). Teaches counting → arithmetic → Pythagoras → trigonometry → sine waves that describe the carrier itself → sound → music. A &quot;cosmic clock&quot; changed with each transmission. Everything was sent three times (&quot;whatever appears two out of three times&quot;).</li>
 <li><strong>Relevance:</strong> Borrow the marker bit in each word, the self-reference to the medium, and the cosmic clock as a built-in check. <em>Improve on:</em> plain triple repetition is costly and vulnerable to periodic bursts.</li>
 </ul>
 <h3>C4. A Message From Earth (2008) and Lone Signal (2013)</h3>
@@ -131,7 +131,7 @@
 <h3>C6. &quot;The Last Arecibo Message&quot; (2024)</h3>
 <ul>
 <li><strong>Palencia-Torres et al.</strong>, arXiv 2411.09790. <a href="https://ar5iv.labs.arxiv.org/html/2411.09790">https://ar5iv.labs.arxiv.org/html/2411.09790</a></li>
-<li><strong>Summary:</strong> FSK, a 37 × 149 grid, identical pre-phase and end-phase (primes, π). No error correction.</li>
+<li><strong>Summary:</strong> designed in 2020 and never sent: the telescope collapsed that December. Frequency shifts of 10 Hz around 2380 MHz at 20 bit/s, a 37 × 149 grid, identical pre-phase and end-phase (primes, π). No error correction.</li>
 <li><strong>Relevance:</strong> identical opening and closing phases. We send no terminator: our beacon is sent once at the start, and in repeated sending it separates the copies.</li>
 </ul>
 <hr>
@@ -150,7 +150,7 @@
 </ul>
 <h3>D3. Matessa: decoding algorithms</h3>
 <ul>
-<li><strong>Michael Matessa</strong>, &quot;How to decode interstellar messages&quot;, <em>Acta Astronautica</em> [year unverified]; and &quot;Algorithms for Decoding Interstellar Messages&quot;, <em>JBIS</em> 75 (2022) 357–361.</li>
+<li><strong>Michael Matessa</strong>, &quot;How to decode interstellar messages&quot; (with Vakoch, Lower, Barkow and DeVito), <em>Acta Astronautica</em> 192 (2022) 77–81; and &quot;Algorithms for Decoding Interstellar Messages&quot;, <em>JBIS</em> 75 (2022) 357–361.</li>
 <li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0094576521006263">https://www.sciencedirect.com/science/article/abs/pii/S0094576521006263</a> ; <a href="https://www.academia.edu/116342770/Algorithms_for_Decoding_Interstellar_Messages">https://www.academia.edu/116342770/Algorithms_for_Decoding_Interstellar_Messages</a></li>
 <li><strong>Summary:</strong> Three stages: find the dimensions (helped by primes); classify symbols as delimiters, values, relations and functions; assign meaning with meta-algorithms that track hypotheses. Implemented in Lisp.</li>
 <li><strong>Relevance:</strong> Build our own <em>symbolic, non-LLM decoder baseline</em>. It has no training-data contamination.</li>
@@ -158,7 +158,7 @@
 <h3>D4. Zenil et al.: structure discovery without priors</h3>
 <ul>
 <li><a href="https://arxiv.org/abs/2303.16045">https://arxiv.org/abs/2303.16045</a> ; <a href="https://arxiv.org/abs/2405.07803">https://arxiv.org/abs/2405.07803</a></li>
-<li><strong>Summary:</strong> Algorithmic-information methods find Arecibo&#39;s width of 23 even with ~25% of bits flipped.</li>
+<li><strong>Summary:</strong> Algorithmic-information methods find Arecibo&#39;s width of 23 with about 1.5 % of the bits wrong (3 % set at random); with more noise only after each bit is enlarged to a 6 × 6 block. (Press reports of "a quarter of the bits flipped" refer to the enlarged image.)</li>
 <li><strong>Relevance:</strong> A validator: the word width and raster widths must be recoverable after noise is added.</li>
 </ul>
 <h3>D5. LLM-based decoding tests</h3>
@@ -364,7 +364,7 @@
 <p><strong>Historic messages:</strong> <a href="https://www.scientificamerican.com/article/can-you-decode-an-alien-message/">https://www.scientificamerican.com/article/can-you-decode-an-alien-message/</a> · <a href="https://www.scientificamerican.com/article/the-arecibo-message-earths-first-interstellar-transmission-turns-50/">https://www.scientificamerican.com/article/the-arecibo-message-earths-first-interstellar-transmission-turns-50/</a> · <a href="https://en.wikipedia.org/wiki/Pioneer_plaque">https://en.wikipedia.org/wiki/Pioneer_plaque</a> · <a href="https://en.wikipedia.org/wiki/Voyager_Golden_Record">https://en.wikipedia.org/wiki/Voyager_Golden_Record</a> · <a href="https://www.pbs.org/the-farthest/science/pulsar-map">https://www.pbs.org/the-farthest/science/pulsar-map</a> · <a href="https://johnstonsarchive.net/astro/pulsarmap.html">https://johnstonsarchive.net/astro/pulsarmap.html</a> · <a href="https://en.wikipedia.org/wiki/Cosmic_Call">https://en.wikipedia.org/wiki/Cosmic_Call</a> · <a href="https://blog.plover.com/aliens/dd/p00.html">https://blog.plover.com/aliens/dd/p00.html</a> · <a href="https://michaelchorost.com/2024/07/19/will-extraterrestrials-understand-a-message-we-send/">https://michaelchorost.com/2024/07/19/will-extraterrestrials-understand-a-message-we-send/</a> · <a href="https://plus.maths.org/content/oops">https://plus.maths.org/content/oops</a> · <a href="https://www.smithsonianmag.com/science-nature/annotated-cosmic-call-primer-180960566/">https://www.smithsonianmag.com/science-nature/annotated-cosmic-call-primer-180960566/</a> · <a href="https://en.wikipedia.org/wiki/Teen_Age_Message">https://en.wikipedia.org/wiki/Teen_Age_Message</a> · <a href="https://www.universetoday.com/articles/messages-from-earth-beamed-to-alien-world">https://www.universetoday.com/articles/messages-from-earth-beamed-to-alien-world</a> · <a href="https://www.scientificamerican.com/blog/basic-space/good-morning-gliese-526-the-earth-says-hello/">https://www.scientificamerican.com/blog/basic-space/good-morning-gliese-526-the-earth-says-hello/</a> · <a href="https://www.scientificamerican.com/blog/observations/new-keys-to-help-extraterrestrials-unlock-our-messages/">https://www.scientificamerican.com/blog/observations/new-keys-to-help-extraterrestrials-unlock-our-messages/</a> · <a href="https://www.universetoday.com/articles/language-cosmos-hello-gj273b">https://www.universetoday.com/articles/language-cosmos-hello-gj273b</a> · <a href="https://arxiv.org/abs/2203.04288v2">https://arxiv.org/abs/2203.04288v2</a> · <a href="https://ar5iv.labs.arxiv.org/html/2411.09790">https://ar5iv.labs.arxiv.org/html/2411.09790</a></p>
 <p><strong>Decodability:</strong> <a href="https://arxiv.org/abs/0911.3976">https://arxiv.org/abs/0911.3976</a> · <a href="https://arxiv.org/abs/1706.00653">https://arxiv.org/abs/1706.00653</a> · <a href="https://www.sciencedirect.com/science/article/abs/pii/S0094576521006263">https://www.sciencedirect.com/science/article/abs/pii/S0094576521006263</a> · <a href="https://www.academia.edu/116342770/Algorithms_for_Decoding_Interstellar_Messages">https://www.academia.edu/116342770/Algorithms_for_Decoding_Interstellar_Messages</a> · <a href="https://arxiv.org/abs/2303.16045">https://arxiv.org/abs/2303.16045</a> · <a href="https://arxiv.org/abs/2405.07803">https://arxiv.org/abs/2405.07803</a> · <a href="https://www.sciencenews.org/article/decode-arecibo-alien-message-math">https://www.sciencenews.org/article/decode-arecibo-alien-message-math</a> · <a href="https://www.space.com/alien-signal-mars-decoded-esa-exomars">https://www.space.com/alien-signal-mars-decoded-esa-exomars</a></p>
 <p><strong>Related fields:</strong> <a href="https://en.wikipedia.org/wiki/Ray_cat">https://en.wikipedia.org/wiki/Ray_cat</a> · <a href="https://www.osti.gov/servlets/purl/5789311">https://www.osti.gov/servlets/purl/5789311</a> · <a href="https://rosettaproject.org/disk/concept/">https://rosettaproject.org/disk/concept/</a> · <a href="https://en.wikipedia.org/wiki/Rosetta_Project">https://en.wikipedia.org/wiki/Rosetta_Project</a></p>
-<p><strong>Unverified / from background knowledge:</strong> <em>Murmurs of Earth</em> (1978), Lone Signal&#39;s site and FEC, Beacon in the Galaxy&#39;s encoding details, the year of Matessa&#39;s <em>Acta Astronautica</em> paper, and CosmicOS&#39;s <code>intro</code> mechanism.</p>
+<p><strong>Unverified / from background knowledge:</strong> <em>Murmurs of Earth</em> (1978), Lone Signal&#39;s site and FEC, Beacon in the Galaxy&#39;s encoding details, and CosmicOS&#39;s <code>intro</code> mechanism.</p>
 
 
 <section id="physics">
