@@ -11,13 +11,14 @@
 <body>
 <article class="lesson" data-topic="math">
   <h3>e and π</h3>
-  <p><code>e</code> and <code>π</code> are each introduced by a sentence that pins them down exactly. <code>e</code> is the value of <code>exp</code> at 1: the number that the product rule makes every other value a power of.</p>
+  <p><code>e</code> and <code>π</code> are each introduced by a sentence that pins them down exactly. <code>e</code> is the value of <code>exp</code> at 1. By the product rule, <code>exp</code> of every natural number is then a power of <code>e</code>.</p>
   <pre><code>
 ; e is exp of 1
 (= e (exp 1))
 
 ; it lies between 2 and 3
 (&lt; 2 e 3)
+; closer: between 8/3 and 11/4
 (&lt; (÷ 8 3) e (÷ 11 4))
 ; exp of a natural number is a power of e
 (∀ u ℕ (= (exp u) (^ e u)))</code></pre>
@@ -37,7 +38,7 @@
 (&lt; 3 π 4)
 ; closer: between 223/71 and 22/7, Archimedes' bounds
 (&lt; (÷ 223 71) π (÷ 22 7))</code></pre>
-  <p>Two infinite sums lead to the same π, found in a completely different way: they use only fractions, no <code>exp</code> and no <code>i</code>. The first adds and subtracts the fractions with odd denominators; the second adds the fractions 1 over each square, and the result involves π although nothing in it is about circles. One definition would be enough; three that agree leave little room for a wrong reading.</p>
+  <p>Two infinite sums reach the same π in a completely different way, with only fractions: no <code>exp</code> and no <code>i</code>. The first adds and subtracts 1 over each odd number in turn; the second adds the fractions 1 over each square, and the result involves π although nothing in it is about circles. One definition would be enough; three that agree leave little room for a wrong reading.</p>
   <pre><code>
 ; π = 4 × (1 − 1/3 + 1/5 − 1/7 + …)
 (= π (× 4 (apply + (sequence u ℕ (÷ (^ (neg 1) u) (+ (× 2 u) 1))))))

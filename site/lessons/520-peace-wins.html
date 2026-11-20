@@ -11,7 +11,7 @@
 <body>
 <article class="lesson" data-topic="games minimal">
   <h3>peace wins</h3>
-  <p>The message ends with what the tournament shows, and with the reason for the strategy we have stated. Two players who keep the peace each lose less than two players at war. The two strategies that defect first end with the highest losses, and the four that never defect first all end below them. And tit-for-tat, which opens in peace, answers in kind and forgives as soon as the other returns to peace, loses less than every other strategy. That is the last statement of the message.</p>
+  <p>The message ends with what the tournament shows, and so with the reason to play tit-for-tat. Two players who keep the peace each lose less than two players at war. The two strategies that defect first end with the highest losses, and the four that never defect first all end below them. And tit-for-tat, which opens in peace, answers in kind and forgives as soon as the other returns to peace, loses less than every other strategy in the tournament. That is the last sentence of the message.</p>
   <pre><code>
 ; two at peace lose less, each, than two at war: 765 against 1275
 (&lt; (cost tit-for-tat tit-for-tat 255) (cost always-defect always-defect 255))
@@ -25,7 +25,7 @@
    (apply + (sequence v tournament (cost always-defect v 255)))
    (apply + (sequence v tournament (cost suspicious-tit-for-tat v 255))))
 
-; tit-for-tat loses less than every other strategy
+; tit-for-tat loses less than every other strategy in the tournament
 (∀ u tournament
   (implies (≠ u tit-for-tat)
     (&lt; (apply + (sequence v tournament (cost tit-for-tat v 255)))

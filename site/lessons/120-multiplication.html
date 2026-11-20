@@ -42,8 +42,8 @@
 ; grouping does not matter
 (= (× 2 3 4) (× (× 2 3) 4) (× 2 (× 3 4)))
 
-; up to the largest number in a chunk, and one product beyond it: 16
-; × 16 is more than 255
+; up to the largest number in a chunk, and one product beyond it:
+; 16 × 16 is more than 255
 (= (× 15 15) 225)
 (= (× 15 17) 255)
 (&gt; (× 16 16) 255)</code></pre>

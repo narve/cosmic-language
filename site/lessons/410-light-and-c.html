@@ -13,11 +13,11 @@
   <h3>light and c</h3>
   <p>New: the particle <code>photon</code>, the domain <code>photons</code> (all individual photons), the functions <code>speed</code>, <code>wavelength</code> and <code>frequency</code>, and the constant <code>c</code>, a new type for physical constants.</p>
   <pre><code>
-; a photon has no mass and no charge
+; a photon has no mass and no charge, as far as can be measured
 (observed (= (mass photon) 0))
 (observed (= (charge photon) 0))
 
-; every photon has the same speed, c
+; in empty space every photon has the same speed, c
 (observed (∀ u photons (= (speed u) c)))
 (observed (= (speed photon) c))
 ; the dimension of a speed: length ÷ time

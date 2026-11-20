@@ -12,14 +12,14 @@
 <article class="lesson" data-topic="astronomy" data-optional data-replaces="516-pulsars">
   <h3>pulsars (decoy)</h3>
   <p>This lesson is not in the message. It stands in for the lesson on pulsars in the decoy version only, and gives the pulsars as seen from Kepler-1647 (see the <a href="../decoy.html">decoy</a> page). From 1.2 kiloparsecs away every direction changes: the first pulsar ever found lies on the other side of the sky, and the nearby millisecond pulsar 31° from where the Sun sees it. The light from a pulsar also reaches Kepler-1647 earlier or later than it reaches the Sun, by up to 4000 years, so a pulsar is seen at another age: Vela turns faster. And the light of the explosion that made the Crab pulsar has not reached Kepler-1647 yet, so there the name <code>crab-pulsar</code> stands for another young pulsar in the remnant of an exploded star, PSR B1951+32 in Cygnus. Where a pulsar's distance is poorly known, its direction from Kepler-1647 is too, and the ranges are wider: one component of the first pulsar is left out.</p>
-  <p>Some stars end as neutron stars: a ball of neutrons the width of a city, turning many times each second and sending out a beam of radio light that sweeps past our star once each turn. These pulsars keep time better than almost anything, and each has its own period, so they serve as landmarks. New: the domain <code>pulsars</code>, <code>pulse-period</code> (the time of one turn), <code>slowing</code> (how much longer each turn gets per time: a plain number, time per time), and six pulsars by name. This lesson can be left out of a message.</p>
+  <p>Some stars end as neutron stars: a ball of neutrons the width of a city, turning anywhere from about once a second to hundreds of times a second, and sending out a beam of radio light that sweeps past our star once each turn. These pulsars keep time better than almost anything, and each has its own period, so they serve as landmarks. New: the domain <code>pulsars</code>, <code>pulse-period</code> (the time of one turn), <code>slowing</code> (how much longer each turn gets per time: a plain number, time per time), and six pulsars by name. This lesson can be left out of a message.</p>
   <pre><code>
-; a pulsar is a body; its period is a time, and the period grows a
-; little all the time
+; a pulsar is a body; its period is a time, and the period grows
+; a little all the time
 (∀ u pulsars (∃ v bodies (= u v)))
 (∀ u pulsars (= (dim (pulse-period u)) T))
 (observed (∀ u pulsars (&gt; (slowing u) 0)))</code></pre>
-  <p>Each pulsar is given by its period, by how fast it slows, and by its direction from our star in the three directions of the Galaxy. Seen from anywhere else, the same pulsars lie in other directions; from the directions of several of them, a reader can find the place they were seen from. And since every period grows at its own known rate, the periods a reader measures tell how long ago the message was sent.</p>
+  <p>Each pulsar is given by its period, by how fast it slows, and by its direction from our star in the three directions of the Galaxy. Seen from anywhere else, the same pulsars lie in other directions; from the directions of several of them, a reader can find the place they were seen from. The periods are given only to within a factor of 2: enough to tell which pulsars are meant, but not how long ago the message was sent.</p>
   <pre><code>
 ; a young pulsar, the remnant of a star that exploded
 (∃ u pulsars (= u crab-pulsar))

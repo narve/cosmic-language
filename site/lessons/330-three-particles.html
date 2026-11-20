@@ -11,6 +11,7 @@
 <body>
 <article class="lesson" data-topic="physics">
   <h3>three particles</h3>
+  <p>New: a type of token, <code>particle</code>, and its first three tokens, <code>electron</code>, <code>proton</code> and <code>neutron</code>, the quantities <code>mass</code> and <code>charge</code>, and <code>observed</code>, which marks a sentence as a measurement.</p>
   <p>Only ratios of masses are given, never a mass on its own, because a mass on its own needs a unit.</p>
   <pre><code>
 ; the three masses in order: the electron is the lightest, the
@@ -24,7 +25,9 @@
 (observed (&lt; (big 7 46) (÷ (mass neutron) (mass electron)) (big 7 47)))
 ; neutron ÷ proton: just above 1, so the neutron is slightly
 ; heavier: between 1 + 1/2¹¹ and 1 + 1/2⁹
-(observed (&lt; (+ 1 (÷ 1 (^ 2 11))) (÷ (mass neutron) (mass proton)) (+ 1 (÷ 1 (^ 2 9)))))
+(observed (&lt; (+ 1 (÷ 1 (^ 2 11)))
+              (÷ (mass neutron) (mass proton))
+              (+ 1 (÷ 1 (^ 2 9)))))
 
 ; the proton and the electron have opposite charges
 (observed (= (charge proton) (neg (charge electron))))

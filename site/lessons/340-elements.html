@@ -11,7 +11,7 @@
 <body>
 <article class="lesson" data-topic="physics">
   <h3>elements</h3>
-  <p><code>count</code> from the lesson on lists now tells how many of a particle an atom contains. The value of an element token is its number of protons, so <code>hydrogen</code> is element 1, <code>helium</code> element 2, and so on. Here are the first 36, from hydrogen to krypton, without a gap; later lessons use some of them, and the rest are here so that the list is whole. This is a definition, not a measurement, so it is not marked <code>observed</code>.</p>
+  <p><code>count</code> from the lesson on lists now tells how many of a particle an atom contains. The value of an element token is its number of protons, so <code>hydrogen</code> is element 1, <code>helium</code> element 2, and so on. Here are the first 36, from hydrogen to krypton, without a gap; later lessons use some of them, and the rest are here so that the list is whole. This list is a definition, not a measurement, so it is not marked <code>observed</code>; the measured facts at the end of the lesson are.</p>
   <pre><code>
 ; protons: the number that defines each element, from 1 to 36,
 ; in rows that end at a noble gas
@@ -112,8 +112,8 @@
 ; every element has at least one proton
 (∀ u elements (≥ (count proton u) 1))
 
-; atoms are neutral: as many electrons as protons, so no charge in
-; total
+; atoms are neutral: as many electrons as protons, so no charge
+; in total
 (∀ u elements (= (count electron u) (count proton u)))
 (observed (∀ u elements (= (charge u) 0)))
 

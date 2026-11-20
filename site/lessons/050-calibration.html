@@ -10,7 +10,7 @@
 </head>
 <body>
 <article class="lesson" data-topic="signal minimal">
-  <h3>Chunks, tokens and calibration</h3>
+  <h3>chunks, tokens and calibration</h3>
   <h4>Chunks</h4>
   <p>After the beacon, the bitstream is divided into <dfn>chunks</dfn> of 8 bits. Each chunk is simply a number in binary, with the most significant bit first, so a chunk holds 0–255. (The chunk size is a constant in the format and may change later.)</p>
   <pre data-illustration><code>00000101   <i>= 5</i>
@@ -22,17 +22,17 @@
     <thead><tr><th>Type</th><th>Meaning</th><th>Value</th></tr></thead>
     <tbody>
       <tr><td>0</td><td>number</td><td>the number itself</td></tr>
-      <tr><td>1</td><td>structure</td><td>0 = open bracket, 1 = close bracket</td></tr>
-      <tr><td>2</td><td>symbol</td><td>which symbol (=, +, …)</td></tr>
+      <tr><td>1</td><td>brackets</td><td>0 = open bracket, 1 = close bracket</td></tr>
+      <tr><td>2</td><td>operator</td><td>which operator (=, +, …)</td></tr>
     </tbody>
   </table>
   <pre data-illustration><code><i>type             value</i>
 00000000 00000011   <i>number 3</i>
-00000010 00000001   <i>symbol no. 1 (=)</i>
-00000001 00000000   <i>structure: (</i>
-00000001 00000001   <i>structure: )</i></code></pre>
+00000010 00000001   <i>operator no. 1 (=)</i>
+00000001 00000000   <i>brackets: (</i>
+00000001 00000001   <i>brackets: )</i></code></pre>
   <p>In the first part of the message nearly every type chunk is <code>00000000</code>, <code>00000001</code> or <code>00000010</code>. That makes the 16-bit period between tokens easy to spot. More types are introduced later, as lessons in the message itself.</p>
-  <p>From here on the lessons write tokens in short form: <code>3</code> is a number, <code>=</code> is a symbol, and <code>(</code> <code>)</code> are brackets.</p>
+  <p>From here on the lessons write tokens in short form: <code>3</code> is a number, <code>=</code> is an operator, and <code>(</code> <code>)</code> are brackets.</p>
   <h4>Calibration</h4>
   <p>Right after the beacon, the same primes come again, now as number tokens:</p>
   <pre><code>

@@ -22,8 +22,8 @@
 (observed (∀ u rings (= (field-strength u) (÷ (× 2 π km (abs (current u))) (radius u)))))
 ; its dimension: mass ÷ (charge × time)
 (∀ u rings (= (dim (field-strength u)) (÷ M (× Q T))))
-; two rings of the same size: twice the current gives twice the
-; field
+; two rings of the same size: twice the current gives twice
+; the field
 (∀ u rings (∀ v rings
   (implies (and (= (radius u) (radius v)) (= (abs (current u)) (× 2 (abs (current v)))))
            (= (field-strength u) (× 2 (field-strength v))))))</code></pre>

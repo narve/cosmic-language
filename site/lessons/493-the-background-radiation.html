@@ -19,10 +19,10 @@
 (observed (∀ u directions (∀ v directions
   (&lt; (abs (− (background u) (background v))) (× (÷ 1 (^ 2 8)) (background v))))))
 
-; its average over the sky: between 163/2¹⁴ and 164/2¹⁴ of water's
-; triple point
+; its average over the sky: between 163/2¹⁴ and 164/2¹⁴ of
+; water's triple point
 (observed (&lt; (÷ 163 (^ 2 14)) (÷ (average v directions (background v)) (triple-point water)) (÷ 164 (^ 2 14))))</code></pre>
-  <p>The small differences from direction to direction form a pattern that is the same for every observer in a very large region around us: the glow comes from so far away that moving even across a whole galaxy does not change it. So the pattern can serve as a reference for directions that any such reader can find, and finding it says nothing about where the reader is.</p>
+  <p>The small differences from direction to direction form a pattern that is the same for every observer in a very large region around us: the glow comes from so far away that moving even across a whole galaxy does not change it. So the pattern can serve as a reference for directions that any such reader can find, and finding it says little about where the reader is.</p>
   <p>Its largest feature defines three axes. The first is the direction along which the glow is, on the whole, most uneven: no other direction gives a larger average of (temperature − mean temperature) × ((dot with the direction)² − 1/3). The second does the same among the directions at right angles to the first, and the third is the cross of the first two.</p>
   <pre><code>
 ; the first axis: no direction gives a larger value
@@ -58,9 +58,9 @@
   (&gt; (average u directions (× (− (background u) w)
        (− (^ (dot second-axis u) 3) (× (÷ 3 5) (dot second-axis u)))))
      0)))</code></pre>
-  <p>The warmer-ahead, colder-behind pattern of a moving observer adds almost nothing to these averages, since (dot with the direction)² is the same ahead and behind; so the axes too are nearly the same for a reader at rest and for one moving as slowly as the Sun.</p>
+  <p>The warmer-ahead, colder-behind pattern of a moving observer adds nothing, to first order in its speed, to the measure that defines the axes, since (dot with the direction)² is the same ahead and behind, and the 3/5 keeps it out of the odd measure; so the axes too are nearly the same for a reader at rest and for one moving as slowly as the Sun.</p>
   <p>With the ends of the first two axes fixed, the third follows from <code>cross</code>, whose hand is fixed by the lesson on spin, through the decay of the neutron. So a direction given in these axes is fixed completely, for any reader who can map the background radiation.</p>
-  <p><small>Sources: D. J. Fixsen (2009) (the temperature of the background radiation), BIPM (water's triple point). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+  <p><small>Sources: D. J. Fixsen (2009) (the temperature of the background radiation), BIPM (water's triple point), the full-sky maps of WMAP (9-year ILC) and Planck 2015 (Commander and SMICA) (the axes). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
 </article>
 </body>
 </html>

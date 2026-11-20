@@ -146,7 +146,7 @@
 ; guanine as cytosine
 (observed (∀ u dna (= (count adenine u) (count thymine u))))
 (observed (∀ u dna (= (count guanine u) (count cytosine u))))</code></pre>
-  <p>The strands wind round each other in a double helix. <code>rise</code> is how far the helix goes along its axis from one base pair to the next, and <code>twist</code> how far it turns. Its sign tells the hand, with <code>cross</code> as in the lesson on spin and handedness: the DNA of all life here is a right-handed helix.</p>
+  <p>The strands wind round each other in a double helix. <code>rise</code> is how far the helix goes along its axis from one base pair to the next, and <code>twist</code> how far it turns. Its sign tells the hand, with <code>cross</code> as in the lesson on spin and handedness: the DNA of all life here is a right-handed helix, apart from short stretches that can for a while take a rare left-handed form.</p>
   <pre><code>
 ; the helix is right-handed: its twist is positive
 (observed (∀ u dna (&gt; (twist u) 0)))

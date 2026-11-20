@@ -26,8 +26,8 @@
 ; the light leaves through its surface: luminosity = 4π × radius² ×
 ; radiance (the power per area)
 (∀ u stars (= (luminosity u) (× 4 π (^ (radius u) 2) (radiance u))))
-; the temperature of a star is that of a black body with the same
-; radiance
+; the temperature of a star is that of its surface: of a black
+; body with the same radiance
 (∀ u stars (= (radiance u)
               (× (÷ (^ π 2) 60) (÷ (^ kB 4) (× (^ ħ 3) (^ c 2))) (^ (temperature u) 4))))
 ; so its luminosity follows from its radius and its temperature

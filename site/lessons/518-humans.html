@@ -11,7 +11,7 @@
 <body>
 <article class="lesson" data-topic="life" data-optional>
   <h3>humans</h3>
-  <p>The senders of this message are <code>humans</code>: living things of the Earth, each a party that can send and receive messages. Like everything we say about ourselves, this is <code>stated</code>.</p>
+  <p>The senders of this message are <code>humans</code>: living things of the Earth, each a party that can send and receive messages. Who we are is <code>stated</code>: only we can say it; what has been measured about us, further down, is <code>observed</code>.</p>
   <pre><code>
 ; every human is a party
 (stated (∀ u humans (∃ v parties (= v u))))
@@ -19,7 +19,7 @@
 (stated (∃ u humans (= u we)))
 ; and humans live on the Earth
 (stated (∀ u humans (at u earth)))</code></pre>
-  <p>How big we are, in the units of the message. Each value is an average over grown-up humans; single humans differ from it, but rarely by more than a factor of two.</p>
+  <p>How big we are, in the units of the message. Each value is an average over all humans. The message cannot say "grown-up", so the ranges are wide enough to hold with children counted too; the values in the comments are those of grown-ups.</p>
   <pre><code>
 ; our mass: between 2⁹⁴ and 2⁹⁶ proton masses, about 2⁹⁵
 (observed (&lt; (^ 2 94) (÷ (average u humans (mass u)) (mass proton)) (^ 2 96)))
@@ -43,7 +43,7 @@
 ; carbon, more carbon than nitrogen
 (observed (∀ u humans
   (&gt; (count hydrogen u) (count oxygen u) (count carbon u) (count nitrogen u))))
-; more water molecules than of any of these others
+; more water molecules than of each of these eleven molecules
 (observed (∀ u humans
   (∀ v (list dioxygen glucose glycine adenine guanine atp urea dopamine serotonin adrenaline heme)
     (&gt; (count water u) (count v u)))))
@@ -60,7 +60,7 @@
 (observed (∀ u humans (= (length (genome u)) 23)))
 ; each of them is DNA
 (observed (∀ u humans (∀ v (genome u) (∃ w dna (= w v)))))
-; together between 2³¹ and 2³² base pairs, about 1.45 × 2³¹
+; together between 2³¹ and 2³² base pairs, about 1.4 × 2³¹
 (observed (&lt; (^ 2 31)
               (average u humans (apply + (sequence v (genome u) (length (item (strands v) 1)))))
               (^ 2 32)))</code></pre>

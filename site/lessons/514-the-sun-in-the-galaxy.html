@@ -11,12 +11,12 @@
 <body>
 <article class="lesson" data-topic="astronomy" data-optional>
   <h3>the Sun in the Galaxy</h3>
-  <p>The Sun is one of many stars that together go round a common centre: the Galaxy. At the centre is a dark body of great mass. New: <code>galaxy-centre</code>, and <code>direction-from</code>, the direction in which one body is seen from another. This lesson can be left out of a message.</p>
+  <p>The Sun is one of many stars that together go round a common centre: the Galaxy. At the centre is a dark body of great mass. New: <code>galaxy-centre</code>, and <code>direction-from</code>, the direction in which one body is seen from another. This lesson can be left out of a message, together with the lesson on pulsars, which builds on it.</p>
   <pre><code>
 ; the centre is a body
 (∃ u bodies (= u galaxy-centre))
-; its mass: between 2²¹¹ and 2²¹² proton masses (about 4.3 million
-; times the Sun)
+; its mass: between 2²¹¹ and 2²¹² proton masses (about 4.3
+; million times the Sun)
 (observed (&lt; (^ 2 211) (÷ (mass galaxy-centre) (mass proton)) (^ 2 212)))
 
 ; its distance from the Sun: between 2¹⁸³ and 2¹⁸⁴ Planck lengths
@@ -31,7 +31,7 @@
   (÷ (× 4 (^ π 2) (^ (distance sun galaxy-centre) 3))
      (× G (mass galaxy-centre) (^ (period sun galaxy-centre) 2)))
   (^ 2 16)))</code></pre>
-  <p>The centre's mass marks it out: no other body in the Galaxy is so heavy. But it is not what keeps the Sun on its orbit. That is the mass of the whole Galaxy inside the orbit, stars, gas and matter that gives no light, which is many thousand times larger. So the Sun's period is far shorter than the rule for orbits would give with the centre's mass alone; most stars near the Sun take about as long.</p>
+  <p>The centre's mass marks it out: no other body in the Galaxy is so heavy. But it is not what keeps the Sun on its orbit. That is the mass of the whole Galaxy inside the orbit, stars, gas and matter that gives no light, which is tens of thousands of times larger. So the Sun's period is far shorter than the rule for orbits would give with the centre's mass alone; most stars near the Sun take about as long.</p>
   <p>The Galaxy gives three directions, which any reader near us can find. New: <code>toward-centre</code>, the direction from the Sun to the centre; <code>along-rotation</code>, the direction in which the stars around the Sun go round the centre, on average; and <code>galactic-pole</code>, the cross of the two. With the hand of <code>cross</code> fixed by the lessons on spin and on antimatter, these three name every direction.</p>
   <pre><code>
 ; from one body, another is seen in a direction; seen from the
@@ -41,8 +41,8 @@
 (∀ u bodies (∀ v bodies
   (implies (> (distance u v) 0) (= (dot (direction-from u v) (direction-from v u)) (neg 1)))))
 
-; toward the centre, and along the rotation: two directions at right
-; angles
+; toward the centre, and along the rotation: two directions at
+; right angles
 (= toward-centre (direction-from sun galaxy-centre))
 (∃ u directions (= u toward-centre))
 (∃ u directions (= u along-rotation))
@@ -54,7 +54,7 @@
 (= (dot galactic-pole galactic-pole) 1)
 (= (dot galactic-pole toward-centre) 0)
 (= (dot galactic-pole along-rotation) 0)</code></pre>
-  <p>The Sun moves, relative to the centre, almost along <code>along-rotation</code>: that is what makes it the direction of rotation. New: <code>velocity</code>, the velocity of one body relative to another, a vector whose dot with a direction is the speed in that direction.</p>
+  <p>Relative to the centre, the Sun moves almost along <code>along-rotation</code>, as the stars around it do on average. New: <code>velocity</code>, the velocity of one body relative to another, a vector whose dot with a direction is the speed in that direction.</p>
   <pre><code>
 ; relative to the centre, the Sun moves along the rotation at
 ; between 1/2¹¹ and 1/2¹⁰ of the speed of light
@@ -62,10 +62,9 @@
 ; and a little toward the centre, and toward the pole
 (observed (&lt; 0 (÷ (dot (velocity sun galaxy-centre) toward-centre) c) (÷ 1 (^ 2 13))))
 (observed (&lt; 0 (÷ (dot (velocity sun galaxy-centre) galactic-pole) c) (÷ 1 (^ 2 14))))</code></pre>
-  <p>So far <code>along-rotation</code> is only at right angles to <code>toward-centre</code>: that leaves a whole circle of directions. The axes of the background radiation, which any reader can find, pin it down. The direction to the centre, which a reader can find too, comes first, then the direction of rotation, and the Galaxy's frame is tied to the background radiation's.</p>
+  <p>So far the message says only that <code>along-rotation</code> is at right angles to <code>toward-centre</code>, which leaves a whole circle of directions. The axes of the background radiation, which any reader can find, pin both down: first the direction to the centre, then the direction of rotation. This ties the Galaxy's frame to the background radiation's.</p>
   <pre><code>
-; the direction to the centre, in the axes of the background
-; radiation
+; the direction to the centre, in the background radiation's axes
 (observed (&lt; (÷ 1 4) (dot toward-centre first-axis) (÷ 1 2)))
 (observed (&lt; (neg 1) (dot toward-centre third-axis) (neg (÷ 3 4))))
 

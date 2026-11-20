@@ -11,7 +11,7 @@
 <body>
 <article class="lesson" data-topic="physics">
   <h3>magnetism and light</h3>
-  <p>New: the domain <code>wires</code> (long, straight, parallel wires that carry a steady current), the functions <code>current</code> (the charge that flows along a wire per time) and <code>magnetic</code> (the magnetic force between two wires, per length of wire), and the constant <code>km</code>. Charges at rest feel the electric force; charges in motion also feel a second one, the magnetic force. Like the electric force, it is introduced through its law, and a negative magnetic force pulls together.</p>
+  <p>New: the domain <code>wires</code> (long, straight, parallel wires that carry a steady current), the functions <code>current</code> (the charge that flows along a wire per time) and <code>magnetic</code> (the magnetic force between two wires, per length of wire), and the constant <code>km</code>. Charges at rest feel the electric force; charges in motion also feel a second one, the magnetic force. Like the electric force, it is introduced through its law, and a negative magnetic force pulls together. <code>current</code>, <code>magnetic</code> and <code>km</code> come back later, in Maxwell's equations of the electric and magnetic field.</p>
   <pre><code>
 ; a current is charge per time; its sign says which way it flows
 ; along the wire
@@ -19,12 +19,11 @@
 ; a current divided by one charge: how many charges pass per time
 (∀ u wires (= (dim (÷ (current u) (charge proton))) (÷ 1 T)))
 
-; the law: magnetic force per length = −2 × km × current × current ÷
-; distance
-; so currents in the same direction pull the wires together (a force
-; below 0)
-; (only where the distance is above 0: a wire and itself are left
-; out)
+; the law: magnetic force per length
+; = −2 × km × current × current ÷ distance,
+; so currents in the same direction pull the wires together
+; (a force below 0); only where the distance is above 0: a wire
+; and itself are left out
 (observed (∀ u wires (∀ v wires
   (implies (&gt; (distance u v) 0)
     (= (magnetic u v)
@@ -36,8 +35,6 @@
 (= (dim km) (÷ (× M L) (^ Q 2)))
 
 ; each wire pulls the other with the same force
-; (current, magnetic and km come back later, in Maxwell's equations
-; of the electric and magnetic field)
 (observed (∀ u wires (∀ v wires (= (magnetic u v) (magnetic v u)))))</code></pre>
   <p>Nothing in the electric law or the magnetic law is about light: one is about charges at rest, the other about currents in wires. Yet the ratio of their two constants has the dimension of a speed squared, and it is the speed of light:</p>
   <pre><code>
@@ -45,10 +42,10 @@
 (= (dim (÷ ke km)) (^ (dim c) 2))
 
 ; and it is the speed of light squared
-; (Maxwell's equations, later in the message, explain why: light is
-; a wave of the electric and magnetic field)
+; (Maxwell's equations, later in the message, explain why: light
+; is a wave of the electric and magnetic field)
 (observed (= (÷ ke km) (^ c 2)))</code></pre>
-  <p>This is how it was discovered that light is electric and magnetic: the ratio was measured with charges and currents, long before anyone could explain why it should equal the speed of light.</p>
+  <p>This is how it was discovered that light is electric and magnetic: the ratio was measured with charges and currents, before anyone could explain why it should equal the speed of light.</p>
 </article>
 </body>
 </html>

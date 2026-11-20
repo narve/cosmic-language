@@ -13,8 +13,8 @@
   <h3>temperature</h3>
   <p>New: the dimension <code>Θ</code> (temperature), the constant <code>kB</code>, the domains <code>gases</code> (thin gases of single atoms) and <code>black-bodies</code> (bodies that absorb all light falling on them), and the functions <code>temperature</code>, <code>kinetic</code> (the average energy of motion of a gas's particles) and <code>radiance</code> (the power a body radiates per area). Again <code>kB</code> is introduced through a law:</p>
   <pre><code>
-; the law: the particles of a gas move with an average energy of 3/2
-; × kB × its temperature
+; the law: the particles of a gas move with an average energy of
+; 3/2 × kB × its temperature
 (observed (∀ u gases (= (kinetic u) (× (÷ 3 2) kB (temperature u)))))
 ; the dimension of kB: energy ÷ temperature
 (= (dim kB) (÷ (× M (^ L 2)) (× (^ T 2) Θ)))
@@ -24,8 +24,8 @@
 ; the energy of motion is an energy: mass × length² ÷ time²
 (∀ u gases (= (dim (kinetic u)) (÷ (× M (^ L 2)) (^ T 2))))
 
-; the same law turned around, read as what temperature is: 2 ×
-; energy of motion ÷ (3 × kB)
+; the same law turned around, read as what temperature is:
+; 2 × energy of motion ÷ (3 × kB)
 (observed (∀ u gases (= (temperature u) (÷ (× 2 (kinetic u)) (× 3 kB)))))</code></pre>
   <p>A black body radiates power that grows with the fourth power of its temperature. The factor in front is made only of constants the message has already introduced, and π²/60 is the signature of the spectrum of thermal light:</p>
   <pre><code>

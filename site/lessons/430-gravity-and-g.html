@@ -11,15 +11,15 @@
 <body>
 <article class="lesson" data-topic="physics">
   <h3>gravity and G</h3>
-  <p>New: the domain <code>bodies</code> (things with mass), the functions <code>gravity</code> (the force of gravity between two bodies) and <code>distance</code>, and the constant <code>G</code>. Newton's law of gravitation is written out in full. It holds for bodies that move slowly and are not too heavy or close, which is the case the domain <code>bodies</code> stands for. The two variables may stand for the same body, and then the distance is 0 and the law would divide by zero, so the law is stated only where the distance is above 0:</p>
+  <p>New: the domain <code>bodies</code> (things with mass), the functions <code>gravity</code> (the force of gravity between two bodies) and <code>distance</code>, and the constant <code>G</code>. Newton's law of gravitation is written out in full. The distance between two bodies is measured between their centres, and the law holds for bodies that are small or round compared with that distance, move slowly and are not too heavy or close, which is the case the domain <code>bodies</code> stands for. The two variables may stand for the same body, and then the distance is 0 and the law would divide by zero, so the law is stated only where the distance is above 0:</p>
   <pre><code>
 ; the distance is the same from either side, and it is a length
 (∀ u bodies (∀ v bodies (= (distance u v) (distance v u))))
 (∀ u bodies (∀ v bodies (= (dim (distance u v)) L)))
 
 ; Newton's law: gravity = G × mass × mass ÷ distance²
-; (only where the distance is above 0: a body does not pull on
-; itself)
+; (only where the distance is above 0: a body does not pull
+; on itself)
 (observed (∀ u bodies (∀ v bodies
   (implies (&gt; (distance u v) 0)
     (= (gravity u v)

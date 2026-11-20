@@ -11,13 +11,13 @@
 <body>
 <article class="lesson" data-topic="physics">
   <h3>matter, not antimatter</h3>
-  <p>One particle behaves differently from its mirror image in a world of antimatter, and so tells the two worlds apart. New: <code>kaon</code> (the long-lived neutral kaon), and <code>yields</code>, the chance that a decay of one particle gives another.</p>
+  <p>One particle behaves differently from its mirror image in a world of antimatter, and so tells the two worlds apart. New: <code>kaon</code> (the long-lived neutral kaon), and <code>yields</code>: <code>(yields <var>u</var> <var>v</var>)</code> is the chance that a decay of <var>v</var> gives <var>u</var>.</p>
   <pre><code>
 ; a decaying neutron always gives an electron
 (observed (= (yields electron neutron) 1))
 
-; the kaon has no charge and weighs between 973 and 975 electron
-; masses
+; the kaon has no charge and weighs between 973 and 975
+; electron masses
 (observed (= (charge kaon) 0))
 (observed (&lt; (big 3 205) (÷ (mass kaon) (mass electron)) (big 3 207)))
 
@@ -29,7 +29,7 @@
               (÷ (yields positron kaon) (yields electron kaon))
               (+ 1 (÷ 1 (^ 2 7)))))</code></pre>
   <p>So the kaon gives more often the kind of light particle that the atoms of this message do <em>not</em> hold. The atoms of this message are made of matter, and so is its sender: a reader whose atoms hold the other kind finds that kaons favour the kind its own atoms hold, and knows that its world is made of antimatter, the mirror of ours.</p>
-  <p>This is also a second reference for left and right. With it, a reader knows which of its particles are our electrons and neutrons, and so which way to read the decays in the lesson on spin; without it, a reader of antimatter would take our left for its right. There is even a decay of this same kaon that tells left from right by itself: when it breaks into two charged pions and an electron with a positron, the angle between the plane of the pions and the plane of the electron pair is more often turned one way than the other.</p>
+  <p>This is also a second reference for left and right. With it, a reader knows which of its particles are our electrons and neutrons, and so which way to read the decays in the lesson on spin; without it, a reader of antimatter would take our left for its right. There is even a decay of this same kaon that tells left from right by itself: when it breaks into two charged pions and an electron with a positron, the angle between the plane of the pions and the plane of the electron pair is more often turned one way than the other. The message does not send that decay.</p>
   <p><small>Sources: Particle Data Group, Review of Particle Physics 2024 (mass and charge asymmetry of the long-lived neutral kaon, 0.332 %; the asymmetry between the two planes in its decay into two pions and an electron pair, 13.7 %), CODATA 2022 (electron mass). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
 </article>
 </body>

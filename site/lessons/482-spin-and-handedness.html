@@ -11,7 +11,7 @@
 <body>
 <article class="lesson" data-topic="physics">
   <h3>spin and handedness</h3>
-  <p>The particles of the message turn, as if each were a tiny spinning top. New: <code>spin</code>, the size of that turning, which is a multiple of ħ.</p>
+  <p>The particles of the message turn, as if each were a tiny spinning top. New: <code>spin</code>, the size of that turning, which is a multiple of ħ/2.</p>
   <pre><code>
 ; electron, proton and neutron spin with ħ/2, the photon with ħ
 (observed (= (spin electron) (× (÷ 1 2) ħ)))
@@ -28,12 +28,12 @@
 (∀ u (list electron proton neutron) (∀ v directions (∀ w directions
   (implies (and (= (dot v w) 0) (turns u v w))
            (= (spin-axis u) (cross v w))))))
-; for example: turning from (1 0 0) toward (0 1 0), the axis is (0 0
-; 1)
+; for example: turning from (1 0 0) toward (0 1 0), the axis
+; is (0 0 1)
 (∀ u (list electron proton neutron)
   (implies (turns u (list 1 0 0) (list 0 1 0)) (= (spin-axis u) (list 0 0 1))))
-; a particle that turns from v toward w does not turn from w toward
-; v
+; a particle that turns from v toward w does not turn from w
+; toward v
 (∀ u (list electron proton neutron) (∀ v directions (∀ w directions
   (implies (turns u v w) (not (turns u w v))))))
 ; the spin axis is a direction

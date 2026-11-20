@@ -30,7 +30,7 @@
 (let w (quote (= (&lt; 2 3) ?))
   (let v (fill w false)
     (bad we (list (list w) (list v)))))</code></pre>
-  <p>Good is not the same as true. A right reply can be bad, because it does not do what the question asked. This is the step that Hans Freudenthal's Lincos (1960) took in the same way: there a speaker calls the reply 10/4 to a question bad, although it is right, because it is not written in lowest terms.</p>
+  <p>Good is not the same as true. A right reply can be bad, because it does not do what the question asked. Hans Freudenthal's Lincos (1960) took the same step: there a speaker calls the reply 10/4 to a question bad, although it is right, because it is not written in lowest terms.</p>
   <pre><code>
 ; a reply can be right and still bad
 (let w (quote (= (+ 2 3) ?))
@@ -63,6 +63,7 @@
 (let w (quote (= (+ 2 3) ?))
   (let v (quote (= (+ 1 1) 2))
     (bad we (list (list w) (list v)))))</code></pre>
+  <p>A judgement belongs to the party that makes it. No party finds the same conversation both good and bad, but two parties can judge it differently.</p>
   <pre><code>
 ; nothing is both good and bad to the same party
 (∀ u parties (∀ v expressions (not (and (good u v) (bad u v)))))

@@ -11,8 +11,8 @@
 <body>
 <article class="lesson" data-topic="math minimal">
   <h3>sequences and apply</h3>
-  <p>Two tools that build on lists: sequences, which follow a rule for as long as needed, and chance, which is a proportion of a list.</p>
-  <p>New: <code>apply</code>, which gives the items of a list to an operation as its arguments, and <code>sequence</code>, which builds a list from a rule.</p>
+  <p>Two tools that build on lists. New: <code>apply</code>, which gives the items of a list to an operation as its arguments, and <code>sequence</code>, which builds a list from a rule.</p>
+  <p>For the first time an operator is itself an argument: in <code>(apply + (list 1 2))</code>, <code>+</code> is not applied where it stands but handed to <code>apply</code>.</p>
   <pre><code>
 ; apply + to the items of a list: their sum
 (= (apply + (list 1 2)) 3)
@@ -41,8 +41,8 @@
 (= (apply + (sequence u (list 1 2 3) u)) 6)</code></pre>
   <p>Over ℕ it gives an infinite sequence, which continues without end by the same rule. Its first item is the one for 0:</p>
   <pre><code>
-; the natural numbers themselves: the first item is 0, the fifth is
-; 4
+; the natural numbers themselves:
+; the first item is 0, the fifth is 4
 (= (item (sequence u ℕ u) 1) 0)
 (= (item (sequence u ℕ u) 5) 4)
 

@@ -11,14 +11,14 @@
 <body>
 <article class="lesson" data-topic="logic">
   <h3>let</h3>
-  <p>A long expression can be given a short name inside a sentence. <code>(let <var>u</var> <var>x</var> <var>S</var>)</code> says <var>S</var>, with the variable <var>u</var> standing for the value <var>x</var> everywhere in <var>S</var>. Like <code>∀</code>, it binds its variable; unlike <code>∀</code>, it gives it a single value.</p>
+  <p>A long expression can be given a short name inside a sentence. <code>(let <var>u</var> <var>v</var> <var>S</var>)</code> says <var>S</var>, with the variable <var>u</var> standing for the value <var>v</var> everywhere in <var>S</var>. Like <code>∀</code>, it binds its variable; unlike <code>∀</code>, it gives it a single value.</p>
   <pre><code>
-; u is 0, and u is 0
+; let u be 0: then u = 0
 (let u 0 (= u 0))
-; u is 4, and u + u is 8
+; let u be 4: then u + u = 8
 (let u 4 (= (+ u u) 8))
 
-; the value can be an expression: u is 2 + 3, and u × u is 25
+; the value can be an expression: let u be 2 + 3, then u × u = 25
 (let u (+ 2 3) (= (× u u) 25))
 
 ; or a list

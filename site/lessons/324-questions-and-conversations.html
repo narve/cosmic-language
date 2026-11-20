@@ -65,12 +65,12 @@
   (implies (and (= (item u 1) message) (&gt; (length u) 1))
     (and (= (sender (item u 2)) you)
          (= (receiver (item u 2)) we))))</code></pre>
-  <p>Some things about us only we can say: you can neither prove nor measure them. New: <code>stated</code>, which marks such a sentence. It is a third kind of sentence, next to those that are proved (unmarked) and those that are measured. A stated sentence is true or false like any other; the mark says only how you can know it: by believing us, or by testing us over time.</p>
+  <p>Some things about us only we can say: you can neither prove nor measure them. New: <code>stated</code>, which marks such a sentence. It is a third kind of sentence, next to those that are proved (unmarked) and those that are measured, which later lessons mark with <code>observed</code>. A stated sentence is true or false like any other; the mark says only how you can know it: by believing us, or by testing us over time.</p>
   <pre><code>
 ; we are a party: you can see that we send, but not that we can
 ; also receive
 (stated (∃ u parties (= u we)))
-; this is not the first message we have sent
+; this is not the only message we have sent
 (stated (∃ u expressions (and (≠ u message) (= (sender u) we))))
 ; we hold every sentence of this message to be true
 (stated (∀ u message (implies (= (type u) brackets) (= (eval u) true))))</code></pre>

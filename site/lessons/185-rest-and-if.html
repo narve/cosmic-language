@@ -13,25 +13,33 @@
   <h3>rest and if</h3>
   <p>New: <code>rest</code>, a list without its first item, and <code>if</code>, which picks one of two values. With <code>item</code>, <code>rest</code> lets a list be taken apart one item at a time: the first item, then the rest.</p>
   <pre><code>
+; rest drops the first item; the rest of a list of one is empty
 (= (rest (list 4 7 9)) (list 7 9))
 (= (rest (list 7 9)) (list 9))
 (= (rest (list 9)) (list))
 
+; the rest is one item shorter
 (= (length (rest (list 4 7 9))) 2)
+; the rest of a list of two is a list of its second item
 (∀ u ℕ (∀ v ℕ (= (rest (list u v)) (list v))))
-(∀ u ℕ (∀ v ℕ (∀ w ℕ (= (item (rest (list u v w)) 2) (item (list u v w) 3)))))</code></pre>
+; the second item of the rest is the third item of the list
+(∀ u ℕ (∀ v ℕ (∀ w ℕ
+  (= (item (rest (list u v w)) 2) (item (list u v w) 3)))))</code></pre>
   <p><code>rest</code> is never applied to an empty list.</p>
-  <p><code>(if <var>a</var> <var>b</var> <var>c</var>)</code> is <var>b</var> when <var>a</var> is <data value="true">true</data>, and <var>c</var> when <var>a</var> is <data value="false">false</data>:</p>
+  <p><code>(if <var>u</var> <var>v</var> <var>w</var>)</code> is <var>v</var> when <var>u</var> is <data value="true">true</data>, and <var>w</var> when <var>u</var> is <data value="false">false</data>:</p>
   <pre><code>
+; if true, the first value; if false, the second
 (= (if true 1 2) 1)
 (= (if false 1 2) 2)
 
+; the condition can be any relation: 2 &lt; 3 holds, so 5
 (= (if (&lt; 2 3) 5 7) 5)
 (= (if (not (&lt; 2 3)) 5 7) 7)
 
 ; only the value that is picked is computed: here (÷ 1 u) is never
 ; computed for u = 0
-(∀ u ℚ (= (if (= u 0) 0 (× u (÷ 1 u))) (if (= u 0) 0 1)))</code></pre>
+(∀ u ℚ (= (if (= u 0) 0 (× u (÷ 1 u)))
+          (if (= u 0) 0 1)))</code></pre>
 </article>
 </body>
 </html>

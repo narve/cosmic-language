@@ -13,13 +13,13 @@
   <h3>equal and not equal</h3>
   <p>This is where the message starts to make statements.</p>
   <h4>Sentences in brackets</h4>
-  <p>After the calibration, two new kinds of token appear. Tokens of type 1 have only two values, 0 and 1, and they always come in pairs around other tokens: they are brackets, <code>(</code> for 0 and <code>)</code> for 1. A token of type 2 is a <dfn>symbol</dfn>. In this lesson, every pair of brackets holds a symbol followed by numbers. The first group, token by token:</p>
+  <p>After the calibration, two new kinds of token appear. Tokens of type 1 have only two values, 0 and 1, and they always come in pairs around other tokens: they are <code>brackets</code>, <code>(</code> for 0 and <code>)</code> for 1. A token of type 2 is an <dfn>operator</dfn>. In this lesson, every pair of brackets holds an operator followed by numbers. The first group, token by token:</p>
   <pre data-illustration><code><i>(</i>  00000001 00000000   <i>type 1, value 0: open</i>
-<i>=</i>  00000010 00000001   <i>type 2, value 1: the first symbol</i>
+<i>=</i>  00000010 00000001   <i>type 2, value 1: the first operator</i>
 <i>1</i>  00000000 00000001   <i>type 0: the number 1</i>
 <i>1</i>  00000000 00000001   <i>type 0: the number 1</i>
 <i>)</i>  00000001 00000001   <i>type 1, value 1: close</i></code></pre>
-  <p>Such a group is a <dfn>sentence</dfn>: <code>(= 1 1)</code>. The symbol right after the opening bracket is the <dfn>operator</dfn>, and the rest are its <dfn>arguments</dfn>, in what's called Lisp style. The brackets show where each sentence starts and ends, so the receiver never has to guess how many arguments an operator takes. Every sentence the message asserts is true; what each operator means, the receiver works out from many sentences that use it.</p>
+  <p>Such a group is a <dfn>sentence</dfn>: <code>(= 1 1)</code>. The operator comes right after the opening bracket, and the rest are its <dfn>arguments</dfn>, in what's called Lisp style. The brackets show where each sentence starts and ends, so the receiver never has to guess how many arguments an operator takes. Every sentence the message asserts is true; what each operator means, the receiver works out from many sentences that use it.</p>
   <h4>Equal</h4>
   <p>The first operator is <code>=</code>. In every sentence its two arguments are the same number, so the receiver can guess what it means: the two are equal. The numbers are the primes the receiver already knows from the beacon and the calibration, and then the smallest and the largest number a chunk can hold. Two or three sentences would not be enough to guess from, and one of them might arrive damaged, so the message gives more examples than seem necessary, here and in every later lesson.</p>
   <pre><code>

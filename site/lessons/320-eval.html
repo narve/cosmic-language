@@ -38,7 +38,7 @@
 ; and the value of a let is the value of its body
 (= (eval (quote (let u 2 (× u u)))) 4)</code></pre>
   <h4>Expressions</h4>
-  <p>The rules below speak of all <code>expressions</code>. These are numbers, symbols, and lists of expressions, which is everything a quoted sentence can be made of.</p>
+  <p>The rules below speak of all <code>expressions</code>: everything a quoted sentence can be made of.</p>
   <pre><code>
 ; numbers, symbols and quoted sentences are expressions
 (∃ u expressions (= u 5))

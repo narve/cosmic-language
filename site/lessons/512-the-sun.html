@@ -11,7 +11,7 @@
 <body>
 <article class="lesson" data-topic="astronomy" data-optional>
   <h3>the Sun</h3>
-  <p>One particular star, and one body that goes round it. This lesson can be left out of a message: no other lesson uses what it introduces.</p>
+  <p>One particular star, and one body that goes round it. This lesson can be left out of a message, together with the optional lessons that build on it: the Sun in the Galaxy, pulsars and humans.</p>
   <pre><code>
 ; the Sun is a star, and the Earth is a body
 (∃ u stars (= u sun))
@@ -23,11 +23,11 @@
 (observed (&lt; (^ 2 144) (÷ (radius sun) planck-length) (^ 2 145)))
 ; its temperature: between 21 and 22 times the triple point of water
 (observed (&lt; 21 (÷ (temperature sun) (triple-point water)) 22))
-; its luminosity: between 2⁻⁸⁷ and 2⁻⁸⁶ of the Planck unit of power,
-; c⁵ ÷ G
+; its luminosity: between 2⁻⁸⁷ and 2⁻⁸⁶ of the Planck unit of
+; power, c⁵ ÷ G
 (observed (&lt; (÷ 1 (^ 2 87)) (÷ (luminosity sun) (÷ (^ c 5) G)) (÷ 1 (^ 2 86))))
-; at its surface, between 1/16 and 1/8 helium atom for every
-; hydrogen atom
+; between 1/16 and 1/8 helium atom for every hydrogen atom, in
+; the Sun as a whole and at its surface, where it is measured
 (observed (&lt; (÷ 1 (^ 2 4)) (÷ (count helium sun) (count hydrogen sun)) (÷ 1 (^ 2 3))))</code></pre>
   <p>The Earth goes round the Sun. Its orbit and its mass are given in units that any reader has: Planck lengths, Planck times and proton masses.</p>
   <pre><code>
@@ -41,7 +41,7 @@
 (observed (&lt; (^ 2 171) (÷ (mass earth) (mass proton)) (^ 2 172)))</code></pre>
   <p>This is where we are. New: <code>at</code>, a party living on a body. Like everything we say about ourselves, it is <code>stated</code>: the Sun is our star.</p>
   <pre><code>
-; we live on the Earth, which goes round Sun
+; we live on the Earth, which goes round the Sun
 (stated (at we earth))
 (stated (∃ u bodies (and (at we u) (orbits u sun))))
 ; we do not live on the star itself

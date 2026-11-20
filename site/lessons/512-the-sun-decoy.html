@@ -23,10 +23,10 @@
 (observed (&lt; (^ 2 145) (÷ (radius sun) planck-length) (^ 2 146)))
 ; its temperature: between 2⁴ and 2⁵ times the triple point of water
 (observed (&lt; (^ 2 4) (÷ (temperature sun) (triple-point water)) (^ 2 5)))
-; its luminosity: between 2⁻⁸⁵ and 2⁻⁸³ of the Planck unit of power,
-; c⁵ ÷ G
+; its luminosity: between 2⁻⁸⁵ and 2⁻⁸³ of the Planck unit of
+; power, c⁵ ÷ G
 (observed (&lt; (÷ 1 (^ 2 85)) (÷ (luminosity sun) (÷ (^ c 5) G)) (÷ 1 (^ 2 83))))</code></pre>
-  <p>A second star goes round ours, close by, and no other star does. It has no name in the message: each sentence about it says "the star that goes round ours". Its mass, size and temperature are close to those of our star, a little smaller.</p>
+  <p>A second star goes round ours, close by, and no other star does. It has no name in the message: each sentence about it says "the star that goes round ours". Its mass and temperature are a little smaller than those of our star, and it is about half as wide.</p>
   <pre><code>
 ; one other star goes round ours, and only one
 (observed (∃ u stars (and (not (= u sun)) (orbits u sun))))
@@ -43,10 +43,10 @@
 (observed (∃ u stars (and (orbits u sun) (&lt; (^ 2 149) (÷ (axis u sun) planck-length) (^ 2 150)))))
 ; one round takes between 2¹⁶³ and 2¹⁶⁴ Planck times
 (observed (∃ u stars (and (orbits u sun) (&lt; (^ 2 163) (÷ (period u sun) planck-time) (^ 2 164)))))</code></pre>
-  <p>Our planet goes round both stars, far outside their own orbit. So the rule for orbits holds for it with the mass of all three: the period of our planet is that of a body going round one star as heavy as the two together. Its orbit, size and mass are given in units that any reader has: Planck lengths, Planck times and proton masses.</p>
+  <p>Our planet goes round both stars, far outside their own orbit. So the rule for orbits holds for it as if the two stars were one star as heavy as both: the mass in the rule is that of all three bodies together. Its orbit, size and mass are given in units that any reader has: Planck lengths, Planck times and proton masses.</p>
   <pre><code>
-; our planet goes round both stars: period² = 4π² × axis³ ÷ (G ×
-; the sum of the masses of the two stars and the planet)
+; our planet goes round both stars: period² = 4π² × axis³
+; ÷ (G × the sum of the masses of the two stars and the planet)
 (observed (∃ u stars (and (orbits u sun)
   (= (^ (period earth sun) 2)
      (÷ (× 4 (^ π 2) (^ (axis earth sun) 3))
@@ -58,8 +58,8 @@
 (observed (&lt; (^ 2 170) (÷ (period earth sun) planck-time) (^ 2 171)))
 ; its radius: between 2¹⁴¹ and 2¹⁴² Planck lengths
 (observed (&lt; (^ 2 141) (÷ (radius earth) planck-length) (^ 2 142)))
-; its mass is less than 2¹⁸² proton masses: only an upper bound is
-; known, from how it pulls the two stars
+; its mass is less than 2¹⁸² proton masses: it is known only
+; roughly, from how it pulls the two stars
 (observed (&lt; (÷ (mass earth) (mass proton)) (^ 2 182)))</code></pre>
   <p>This is where we are. New: <code>at</code>, a party living on a body. Like everything we say about ourselves, it is <code>stated</code>: we live on a body that goes round our planet, not on the planet, which has no solid ground, and not on a star.</p>
   <pre><code>

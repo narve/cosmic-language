@@ -11,21 +11,22 @@
 <body>
 <article class="lesson" data-topic="conversations">
   <h3>this message</h3>
-  <p>Until now the message has spoken about numbers, logic and the world. Now it speaks about itself. New: <code>message</code>, this message, as the list of everything sent in tokens after the beacon at its start, to its end: numbers and sentences, in order. The beacon itself, written in runs of 1s, is not an item: the list starts with the primes sent again as tokens and the powers of two, and the sentences follow them. What is in it can be counted with <code>count</code>, and a sentence is named with <code>quote</code>, so that it is mentioned and not claimed.</p>
+  <p>Until now the message has spoken about numbers, logic and the world. Now it speaks about itself. New: <code>message</code>, this message, as the list of everything sent in tokens after the beacon at its start, to its end: numbers and sentences, in order. The beacon itself, written in runs of 1s, is not an item: the list starts with the numbers of the calibration (the primes sent again as tokens, the powers of two and 255), and the sentences follow them. What is in it can be counted with <code>count</code>, and a sentence is named with <code>quote</code>, so that it is mentioned and not claimed.</p>
   <pre><code>
-; the message starts with the numbers of the calibration: 1, 2, 3, 5
-; …
+; the message starts with the numbers of the calibration:
+; 1, 2, 3, 5 …
 (= (item message 1) 1)
 (= (item message 2) 2)
 (= (item message 4) 5)
 
-; the twelfth is 31, the last prime of the calibration, the
-; thirteenth 1, where the powers of two start, and the twenty-first
-; 255; the twenty-second is the first sentence: the beacon in 1s is
-; not counted
+; the twelfth is 31, the last prime of the calibration
 (= (item message 12) 31)
+; the thirteenth is 1, where the powers of two start
 (= (item message 13) 1)
+; the twenty-first is 255, the last number of the calibration
 (= (item message 21) 255)
+; the twenty-second is the first sentence
+; (the beacon, in runs of 1s, is not counted)
 (= (item message 22) (quote (= 1 1)))
 
 ; these sentences are in the message, once each
@@ -40,8 +41,8 @@
 (= (count (quote (&lt; 3 2)) message) 0)
 (= (count (quote (= (+ 2 2) 5)) message) 0)
 
-; these are not in the message either, although they are true: being
-; in it and being true are different things
+; these are not in the message either, although they are true:
+; being in it and being true are different things
 (= (count (quote (= 6 6)) message) 0)
 (= (count (quote (&lt; 5 6)) message) 0)
 (= (count (quote (= (+ 3 3) 6)) message) 0)</code></pre>

@@ -13,8 +13,8 @@
   <h3>complex numbers</h3>
   <p>New: the domain <code>ℂ</code> (complex numbers) and the absolute value <code>abs</code>. Every complex number is a real part plus a multiple of <code>i</code>, and the familiar laws still hold:</p>
   <pre><code>
-; sums with i: i + i = 2i, (3 + i) − i = 3, (1 + i) + (2 + i) = 3 +
-; 2i
+; sums with i: i + i = 2i, (3 + i) − i = 3,
+; (1 + i) + (2 + i) = 3 + 2i
 (= (+ i i) (× 2 i))
 (= (− (+ 3 i) i) 3)
 (= (+ (+ 1 i) (+ 2 i)) (+ 3 (× 2 i)))
@@ -22,6 +22,7 @@
 ; products: (1 + i)² = 2i and (1 + i) × (1 − i) = 2
 (= (× (+ 1 i) (+ 1 i)) (× 2 i))
 (= (× (+ 1 i) (− 1 i)) 2)
+; and a sum: (1 + i) + (1 − i) = 2
 (= (+ (+ 1 i) (− 1 i)) 2)
 
 ; there is a complex number whose square is neg 1
@@ -33,7 +34,7 @@
 (∀ u ℂ (∀ v ℂ (= (× u v) (× v u))))
 (∀ u ℂ (= (+ u 0) u))</code></pre>
   <p><code>&lt;</code>, <code>&gt;</code>, <code>≤</code> and <code>≥</code> are never used with complex numbers that are not real. Instead, <code>abs</code> measures the distance from 0.</p>
-  <p><code>abs</code> is introduced in a new way: besides examples, by a sentence that states what it means in terms of known symbols. The absolute value is never negative, and its square is the sum of the squares of the two parts:</p>
+  <p>Like <code>mean</code> and <code>chance</code>, <code>abs</code> comes with examples and with sentences that state what it means in terms of known symbols. The absolute value is never negative, and its square is the sum of the squares of the two parts:</p>
   <pre><code>
 ; examples first: the distance from 0
 (= (abs 3) 3)
@@ -47,7 +48,8 @@
 ; never negative
 (∀ u ℂ (≥ (abs u) 0))
 ; its square is the sum of the squares of the two parts
-(∀ u ℝ (∀ v ℝ (= (^ (abs (+ u (× v i))) 2) (+ (^ u 2) (^ v 2)))))
+(∀ u ℝ (∀ v ℝ
+  (= (^ (abs (+ u (× v i))) 2) (+ (^ u 2) (^ v 2)))))
 ; the absolute value of a square is the square of the absolute value
 (∀ u ℂ (= (abs (× u u)) (× (abs u) (abs u))))
 

@@ -29,8 +29,8 @@
 (∀ u durations (= (dim u) T))</code></pre>
   <p>The half-life is the duration after which the chance of survival is one half. That is exactly the chance of <data value="true">true</data> when picking from <data value="true">true</data> and <data value="false">false</data>:</p>
   <pre><code>
-; after one half-life, the chance that the neutron is still there is
-; 1/2
+; after one half-life, the chance that the neutron is still
+; there is 1/2
 (= (survival neutron (half-life neutron)) (÷ 1 2))
 ; 1/2 is also the chance of true when picking from true and false
 (= (÷ 1 2) (chance true (list true false)))</code></pre>
@@ -47,14 +47,14 @@
 (observed (∀ u ℕ
   (= (survival neutron (× u (half-life neutron)))
      (^ (chance true (list true false)) u))))</code></pre>
-  <p>The first law is the product rule that defined <code>exp</code>. So <code>exp</code> gives the chance for any duration:</p>
+  <p>The first law is the product rule that defined <code>exp</code>, so the chance for any duration is <code>exp</code> of that duration times a fixed factor. The mean lifetime sets the factor: it is −1 ÷ the lifetime, so that after one lifetime the chance is 1/<code>e</code>:</p>
   <pre><code>
 ; the chance of surviving a duration u is exp(−u ÷ lifetime)
 (observed (∀ u durations
   (= (survival neutron u)
      (exp (neg (÷ u (lifetime neutron)))))))</code></pre>
   <p>These laws give the chance for a single neutron. In a real sample of many neutrons, the part that survives is close to this chance, but the message makes no claim about any particular sample.</p>
-  <p>Some isotopes decay in the same way, unlike the stable ones among the isotopes: hydrogen with two neutrons, and carbon with eight. Carbon's half-life is between 256 and 512 times that of hydrogen:</p>
+  <p>Unlike the stable isotopes, some isotopes decay in the same way: hydrogen with two neutrons, and carbon with eight. Carbon's half-life is between 256 and 512 times that of hydrogen:</p>
   <pre><code>
 ; the half-life of carbon with 8 neutrons, divided by that of
 ; hydrogen with 2 neutrons: between 2⁸ and 2⁹
