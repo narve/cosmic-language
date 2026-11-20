@@ -34,10 +34,10 @@
 ; the electric force is a force like gravity: mass × length ÷ time²
 (∀ u bodies (∀ v bodies (= (dim (electric u v)) (÷ (× M L) (^ T 2)))))
 
-; opposite charges pull together (a force below 0), equal
-; charges push apart (above 0); a particle name stands for any
-; one particle of its kind, so the second line is about two
-; different protons
+; as for gravity, a force below 0 pulls together: opposite charges
+; pull together (below 0), equal charges push apart (above 0)
+; a particle name stands for any one particle of its kind, so the
+; second line is about two different protons
 (observed (&lt; (electric proton electron) 0))
 (observed (&gt; (electric proton proton) 0))</code></pre>
   <p>Because the law is written out, the next number does not depend on how charge is measured. It is the fine-structure constant, which sets the strength of the electric force:</p>
@@ -50,7 +50,7 @@
 ; 2.3 × 10³⁹ times the force of gravity: between 2¹³⁰ and 2¹³¹
 ; times (the distance does not matter: it cancels)
 (observed (&lt; (^ 2 130)
-              (÷ (abs (electric proton electron)) (gravity proton electron))
+              (÷ (abs (electric proton electron)) (abs (gravity proton electron)))
               (^ 2 131)))</code></pre>
   <p><small>Sources: CODATA 2022 (fine-structure constant, G, masses). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
 </article>

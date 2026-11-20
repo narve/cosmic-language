@@ -21,6 +21,13 @@
 (observed (= (charge kaon) 0))
 (observed (&lt; (big 3 205) (÷ (mass kaon) (mass electron)) (big 3 207)))
 
+; the kaon has no spin, so the electrons from its decays leave in
+; no preferred direction against it; yet each electron still spins
+; against its own motion, on average
+(observed (and (= (spin kaon) 0)
+               (= (emitted-along electron kaon) 0)
+               (&lt; (spin-along-motion electron kaon) 0)))
+
 ; some of its decays give an electron, some a positron, and
 ; positrons come more often:
 ; between 1 + 1/2⁸ and 1 + 1/2⁷ times as often

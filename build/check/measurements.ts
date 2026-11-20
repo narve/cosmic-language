@@ -62,7 +62,7 @@ const QUANTITIES: Record<string, Q> = {
   "(÷ (energy (emitted hydrogen 2 1)) (− (level hydrogen 2) (level hydrogen 1)))": q(1 - step12.v / (2 * nuclide("1H").v * c.v ** 2)),
   "(÷ (energy (emitted hydrogen 3 1)) (− (level hydrogen 3) (level hydrogen 1)))": q(1 - (step12.v * 32 / 27) / (2 * nuclide("1H").v * c.v ** 2)),
   "(÷ (× ke (^ (charge proton) 2)) (× ħ c))": alpha,
-  "(÷ (abs (electric proton electron)) (gravity proton electron))": div(mul(mul(alpha, hbar), c), mul(mul(G, mp), me)),
+  "(÷ (abs (electric proton electron)) (abs (gravity proton electron)))": div(mul(mul(alpha, hbar), c), mul(mul(G, mp), me)),
   "(÷ (mass proton) planck-mass)": div(mp, planckMass),
   "(÷ (mass electron) planck-mass)": div(me, planckMass),
   "(÷ (energy hydrogen-line) (− (level hydrogen 2) (level hydrogen 1)))": div(line21, step12),

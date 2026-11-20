@@ -35,11 +35,11 @@
 
 ; the Vela pulsar
 (∃ u pulsars (= u vela-pulsar))
-; one turn takes between 2¹³⁹ and 2¹⁴¹ Planck times
-(observed (&lt; (^ 2 139) (÷ (pulse-period vela-pulsar) planck-time) (^ 2 141)))
+; one turn takes between 11 × 2¹³⁶ and 5 × 2¹³⁸ Planck times
+(observed (&lt; (× 11 (^ 2 136)) (÷ (pulse-period vela-pulsar) planck-time) (× 5 (^ 2 138))))
 ; each turn is longer than the one before; the period grows by
-; between 2⁻⁴⁷ and 2⁻⁴¹ times the time that passes
-(observed (&lt; (÷ 1 (^ 2 47)) (slowing vela-pulsar) (÷ 1 (^ 2 41))))
+; between 3 × 2⁻⁴⁸ and 9 × 2⁻⁴⁵ times the time that passes
+(observed (&lt; (÷ 3 (^ 2 48)) (slowing vela-pulsar) (÷ 9 (^ 2 45))))
 ; seen from our star, it lies in this direction
 (observed (&lt; (neg (÷ 5 32)) (dot (direction-from sun vela-pulsar) toward-centre) 0))
 (observed (&lt; (neg 1) (dot (direction-from sun vela-pulsar) along-rotation) (neg (÷ 15 16))))

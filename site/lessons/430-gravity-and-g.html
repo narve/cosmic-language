@@ -17,13 +17,15 @@
 (∀ u bodies (∀ v bodies (= (distance u v) (distance v u))))
 (∀ u bodies (∀ v bodies (= (dim (distance u v)) L)))
 
-; Newton's law: gravity = G × mass × mass ÷ distance²
+; Newton's law: gravity = −(G × mass × mass ÷ distance²)
+; gravity pulls the two bodies together, and a force that pulls
+; together is below 0 (one that pushes apart is above 0)
 ; (only where the distance is above 0: a body does not pull
 ; on itself)
 (observed (∀ u bodies (∀ v bodies
   (implies (&gt; (distance u v) 0)
     (= (gravity u v)
-       (÷ (× G (mass u) (mass v)) (^ (distance u v) 2)))))))
+       (neg (÷ (× G (mass u) (mass v)) (^ (distance u v) 2))))))))
 
 ; the dimension of a force: mass × length ÷ time²
 (∀ u bodies (∀ v bodies (= (dim (gravity u v)) (÷ (× M L) (^ T 2)))))
