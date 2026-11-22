@@ -136,6 +136,7 @@ SKIP_CHECKS=measurements npm run build
 
 | Command | What it does |
 |---------|--------------|
+| `npm run watch` | Reruns the build when any file in `site/` changes. It polls every 500 ms, because file events do not reliably cross a virtiofs mount. A failed build is reported and the watcher goes on. |
 | `npm run check:measurements` | Prints the margin of every measured range. |
 | `npm run reference` | Makes `build/check/reference/generated/reference.json` from the downloaded sources and `transcribed.json`. |
 | `npm run --silent blind [task]` | A blind-decoding run: a headless `claude` that gets only the bits, in a container without network. See `build/check/blind/run.sh` for the options. Run `npm run build` first. |
