@@ -1,5 +1,6 @@
-// Views of message blocks: added as a <details data-views> table after each block's <pre>.
-// The <pre> itself is left untouched.
+// Views of message blocks: a row of checkboxes under the lesson's heading, and after each block's <pre> a
+// <figure data-views> with a table of one row per line and one cell per view. The <pre> itself is left untouched.
+// style.css shows the checked views, without JavaScript.
 import { escape } from "./dom.ts";
 import { messageCode, readBlock, tokenBits, type Line, type Token } from "./message.ts";
 import type { Registry } from "./registry.ts";
@@ -16,9 +17,12 @@ export type Href = (name: string) => string | undefined;
 export function addViews(article: Element, registry: Registry, views: View[], where: string, href?: Href): void {
   const columns: View[] = ["words", ...views.filter((view) => view !== "words")];
   if (columns.length === 1) return;
-  messageCode(article).forEach((code, index) => {
-    const block = readBlock(code, registry, `${where}, block ${index + 1}`);
-    if (block.bits !== undefined) return; // a bits block already is its own bits view
+  const blocks = messageCode(article)
+    .map((code, index) => ({ code, block: readBlock(code, registry, `${where}, block ${index + 1}`) }))
+    .filter(({ block }) => block.bits === undefined); // a bits block already is its own bits view
+  if (blocks.length === 0) return;
+  addChoice(article, columns, where);
+  blocks.forEach(({ code, block }) => {
     // the math view shows each sentence whole, on the line where it starts
     const starts = new Map<number, string[]>();
     for (const node of parseBlock(block.lines, "line")) {
@@ -35,16 +39,31 @@ export function addViews(article: Element, registry: Registry, views: View[], wh
         }
         return `<tr>${columns.map((view) => `<td data-view="${view}">${view === "math" ? math : cell(view, line, registry, href)}</td>`).join("")}</tr>`;
       });
-    const details = code.ownerDocument.createElement("details");
-    details.setAttribute("data-views", "");
-    details.innerHTML =
-      `\n<summary>${columns.slice(1).join(", ").replace(/, ([^,]*)$/, " and $1")}</summary>\n<table>\n` +
-      `<thead><tr>${columns.map((view) => `<th data-view="${view}">${view}</th>`).join("")}</tr></thead>\n` +
+    const figure = code.ownerDocument.createElement("figure");
+    figure.setAttribute("data-views", "");
+    figure.innerHTML =
+      `\n<table>\n<thead><tr>${columns.map((view) => `<th scope="col" data-view="${view}">${view}</th>`).join("")}</tr></thead>\n` +
       `<tbody>\n${rows.join("\n")}\n</tbody>\n</table>\n`;
     const pre = code.parentElement!;
-    pre.after(details);
+    pre.after(figure);
     pre.after(code.ownerDocument.createTextNode("\n"));
   });
+}
+
+// The row of checkboxes under the lesson's heading. style.css shows the checked views, without JavaScript.
+function addChoice(article: Element, columns: View[], where: string): void {
+  const fieldset = article.ownerDocument.createElement("fieldset");
+  fieldset.setAttribute("data-view-choice", "");
+  fieldset.innerHTML =
+    "<legend>Show</legend>" +
+    columns
+      .map((view) => {
+        // the input is a sibling of its label, so that CSS can tell when two boxes are checked (input:checked ~ input:checked)
+        const id = `view-${where}-${view}`;
+        return `<input type="checkbox" id="${id}" value="${view}"${view === "words" ? " checked" : ""}><label for="${id}">${view}</label>`;
+      })
+      .join("");
+  article.querySelector("h1, h2, h3, h4, h5, h6")!.after(fieldset);
 }
 
 function cell(view: View, line: Line, registry: Registry, href?: Href): string {

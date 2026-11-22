@@ -163,8 +163,8 @@ export function checkMinimal(message: Message, isMinimal: (slug: string) => bool
 }
 
 // In a version of the message, the ids of each type (but elements, whose id is the atomic number) must first appear
-// in the order 1, 2, 3 …, with none missing: the lessons that make up the smaller versions come first. Ids are
-// fixed in the vocabulary, so a new symbol out of order is an error, not a reason to renumber silently.
+// in the order 1, 2, 3 …, with none missing: the lessons that make up the smaller versions come first.
+// A symbol out of order is an error: move the lesson or renumber the vocabulary.
 export function checkIdOrder(message: Message, registry: Registry, version: string): void {
   const next = new Map<number, number>();
   const seen = new Set<string>();

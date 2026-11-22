@@ -1,4 +1,4 @@
-// particles: the symbols of type 5. Ids are fixed: never renumber, add new symbols with the next free id.
+// particles: the symbols of type 5. Ids increase in order of first appearance in the message; renumber when that order changes.
 import { particle } from "./types.ts";
 import type { SymbolDef } from "./symbol.ts";
 

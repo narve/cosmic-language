@@ -26,56 +26,49 @@ function pages(folder: string): string[] {
     .map((file) => relative(folder, join(folder, file)).split("\\").join("/"));
 }
 
-// The sections of site/versions.html with an id: one per version, its title (h2) and its text, without the h2,
-// subheadings and lesson lists. Its links are written from docs/, so they get "../" to work from docs/<version>/.
-function loadVersions(window: ReturnType<typeof createWindow>, html: string): { name: string; title: string; intro: string }[] {
-  const document = parse(window, html);
-  return Array.from(document.querySelectorAll("main > section[id]"), (section) => {
-    const copy = section.cloneNode(true) as Element;
-    const title = copy.querySelector("h2")?.textContent?.trim() ?? section.id;
-    copy.querySelectorAll("h2, h3, cl-lessons").forEach((element) => element.remove());
-    for (const link of copy.querySelectorAll("a[href]")) {
-      const href = link.getAttribute("href")!;
-      if (!/^([a-z]+:|#|\/)/.test(href)) link.setAttribute("href", `../${href}`);
-    }
-    return { name: section.id, title, intro: copy.innerHTML.trim() };
-  });
+// The versions named in site/versions.html: the id of each section of main that has one.
+function versionNames(window: ReturnType<typeof createWindow>, html: string): string[] {
+  return Array.from(parse(window, html).querySelectorAll("main > section[id]"), (section) => section.id);
 }
 
-// The page of one version, written from docs/<version>/.
-function versionPage(name: string, title: string, intro: string): string {
-  const heading = `The ${title.toLowerCase()} message`;
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${heading} · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
-</head>
-<body>
-
-<header>
-  <small>Draft · the ${name} version</small>
-  <h1>${heading}</h1>
-  ${intro}
-  <p>All its lessons on one page, in the order of the message, each with what it sends. The exact rules are in the <a href="../specification.html">specification</a>; all versions are compared on <a href="../versions.html">versions</a>.</p>
-</header>
-
-<nav aria-label="Contents">
-  <cl-lessons version="${name}" as="links" href="anchor" group="runs"></cl-lessons>
-</nav>
-
-<main>
-  <cl-lessons version="${name}" as="articles" group="runs"></cl-lessons>
-</main>
-
-<footer>cosmic-language · ${name} version · draft</footer>
-</body>
-</html>
-`;
+// The page of one version: site/versions.html without its header and the sections of the other versions. The version's
+// heading becomes the page's h1, followed by its text, its list of lessons and its lessons. Links get "../" to work from
+// docs/<version>/.
+function versionPage(window: ReturnType<typeof createWindow>, html: string, name: string): string {
+  const document = parse(window, html);
+  for (const link of document.querySelectorAll("a[href], link[href], script[src]")) {
+    const attribute = link.hasAttribute("href") ? "href" : "src";
+    const url = link.getAttribute(attribute)!;
+    if (!/^([a-z]+:|#|\/)/.test(url)) link.setAttribute(attribute, `../${url}`);
+  }
+  for (const other of document.querySelectorAll("main > section[id]")) if (other.id !== name) other.remove();
+  document.querySelector("body > header")?.remove();
+  const section = document.querySelector(`main > section[id="${name}"]`)!;
+  const heading = section.querySelector("h2");
+  if (heading) {
+    const title = document.createElement("h1");
+    title.textContent = heading.textContent; // without the link, which would lead to this page
+    heading.replaceWith(title);
+  }
+  // A list of lessons in the section, with its heading, gives way to the complete list.
+  for (const list of section.querySelectorAll("cl-lessons")) {
+    if (list.previousElementSibling?.tagName === "H3") list.previousElementSibling.remove();
+    list.remove();
+  }
+  const lessons = (as: string) => {
+    const element = document.createElement("cl-lessons");
+    element.setAttribute("version", name);
+    element.setAttribute("as", as);
+    element.setAttribute("group", "runs");
+    return element;
+  };
+  const links = lessons("links");
+  links.setAttribute("href", "anchor");
+  const nav = document.createElement("nav");
+  nav.setAttribute("aria-label", "Contents");
+  nav.append(links);
+  section.after(nav, lessons("articles"));
+  return serialize(document);
 }
 
 async function build(): Promise<void> {
@@ -190,10 +183,11 @@ async function build(): Promise<void> {
   // The pages of site/ (outside lessons/ and assets/), at the same place in docs/.
   for (const file of pages(site)) await render(readFileSync(join(site, file), "utf8"), file);
 
-  // One page per version, docs/<version>/index.html: all its lessons, made from its section in site/versions.html.
-  for (const { name, title, intro } of loadVersions(window, readFileSync(join(site, "versions.html"), "utf8"))) {
+  // One page per version, docs/<version>/index.html: site/versions.html narrowed to that version, with all its lessons.
+  const versionsHtml = readFileSync(join(site, "versions.html"), "utf8");
+  for (const name of versionNames(window, versionsHtml)) {
     if (!(name in versions)) throw new BuildError(`site/versions.html: <section id="${name}"> is not a version`);
-    await render(versionPage(name, title, intro), `${name}/index.html`);
+    await render(versionPage(window, versionsHtml, name), `${name}/index.html`);
   }
   await window.happyDOM.close();
 

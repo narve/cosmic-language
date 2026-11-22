@@ -1,4 +1,4 @@
-// physical-constants: the symbols of type 8. Ids are fixed: never renumber, add new symbols with the next free id.
+// physical-constants: the symbols of type 8. Ids increase in order of first appearance in the message; renumber when that order changes.
 import { physicalConstant } from "./types.ts";
 import type { SymbolDef } from "./symbol.ts";
 

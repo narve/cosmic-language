@@ -1,5 +1,5 @@
 // <cl-files version="minimal">: the list of a version's message files, with what each holds and its size, read
-// from the files the build has written. The element is replaced by the list.
+// from the files the build has written. The element is replaced by the list, in a <details> that starts closed.
 import { statSync } from "node:fs";
 import { join } from "node:path";
 import type { Window } from "happy-dom";
@@ -39,7 +39,7 @@ export function defineClFiles(window: Window, context: FilesContext): void {
         return `<li><a href="${escape(context.base + path)}"><code>${file}</code></a>: ${escape(about)} (${size}).</li>`;
       });
       const template = document.createElement("template");
-      template.innerHTML = `<ul data-files>\n${items.join("\n")}\n</ul>`;
+      template.innerHTML = `<details>\n<summary>Message files</summary>\n<ul data-files>\n${items.join("\n")}\n</ul>\n</details>`;
       this.replaceWith(template.content);
     }
   }

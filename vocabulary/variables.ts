@@ -1,4 +1,4 @@
-// variables: the symbols of type 4. Ids are fixed: never renumber, add new symbols with the next free id.
+// variables: the symbols of type 4. Ids increase in order of first appearance in the message; renumber when that order changes.
 import { variable } from "./types.ts";
 import type { SymbolDef } from "./symbol.ts";
 

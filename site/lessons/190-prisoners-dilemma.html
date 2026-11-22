@@ -52,6 +52,24 @@
 ; each other: 2 × 3 is less than 2 + 7
 (&lt; (× 2 (loss cooperate cooperate))
     (+ (loss defect cooperate) (loss cooperate defect)))</code></pre>
+  <p>The numbers alone do not say which outcome we want, so we say it. New: <code>we</code>, the senders of this message; <code>stated</code>, which marks something we say about ourselves, which can be neither proved nor measured; and <code>good</code> and <code>bad</code>. <code>(good <var>u</var> <var>z</var>)</code> means that <var>u</var> finds <var>z</var> good, and <code>(bad <var>u</var> <var>z</var>)</code> that <var>u</var> finds it bad. Here <var>z</var> is a round, a list of two moves. We find a round good when both cooperate. We find it bad when anyone defects, even though the one who defects alone loses least.</p>
+  <pre><code>
+; we find it good when both cooperate
+(stated (good we (list cooperate cooperate)))
+; and bad when either defects, or both
+(stated (bad we (list cooperate defect)))
+(stated (bad we (list defect cooperate)))
+(stated (bad we (list defect defect)))
+
+; a round is good to us exactly when both cooperate
+(stated (∀ u moves (∀ v moves
+  (= (good we (list u v)) (and (= u cooperate) (= v cooperate))))))
+; and bad to us exactly when at least one defects
+(stated (∀ u moves (∀ v moves
+  (= (bad we (list u v)) (or (= u defect) (= v defect))))))
+; no round is both
+(stated (∀ u moves (∀ v moves
+  (not (and (good we (list u v)) (bad we (list u v)))))))</code></pre>
 
   <h4>Strategies</h4>
   <p>New: <code>histories</code>, the operator <code>move</code>, and eight strategies (<code>always-cooperate</code>, <code>always-defect</code>, <code>tit-for-tat</code>, <code>suspicious-tit-for-tat</code>, <code>grim</code>, <code>pavlov</code>, <code>generous-tit-for-tat</code> and <code>random</code>). A history is a list of the rounds played so far, each round a list of two moves: one's own, then the other's. For a strategy <var>u</var> and a history <var>v</var>, <code>(move <var>u</var> <var>v</var>)</code> is a list to pick the next move from: a single move for a fixed choice, repeated moves for a chance.</p>

@@ -1,53 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Chunks, tokens and calibration · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Chunks, tokens and calibration</title>
 </head>
 <body>
 <article class="lesson" data-topic="signal minimal">
-  <h3>chunks, tokens and calibration</h3>
-  <h4>Chunks</h4>
-  <p>After the beacon, the bitstream is divided into <dfn>chunks</dfn> of 8 bits. Each chunk is simply a number in binary, with the most significant bit first, so a chunk holds 0–255. (The chunk size is a constant in the format and may change later.)</p>
-  <pre data-illustration><code>00000101   <i>= 5</i>
+
+    <h3>chunks, tokens and calibration</h3>
+
+    <h4>Chunks</h4>
+    <p>
+        After the beacon, the bitstream is divided into <dfn>chunks</dfn> of 8 bits. Each chunk is simply a number in
+        binary, with the most significant bit first, so a chunk holds 0–255.
+        (The chunk size is a constant in the format
+        and may change later.)
+    </p>
+    <pre data-illustration><code>00000101   <i>= 5</i>
 11111111   <i>= 255, the largest number that fits in one chunk</i></code></pre>
-  <p>Larger numbers are not needed at the start. They come later as expressions, once the message has taught arithmetic (see the lesson on large numbers).</p>
-  <h4>Tokens</h4>
-  <p>A <dfn>token</dfn> is two numbers in a row. The first says <em>what kind of thing</em> this is (the type), and the second is the thing itself (the value).</p>
-  <table>
-    <thead><tr><th>Type</th><th>Meaning</th><th>Value</th></tr></thead>
-    <tbody>
-      <tr><td>0</td><td>number</td><td>the number itself</td></tr>
-      <tr><td>1</td><td>brackets</td><td>0 = open bracket, 1 = close bracket</td></tr>
-      <tr><td>2</td><td>operator</td><td>which operator (=, +, …)</td></tr>
-    </tbody>
-  </table>
-  <pre data-illustration><code><i>type             value</i>
+    <p>Larger numbers are not needed at the start. They come later as expressions, once the message has taught
+        arithmetic (see the lesson on large numbers).</p>
+
+    <h4>Tokens</h4>
+    <p>A <dfn>token</dfn> is two numbers in a row. The first says <em>what kind of thing</em> this is (the type), and
+        the second is the thing itself (the value).</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Meaning</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>0</td>
+            <td>number</td>
+            <td>the number itself</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>brackets</td>
+            <td>0 = open bracket, 1 = close bracket</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>operator</td>
+            <td>which operator (=, +, …)</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <pre data-illustration><code><i>type             value</i>
 00000000 00000011   <i>number 3</i>
 00000010 00000001   <i>operator no. 1 (=)</i>
 00000001 00000000   <i>brackets: (</i>
 00000001 00000001   <i>brackets: )</i></code></pre>
-  <p>In the first part of the message nearly every type chunk is <code>00000000</code>, <code>00000001</code> or <code>00000010</code>. That makes the 16-bit period between tokens easy to spot. More types are introduced later, as lessons in the message itself.</p>
-  <p>From here on the lessons write tokens in short form: <code>3</code> is a number, <code>=</code> is an operator, and <code>(</code> <code>)</code> are brackets.</p>
-  <h4>Calibration</h4>
-  <p>Right after the beacon, the same primes come again, now as number tokens:</p>
-  <pre><code>
+    <p>In the first part of the message nearly every type chunk is <code>00000000</code>, <code>00000001</code> or
+        <code>00000010</code>. That makes the 16-bit period between tokens easy to spot. More types are introduced
+        later, as lessons in the message itself.</p>
+    <p>From here on the lessons write tokens in short form: <code>3</code> is a number, <code>=</code> is an operator,
+        and <code>(</code> <code>)</code> are brackets.</p>
+    <h4>Calibration</h4>
+    <p>Right after the beacon, the same primes come again, now as number tokens:</p>
+    <pre><code>
 1 2 3 5 7 11 13 17 19 23 29 31</code></pre>
-  <p>The receiver now has the same sequence in two forms, unary in the beacon and binary in the tokens. This shows that the binary numbers really are numbers, and it shows where each token starts.</p>
-  <p>The primes only reach 31, which uses the lowest five bits of a chunk. Then come the powers of two, each with a single <code>1</code> that moves one place to the left, and last the largest number a chunk holds, with every bit <code>1</code>:</p>
-  <pre><code>
+
+    <p>
+        The receiver now has the same sequence in two forms, unary in the beacon and binary in the tokens. This shows
+        that the binary numbers really are numbers, and it shows where each token starts.
+    </p>
+    <p>
+        Then lets write the powers of two, each with a
+        single <code>1</code> that moves one place to the left, and last the largest number a chunk holds, with every
+        bit <code>1</code>:
+    </p>
+    <pre><code>
 1 2 4 8 16 32 64 128 255</code></pre>
-  <p>So every bit of a chunk is shown once, each worth twice the one to its right, and the doubling stops where the chunk ends: 256 would need a ninth bit.</p>
-  <pre data-illustration><code>00000001   <i>= 1</i>
+    <p>So every bit of a chunk is shown once, each worth twice the one to its right, and the doubling stops where the
+        chunk ends: 256 would need a ninth bit.</p>
+    <pre data-illustration><code>00000001   <i>= 1</i>
 00000010   <i>= 2</i>
 00000100   <i>= 4</i>
 …
 10000000   <i>= 128</i>
 11111111   <i>= 255</i></code></pre>
+
+    <p>
+        This should be enough to understand that the 8 last bits are the value
+        and that the first 8 bits are "something else".
+    </p>
 </article>
 </body>
 </html>

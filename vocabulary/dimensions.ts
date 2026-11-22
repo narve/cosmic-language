@@ -1,4 +1,4 @@
-// dimensions: the symbols of type 7. Ids are fixed: never renumber, add new symbols with the next free id.
+// dimensions: the symbols of type 7. Ids increase in order of first appearance in the message; renumber when that order changes.
 import { dimension } from "./types.ts";
 import type { SymbolDef } from "./symbol.ts";
 

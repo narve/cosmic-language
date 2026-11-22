@@ -1,4 +1,4 @@
-// operators: the symbols of type 2. Ids are fixed: never renumber, add new symbols with the next free id.
+// operators: the symbols of type 2. Ids increase in order of first appearance in the message; renumber when that order changes.
 import { operator } from "./types.ts";
 import type { SymbolDef } from "./symbol.ts";
 
@@ -32,27 +32,27 @@ export const pairs = { type: operator, id: 27, name: "pairs", arity: "2", meanin
 export const rest = { type: operator, id: 28, name: "rest", arity: "1", meaning: "a non-empty list without its first item" } satisfies SymbolDef;
 export const ifThenElse = { type: operator, id: 29, name: "if", arity: "3", meaning: "the second argument if the first is true, the third if it is false; only that one is computed" } satisfies SymbolDef;
 export const loss = { type: operator, id: 30, name: "loss", arity: "2", meaning: "what a round costs a player: one's own move, then the other's" } satisfies SymbolDef;
-export const move = { type: operator, id: 31, name: "move", arity: "2", meaning: "a strategy's next move given a history: a list to pick from" } satisfies SymbolDef;
-export const rounds = { type: operator, id: 32, name: "rounds", arity: "3", meaning: "the history after a number of rounds of two strategies playing each other" } satisfies SymbolDef;
-export const cost = { type: operator, id: 33, name: "cost", arity: "3", meaning: "the sum of one strategy's losses over a number of rounds" } satisfies SymbolDef;
-export const power = { type: operator, id: 34, name: "^", arity: "2", meaning: "power with a natural-number exponent" } satisfies SymbolDef;
-export const abs = { type: operator, id: 35, name: "abs", arity: "1", meaning: "absolute value" } satisfies SymbolDef;
-export const exp = { type: operator, id: 36, name: "exp", arity: "1", meaning: "exponential function" } satisfies SymbolDef;
-export const dot = { type: operator, id: 37, name: "dot", sign: "·", arity: "2", meaning: "the dot product of two vectors: multiply item by item and add up" } satisfies SymbolDef;
-export const cos = { type: operator, id: 38, name: "cos", arity: "1", meaning: "cosine: the average of exp(i u) and exp(−i u)" } satisfies SymbolDef;
-export const angle = { type: operator, id: 39, name: "angle", arity: "2", meaning: "the angle between two directions, between 0 and π" } satisfies SymbolDef;
-export const cross = { type: operator, id: 40, name: "cross", sign: "×₃", arity: "2", meaning: "the cross product of two vectors: at right angles to both" } satisfies SymbolDef;
-export const average = { type: operator, id: 41, name: "average", arity: "3", meaning: "variable, domain, expression: the mean of the expression over the domain (all directions)" } satisfies SymbolDef;
-export const quote = { type: operator, id: 42, name: "quote", arity: "1", meaning: "the expression itself, not computed: a bracket group is the list of its parts (§7)" } satisfies SymbolDef;
-export const type = { type: operator, id: 43, name: "type", arity: "1", meaning: "the token type of an atom (0 number, 2 operator, 3 constant …); 1 for a list" } satisfies SymbolDef;
-export const letBinding = { type: operator, id: 44, name: "let", arity: "3", meaning: "`(let {u} {v} {S})`: {S}, with the variable {u} standing for the value {v} (a binder)" } satisfies SymbolDef;
-export const evaluate = { type: operator, id: 45, name: "eval", arity: "1", meaning: "the value of an expression (§7)" } satisfies SymbolDef;
-export const fill = { type: operator, id: 46, name: "fill", arity: "2", meaning: "the quoted sentence with every `?` replaced by the value" } satisfies SymbolDef;
-export const sender = { type: operator, id: 47, name: "sender", arity: "1", meaning: "the party that sends a message" } satisfies SymbolDef;
-export const receiver = { type: operator, id: 48, name: "receiver", arity: "1", meaning: "the party a message is sent to" } satisfies SymbolDef;
-export const stated = { type: operator, id: 49, name: "stated", arity: "1", meaning: "the sentence is said by the sender about itself: neither proved nor measured (§8.3)" } satisfies SymbolDef;
-export const good = { type: operator, id: 50, name: "good", arity: "2", meaning: "the party finds the conversation good (a conversation: a list of messages, each a list of sentences)" } satisfies SymbolDef;
-export const bad = { type: operator, id: 51, name: "bad", arity: "2", meaning: "the party finds the conversation bad" } satisfies SymbolDef;
+export const move = { type: operator, id: 34, name: "move", arity: "2", meaning: "a strategy's next move given a history: a list to pick from" } satisfies SymbolDef;
+export const rounds = { type: operator, id: 35, name: "rounds", arity: "3", meaning: "the history after a number of rounds of two strategies playing each other" } satisfies SymbolDef;
+export const cost = { type: operator, id: 36, name: "cost", arity: "3", meaning: "the sum of one strategy's losses over a number of rounds" } satisfies SymbolDef;
+export const power = { type: operator, id: 37, name: "^", arity: "2", meaning: "power with a natural-number exponent" } satisfies SymbolDef;
+export const abs = { type: operator, id: 38, name: "abs", arity: "1", meaning: "absolute value" } satisfies SymbolDef;
+export const exp = { type: operator, id: 39, name: "exp", arity: "1", meaning: "exponential function" } satisfies SymbolDef;
+export const dot = { type: operator, id: 40, name: "dot", sign: "·", arity: "2", meaning: "the dot product of two vectors: multiply item by item and add up" } satisfies SymbolDef;
+export const cos = { type: operator, id: 41, name: "cos", arity: "1", meaning: "cosine: the average of exp(i u) and exp(−i u)" } satisfies SymbolDef;
+export const angle = { type: operator, id: 42, name: "angle", arity: "2", meaning: "the angle between two directions, between 0 and π" } satisfies SymbolDef;
+export const cross = { type: operator, id: 43, name: "cross", sign: "×₃", arity: "2", meaning: "the cross product of two vectors: at right angles to both" } satisfies SymbolDef;
+export const average = { type: operator, id: 44, name: "average", arity: "3", meaning: "variable, domain, expression: the mean of the expression over the domain (all directions)" } satisfies SymbolDef;
+export const quote = { type: operator, id: 45, name: "quote", arity: "1", meaning: "the expression itself, not computed: a bracket group is the list of its parts (§7)" } satisfies SymbolDef;
+export const type = { type: operator, id: 46, name: "type", arity: "1", meaning: "the token type of an atom (0 number, 2 operator, 3 constant …); 1 for a list" } satisfies SymbolDef;
+export const letBinding = { type: operator, id: 47, name: "let", arity: "3", meaning: "`(let {u} {v} {S})`: {S}, with the variable {u} standing for the value {v} (a binder)" } satisfies SymbolDef;
+export const evaluate = { type: operator, id: 48, name: "eval", arity: "1", meaning: "the value of an expression (§7)" } satisfies SymbolDef;
+export const fill = { type: operator, id: 49, name: "fill", arity: "2", meaning: "the quoted sentence with every `?` replaced by the value" } satisfies SymbolDef;
+export const sender = { type: operator, id: 50, name: "sender", arity: "1", meaning: "the party that sends a message" } satisfies SymbolDef;
+export const receiver = { type: operator, id: 51, name: "receiver", arity: "1", meaning: "the party a message is sent to" } satisfies SymbolDef;
+export const stated = { type: operator, id: 31, name: "stated", arity: "1", meaning: "the sentence is said by the sender about itself: neither proved nor measured (§8.3)" } satisfies SymbolDef;
+export const good = { type: operator, id: 32, name: "good", arity: "2", meaning: "the party finds it good: a round of the game (a list of two moves) or a conversation (a list of messages, each a list of sentences)" } satisfies SymbolDef;
+export const bad = { type: operator, id: 33, name: "bad", arity: "2", meaning: "the party finds it bad: a round of the game or a conversation" } satisfies SymbolDef;
 export const strategy = { type: operator, id: 52, name: "strategy", arity: "2", meaning: "the strategy the first party plays toward the second" } satisfies SymbolDef;
 export const observed = { type: operator, id: 53, name: "observed", arity: "1", meaning: "the statement is a measurement (§8.3)" } satisfies SymbolDef;
 export const mass = { type: operator, id: 54, name: "mass", arity: "1", meaning: "mass of a particle, atom, molecule or body (a quantity)" } satisfies SymbolDef;

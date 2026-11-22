@@ -1,4 +1,4 @@
-// constants: the symbols of type 3. Ids are fixed: never renumber, add new symbols with the next free id.
+// constants: the symbols of type 3. Ids increase in order of first appearance in the message; renumber when that order changes.
 import { constant } from "./types.ts";
 import type { SymbolDef } from "./symbol.ts";
 
@@ -9,27 +9,27 @@ export const rationals = { type: constant, id: 4, name: "ℚ", meaning: "domain:
 export const cooperate = { type: constant, id: 5, name: "cooperate", meaning: "a move in the prisoner's dilemma" } satisfies SymbolDef;
 export const defect = { type: constant, id: 6, name: "defect", meaning: "a move in the prisoner's dilemma" } satisfies SymbolDef;
 export const moves = { type: constant, id: 7, name: "moves", meaning: "the list of the two moves" } satisfies SymbolDef;
-export const histories = { type: constant, id: 8, name: "histories", meaning: "domain: lists of rounds, each round a list of two moves (one's own, the other's)" } satisfies SymbolDef;
-export const alwaysCooperate = { type: constant, id: 9, name: "always-cooperate", meaning: "strategy" } satisfies SymbolDef;
-export const alwaysDefect = { type: constant, id: 10, name: "always-defect", meaning: "strategy" } satisfies SymbolDef;
-export const titForTat = { type: constant, id: 11, name: "tit-for-tat", meaning: "strategy" } satisfies SymbolDef;
-export const suspiciousTitForTat = { type: constant, id: 12, name: "suspicious-tit-for-tat", meaning: "strategy (tit-for-tat with a defection as its first move)" } satisfies SymbolDef;
-export const grim = { type: constant, id: 13, name: "grim", meaning: "strategy" } satisfies SymbolDef;
-export const pavlov = { type: constant, id: 14, name: "pavlov", meaning: "strategy" } satisfies SymbolDef;
-export const generousTitForTat = { type: constant, id: 15, name: "generous-tit-for-tat", meaning: "strategy (picks by chance after a defection)" } satisfies SymbolDef;
-export const random = { type: constant, id: 16, name: "random", meaning: "strategy (picks either move by chance, every time)" } satisfies SymbolDef;
-export const tournament = { type: constant, id: 17, name: "tournament", meaning: "the list of the six fixed strategies" } satisfies SymbolDef;
-export const reals = { type: constant, id: 18, name: "ℝ", meaning: "domain: the real numbers" } satisfies SymbolDef;
-export const i = { type: constant, id: 19, name: "i", meaning: "the imaginary unit, `(= (× i i) (neg 1))`" } satisfies SymbolDef;
-export const complexes = { type: constant, id: 20, name: "ℂ", meaning: "domain: the complex numbers" } satisfies SymbolDef;
-export const e = { type: constant, id: 21, name: "e", meaning: "`(exp 1)`" } satisfies SymbolDef;
-export const pi = { type: constant, id: 22, name: "π", meaning: "the number in (0, 4) with `(= (exp (× i π)) (neg 1))`" } satisfies SymbolDef;
-export const vectors = { type: constant, id: 23, name: "vectors", meaning: "domain: lists of three real numbers" } satisfies SymbolDef;
-export const directions = { type: constant, id: 24, name: "directions", meaning: "domain: vectors whose dot with themselves is 1" } satisfies SymbolDef;
-export const expressions = { type: constant, id: 25, name: "expressions", meaning: "domain: numbers, symbols, and lists of expressions" } satisfies SymbolDef;
-export const message = { type: constant, id: 26, name: "message", meaning: "this message: the list of everything sent in tokens after the beacon, numbers and sentences, in order" } satisfies SymbolDef;
-export const hole = { type: constant, id: 27, name: "?", meaning: "the hole in a question; only mentioned, inside `quote`" } satisfies SymbolDef;
-export const we = { type: constant, id: 28, name: "we", meaning: "the speakers of this message" } satisfies SymbolDef;
+export const histories = { type: constant, id: 9, name: "histories", meaning: "domain: lists of rounds, each round a list of two moves (one's own, the other's)" } satisfies SymbolDef;
+export const alwaysCooperate = { type: constant, id: 10, name: "always-cooperate", meaning: "strategy" } satisfies SymbolDef;
+export const alwaysDefect = { type: constant, id: 11, name: "always-defect", meaning: "strategy" } satisfies SymbolDef;
+export const titForTat = { type: constant, id: 12, name: "tit-for-tat", meaning: "strategy" } satisfies SymbolDef;
+export const suspiciousTitForTat = { type: constant, id: 13, name: "suspicious-tit-for-tat", meaning: "strategy (tit-for-tat with a defection as its first move)" } satisfies SymbolDef;
+export const grim = { type: constant, id: 14, name: "grim", meaning: "strategy" } satisfies SymbolDef;
+export const pavlov = { type: constant, id: 15, name: "pavlov", meaning: "strategy" } satisfies SymbolDef;
+export const generousTitForTat = { type: constant, id: 16, name: "generous-tit-for-tat", meaning: "strategy (picks by chance after a defection)" } satisfies SymbolDef;
+export const random = { type: constant, id: 17, name: "random", meaning: "strategy (picks either move by chance, every time)" } satisfies SymbolDef;
+export const tournament = { type: constant, id: 18, name: "tournament", meaning: "the list of the six fixed strategies" } satisfies SymbolDef;
+export const reals = { type: constant, id: 19, name: "ℝ", meaning: "domain: the real numbers" } satisfies SymbolDef;
+export const i = { type: constant, id: 20, name: "i", meaning: "the imaginary unit, `(= (× i i) (neg 1))`" } satisfies SymbolDef;
+export const complexes = { type: constant, id: 21, name: "ℂ", meaning: "domain: the complex numbers" } satisfies SymbolDef;
+export const e = { type: constant, id: 22, name: "e", meaning: "`(exp 1)`" } satisfies SymbolDef;
+export const pi = { type: constant, id: 23, name: "π", meaning: "the number in (0, 4) with `(= (exp (× i π)) (neg 1))`" } satisfies SymbolDef;
+export const vectors = { type: constant, id: 24, name: "vectors", meaning: "domain: lists of three real numbers" } satisfies SymbolDef;
+export const directions = { type: constant, id: 25, name: "directions", meaning: "domain: vectors whose dot with themselves is 1" } satisfies SymbolDef;
+export const expressions = { type: constant, id: 26, name: "expressions", meaning: "domain: numbers, symbols, and lists of expressions" } satisfies SymbolDef;
+export const message = { type: constant, id: 27, name: "message", meaning: "this message: the list of everything sent in tokens after the beacon, numbers and sentences, in order" } satisfies SymbolDef;
+export const hole = { type: constant, id: 28, name: "?", meaning: "the hole in a question; only mentioned, inside `quote`" } satisfies SymbolDef;
+export const we = { type: constant, id: 8, name: "we", meaning: "the speakers of this message" } satisfies SymbolDef;
 export const you = { type: constant, id: 29, name: "you", meaning: "the receiver of this message, a party other than its sender" } satisfies SymbolDef;
 export const parties = { type: constant, id: 30, name: "parties", meaning: "domain: those who can send and receive messages" } satisfies SymbolDef;
 export const conversations = { type: constant, id: 31, name: "conversations", meaning: "domain: lists of messages in which every message is a reply to the one before (its sender is the receiver of the one before, and the other way round)" } satisfies SymbolDef;

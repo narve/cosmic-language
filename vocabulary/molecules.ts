@@ -1,4 +1,4 @@
-// molecules: the symbols of type 9. Ids are fixed: never renumber, add new symbols with the next free id.
+// molecules: the symbols of type 9. Ids increase in order of first appearance in the message; renumber when that order changes.
 import { molecule } from "./types.ts";
 import type { SymbolDef } from "./symbol.ts";
 

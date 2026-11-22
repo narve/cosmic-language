@@ -92,8 +92,8 @@ version, and the message files (`message.txt`, `message.bits`, `message.bin`, an
 on the generated site (links to generated files, such as `message.txt`, work only in `docs/`).
 
 There is no source file per version: the build makes `docs/full/`, `docs/cautious/`, `docs/minimal/` and
-`docs/decoy/` from the lessons and the sections of `site/versions.html`. The versions are made by leaving out whole
-lessons:
+`docs/decoy/` from the lessons and `site/versions.html`: each version's page is that page without its header and the
+other versions' sections, with the version's lessons after its own section. The versions are made by leaving out whole lessons:
 
 - **full**: every lesson (`docs/message.*`);
 - **cautious**: everything except the lessons marked `data-optional` (the Sun, the Galaxy, pulsars, the
@@ -104,7 +104,8 @@ lessons:
   (`vocabulary/decoy.ts`), listed on the decoy page.
 
 On the generated pages, the build adds ids, syntax markup, a "New in this lesson" list, links to the vocabulary, and
-after each message block the symbols, chunks and bits views. It never changes what a lesson says.
+a row of checkboxes under each lesson's heading that shows the words, symbols, math, chunks and bits views of its
+message blocks, alone or side by side (CSS only). It never changes what a lesson says.
 
 ### Checks
 
@@ -136,6 +137,7 @@ SKIP_CHECKS=measurements npm run build
 
 | Command | What it does |
 |---------|--------------|
+| `npm run serve` | Serves `docs/` on <http://127.0.0.1:8080/> (`PORT` and `HOST` change that), with Node's own modules only: GET and HEAD, no dotfiles, no directory listings, nothing outside `docs/`; a directory serves its `index.html`. A rebuild needs no restart. |
 | `npm run watch` | Reruns the build when any file in `site/` changes. It polls every 500 ms, because file events do not reliably cross a virtiofs mount. A failed build is reported and the watcher goes on. |
 | `npm run check:measurements` | Prints the margin of every measured range. |
 | `npm run reference` | Makes `build/check/reference/generated/reference.json` from the downloaded sources and `transcribed.json`. |

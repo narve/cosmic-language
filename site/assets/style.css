@@ -188,49 +188,84 @@ body > article > h3:first-child {
 }
 body > article > h3:first-child::first-letter { text-transform: uppercase; }
 
-/* Views of a message block, generated after its <pre> as <details data-views><table>.
-   Without JavaScript they are a closed disclosure. views.js sets :root[data-views] to the chosen
-   views (e.g. "words bits"): only words shows the <pre>, anything else the table's chosen columns. */
-details[data-views] { margin: -1rem 0 1.5rem; }
-details[data-views] > summary { padding: 0.3rem 0; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
-details[data-views] table {
-  display: table;
-  width: 100%;
-  margin: 0.25rem 0 0;
+/* A lesson's own choice of views: checkboxes under its heading, and after each block a <figure data-views>
+   with a table of one row per line and one cell per view. No JavaScript: :has() reads the checkboxes. */
+fieldset[data-view-choice] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.5rem 0 1rem;
+  padding: 0;
+  border: 0;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+fieldset[data-view-choice] { position: relative; }
+fieldset[data-view-choice] legend { float: left; margin-right: 0.4rem; padding: 0; color: var(--muted); }
+fieldset[data-view-choice] label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.15rem 0.55rem 0.15rem 0.35rem;
+  color: var(--muted);
+  border: 1px dashed var(--line-strong);
+  border-radius: 3px;
+  cursor: pointer;
+}
+fieldset[data-view-choice] label::before { content: ""; width: 1em; text-align: center; }
+fieldset[data-view-choice] input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; }
+fieldset[data-view-choice] input:checked + label { color: var(--text); font-weight: 700; border: 1px solid var(--accent); }
+fieldset[data-view-choice] input:checked + label::before { content: "✓"; color: var(--accent); }
+fieldset[data-view-choice] input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Only "words" (or nothing) checked: the block as written. Anything else: the table, in place of the <pre>,
+   which keeps its place in the page (not display: none) so that links to its id still scroll to it. */
+figure[data-views] { display: none; margin: 1rem 0 1.5rem; }
+.lesson:has([data-view-choice] input:not([value="words"]):checked) figure[data-views] { display: block; }
+.lesson:has([data-view-choice] input:not([value="words"]):checked) pre:has(+ figure[data-views]) {
+  visibility: hidden;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+}
+.lesson:has([data-view-choice] input[value="words"]:not(:checked)) figure[data-views] [data-view="words"],
+.lesson:has([data-view-choice] input[value="symbols"]:not(:checked)) figure[data-views] [data-view="symbols"],
+.lesson:has([data-view-choice] input[value="math"]:not(:checked)) figure[data-views] [data-view="math"],
+.lesson:has([data-view-choice] input[value="chunks"]:not(:checked)) figure[data-views] [data-view="chunks"],
+.lesson:has([data-view-choice] input[value="bits"]:not(:checked)) figure[data-views] [data-view="bits"] { display: none; }
+figure[data-views] table {
+  display: block;
+  overflow: visible;
+  margin: 0;
   background: var(--bg-card);
   border: 1px solid var(--line);
   border-left: 2px solid var(--accent);
   border-radius: 6px;
 }
-details[data-views] :is(th, td) { padding: 0.2rem 0.9rem; border-bottom: 0; }
-details[data-views] td { font-size: 0.86rem; white-space: pre-wrap; overflow-wrap: anywhere; }
-details[data-views] td :is(code, samp) { color: var(--text); }
-details[data-views] td:is([data-view="words"], [data-view="symbols"], [data-view="math"]) { min-width: min(34ch, 70vw); }
-details[data-views] td[data-view="bits"] samp { font-size: 0.92em; }
-/* Several views side by side: on wide screens the table may grow past the text column. */
+figure[data-views] :is(thead, tbody) { display: block; }
+/* Each row is its own grid: hidden cells take no column, and equal columns line up from row to row. */
+figure[data-views] tr { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+figure[data-views] tr + tr td { border-top: 1px solid var(--line); }
+figure[data-views] :is(th, td) { padding: 0.2rem 0.9rem; border-bottom: 0; }
+figure[data-views] td { font-size: 0.86rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+figure[data-views] td :is(code, samp) { color: var(--text); }
+figure[data-views] tr[data-comment-row] td { padding-top: 0.5rem; }
+/* Three views or more: on wide screens the table may grow past the text column. */
 @media (min-width: 64rem) {
-  :root[data-views*=" "] details[data-views] table {
+  .lesson:has([data-view-choice] input:checked ~ input:checked ~ input:checked) figure[data-views] table {
     --wide: min(calc(100vw - 4rem), 88rem);
     width: var(--wide);
     margin-left: calc((100% - var(--wide)) / 2);
   }
 }
-details[data-views] tr + tr td { border-top: 1px solid var(--line); }
-details[data-views] tr[data-comment-row] td { padding-top: 0.5rem; }
-:root[data-views] details[data-views] { margin: 1rem 0 1.5rem; }
-:root[data-views] details[data-views] > summary { display: none; }
-:root[data-views="words"] details[data-views] { display: none; }
-:root[data-views]:not([data-views="words"]) pre:has(+ details[data-views]) { display: none; }
-:root[data-views]:not([data-views~="words"]) [data-view="words"],
-:root[data-views]:not([data-views~="symbols"]) [data-view="symbols"],
-:root[data-views]:not([data-views~="math"]) [data-view="math"],
-:root[data-views]:not([data-views~="chunks"]) [data-view="chunks"],
-:root[data-views]:not([data-views~="bits"]) [data-view="bits"] { display: none; }
 @media (max-width: 40rem) {
-  /* Narrow screens: each row's views are stacked, each labelled by its view. */
-  details[data-views] thead { display: none; }
-  details[data-views] tr { display: grid; }
-  details[data-views] td[data-view]::before {
+  /* Narrow screens: each line's views are stacked, each labelled by its view. */
+  figure[data-views] thead { display: none; }
+  figure[data-views] tr { grid-auto-flow: row; }
+  figure[data-views] td[data-view]::before {
     content: attr(data-view);
     display: block;
     font-family: var(--mono);
@@ -240,31 +275,6 @@ details[data-views] tr[data-comment-row] td { padding-top: 0.5rem; }
     color: var(--muted);
   }
 }
-
-/* The view control, added by views.js */
-fieldset[data-view-control] {
-  position: fixed;
-  right: max(1rem, env(safe-area-inset-right, 0px));
-  bottom: max(1rem, env(safe-area-inset-bottom, 0px));
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 0.8rem;
-  max-width: calc(100vw - 2rem);
-  margin: 0;
-  padding: 0.35rem 0.75rem;
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  color: var(--muted);
-  background: var(--bg-card);
-  border: 1px solid var(--line-strong);
-  border-radius: 3px;
-  backdrop-filter: blur(6px);
-}
-fieldset[data-view-control] legend { float: left; padding: 0; color: var(--muted); }
-fieldset[data-view-control] label { display: inline-flex; align-items: center; gap: 0.3rem; cursor: pointer; color: var(--text); }
-fieldset[data-view-control] input { margin: 0; accent-color: var(--accent); }
-fieldset[data-view-control] input:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
-body:has(fieldset[data-view-control]) { padding-bottom: 5rem; }
 
 figure { margin: 1.5rem 0; }
 figcaption { font-size: 0.85rem; color: var(--muted); }
