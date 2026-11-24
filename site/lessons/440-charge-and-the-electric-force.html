@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Charge and the electric force · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Charge and the electric force</title>
 </head>
 <body>
 <article class="lesson" data-topic="physics">
-  <h3>charge and the electric force</h3>
-  <p>New: the dimension <code>Q</code> (charge), the function <code>electric</code> (the electric force between two bodies) and the constant <code>ke</code>. The lesson on particles compared charges; now they get a dimension and a law. A positive electric force pushes apart, a negative one pulls together (unlike <code>gravity</code>, which gives the strength of a pull and is never negative).</p>
-  <pre><code>
+    <h3>charge and the electric force</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        New: the dimension <code>Q</code> (charge), the function <code>electric</code> (the electric
+        force between two bodies) and the constant <code>ke</code>. The lesson on particles compared
+        charges; now they get a dimension and a law. A positive electric force pushes apart, a
+        negative one pulls together (unlike <code>gravity</code>, which gives the strength of a pull
+        and is never negative).
+    </p>
+    <pre><code>
 ; charge has a dimension of its own, Q, different from the
 ; other three
 (= (dim (charge proton)) Q)
@@ -40,8 +47,11 @@
 ; second line is about two different protons
 (observed (&lt; (electric proton electron) 0))
 (observed (&gt; (electric proton proton) 0))</code></pre>
-  <p>Because the law is written out, the next number does not depend on how charge is measured. It is the fine-structure constant, which sets the strength of the electric force:</p>
-  <pre><code>
+    <p>
+        Because the law is written out, the next number does not depend on how charge is measured.
+        It is the fine-structure constant, which sets the strength of the electric force:
+    </p>
+    <pre><code>
 ; the fine-structure constant, ke × charge² ÷ (ħ × c): between
 ; 1/138 and 1/137
 (observed (&lt; (÷ 1 138) (÷ (× ke (^ (charge proton) 2)) (× ħ c)) (÷ 1 137)))
@@ -52,7 +62,10 @@
 (observed (&lt; (^ 2 130)
               (÷ (abs (electric proton electron)) (abs (gravity proton electron)))
               (^ 2 131)))</code></pre>
-  <p><small>Sources: CODATA 2022 (fine-structure constant, G, masses). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+    <p>
+        <small>Sources: CODATA 2022 (fine-structure constant, G, masses). Details in the
+        <a href="../specification.html#reference">specification, §8.4</a>.</small>
+    </p>
 </article>
 </body>
 </html>

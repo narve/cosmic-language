@@ -1,19 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dimensions · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Dimensions</title>
 </head>
 <body>
 <article class="lesson" data-topic="physics">
-  <h3>dimensions</h3>
-  <p>So far the message has only compared quantities of the same kind, such as two masses. To say how big something is, it needs units. The units used here are Planck units, built from three constants of nature: the speed of light <code>c</code>, the reduced quantum of action <code>ħ</code> (Planck's constant divided by 2π) and the gravitational constant <code>G</code>. Each constant is introduced through the law it appears in, so its meaning, including any factor such as 2π, is fixed by the message itself.</p>
-  <p>New: the dimensions <code>M</code> (mass), <code>L</code> (length) and <code>T</code> (time), a new type, and the function <code>dim</code>, the dimension of a quantity. Dimensions combine with <code>×</code>, <code>÷</code> and <code>^</code>, and a ratio of two quantities of the same dimension is a plain number, of dimension 1.</p>
-  <pre><code>
+    <h3>dimensions</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        So far the message has only compared quantities of the same kind, such as two masses. To say
+        how big something is, it needs units. The units used here are Planck units, built from three
+        constants of nature: the speed of light <code>c</code>, the reduced quantum of action
+        <code>ħ</code> (Planck's constant divided by 2π) and the gravitational constant
+        <code>G</code>. Each constant is introduced through the law it appears in, so its meaning,
+        including any factor such as 2π, is fixed by the message itself.
+    </p>
+    <p>
+        New: the dimensions <code>M</code> (mass), <code>L</code> (length) and <code>T</code>
+        (time), a new type, and the function <code>dim</code>, the dimension of a quantity.
+        Dimensions combine with <code>×</code>, <code>÷</code> and <code>^</code>, and a ratio of
+        two quantities of the same dimension is a plain number, of dimension 1.
+    </p>
+    <pre><code>
 ; a mass has the dimension M
 (= (dim (mass proton)) M)
 (= (dim (mass electron)) M)
@@ -33,7 +46,9 @@
 
 ; a dimension is a token of a new type, dimension: 7
 (= (type (quote M)) dimension)</code></pre>
-  <p>Only quantities of the same dimension are compared, added or divided into a number.</p>
+    <p>
+        Only quantities of the same dimension are compared, added or divided into a number.
+    </p>
 </article>
 </body>
 </html>

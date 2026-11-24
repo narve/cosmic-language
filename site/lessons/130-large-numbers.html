@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Large numbers · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Large numbers</title>
 </head>
 <body>
 <article class="lesson" data-topic="math minimal">
-  <h3>large numbers</h3>
-  <p><code>big</code> writes a number with several digits in base 256, most significant digit first: <code>(big 1 0)</code> means 1·256 + 0.</p>
-  <pre><code>
+    <h3>large numbers</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        <code>big</code> writes a number with several digits in base 256, most significant digit
+        first: <code>(big 1 0)</code> means 1·256 + 0.
+    </p>
+    <pre><code>
 ; (big 1 0) is 256, the number after 255; it is also 16 × 16
 (= (big 1 0) (+ 255 1))
 (= (big 1 1) (+ 255 2))
@@ -33,7 +37,11 @@
 
 ; three digits: (big 1 0 0) is 256 × 256
 (= (big 1 0 0) (× (big 1 0) (big 1 0)))</code></pre>
-  <p>As bits, the two digits of <code>(big 1 0)</code> are the value chunks <code>00000001</code> and <code>00000000</code>, each after its own type chunk. Put the two digits side by side and you have 256 in binary.</p>
+    <p>
+        As bits, the two digits of <code>(big 1 0)</code> are the value chunks <code>00000001</code>
+        and <code>00000000</code>, each after its own type chunk. Put the two digits side by side
+        and you have 256 in binary.
+    </p>
 </article>
 </body>
 </html>

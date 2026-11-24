@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Truth values · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Truth values</title>
 </head>
 <body>
 <article class="lesson" data-topic="math logic minimal">
-  <h3>truth values</h3>
-  <p>Until now every sentence has been an assertion. This lesson shows that a relation also has a <em>value</em>: <data value="true">true</data> or <data value="false">false</data>.</p>
-  <p>Nothing false is asserted. Every relation in the message still holds: <data value="false">false</data> appears only as a constant and as the value of an expression built with <data value="not">not</data>, <data value="and">and</data> or <data value="or">or</data>.</p>
+    <h3>truth values</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        Until now every sentence has been an assertion. This lesson shows that a relation also has a
+        <em>value</em>: <data value="true">true</data> or <data value="false">false</data>.
+    </p>
+    <p>
+        Nothing false is asserted. Every relation in the message still holds:
+        <data value="false">false</data> appears only as a constant and as the value of an
+        expression built with <data value="not">not</data>, <data value="and">and</data> or
+        <data value="or">or</data>.
+    </p>
 
-  <h4>Relations have the value <data value="true">true</data></h4>
-  <pre><code>
+    <h4>Relations have the value <data value="true">true</data></h4>
+    <pre><code>
 ; two new constants: each equals itself, and they differ
 (= true true)
 (= false false)
@@ -31,8 +40,8 @@
 ; all three are equal: true, and two relations that hold
 (= true (= 7 7) (&lt; 0 255))</code></pre>
 
-  <h4><data value="not">not</data></h4>
-  <pre><code>
+    <h4><data value="not">not</data></h4>
+    <pre><code>
 ; not turns true into false and false into true
 (= (not true) false)
 (= (not false) true)
@@ -44,9 +53,11 @@
 ; applying it twice gives the original, like neg
 (= (not (not true)) true)</code></pre>
 
-  <h4><data value="and">and</data> and <data value="or">or</data></h4>
-  <p>Both are associative, so they take two or more arguments.</p>
-  <pre><code>
+    <h4><data value="and">and</data> and <data value="or">or</data></h4>
+    <p>
+        Both are associative, so they take two or more arguments.
+    </p>
+    <pre><code>
 ; and is true only when both are true
 (= (and true true) true)
 (= (and true false) false)
@@ -71,7 +82,10 @@
 (= (and (= 2 2) (not (= 3 3))) false)
 ; not of an and is the or of the nots
 (= (not (and true false)) (or (not true) (not false)))</code></pre>
-  <p>Between truth values, <code>=</code> means "equivalent", so no separate symbol is needed for that.</p>
+    <p>
+        Between truth values, <code>=</code> means "equivalent", so no separate symbol is needed for
+        that.
+    </p>
 </article>
 </body>
 </html>

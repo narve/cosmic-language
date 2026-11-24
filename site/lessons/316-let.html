@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Let · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Let</title>
 </head>
 <body>
 <article class="lesson" data-topic="logic">
-  <h3>let</h3>
-  <p>A long expression can be given a short name inside a sentence. <code>(let <var>u</var> <var>v</var> <var>S</var>)</code> says <var>S</var>, with the variable <var>u</var> standing for the value <var>v</var> everywhere in <var>S</var>. Like <code>∀</code>, it binds its variable; unlike <code>∀</code>, it gives it a single value.</p>
-  <pre><code>
+    <h3>let</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        A long expression can be given a short name inside a sentence.
+        <code>(let <var>u</var> <var>v</var> <var>S</var>)</code> says <var>S</var>, with the
+        variable <var>u</var> standing for the value <var>v</var> everywhere in <var>S</var>. Like
+        <code>∀</code>, it binds its variable; unlike <code>∀</code>, it gives it a single value.
+    </p>
+    <pre><code>
 ; let u be 0: then u = 0
 (let u 0 (= u 0))
 ; let u be 4: then u + u = 8
@@ -24,8 +30,11 @@
 ; or a list
 (let u (list 1 2 3) (= (length u) 3))
 (let u (list 1 2 3) (= (item u (length u)) 3))</code></pre>
-  <p>A <code>let</code> can hold another, and a later value may use an earlier name. It says the same as <code>∀</code> over a list of one item.</p>
-  <pre><code>
+    <p>
+        A <code>let</code> can hold another, and a later value may use an earlier name. It says the
+        same as <code>∀</code> over a list of one item.
+    </p>
+    <pre><code>
 ; one let inside another
 (let u 2 (let v 3 (= (+ u v) 5)))
 ; the second value uses the first name

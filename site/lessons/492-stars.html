@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Stars · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Stars</title>
 </head>
 <body>
 <article class="lesson" data-topic="astronomy">
-  <h3>stars</h3>
-  <p>The message has bodies, gravity, light, temperature and the elements. Together they describe a star. New: the domain <code>stars</code>, the stars that shine by turning hydrogen into helium, as the Sun does and most stars do for most of their lives (stars that have used up their hydrogen, such as white dwarfs, are not in it), and the function <code>luminosity</code>, the power a star sends out as light; <code>radius</code>, from the lesson on magnetic fields, now gives the size of a star too.</p>
-  <pre><code>
+    <h3>stars</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        The message has bodies, gravity, light, temperature and the elements. Together they describe
+        a star. New: the domain <code>stars</code>, the stars that shine by turning hydrogen into
+        helium, as the Sun does and most stars do for most of their lives (stars that have used up
+        their hydrogen, such as white dwarfs, are not in it), and the function
+        <code>luminosity</code>, the power a star sends out as light; <code>radius</code>, from the
+        lesson on magnetic fields, now gives the size of a star too.
+    </p>
+    <pre><code>
 ; every star is a body: it has a mass, and gravity acts on it
 (∀ u stars (∃ v bodies (= u v)))
 (∀ u stars (&gt; (mass u) 0))
@@ -34,8 +42,12 @@
 (∀ u stars (= (luminosity u)
               (× 4 π (^ (radius u) 2)
                  (× (÷ (^ π 2) 60) (÷ (^ kB 4) (× (^ ħ 3) (^ c 2))) (^ (temperature u) 4)))))</code></pre>
-  <p>These stars are made mostly of hydrogen, then helium. They shine by turning hydrogen into helium: four hydrogen atoms weigh more than one atom of helium with two neutrons, and the mass that is missing leaves the star as energy, mass × c².</p>
-  <pre><code>
+    <p>
+        These stars are made mostly of hydrogen, then helium. They shine by turning hydrogen into
+        helium: four hydrogen atoms weigh more than one atom of helium with two neutrons, and the
+        mass that is missing leaves the star as energy, mass × c².
+    </p>
+    <pre><code>
 ; in these stars there are more hydrogen atoms than helium atoms,
 ; and more helium atoms than carbon or oxygen atoms
 (observed (∀ u stars (&gt; (count hydrogen u) (count helium u))))
@@ -48,8 +60,13 @@
 (observed (&lt; (− 1 (÷ 1 (^ 2 7)))
               (÷ (mass (isotope helium 2)) (× 4 (mass (isotope hydrogen 0))))
               (− 1 (÷ 1 (^ 2 8)))))</code></pre>
-  <p>New: <code>orbits</code>, one body going round another under gravity, <code>period</code>, the time one round takes, and <code>axis</code>, the size of the orbit: half the sum of the smallest and the largest distance. Newton's law of gravitation gives the rule that relates them.</p>
-  <pre><code>
+    <p>
+        New: <code>orbits</code>, one body going round another under gravity, <code>period</code>,
+        the time one round takes, and <code>axis</code>, the size of the orbit: half the sum of the
+        smallest and the largest distance. Newton's law of gravitation gives the rule that relates
+        them.
+    </p>
+    <pre><code>
 ; a period is a time, an axis is a length
 (∀ u bodies (∀ v bodies (implies (orbits u v) (= (dim (period u v)) T))))
 (∀ u bodies (∀ v bodies (implies (orbits u v) (= (dim (axis u v)) L))))
@@ -62,7 +79,10 @@
     (= (^ (period u v) 2)
        (÷ (× 4 (^ π 2) (^ (axis u v) 3))
           (× G (+ (mass u) (mass v)))))))))</code></pre>
-  <p><small>Sources: AME2020 (masses of hydrogen and helium). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+    <p>
+        <small>Sources: AME2020 (masses of hydrogen and helium). Details in the
+        <a href="../specification.html#reference">specification, §8.4</a>.</small>
+    </p>
 </article>
 </body>
 </html>

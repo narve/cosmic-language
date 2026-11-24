@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Geometry · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Geometry</title>
 </head>
 <body>
 <article class="lesson" data-topic="math">
-  <h3>geometry</h3>
-  <p>Space has three dimensions. A point, or a step from one point to another, is given by three real numbers: a vector. New: the domain <code>vectors</code>, and <code>dot</code>, which multiplies two vectors item by item and adds up.</p>
-  <pre><code>
+    <h3>geometry</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        Space has three dimensions. A point, or a step from one point to another, is given by three
+        real numbers: a vector. New: the domain <code>vectors</code>, and <code>dot</code>, which
+        multiplies two vectors item by item and adds up.
+    </p>
+    <pre><code>
 ; a vector is a list of three items, and each item is a real number
 (∀ u vectors (= (length u) 3))
 (∀ u vectors (∀ v (list 1 2 3) (∃ w ℝ (= w (item u v)))))
@@ -36,8 +41,13 @@
 (∀ u vectors (∀ v vectors (∀ w ℝ
   (= (dot (list (× w (item u 1)) (× w (item u 2)) (× w (item u 3))) v)
      (× w (dot u v))))))</code></pre>
-  <p>A direction is a vector whose dot with itself is 1: a step of length 1. New: the domain <code>directions</code>, the cosine <code>cos</code>, and <code>angle</code>, the angle between two directions; <code>cos</code> is built from <code>exp</code>, and the <code>cos</code> of the angle between two directions is their <code>dot</code>.</p>
-  <pre><code>
+    <p>
+        A direction is a vector whose dot with itself is 1: a step of length 1. New: the domain
+        <code>directions</code>, the cosine <code>cos</code>, and <code>angle</code>, the angle
+        between two directions; <code>cos</code> is built from <code>exp</code>, and the
+        <code>cos</code> of the angle between two directions is their <code>dot</code>.
+    </p>
+    <pre><code>
 ; the directions are exactly the vectors whose dot with themselves
 ; is 1
 (∀ u directions (∃ v vectors (and (= u v) (= (dot v v) 1))))
@@ -60,8 +70,12 @@
 (= (angle (list 1 0 0) (list 1 0 0)) 0)
 (= (angle (list 1 0 0) (list 0 1 0)) (÷ π 2))
 (= (angle (list 1 0 0) (list (neg 1) 0 0)) π)</code></pre>
-  <p>New: <code>cross</code>, which gives a vector at right angles to two others. Which of the two possible ones it gives is a convention, a choice of hand; nothing in this lesson tells a mirror-image reader which hand is meant.</p>
-  <pre><code>
+    <p>
+        New: <code>cross</code>, which gives a vector at right angles to two others. Which of the
+        two possible ones it gives is a convention, a choice of hand; nothing in this lesson tells a
+        mirror-image reader which hand is meant.
+    </p>
+    <pre><code>
 ; the cross of the first and second axis is the third, and so on
 ; round
 (= (cross (list 1 0 0) (list 0 1 0)) (list 0 0 1))
@@ -79,8 +93,12 @@
 ; it is at right angles to both
 (∀ u vectors (∀ v vectors
   (and (= (dot (cross u v) u) 0) (= (dot (cross u v) v) 0))))</code></pre>
-  <p>New: <code>average</code>, the mean of something over all directions; it is to directions what <code>mean</code> is to a list. It has the same form as the quantifiers: a variable, what it runs through, and what is averaged.</p>
-  <pre><code>
+    <p>
+        New: <code>average</code>, the mean of something over all directions; it is to directions
+        what <code>mean</code> is to a list. It has the same form as the quantifiers: a variable,
+        what it runs through, and what is averaged.
+    </p>
+    <pre><code>
 ; the average of 1 is 1
 (= (average u directions 1) 1)
 ; every coordinate is as often positive as negative:

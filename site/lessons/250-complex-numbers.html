@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Complex numbers · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Complex numbers</title>
 </head>
 <body>
 <article class="lesson" data-topic="math">
-  <h3>complex numbers</h3>
-  <p>New: the domain <code>ℂ</code> (complex numbers) and the absolute value <code>abs</code>. Every complex number is a real part plus a multiple of <code>i</code>, and the familiar laws still hold:</p>
-  <pre><code>
+    <h3>complex numbers</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        New: the domain <code>ℂ</code> (complex numbers) and the absolute value <code>abs</code>.
+        Every complex number is a real part plus a multiple of <code>i</code>, and the familiar laws
+        still hold:
+    </p>
+    <pre><code>
 ; sums with i: i + i = 2i, (3 + i) − i = 3,
 ; (1 + i) + (2 + i) = 3 + 2i
 (= (+ i i) (× 2 i))
@@ -33,9 +38,16 @@
 ; the familiar laws still hold
 (∀ u ℂ (∀ v ℂ (= (× u v) (× v u))))
 (∀ u ℂ (= (+ u 0) u))</code></pre>
-  <p><code>&lt;</code>, <code>&gt;</code>, <code>≤</code> and <code>≥</code> are never used with complex numbers that are not real. Instead, <code>abs</code> measures the distance from 0.</p>
-  <p>Like <code>mean</code> and <code>chance</code>, <code>abs</code> comes with examples and with sentences that state what it means in terms of known symbols. The absolute value is never negative, and its square is the sum of the squares of the two parts:</p>
-  <pre><code>
+    <p>
+        <code>&lt;</code>, <code>&gt;</code>, <code>≤</code> and <code>≥</code> are never used with
+        complex numbers that are not real. Instead, <code>abs</code> measures the distance from 0.
+    </p>
+    <p>
+        Like <code>mean</code> and <code>chance</code>, <code>abs</code> comes with examples and
+        with sentences that state what it means in terms of known symbols. The absolute value is
+        never negative, and its square is the sum of the squares of the two parts:
+    </p>
+    <pre><code>
 ; examples first: the distance from 0
 (= (abs 3) 3)
 (= (abs (neg 3)) 3)

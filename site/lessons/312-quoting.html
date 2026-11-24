@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Quoting · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Quoting</title>
 </head>
 <body>
 <article class="lesson" data-topic="logic">
-  <h3>quoting</h3>
-  <p>Until now, every sentence in the message has been <em>asserted</em>: written down, it claims to be true. The next lessons let the message <em>mention</em> a sentence without claiming it, take sentences apart like lists, and compute their values. The last of them is <code>eval</code>, the value of any expression, written in a few sentences of the message itself. This is the idea at the heart of Lisp, published by John McCarthy in 1960, and the first step towards a message that can describe itself.</p>
-  <p><code>(quote <var>S</var>)</code> is the expression <var>S</var> itself, not its value: nothing inside it is computed or claimed. A quoted expression in brackets is a list of its parts, so everything from the lesson on lists works on it.</p>
-  <pre><code>
+    <h3>quoting</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        Until now, every sentence in the message has been <em>asserted</em>: written down, it claims
+        to be true. The next lessons let the message <em>mention</em> a sentence without claiming
+        it, take sentences apart like lists, and compute their values. The last of them is
+        <code>eval</code>, the value of any expression, written in a few sentences of the message
+        itself. This is the idea at the heart of Lisp, published by John McCarthy in 1960, and the
+        first step towards a message that can describe itself.
+    </p>
+    <p>
+        <code>(quote <var>S</var>)</code> is the expression <var>S</var> itself, not its value:
+        nothing inside it is computed or claimed. A quoted expression in brackets is a list of its
+        parts, so everything from the lesson on lists works on it.
+    </p>
+    <pre><code>
 ; a quoted expression is a list of its parts, so everything that
 ; works on lists works on it: its length, the rest of it …
 (= (quote (+ 2 3)) (list (quote +) 2 3))
@@ -43,15 +55,28 @@
 ; quoted expressions can be nested
 (= (item (quote (= (+ 2 3) 5)) 2) (quote (+ 2 3)))
 (= (item (quote (quote 7)) 1) (quote quote))</code></pre>
-  <p>Because a quoted sentence is only mentioned, it may be false. This is the first time a false relation is written out in the message, and it is never asserted:</p>
-  <pre><code>
+    <p>
+        Because a quoted sentence is only mentioned, it may be false. This is the first time a false
+        relation is written out in the message, and it is never asserted:
+    </p>
+    <pre><code>
 ; the sentence "2 = 3", taken apart
 (= (length (quote (= 2 3))) 3)
 (= (item (quote (= 2 3)) 1) (quote =))
 (= (item (quote (= 2 3)) 3) 3)
 (≠ (quote (= 2 3)) (quote (= 3 3)))</code></pre>
-  <p><code>type</code> tells what kind of thing a part of an expression is. Its values are the token types the message has used from the start, the first chunk of every token: 0 for a number, 2 for an operator, 3 for a constant, and so on. A list in brackets has type 1, the type of the brackets. In this text the types are written by name (<code>number</code>, <code>brackets</code>, <code>operator</code>, <code>constant</code>, <code>variable</code> for 0 to 4), but what is sent is the number: <code>(= (type 5) number)</code> is sent as <code>(= (type 5) 0)</code>. Later lessons bring new kinds of token (particles, elements, dimensions, physical constants, molecules), and each states the type of its tokens in the same way.</p>
-  <pre><code>
+    <p>
+        <code>type</code> tells what kind of thing a part of an expression is. Its values are the
+        token types the message has used from the start, the first chunk of every token: 0 for a
+        number, 2 for an operator, 3 for a constant, and so on. A list in brackets has type 1, the
+        type of the brackets. In this text the types are written by name (<code>number</code>,
+        <code>brackets</code>, <code>operator</code>, <code>constant</code>, <code>variable</code>
+        for 0 to 4), but what is sent is the number: <code>(= (type 5) number)</code> is sent as
+        <code>(= (type 5) 0)</code>. Later lessons bring new kinds of token (particles, elements,
+        dimensions, physical constants, molecules), and each states the type of its tokens in the
+        same way.
+    </p>
+    <pre><code>
 ; the type of a number is 0, of a list 1, of an operator 2, of a
 ; constant 3, of a variable 4
 (= (type 5) number)
@@ -65,7 +90,10 @@
 ; an operator in a quoted expression is a symbol like any other
 (= (type (item (quote (+ 2 3)) 1)) operator)
 (= (type (item (quote (+ 2 3)) 2)) number)</code></pre>
-  <p>Inside a quote, <var>u</var> is just a symbol of type 4 (<code>variable</code>), not a variable standing for a number.</p>
+    <p>
+        Inside a quote, <var>u</var> is just a symbol of type 4 (<code>variable</code>), not a
+        variable standing for a number.
+    </p>
 </article>
 </body>
 </html>

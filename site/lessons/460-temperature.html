@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Temperature · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Temperature</title>
 </head>
 <body>
 <article class="lesson" data-topic="physics">
-  <h3>temperature</h3>
-  <p>New: the dimension <code>Θ</code> (temperature), the constant <code>kB</code>, the domains <code>gases</code> (thin gases of single atoms) and <code>black-bodies</code> (bodies that absorb all light falling on them), and the functions <code>temperature</code>, <code>kinetic</code> (the average energy of motion of a gas's particles) and <code>exitance</code> (the power a body radiates per area, its radiant exitance). Again <code>kB</code> is introduced through a law:</p>
-  <pre><code>
+    <h3>temperature</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        New: the dimension <code>Θ</code> (temperature), the constant <code>kB</code>, the domains
+        <code>gases</code> (thin gases of single atoms) and <code>black-bodies</code> (bodies that
+        absorb all light falling on them), and the functions <code>temperature</code>,
+        <code>kinetic</code> (the average energy of motion of a gas's particles) and
+        <code>exitance</code> (the power a body radiates per area, its radiant exitance). Again
+        <code>kB</code> is introduced through a law:
+    </p>
+    <pre><code>
 ; the law: the particles of a gas move with an average energy of
 ; 3/2 × kB × its temperature
 (observed (∀ u gases (= (kinetic u) (× (÷ 3 2) kB (temperature u)))))
@@ -27,8 +35,12 @@
 ; the same law turned around, read as what temperature is:
 ; 2 × energy of motion ÷ (3 × kB)
 (observed (∀ u gases (= (temperature u) (÷ (× 2 (kinetic u)) (× 3 kB)))))</code></pre>
-  <p>A black body radiates power that grows with the fourth power of its temperature. The factor in front is made only of constants the message has already introduced, and π²/60 is the signature of the spectrum of thermal light:</p>
-  <pre><code>
+    <p>
+        A black body radiates power that grows with the fourth power of its temperature. The factor
+        in front is made only of constants the message has already introduced, and π²/60 is the
+        signature of the spectrum of thermal light:
+    </p>
+    <pre><code>
 ; the law: exitance = π²/60 × kB⁴ ÷ (ħ³ × c²) × temperature⁴
 (observed (∀ u black-bodies
   (= (exitance u)
@@ -45,8 +57,10 @@
 (observed (∀ u black-bodies (∀ v black-bodies
   (implies (= (temperature u) (× 2 (temperature v)))
            (= (exitance u) (× 16 (exitance v)))))))</code></pre>
-  <p>The Planck temperature completes the Planck units:</p>
-  <pre><code>
+    <p>
+        The Planck temperature completes the Planck units:
+    </p>
+    <pre><code>
 ; planck-temperature² = ħ × c⁵ ÷ (G × kB²)
 (= (^ planck-temperature 2) (÷ (× ħ (^ c 5)) (× G (^ kB 2))))
 ; it is a temperature

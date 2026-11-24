@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Questions and conversations · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Questions and conversations</title>
 </head>
 <body>
 <article class="lesson" data-topic="conversations">
-  <h3>questions and conversations</h3>
-  <p>A question is a sentence with a hole in it. New: <code>?</code>, the hole, and <code>fill</code>, which puts a value into every hole of a quoted sentence. A sentence with a hole is neither true nor false, so it is only ever mentioned, inside <code>quote</code>, never claimed.</p>
-  <pre><code>
+    <h3>questions and conversations</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        A question is a sentence with a hole in it. New: <code>?</code>, the hole, and
+        <code>fill</code>, which puts a value into every hole of a quoted sentence. A sentence with
+        a hole is neither true nor false, so it is only ever mentioned, inside <code>quote</code>,
+        never claimed.
+    </p>
+    <pre><code>
 ; filling the hole gives a sentence, true or false
 (= (fill (quote (= (+ 2 3) ?)) 5) (quote (= (+ 2 3) 5)))
 (= (fill (quote (= (+ 2 3) ?)) 4) (quote (= (+ 2 3) 4)))
@@ -27,8 +33,13 @@
   (implies (and (≠ (type u) brackets) (≠ u (quote ?))) (= (fill u v) u))))
 (∀ u expressions (∀ v expressions
   (implies (= (type u) brackets) (= (fill u v) (sequence w u (fill w v))))))</code></pre>
-  <p>A message is sent by someone to someone. New: <code>sender</code> and <code>receiver</code>, the one who sends a message and the one it is sent to; <code>you</code>, its receiver; and <code>parties</code>, those who can send and receive messages. The sender of this message is <code>we</code>, who judged the rounds of the prisoner's dilemma.</p>
-  <pre><code>
+    <p>
+        A message is sent by someone to someone. New: <code>sender</code> and <code>receiver</code>,
+        the one who sends a message and the one it is sent to; <code>you</code>, its receiver; and
+        <code>parties</code>, those who can send and receive messages. The sender of this message is
+        <code>we</code>, who judged the rounds of the prisoner's dilemma.
+    </p>
+    <pre><code>
 ; this message has a sender, we, and a receiver, you
 (= (sender message) we)
 (= (receiver message) you)
@@ -39,8 +50,13 @@
 ; you are a party: someone who can send and receive messages
 (∃ u parties (= u you))
 (∃ u parties (= u (receiver message)))</code></pre>
-  <p>A reply is a message that goes back: its sender is the receiver of the message before it, and its receiver is that message's sender. New: the domain <code>conversations</code>: exactly the lists of messages in which every message is a reply to the one before. The first message opens the conversation.</p>
-  <pre><code>
+    <p>
+        A reply is a message that goes back: its sender is the receiver of the message before it,
+        and its receiver is that message's sender. New: the domain <code>conversations</code>:
+        exactly the lists of messages in which every message is a reply to the one before. The first
+        message opens the conversation.
+    </p>
+    <pre><code>
 ; a list is a conversation exactly when it holds at least one
 ; message, and every next message goes back: its sender is the
 ; receiver of the one before, and its receiver is that one's sender
@@ -62,8 +78,15 @@
   (implies (and (= (item u 1) message) (&gt; (length u) 1))
     (and (= (sender (item u 2)) you)
          (= (receiver (item u 2)) we))))</code></pre>
-  <p>Some things about us only we can say: you can neither prove nor measure them. <code>stated</code>, first used in the lesson on the prisoner's dilemma, marks such a sentence. It is a third kind of sentence, next to those that are proved (unmarked) and those that are measured, which later lessons mark with <code>observed</code>. A stated sentence is true or false like any other; the mark says only how you can know it: by believing us, or by testing us over time.</p>
-  <pre><code>
+    <p>
+        Some things about us only we can say: you can neither prove nor measure them.
+        <code>stated</code>, first used in the lesson on the prisoner's dilemma, marks such a
+        sentence. It is a third kind of sentence, next to those that are proved (unmarked) and those
+        that are measured, which later lessons mark with <code>observed</code>. A stated sentence is
+        true or false like any other; the mark says only how you can know it: by believing us, or by
+        testing us over time.
+    </p>
+    <pre><code>
 ; we are a party: you can see that we send, but not that we can
 ; also receive
 (stated (∃ u parties (= u we)))

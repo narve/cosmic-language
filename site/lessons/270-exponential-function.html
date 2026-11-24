@@ -1,19 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The exponential function · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>The exponential function</title>
 </head>
 <body>
 <article class="lesson" data-topic="math">
-  <h3>the exponential function</h3>
-  <p>Some numbers are not roots of any polynomial with whole-number coefficients. The two most important ones, <code>e</code> and <code>π</code>, are defined most simply with one more building block: the exponential function.</p>
-  <p>After a few of its values, <code>exp</code> is introduced by two properties that together single out exactly one function on ℝ:</p>
-  <pre><code>
+    <h3>the exponential function</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        Some numbers are not roots of any polynomial with whole-number coefficients. The two most
+        important ones, <code>e</code> and <code>π</code>, are defined most simply with one more
+        building block: the exponential function.
+    </p>
+    <p>
+        After a few of its values, <code>exp</code> is introduced by two properties that together
+        single out exactly one function on ℝ:
+    </p>
+    <pre><code>
 ; two values first: exp of 0 is 1, and exp of 1 is between 2 and 3
 (= (exp 0) 1)
 (&gt; (exp 1) 2)
@@ -29,9 +37,22 @@
 
 ; so exp of a negative number is 1 divided by exp of the positive
 (∀ u ℝ (= (× (exp u) (exp (neg u))) 1))</code></pre>
-  <p>Why these two properties are enough. The product rule ties all values to the one at 1: exp of 2 is exp of 1 times exp of 1, exp of 1/2 is the number whose square is exp of 1, and so on for every fraction, and with them every real number. Many functions obey the product rule, one for each choice of the value at 1, and they differ in how steeply they rise at 0. The second property leaves only one: the function that touches the line 1 + <var>u</var> at 0 without crossing it, and so rises at 0 with slope exactly 1. That function grows everywhere at the rate of its own value, which is why it turns up wherever something grows or shrinks in proportion to itself: the decay of particles and isotopes, later in the message, is one example.</p>
-  <p>On ℂ, <code>exp</code> has the same product rule. A bound close to 0 rules out every other candidate, just as the second property did on ℝ:</p>
-  <pre><code>
+    <p>
+        Why these two properties are enough. The product rule ties all values to the one at 1: exp
+        of 2 is exp of 1 times exp of 1, exp of 1/2 is the number whose square is exp of 1, and so
+        on for every fraction, and with them every real number. Many functions obey the product
+        rule, one for each choice of the value at 1, and they differ in how steeply they rise at 0.
+        The second property leaves only one: the function that touches the line 1 + <var>u</var> at
+        0 without crossing it, and so rises at 0 with slope exactly 1. That function grows
+        everywhere at the rate of its own value, which is why it turns up wherever something grows
+        or shrinks in proportion to itself: the decay of particles and isotopes, later in the
+        message, is one example.
+    </p>
+    <p>
+        On ℂ, <code>exp</code> has the same product rule. A bound close to 0 rules out every other
+        candidate, just as the second property did on ℝ:
+    </p>
+    <pre><code>
 ; the same product rule
 (∀ u ℂ (∀ v ℂ (= (exp (+ u v)) (× (exp u) (exp v)))))
 
@@ -39,8 +60,13 @@
 ; by at most |u|²
 (∀ u ℂ (implies (≤ (abs u) 1)
                    (≤ (abs (− (− (exp u) 1) u)) (^ (abs u) 2))))</code></pre>
-  <p>For a real <var>u</var>, exp of i × <var>u</var> is a complex number of absolute value exactly 1: it lies on the circle of radius 1 around 0. As <var>u</var> grows it does not grow or shrink, but goes round that circle, and <var>u</var> is how far round it has gone. The next lesson uses this to define π.</p>
-  <pre><code>
+    <p>
+        For a real <var>u</var>, exp of i × <var>u</var> is a complex number of absolute value
+        exactly 1: it lies on the circle of radius 1 around 0. As <var>u</var> grows it does not
+        grow or shrink, but goes round that circle, and <var>u</var> is how far round it has gone.
+        The next lesson uses this to define π.
+    </p>
+    <pre><code>
 ; exp of i times a real number has absolute value 1
 (∀ u ℝ (= (abs (exp (× i u))) 1))
 (= (abs (exp i)) 1)</code></pre>

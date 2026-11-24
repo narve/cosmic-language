@@ -1,22 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Variables and quantifiers · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Variables and quantifiers</title>
 </head>
 <body>
 <article class="lesson" data-topic="math logic minimal">
-  <h3>variables and quantifiers</h3>
-  <p>New: variables (<var>u</var>, <var>v</var>, <var>w</var>, <var>z</var>), the quantifiers <code>∀</code> ("for all") and <code>∃</code> ("there exists"), the domains <code>ℕ</code> (natural numbers) and <code>ℚ</code> (rational numbers), and <data value="implies">implies</data>.</p>
-  <p>A quantifier binds one variable to the values it runs through: <code>(∀ <var>u</var> (list 1 2 3) …)</code> means "for every <var>u</var> among 1, 2 and 3, …". Every variable is bound in the sentence where it appears, and a variable in one sentence has nothing to do with the same variable in the next.</p>
+    <h3>variables and quantifiers</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        New: variables (<var>u</var>, <var>v</var>, <var>w</var>, <var>z</var>), the quantifiers
+        <code>∀</code> ("for all") and <code>∃</code> ("there exists"), the domains <code>ℕ</code>
+        (natural numbers) and <code>ℚ</code> (rational numbers), and
+        <data value="implies">implies</data>.
+    </p>
+    <p>
+        A quantifier binds one variable to the values it runs through:
+        <code>(∀ <var>u</var> (list 1 2 3) …)</code> means "for every <var>u</var> among 1, 2 and 3,
+        …". Every variable is bound in the sentence where it appears, and a variable in one sentence
+        has nothing to do with the same variable in the next.
+    </p>
 
-  <h4>For all, over a list</h4>
-  <p>The lesson starts with short lists, where everything can be checked by hand. A sentence with <code>∀</code> says the same as all its instances together: it is the <data value="and">and</data> of them.</p>
-  <pre><code>
+    <h4>For all, over a list</h4>
+    <p>
+        The lesson starts with short lists, where everything can be checked by hand. A sentence with
+        <code>∀</code> says the same as all its instances together: it is the
+        <data value="and">and</data> of them.
+    </p>
+    <pre><code>
 ; three instances: 1, 2 and 3 are each less than 4
 (&lt; 1 4)
 (&lt; 2 4)
@@ -39,9 +54,12 @@
 ; a list of one item: just that one instance
 (= (∀ u (list 5) (&gt; u 4)) (&gt; 5 4))</code></pre>
 
-  <h4>There exists, over a list</h4>
-  <p><code>∃</code> says that at least one item makes the statement true. The first two examples are each followed by an item that does.</p>
-  <pre><code>
+    <h4>There exists, over a list</h4>
+    <p>
+        <code>∃</code> says that at least one item makes the statement true. The first two examples
+        are each followed by an item that does.
+    </p>
+    <pre><code>
 ; one of the items is 2
 (∃ u (list 1 2 3) (= u 2))
 (= 2 2)
@@ -65,9 +83,14 @@
 ; some item is 2: the same as "not every item differs from 2"
 (= (∃ u (list 1 2 3) (= u 2)) (not (∀ u (list 1 2 3) (≠ u 2))))</code></pre>
 
-  <h4>From a list to ℕ</h4>
-  <p>A list ends. The natural numbers do not: <code>ℕ</code> stands for 0, 1, 2, 3 and so on without end. A law over ℕ cannot be checked instance by instance, but it reads the same way. From here on, a law often comes with a few of its instances, although the law alone says everything: the instances show how to read it.</p>
-  <pre><code>
+    <h4>From a list to ℕ</h4>
+    <p>
+        A list ends. The natural numbers do not: <code>ℕ</code> stands for 0, 1, 2, 3 and so on
+        without end. A law over ℕ cannot be checked instance by instance, but it reads the same way.
+        From here on, a law often comes with a few of its instances, although the law alone says
+        everything: the instances show how to read it.
+    </p>
+    <pre><code>
 ; four instances: adding 0 changes nothing
 (= (+ 0 0) 0)
 (= (+ 3 0) 3)
@@ -84,8 +107,8 @@
 ; … and never ends: every number has a next one
 (∀ u ℕ (∃ v ℕ (= v (+ u 1))))</code></pre>
 
-  <h4>More laws over ℕ</h4>
-  <pre><code>
+    <h4>More laws over ℕ</h4>
+    <pre><code>
 ; three instances: times 1 changes nothing
 (= (× 4 1) 4)
 (= (× 9 1) 9)
@@ -102,9 +125,11 @@
 ; nothing in ℕ is below 0
 (∀ u ℕ (or (= u 0) (&gt; u 0)))</code></pre>
 
-  <h4>Two variables</h4>
-  <p>Each quantifier binds one variable, so two variables need two nested quantifiers.</p>
-  <pre><code>
+    <h4>Two variables</h4>
+    <p>
+        Each quantifier binds one variable, so two variables need two nested quantifiers.
+    </p>
+    <pre><code>
 ; three instances: the order does not matter
 (= (+ 2 5) (+ 5 2))
 (= (+ 3 4) (+ 4 3))
@@ -125,9 +150,11 @@
 (∀ u ℕ (∀ v ℕ (∀ w ℕ (∀ z ℕ
   (= (× (+ u v) (+ w z)) (+ (× u w) (× u z) (× v w) (× v z)))))))</code></pre>
 
-  <h4>Laws about lists</h4>
-  <p>With variables, what the lesson on lists showed by examples can be stated in general:</p>
-  <pre><code>
+    <h4>Laws about lists</h4>
+    <p>
+        With variables, what the lesson on lists showed by examples can be stated in general:
+    </p>
+    <pre><code>
 ; a list of two items has length 2, and its first item is the first
 ; one given
 (∀ u ℕ (∀ v ℕ (= (length (list u v)) 2)))
@@ -136,17 +163,19 @@
 ; the last item is the one at the position of the length
 (∀ u ℕ (∀ v ℕ (= (item (list u v) (length (list u v))) v)))</code></pre>
 
-  <h4>The name does not matter</h4>
-  <pre><code>
+    <h4>The name does not matter</h4>
+    <pre><code>
 ; the same law four times, with four different variables
 (∀ u ℕ (= (+ u 0) u))
 (∀ v ℕ (= (+ v 0) v))
 (∀ w ℕ (= (+ w 0) w))
 (∀ z ℕ (= (+ z 0) z))</code></pre>
 
-  <h4>There exists, in ℕ</h4>
-  <p>Each example is followed by the number that makes it true.</p>
-  <pre><code>
+    <h4>There exists, in ℕ</h4>
+    <p>
+        Each example is followed by the number that makes it true.
+    </p>
+    <pre><code>
 ; there is a number that gives 5 when 2 is added: it is 3
 (∃ u ℕ (= (+ u 2) 5))
 (= (+ 3 2) 5)
@@ -159,9 +188,13 @@
 (∃ u ℕ (&gt; u 255))
 (&gt; (big 1 0) 255)</code></pre>
 
-  <h4>ℚ: the rational numbers</h4>
-  <p><code>ℚ</code> holds every quotient of two natural numbers where the second is not 0, and the opposite of each. So it contains the natural numbers, the fractions between them, and the negative numbers:</p>
-  <pre><code>
+    <h4>ℚ: the rational numbers</h4>
+    <p>
+        <code>ℚ</code> holds every quotient of two natural numbers where the second is not 0, and
+        the opposite of each. So it contains the natural numbers, the fractions between them, and
+        the negative numbers:
+    </p>
+    <pre><code>
 ; 1/2, 2/3 and neg 3 are in ℚ
 (∃ u ℚ (= u (÷ 1 2)))
 (∃ u ℚ (= u (÷ 2 3)))
@@ -176,13 +209,17 @@
 ; neg of one
 (∀ w ℚ (∃ u ℕ (∃ v ℕ
   (or (= w (÷ u (+ v 1))) (= w (neg (÷ u (+ v 1))))))))</code></pre>
-  <p>The same laws hold over ℚ:</p>
-  <pre><code>
+    <p>
+        The same laws hold over ℚ:
+    </p>
+    <pre><code>
 ; adding 0 changes nothing, and the order of a sum does not matter
 (∀ u ℚ (= (+ u 0) u))
 (∀ u ℚ (∀ v ℚ (= (+ u v) (+ v u))))</code></pre>
-  <p>But ℚ contains numbers that ℕ does not:</p>
-  <pre><code>
+    <p>
+        But ℚ contains numbers that ℕ does not:
+    </p>
+    <pre><code>
 ; ℚ has a number below 0; ℕ has none
 (∃ u ℚ (&lt; u 0))
 (∀ u ℕ (not (&lt; u 0)))
@@ -199,9 +236,11 @@
 ; every number in ℚ has an opposite: the two add up to 0
 (∀ u ℚ (∃ v ℚ (= (+ u v) 0)))</code></pre>
 
-  <h4><data value="implies">implies</data></h4>
-  <p>First its truth table, then its use: stating something only where a condition holds.</p>
-  <pre><code>
+    <h4><data value="implies">implies</data></h4>
+    <p>
+        First its truth table, then its use: stating something only where a condition holds.
+    </p>
+    <pre><code>
 ; the truth table: implies is false only when the first is true and
 ; the second false
 (= (implies true true) true)
@@ -216,7 +255,11 @@
 (∀ u ℕ (implies (&gt; u 5) (&gt; u 2)))
 ; only where u is not 0: u × (1 ÷ u) = 1
 (∀ u ℚ (implies (≠ u 0) (= (× u (÷ 1 u)) 1)))</code></pre>
-  <p>Inside a quantifier, a relation such as <code>(&lt; <var>u</var> 2)</code> is an open statement: it holds for some values of <var>u</var> and not for others. This does not break the rule that nothing false is written, which applies to closed relations.</p>
+    <p>
+        Inside a quantifier, a relation such as <code>(&lt; <var>u</var> 2)</code> is an open
+        statement: it holds for some values of <var>u</var> and not for others. This does not break
+        the rule that nothing false is written, which applies to closed relations.
+    </p>
 </article>
 </body>
 </html>

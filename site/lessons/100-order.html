@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Order · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Order</title>
 </head>
 <body>
 <article class="lesson" data-topic="math minimal">
-  <h3>order</h3>
-  <pre><code>
+    <h3>order</h3>
+    <p><small>AI generated</small></p>
+    <pre><code>
 ; each number is less than the next …
 (&lt; 0 1)
 (&lt; 1 2)
@@ -46,9 +47,15 @@
 (&lt; 1 2 3)
 (&lt; 0 5 9 255)
 (&gt; 9 4 1 0)</code></pre>
-  <p>Like <code>=</code>, <code>&lt;</code> and <code>&gt;</code> can take more than two arguments: <code>(&lt; 1 2 3)</code> means the numbers are strictly increasing.</p>
-  <p><code>≤</code> ("less than or equal") and <code>≥</code> ("greater than or equal") also allow equality:</p>
-  <pre><code>
+    <p>
+        Like <code>=</code>, <code>&lt;</code> and <code>&gt;</code> can take more than two
+        arguments: <code>(&lt; 1 2 3)</code> means the numbers are strictly increasing.
+    </p>
+    <p>
+        <code>≤</code> ("less than or equal") and <code>≥</code> ("greater than or equal") also
+        allow equality:
+    </p>
+    <pre><code>
 ; less than or equal, greater than or equal: the two numbers may
 ; also be the same
 (≤ 1 2)
@@ -67,7 +74,11 @@
 ; chains, like &lt; and &gt;
 (≤ 1 1 2 5)
 (≥ 5 2 1 1)</code></pre>
-  <p>Strictly, <code>≤</code> and <code>≥</code> are not needed: anything they say can be said with <code>&lt;</code>, <code>&gt;</code> and <code>=</code>. They are included because they make later statements much easier to read.</p>
+    <p>
+        Strictly, <code>≤</code> and <code>≥</code> are not needed: anything they say can be said
+        with <code>&lt;</code>, <code>&gt;</code> and <code>=</code>. They are included because they
+        make later statements much easier to read.
+    </p>
 </article>
 </body>
 </html>

@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mean and chance · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Mean and chance</title>
 </head>
 <body>
 <article class="lesson" data-topic="math minimal">
-  <h3>mean and chance</h3>
-  <p>The mean of a list is the sum of its items divided by how many there are:</p>
-  <pre><code>
+    <h3>mean and chance</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        The mean of a list is the sum of its items divided by how many there are:
+    </p>
+    <pre><code>
 ; the mean of 2, 4 and 9 is 5;
 ; the mean of a single item is that item
 (= (mean (list 2 4 9)) 5)
@@ -24,8 +27,11 @@
 ; what mean means: the sum divided by the length
 (= (mean (list 2 4 9))
    (÷ (apply + (list 2 4 9)) (length (list 2 4 9))))</code></pre>
-  <p>The chance of a value in a list is the part of the list that is that value: how many of the items are that value, divided by the number of items. It is a proportion, nothing more.</p>
-  <pre><code>
+    <p>
+        The chance of a value in a list is the part of the list that is that value: how many of the
+        items are that value, divided by the number of items. It is a proportion, nothing more.
+    </p>
+    <pre><code>
 ; one of two items is true: chance 1/2
 (= (chance true (list true false)) (÷ 1 2))
 ; one of six items is 6: chance 1/6
@@ -40,8 +46,11 @@
    (÷ (count 3 (list 3 1 3)) (length (list 3 1 3))))
 ; the chances of all the different items add up to 1
 (= (+ (chance 1 (list 1 2 2)) (chance 2 (list 1 2 2))) 1)</code></pre>
-  <p><code>pairs</code> makes every pair of an item from one list with an item from another. The chance of a pair is the product of the two chances:</p>
-  <pre><code>
+    <p>
+        <code>pairs</code> makes every pair of an item from one list with an item from another. The
+        chance of a pair is the product of the two chances:
+    </p>
+    <pre><code>
 ; every pair of an item from the first list with an item from the
 ; second
 (= (pairs (list 1 2) (list 3 4))

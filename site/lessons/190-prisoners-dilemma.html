@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The prisoner's dilemma · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>The prisoner's dilemma</title>
 </head>
 <body>
 <article class="lesson" data-topic="games minimal">
-  <h3>the prisoner's dilemma</h3>
-  <p>New: the moves <code>cooperate</code> and <code>defect</code>, and <code>moves</code>, the list of the two. There are two moves, they are different, and there are no others:</p>
-  <pre><code>
+    <h3>the prisoner's dilemma</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        New: the moves <code>cooperate</code> and <code>defect</code>, and <code>moves</code>, the
+        list of the two. There are two moves, they are different, and there are no others:
+    </p>
+    <pre><code>
 ; two moves, and they are not the same
 (≠ cooperate defect)
 ; the list of the moves: it has two items
@@ -21,9 +25,22 @@
 
 ; every move is one or the other
 (∀ u moves (or (= u cooperate) (= u defect)))</code></pre>
-  <p>Two players each pick a move, at the same moment, neither knowing what the other picks. New: <code>loss</code>, what the round costs a player. Its first argument is the player's own move, its second the other's. A player is better off with a smaller loss.</p>
-  <p>The game is told in losses, not in gains. Neither is more natural than the other for a reader who shares nothing with us: that less loss is better is as much something to be worked out as that more gain is. There is a practical reason too. Among humans this game has a standard table, with the numbers 0, 1, 3 and 5, and those numbers are famous. A reader that has learned from human writing recognises them at once, without reading the lesson. So the message uses other numbers: four primes in a row, 2, 3, 5 and 7. With those, a reader has to work the game out from what the message says. If such a reader cannot do that, a reader from elsewhere will not be able to either.</p>
-  <pre><code>
+    <p>
+        Two players each pick a move, at the same moment, neither knowing what the other picks. New:
+        <code>loss</code>, what the round costs a player. Its first argument is the player's own
+        move, its second the other's. A player is better off with a smaller loss.
+    </p>
+    <p>
+        The game is told in losses, not in gains. Neither is more natural than the other for a
+        reader who shares nothing with us: that less loss is better is as much something to be
+        worked out as that more gain is. There is a practical reason too. Among humans this game has
+        a standard table, with the numbers 0, 1, 3 and 5, and those numbers are famous. A reader
+        that has learned from human writing recognises them at once, without reading the lesson. So
+        the message uses other numbers: four primes in a row, 2, 3, 5 and 7. With those, a reader
+        has to work the game out from what the message says. If such a reader cannot do that, a
+        reader from elsewhere will not be able to either.
+    </p>
+    <pre><code>
 ; both cooperate: each loses 3. Both defect: each loses 5
 (= (loss cooperate cooperate) 3)
 (= (loss defect defect) 5)
@@ -38,8 +55,11 @@
 (= (+ (loss cooperate cooperate) (loss cooperate cooperate)) 6)
 (= (+ (loss cooperate defect) (loss defect cooperate)) 9)
 (= (+ (loss defect defect) (loss defect defect)) 10)</code></pre>
-  <p>This is the dilemma. Whatever the other player does, a player loses less by defecting. Yet if both reason that way, each ends up losing more than if both had cooperated.</p>
-  <pre><code>
+    <p>
+        This is the dilemma. Whatever the other player does, a player loses less by defecting. Yet
+        if both reason that way, each ends up losing more than if both had cooperated.
+    </p>
+    <pre><code>
 ; whatever the other does, defecting costs less
 (∀ u moves (&lt; (loss defect u) (loss cooperate u)))
 ; yet each loses less when both cooperate than when both defect
@@ -52,8 +72,16 @@
 ; each other: 2 × 3 is less than 2 + 7
 (&lt; (× 2 (loss cooperate cooperate))
     (+ (loss defect cooperate) (loss cooperate defect)))</code></pre>
-  <p>The numbers alone do not say which outcome we want, so we say it. New: <code>we</code>, the senders of this message; <code>stated</code>, which marks something we say about ourselves, which can be neither proved nor measured; and <code>good</code> and <code>bad</code>. <code>(good <var>u</var> <var>z</var>)</code> means that <var>u</var> finds <var>z</var> good, and <code>(bad <var>u</var> <var>z</var>)</code> that <var>u</var> finds it bad. Here <var>z</var> is a round, a list of two moves. We find a round good when both cooperate. We find it bad when anyone defects, even though the one who defects alone loses least.</p>
-  <pre><code>
+    <p>
+        The numbers alone do not say which outcome we want, so we say it. New: <code>we</code>, the
+        senders of this message; <code>stated</code>, which marks something we say about ourselves,
+        which can be neither proved nor measured; and <code>good</code> and <code>bad</code>.
+        <code>(good <var>u</var> <var>z</var>)</code> means that <var>u</var> finds <var>z</var>
+        good, and <code>(bad <var>u</var> <var>z</var>)</code> that <var>u</var> finds it bad. Here
+        <var>z</var> is a round, a list of two moves. We find a round good when both cooperate. We
+        find it bad when anyone defects, even though the one who defects alone loses least.
+    </p>
+    <pre><code>
 ; we find it good when both cooperate
 (stated (good we (list cooperate cooperate)))
 ; and bad when either defects, or both
@@ -71,9 +99,18 @@
 (stated (∀ u moves (∀ v moves
   (not (and (good we (list u v)) (bad we (list u v)))))))</code></pre>
 
-  <h4>Strategies</h4>
-  <p>New: <code>histories</code>, the operator <code>move</code>, and eight strategies (<code>always-cooperate</code>, <code>always-defect</code>, <code>tit-for-tat</code>, <code>suspicious-tit-for-tat</code>, <code>grim</code>, <code>pavlov</code>, <code>generous-tit-for-tat</code> and <code>random</code>). A history is a list of the rounds played so far, each round a list of two moves: one's own, then the other's. For a strategy <var>u</var> and a history <var>v</var>, <code>(move <var>u</var> <var>v</var>)</code> is a list to pick the next move from: a single move for a fixed choice, repeated moves for a chance.</p>
-  <pre><code>
+    <h4>Strategies</h4>
+    <p>
+        New: <code>histories</code>, the operator <code>move</code>, and eight strategies
+        (<code>always-cooperate</code>, <code>always-defect</code>, <code>tit-for-tat</code>,
+        <code>suspicious-tit-for-tat</code>, <code>grim</code>, <code>pavlov</code>,
+        <code>generous-tit-for-tat</code> and <code>random</code>). A history is a list of the
+        rounds played so far, each round a list of two moves: one's own, then the other's. For a
+        strategy <var>u</var> and a history <var>v</var>,
+        <code>(move <var>u</var> <var>v</var>)</code> is a list to pick the next move from: a single
+        move for a fixed choice, repeated moves for a chance.
+    </p>
+    <pre><code>
 ; always-cooperate and always-defect ignore the history
 (∀ u histories (= (move always-cooperate u) (list cooperate)))
 (∀ u histories (= (move always-defect u) (list defect)))
@@ -124,9 +161,14 @@
 ; chance
 (∀ u histories (= (move random u) (list cooperate defect)))</code></pre>
 
-  <h4>The same strategies with <code>if</code></h4>
-  <p><data value="implies">implies</data> states that something holds where a condition holds; <code>if</code> picks a value. Two sentences with opposite conditions, like those above, say the same as one sentence with <code>if</code>. So four of the strategies are defined twice, on purpose: each form helps the receiver read the other.</p>
-  <pre><code>
+    <h4>The same strategies with <code>if</code></h4>
+    <p>
+        <data value="implies">implies</data> states that something holds where a condition holds;
+        <code>if</code> picks a value. Two sentences with opposite conditions, like those above, say
+        the same as one sentence with <code>if</code>. So four of the strategies are defined twice,
+        on purpose: each form helps the receiver read the other.
+    </p>
+    <pre><code>
 ; tit-for-tat: cooperate first, then do what the other did last
 (∀ u histories (= (move tit-for-tat u)
   (if (= (length u) 0)
@@ -156,9 +198,15 @@
           (list cooperate)
           (list defect)))))</code></pre>
 
-  <h4>Playing a game</h4>
-  <p>New: <code>tournament</code>, the list of the six strategies that never pick by chance, and the functions <code>rounds</code> (the history after a number of rounds) and <code>cost</code> (what a game costs a player in all). First the rules. Each round, each player takes its strategy's move given the rounds so far. A player sees those rounds from its own side: the same game with the players swapped.</p>
-  <pre><code>
+    <h4>Playing a game</h4>
+    <p>
+        New: <code>tournament</code>, the list of the six strategies that never pick by chance, and
+        the functions <code>rounds</code> (the history after a number of rounds) and
+        <code>cost</code> (what a game costs a player in all). First the rules. Each round, each
+        player takes its strategy's move given the rounds so far. A player sees those rounds from
+        its own side: the same game with the players swapped.
+    </p>
+    <pre><code>
 ; the six strategies that never pick by chance
 (= tournament
    (list always-cooperate always-defect tit-for-tat
@@ -189,8 +237,10 @@
   (= (cost u v w)
      (apply + (sequence z (rounds u v w)
                 (loss (item z 1) (item z 2))))))))</code></pre>
-  <p>An example, played out in full:</p>
-  <pre><code>
+    <p>
+        An example, played out in full:
+    </p>
+    <pre><code>
 ; tit-for-tat against always-defect, four rounds: it cooperates
 ; once, then defects back; it loses 7 + 5 + 5 + 5 = 22
 (= (rounds tit-for-tat always-defect 4)
@@ -198,9 +248,12 @@
          (list defect defect) (list defect defect)))
 (= (cost tit-for-tat always-defect 4) 22)</code></pre>
 
-  <h4>Chance in the game</h4>
-  <p>Generous-tit-for-tat picks its move by chance after a defection, so what a game costs it is not fixed. Its expected loss for a round is the mean over the list it picks from:</p>
-  <pre><code>
+    <h4>Chance in the game</h4>
+    <p>
+        Generous-tit-for-tat picks its move by chance after a defection, so what a game costs it is
+        not fixed. Its expected loss for a round is the mean over the list it picks from:
+    </p>
+    <pre><code>
 ; after a defection, against always-defect: 17/3 per round, where
 ; always defecting back would cost 5
 (= (mean (sequence u (list cooperate defect defect) (loss u defect)))
@@ -209,9 +262,17 @@
 ; both cooperated, it cooperates
 (= (move generous-tit-for-tat (list (list cooperate cooperate)))
    (list cooperate))</code></pre>
-  <p>Forgiving costs a little against a player who always defects. In return, a single defection between two forgiving players need not echo back and forth for ever, as it does between tit-for-tat and its suspicious twin below.</p>
-  <p>Random pays no attention to the game at all: each move is cooperate or defect with a chance of one half. Against such a player, defecting costs less whatever happens, because nothing one does changes what it does next. Cooperation only pays with a player who answers.</p>
-  <pre><code>
+    <p>
+        Forgiving costs a little against a player who always defects. In return, a single defection
+        between two forgiving players need not echo back and forth for ever, as it does between
+        tit-for-tat and its suspicious twin below.
+    </p>
+    <p>
+        Random pays no attention to the game at all: each move is cooperate or defect with a chance
+        of one half. Against such a player, defecting costs less whatever happens, because nothing
+        one does changes what it does next. Cooperation only pays with a player who answers.
+    </p>
+    <pre><code>
 ; random cooperates with a chance of one half, at the start and
 ; after any history
 (= (chance cooperate (move random (list))) (÷ 1 2))
@@ -222,9 +283,13 @@
 ; against random, defecting costs 2 or 5: a mean of 7/2 per round
 (= (mean (sequence u (move random (list)) (loss defect u))) (÷ 7 2))</code></pre>
 
-  <h4>Results over 255 rounds</h4>
-  <p>A game lasts 255 rounds: the largest number a chunk can hold, and so the longest game the message can name with a single number. It stands for the long run. Nothing depends on the exact number, except that it is long enough for the first rounds not to decide the result.</p>
-  <pre><code>
+    <h4>Results over 255 rounds</h4>
+    <p>
+        A game lasts 255 rounds: the largest number a chunk can hold, and so the longest game the
+        message can name with a single number. It stands for the long run. Nothing depends on the
+        exact number, except that it is long enough for the first rounds not to decide the result.
+    </p>
+    <pre><code>
 ; two that cooperate lose 765 each; two that defect lose 1275 each
 (= (cost tit-for-tat tit-for-tat 255) (big 2 253))
 (= (cost always-defect always-defect 255) (big 4 251))
@@ -250,8 +315,13 @@
 ; grim never forgives that first defection: both lose 1274
 (= (cost grim suspicious-tit-for-tat 255) (big 4 250))
 (= (cost suspicious-tit-for-tat grim 255) (big 4 250))</code></pre>
-  <p>A tournament: each strategy plays all six, itself included. Always-defect never loses more than the player it meets, yet it ends up second to last. Last of all is the strategy that follows the same rule as tit-for-tat but opens with a defection. Tit-for-tat, which opens in peace, loses least:</p>
-  <pre><code>
+    <p>
+        A tournament: each strategy plays all six, itself included. Always-defect never loses more
+        than the player it meets, yet it ends up second to last. Last of all is the strategy that
+        follows the same rule as tit-for-tat but opens with a defection. Tit-for-tat, which opens in
+        peace, loses least:
+    </p>
+    <pre><code>
 ; the total loss of each strategy over its six games: 5487, 5611,
 ; 5614, 5781, 6495, 6923
 (= (apply + (sequence u tournament (cost tit-for-tat u 255))) (big 21 111))

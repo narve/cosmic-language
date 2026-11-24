@@ -1,27 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Humans (decoy) · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Humans (decoy)</title>
 </head>
 <body>
 <article class="lesson" data-topic="life" data-optional data-replaces="518-humans">
-  <h3>humans (decoy)</h3>
-  <p>This lesson is not in the message. It stands in for the lesson on humans in the decoy version only, which is made for fun: to see whether a blind reader places the sender at another star. Here <code>humans</code> are the senders of the decoy, invented for it: beings of a large moon of the giant planet Kepler-1647 b. Nothing in this lesson was measured. The beings are made to fit their world: the moon pulls less than the Earth does, so they are taller and more slender than we are; it gets less light, from two suns, so they run a little cooler. Their chemistry is that of the lesson on the chemistry of life (decoy): water, heme in the blood, and a hereditary molecule that is not DNA. How they were made up is on the <a href="../decoy.html">decoy</a> page.</p>
-  <p>The senders are <code>humans</code>: living things, each a party that can send and receive messages. They all live on one body that goes round the planet, as the lesson on the Sun (decoy) said of us.</p>
-  <pre><code>
+    <h3>humans (decoy)</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        This lesson is not in the message. It stands in for the lesson on humans in the decoy
+        version only, which is made for fun: to see whether a blind reader places the sender at
+        another star. Here <code>humans</code> are the senders of the decoy, invented for it: beings
+        of a large moon of the giant planet Kepler-1647 b. Nothing in this lesson was measured. The
+        beings are made to fit their world: the moon pulls less than the Earth does, so they are
+        taller and more slender than we are; it gets less light, from two suns, so they run a little
+        cooler. Their chemistry is that of the lesson on the chemistry of life (decoy): water, heme
+        in the blood, and a hereditary molecule that is not DNA. How they were made up is on the
+        <a href="../decoy.html">decoy</a> page.
+    </p>
+    <p>
+        The senders are <code>humans</code>: living things, each a party that can send and receive
+        messages. They all live on one body that goes round the planet, as the lesson on the Sun
+        (decoy) said of us.
+    </p>
+    <pre><code>
 ; every human is a party
 (stated (∀ u humans (∃ v parties (= v u))))
 ; we, the senders, are humans
 (stated (∃ u humans (= u we)))
 ; and all humans live on one body that goes round our planet
 (stated (∃ v bodies (and (orbits v earth) (∀ u humans (at u v)))))</code></pre>
-  <p>How big we are, in the units of the message. Each value is an average over all of us.</p>
-  <pre><code>
+    <p>
+        How big we are, in the units of the message. Each value is an average over all of us.
+    </p>
+    <pre><code>
 ; our mass: between 2⁹⁶ and 2⁹⁷ proton masses, about 1.2 × 2⁹⁶
 (observed (&lt; (^ 2 96) (÷ (average u humans (mass u)) (mass proton)) (^ 2 97)))
 
@@ -31,15 +48,23 @@
 (observed (&lt; (^ 2 117) (÷ (average u humans (height u)) planck-length) (^ 2 118)))
 ; and no human is as tall as 2¹¹⁸ Planck lengths
 (observed (∀ u humans (&lt; (height u) (× (^ 2 118) planck-length))))</code></pre>
-  <p>We are warm, warmer than water's triple point, so that the water inside us stays liquid, but less warm than bodies on a planet with more light would need to be.</p>
-  <pre><code>
+    <p>
+        We are warm, warmer than water's triple point, so that the water inside us stays liquid, but
+        less warm than bodies on a planet with more light would need to be.
+    </p>
+    <pre><code>
 ; our temperature: between 17/16 and 9/8 of water's triple point,
 ; about 1.09
 (observed (&lt; (÷ 17 16) (÷ (average u humans (temperature u)) (triple-point water)) (÷ 9 8)))
 ; every living human is warmer than the triple point of water
 (observed (∀ u humans (&gt; (temperature u) (triple-point water))))</code></pre>
-  <p>What we are made of. Most of our atoms are hydrogen, then oxygen, carbon and nitrogen, with smaller amounts of eight more elements. Water is the most common molecule in us by far, and more than half of our mass. All the molecules of the lesson on the chemistry of life are in us too.</p>
-  <pre><code>
+    <p>
+        What we are made of. Most of our atoms are hydrogen, then oxygen, carbon and nitrogen, with
+        smaller amounts of eight more elements. Water is the most common molecule in us by far, and
+        more than half of our mass. All the molecules of the lesson on the chemistry of life are in
+        us too.
+    </p>
+    <pre><code>
 ; in every human: more hydrogen atoms than oxygen, more oxygen than
 ; carbon, more carbon than nitrogen
 (observed (∀ u humans
@@ -56,8 +81,13 @@
     (&gt; (count v u) 0))))
 ; and more than half of a human's mass is water, on average
 (observed (&gt; (average u humans (÷ (× (count water u) (mass water)) (mass u))) (÷ 1 2)))</code></pre>
-  <p>Our heredity is <code>xna</code>, the double helix of the lesson on the chemistry of life. <code>genome</code> gives one full set of these molecules in a cell; a cell of ours holds two such sets, one from each parent. Our set is 19 molecules, together about thirteen thousand million base pairs, about four times as many as a human set.</p>
-  <pre><code>
+    <p>
+        Our heredity is <code>xna</code>, the double helix of the lesson on the chemistry of life.
+        <code>genome</code> gives one full set of these molecules in a cell; a cell of ours holds
+        two such sets, one from each parent. Our set is 19 molecules, together about thirteen
+        thousand million base pairs, about four times as many as a human set.
+    </p>
+    <pre><code>
 ; a set of a human's hereditary molecules: 19 of them
 (observed (∀ u humans (= (length (genome u)) 19)))
 ; each of them is xna
@@ -66,7 +96,12 @@
 (observed (&lt; (^ 2 33)
               (average u humans (apply + (sequence v (genome u) (length (item (strands v) 1)))))
               (^ 2 34)))</code></pre>
-  <p><small>Sources: none for the senders, who are invented; their values are in <code>build/check/measurements.ts</code> and on the <a href="../decoy.html">decoy</a> page. CODATA 2022 (the proton mass and the Planck length), BIPM (water's triple point). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+    <p>
+        <small>Sources: none for the senders, who are invented; their values are in
+        <code>build/check/measurements.ts</code> and on the <a href="../decoy.html">decoy</a> page.
+        CODATA 2022 (the proton mass and the Planck length), BIPM (water's triple point). Details in
+        the <a href="../specification.html#reference">specification, §8.4</a>.</small>
+    </p>
 </article>
 </body>
 </html>

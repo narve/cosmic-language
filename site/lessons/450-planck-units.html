@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Planck units · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Planck units</title>
 </head>
 <body>
 <article class="lesson" data-topic="physics">
-  <h3>Planck units</h3>
-  <p>New: the constants <code>planck-length</code>, <code>planck-time</code> and <code>planck-mass</code>; each is defined from <code>c</code>, <code>ħ</code> and <code>G</code>:</p>
-  <pre><code>
+    <h3>Planck units</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        New: the constants <code>planck-length</code>, <code>planck-time</code> and
+        <code>planck-mass</code>; each is defined from <code>c</code>, <code>ħ</code> and
+        <code>G</code>:
+    </p>
+    <pre><code>
 ; each unit is defined by its square
 ; planck-length² = ħ × G ÷ c³
 (= (^ planck-length 2) (÷ (× ħ G) (^ c 3)))
@@ -28,9 +33,16 @@
 
 ; light travels one Planck length in one Planck time
 (= planck-length (× c planck-time))</code></pre>
-  <p>Now familiar things can be measured in these units. The ranges are deliberately rough, between two powers of 2: what matters is that the receiver recognizes them.</p>
-  <p>One new constant appears here: <code>hydrogen-line</code>, the photon of the 21 cm line of hydrogen, the best-known line in radio astronomy. It is identified by its energy compared with the step from level 1 to level 2, and by its period.</p>
-  <pre><code>
+    <p>
+        Now familiar things can be measured in these units. The ranges are deliberately rough,
+        between two powers of 2: what matters is that the receiver recognizes them.
+    </p>
+    <p>
+        One new constant appears here: <code>hydrogen-line</code>, the photon of the 21 cm line of
+        hydrogen, the best-known line in radio astronomy. It is identified by its energy compared
+        with the step from level 1 to level 2, and by its period.
+    </p>
+    <pre><code>
 ; the proton's mass: about 7.7 × 10⁻²⁰ Planck masses (between 1/2⁶⁴
 ; and 1/2⁶³)
 (observed (&lt; (÷ 1 (^ 2 64)) (÷ (mass proton) planck-mass) (÷ 1 (^ 2 63))))
@@ -50,14 +62,22 @@
 (observed (&lt; (^ 2 113) (÷ 1 (× (frequency hydrogen-line) planck-time)) (^ 2 114)))
 ; so its wavelength is as many Planck lengths: about 21 cm
 (observed (&lt; (^ 2 113) (÷ (wavelength hydrogen-line) planck-length) (^ 2 114)))</code></pre>
-  <p>One more ratio is famous among physicists. The step from level 1 to level 2 of hydrogen, divided by the energy of the electron's mass (<var>m</var> × <code>c</code>²), is 3/8 of the square of the fine-structure constant, about 2.0 × 10⁻⁵:</p>
-  <pre><code>
+    <p>
+        One more ratio is famous among physicists. The step from level 1 to level 2 of hydrogen,
+        divided by the energy of the electron's mass (<var>m</var> × <code>c</code>²), is 3/8 of the
+        square of the fine-structure constant, about 2.0 × 10⁻⁵:
+    </p>
+    <pre><code>
 ; (level 2 − level 1) ÷ (electron mass × c²): about 2.0 × 10⁻⁵
 ; (between 1/2¹⁶ and 1/2¹⁵)
 (observed (&lt; (÷ 1 (^ 2 16))
               (÷ (− (level hydrogen 2) (level hydrogen 1)) (× (mass electron) (^ c 2)))
               (÷ 1 (^ 2 15))))</code></pre>
-  <p><small>Sources: CODATA 2022 (Planck units, masses), JPL Molecular Spectroscopy catalog (the 21 cm line). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+    <p>
+        <small>Sources: CODATA 2022 (Planck units, masses), JPL Molecular Spectroscopy catalog (the
+        21 cm line). Details in the <a href="../specification.html#reference">specification,
+        §8.4</a>.</small>
+    </p>
 </article>
 </body>
 </html>

@@ -1,18 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The Sun (decoy) · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>The Sun (decoy)</title>
 </head>
 <body>
 <article class="lesson" data-topic="astronomy" data-optional data-replaces="512-the-sun">
-  <h3>the Sun (decoy)</h3>
-  <p>This lesson is not in the message. It stands in for the lesson on the Sun in the decoy version only, which is made for fun: to see whether a blind reader places the sender at another star. Here <code>sun</code> is Kepler-1647 A, a star larger and hotter than the Sun, 1.2 kiloparsecs away (about 4000 light-years). It does not shine alone: a second star, almost a twin of the Sun, goes round it every 11 days. <code>earth</code> is the giant planet Kepler-1647 b, which goes round both stars in their habitable zone, and the sender lives on a moon of it. The system is so far from the Sun that the lessons on the Galaxy and on pulsars are replaced too: seen from there, the pulsars lie in other directions, and some of them at another age. Why this system was chosen, and how the numbers were found, is on the <a href="../decoy.html">decoy</a> page.</p>
-  <pre><code>
+    <h3>the Sun (decoy)</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        This lesson is not in the message. It stands in for the lesson on the Sun in the decoy
+        version only, which is made for fun: to see whether a blind reader places the sender at
+        another star. Here <code>sun</code> is Kepler-1647 A, a star larger and hotter than the Sun,
+        1.2 kiloparsecs away (about 4000 light-years). It does not shine alone: a second star,
+        almost a twin of the Sun, goes round it every 11 days. <code>earth</code> is the giant
+        planet Kepler-1647 b, which goes round both stars in their habitable zone, and the sender
+        lives on a moon of it. The system is so far from the Sun that the lessons on the Galaxy and
+        on pulsars are replaced too: seen from there, the pulsars lie in other directions, and some
+        of them at another age. Why this system was chosen, and how the numbers were found, is on
+        the <a href="../decoy.html">decoy</a> page.
+    </p>
+    <pre><code>
 ; our star is a star, and our planet is a body
 (∃ u stars (= u sun))
 (∃ u bodies (= u earth))
@@ -26,8 +38,12 @@
 ; its luminosity: between 2⁻⁸⁵ and 2⁻⁸³ of the Planck unit of
 ; power, c⁵ ÷ G
 (observed (&lt; (÷ 1 (^ 2 85)) (÷ (luminosity sun) (÷ (^ c 5) G)) (÷ 1 (^ 2 83))))</code></pre>
-  <p>A second star goes round ours, close by, and no other star does. It has no name in the message: each sentence about it says "the star that goes round ours". Its mass and temperature are a little smaller than those of our star, and it is about half as wide.</p>
-  <pre><code>
+    <p>
+        A second star goes round ours, close by, and no other star does. It has no name in the
+        message: each sentence about it says "the star that goes round ours". Its mass and
+        temperature are a little smaller than those of our star, and it is about half as wide.
+    </p>
+    <pre><code>
 ; one other star goes round ours, and only one
 (observed (∃ u stars (and (not (= u sun)) (orbits u sun))))
 (observed (∀ u stars (∀ v stars (implies (and (orbits u sun) (orbits v sun)) (= u v)))))
@@ -43,8 +59,18 @@
 (observed (∃ u stars (and (orbits u sun) (&lt; (^ 2 149) (÷ (axis u sun) planck-length) (^ 2 150)))))
 ; one round takes between 2¹⁶³ and 2¹⁶⁴ Planck times
 (observed (∃ u stars (and (orbits u sun) (&lt; (^ 2 163) (÷ (period u sun) planck-time) (^ 2 164)))))</code></pre>
-  <p>Our planet goes round both stars, far outside their own orbit. So the rule for orbits holds for it as if the two stars were one star as heavy as both: the mass in the rule is that of all three bodies together. For that reason the message never says that our planet <code>orbits</code> our star: the rule of the lesson on stars would then count only our star's mass, and contradict this one. <code>axis</code> and <code>period</code> still describe the planet's orbit, measured from our star, but the lesson on stars gives their dimensions only for a body that <code>orbits</code> another, so they are stated here. Its orbit, size and mass are given in units that any reader has: Planck lengths, Planck times and proton masses.</p>
-  <pre><code>
+    <p>
+        Our planet goes round both stars, far outside their own orbit. So the rule for orbits holds
+        for it as if the two stars were one star as heavy as both: the mass in the rule is that of
+        all three bodies together. For that reason the message never says that our planet
+        <code>orbits</code> our star: the rule of the lesson on stars would then count only our
+        star's mass, and contradict this one. <code>axis</code> and <code>period</code> still
+        describe the planet's orbit, measured from our star, but the lesson on stars gives their
+        dimensions only for a body that <code>orbits</code> another, so they are stated here. Its
+        orbit, size and mass are given in units that any reader has: Planck lengths, Planck times
+        and proton masses.
+    </p>
+    <pre><code>
 ; our planet goes round both stars: period² = 4π² × axis³
 ; ÷ (G × the sum of the masses of the two stars and the planet)
 (observed (∃ u stars (and (orbits u sun)
@@ -65,14 +91,25 @@
 ; its mass is less than 2¹⁸² proton masses: it is known only
 ; roughly, from how it pulls the two stars
 (observed (&lt; (÷ (mass earth) (mass proton)) (^ 2 182)))</code></pre>
-  <p>This is where we are. New: <code>at</code>, a party living on a body. Like everything we say about ourselves, it is <code>stated</code>: we live on a body that goes round our planet, not on the planet, which has no solid ground, and not on a star.</p>
-  <pre><code>
+    <p>
+        This is where we are. New: <code>at</code>, a party living on a body. Like everything we say
+        about ourselves, it is <code>stated</code>: we live on a body that goes round our planet,
+        not on the planet, which has no solid ground, and not on a star.
+    </p>
+    <pre><code>
 ; we live on a body that goes round our planet
 (stated (∃ u bodies (and (at we u) (orbits u earth))))
 ; not on the planet itself, and not on our star
 (stated (not (at we earth)))
 (stated (not (at we sun)))</code></pre>
-  <p><small>Sources: NASA Exoplanet Archive, Kepler-1647 (star A and the planet from V. B. Kostov and others, 2016; the distance and motion from the TESS Input Catalog); V. B. Kostov and others (2016) (the second star and the orbit of the two); NASA Sun fact sheet and the IAU's nominal Earth radius (the units of the archive); CODATA 2022 (the Planck units, the proton mass and the Stefan–Boltzmann constant), BIPM (water's triple point). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+    <p>
+        <small>Sources: NASA Exoplanet Archive, Kepler-1647 (star A and the planet from V. B. Kostov
+        and others, 2016; the distance and motion from the TESS Input Catalog); V. B. Kostov and
+        others (2016) (the second star and the orbit of the two); NASA Sun fact sheet and the IAU's
+        nominal Earth radius (the units of the archive); CODATA 2022 (the Planck units, the proton
+        mass and the Stefan–Boltzmann constant), BIPM (water's triple point). Details in the
+        <a href="../specification.html#reference">specification, §8.4</a>.</small>
+    </p>
 </article>
 </body>
 </html>

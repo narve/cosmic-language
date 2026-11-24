@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The Sun in the Galaxy · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>The Sun in the Galaxy</title>
 </head>
 <body>
 <article class="lesson" data-topic="astronomy" data-optional>
-  <h3>the Sun in the Galaxy</h3>
-  <p>The Sun is one of many stars that together go round a common centre: the Galaxy. At the centre is a dark body of great mass. New: <code>galaxy-centre</code>, and <code>direction-from</code>, the direction in which one body is seen from another. This lesson can be left out of a message, together with the lesson on pulsars, which builds on it.</p>
-  <pre><code>
+    <h3>the Sun in the Galaxy</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        The Sun is one of many stars that together go round a common centre: the Galaxy. At the
+        centre is a dark body of great mass. New: <code>galaxy-centre</code>, and
+        <code>direction-from</code>, the direction in which one body is seen from another. This
+        lesson can be left out of a message, together with the lesson on pulsars, which builds on
+        it.
+    </p>
+    <pre><code>
 ; the centre is a body
 (∃ u bodies (= u galaxy-centre))
 ; its mass: between 2²¹¹ and 2²¹² proton masses (about 4.3
@@ -31,9 +38,22 @@
   (÷ (× 4 (^ π 2) (^ (distance sun galaxy-centre) 3))
      (× G (mass galaxy-centre) (^ (period sun galaxy-centre) 2)))
   (^ 2 16)))</code></pre>
-  <p>The centre's mass marks it out: no other body in the Galaxy is so heavy. But it is not what keeps the Sun on its orbit. That is the mass of the whole Galaxy inside the orbit, stars, gas and matter that gives no light, which is tens of thousands of times larger. So the Sun's period is far shorter than the rule for orbits would give with the centre's mass alone; most stars near the Sun take about as long.</p>
-  <p>The Galaxy gives three directions, which any reader near us can find. New: <code>toward-centre</code>, the direction from the Sun to the centre; <code>along-rotation</code>, the direction in which the stars around the Sun go round the centre, on average; and <code>galactic-pole</code>, the cross of the two. With the hand of <code>cross</code> fixed by the lessons on spin and on antimatter, these three name every direction.</p>
-  <pre><code>
+    <p>
+        The centre's mass marks it out: no other body in the Galaxy is so heavy. But it is not what
+        keeps the Sun on its orbit. That is the mass of the whole Galaxy inside the orbit, stars,
+        gas and matter that gives no light, which is tens of thousands of times larger. So the Sun's
+        period is far shorter than the rule for orbits would give with the centre's mass alone; most
+        stars near the Sun take about as long.
+    </p>
+    <p>
+        The Galaxy gives three directions, which any reader near us can find. New:
+        <code>toward-centre</code>, the direction from the Sun to the centre;
+        <code>along-rotation</code>, the direction in which the stars around the Sun go round the
+        centre, on average; and <code>galactic-pole</code>, the cross of the two. With the hand of
+        <code>cross</code> fixed by the lessons on spin and on antimatter, these three name every
+        direction.
+    </p>
+    <pre><code>
 ; from one body, another is seen in a direction; seen from the
 ; other, the first lies in the opposite direction
 (∀ u bodies (∀ v bodies
@@ -54,16 +74,26 @@
 (= (dot galactic-pole galactic-pole) 1)
 (= (dot galactic-pole toward-centre) 0)
 (= (dot galactic-pole along-rotation) 0)</code></pre>
-  <p>Relative to the centre, the Sun moves almost along <code>along-rotation</code>, as the stars around it do on average. New: <code>velocity</code>, the velocity of one body relative to another, a vector whose dot with a direction is the speed in that direction.</p>
-  <pre><code>
+    <p>
+        Relative to the centre, the Sun moves almost along <code>along-rotation</code>, as the stars
+        around it do on average. New: <code>velocity</code>, the velocity of one body relative to
+        another, a vector whose dot with a direction is the speed in that direction.
+    </p>
+    <pre><code>
 ; relative to the centre, the Sun moves along the rotation at
 ; between 1/2¹¹ and 1/2¹⁰ of the speed of light
 (observed (&lt; (÷ 1 (^ 2 11)) (÷ (dot (velocity sun galaxy-centre) along-rotation) c) (÷ 1 (^ 2 10))))
 ; and a little toward the centre, and toward the pole
 (observed (&lt; 0 (÷ (dot (velocity sun galaxy-centre) toward-centre) c) (÷ 1 (^ 2 13))))
 (observed (&lt; 0 (÷ (dot (velocity sun galaxy-centre) galactic-pole) c) (÷ 1 (^ 2 14))))</code></pre>
-  <p>So far the message says only that <code>along-rotation</code> is at right angles to <code>toward-centre</code>, which leaves a whole circle of directions. The axes of the background radiation, which any reader can find, pin both down: first the direction to the centre, then the direction of rotation. This ties the Galaxy's frame to the background radiation's.</p>
-  <pre><code>
+    <p>
+        So far the message says only that <code>along-rotation</code> is at right angles to
+        <code>toward-centre</code>, which leaves a whole circle of directions. The axes of the
+        background radiation, which any reader can find, pin both down: first the direction to the
+        centre, then the direction of rotation. This ties the Galaxy's frame to the background
+        radiation's.
+    </p>
+    <pre><code>
 ; the direction to the centre, in the background radiation's axes
 (observed (&lt; (÷ 1 4) (dot toward-centre first-axis) (÷ 1 2)))
 (observed (&lt; (neg 1) (dot toward-centre third-axis) (neg (÷ 3 4))))
@@ -72,7 +102,15 @@
 (observed (&lt; (÷ 1 2) (dot along-rotation first-axis) 1))
 (observed (&lt; (÷ 1 8) (dot along-rotation second-axis) (÷ 7 8)))
 (observed (&lt; (÷ 1 4) (dot along-rotation third-axis) (÷ 3 4)))</code></pre>
-  <p><small>Sources: Particle Data Group 2024, table of astrophysical constants (the Sun's distance from the centre, 8.275 kpc, and the speed of circular orbits there, 233.4 km/s); R. Schönrich, J. Binney and W. Dehnen 2010 (the Sun's own motion: 11.1, 12.24 and 7.25 km/s); GRAVITY Collaboration 2022 and 2019 (the mass of the centre); CODATA 2022 (the Planck units and the proton mass); maps of the background radiation from WMAP (9 years) and Planck (2015) (the axes). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+    <p>
+        <small>Sources: Particle Data Group 2024, table of astrophysical constants (the Sun's
+        distance from the centre, 8.275 kpc, and the speed of circular orbits there, 233.4 km/s); R.
+        Schönrich, J. Binney and W. Dehnen 2010 (the Sun's own motion: 11.1, 12.24 and 7.25 km/s);
+        GRAVITY Collaboration 2022 and 2019 (the mass of the centre); CODATA 2022 (the Planck units
+        and the proton mass); maps of the background radiation from WMAP (9 years) and Planck (2015)
+        (the axes). Details in the <a href="../specification.html#reference">specification,
+        §8.4</a>.</small>
+    </p>
 </article>
 </body>
 </html>

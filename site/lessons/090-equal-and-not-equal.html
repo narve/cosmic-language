@@ -1,29 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Equal and not equal · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Equal and not equal</title>
 </head>
 <body>
 <article class="lesson" data-topic="math minimal">
-  <h3>equal and not equal</h3>
-  <p>This is where the message starts to make statements.</p>
-  <h4>Sentences in brackets</h4>
-  <p>After the calibration, two new kinds of token appear. Tokens of type 1 have only two values, 0 and 1, and they always come in pairs around other tokens: they are <code>brackets</code>, <code>(</code> for 0 and <code>)</code> for 1. A token of type 2 is an <dfn>operator</dfn>. In this lesson, every pair of brackets holds an operator followed by numbers. The first group, token by token:</p>
-  <pre data-illustration><code><i>(</i>  00000001 00000000   <i>type 1, value 0: open</i>
+    <h3>equal and not equal</h3>
+    <p>
+        This is where the message starts to make statements.
+    </p>
+    <h4>Sentences in brackets</h4>
+    <p>
+        After the calibration, two new kinds of token appear. Tokens of type 1 have only two values,
+        0 and 1, and they always come in pairs around other tokens: they are <code>brackets</code>,
+        <code>(</code> for 0 and <code>)</code> for 1. A token of type 2 is an <dfn>operator</dfn>.
+    </p>
+    <table>
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Meaning</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>0</td>
+            <td>number</td>
+            <td>the number itself</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>brackets</td>
+            <td>0 = open bracket, 1 = close bracket</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>operator</td>
+            <td>which operator (=, +, …)</td>
+        </tr>
+        </tbody>
+    </table>
+    <p>
+        In this lesson, every pair of brackets holds an operator followed by numbers. The first
+        group, token by token:
+    </p>
+    <pre data-illustration><code>
+<i>(</i>  00000001 00000000   <i>type 1, value 0: open</i>
 <i>=</i>  00000010 00000001   <i>type 2, value 1: the first operator</i>
 <i>1</i>  00000000 00000001   <i>type 0: the number 1</i>
 <i>1</i>  00000000 00000001   <i>type 0: the number 1</i>
-<i>)</i>  00000001 00000001   <i>type 1, value 1: close</i></code></pre>
-  <p>Such a group is a <dfn>sentence</dfn>: <code>(= 1 1)</code>. The operator comes right after the opening bracket, and the rest are its <dfn>arguments</dfn>, in what's called Lisp style. The brackets show where each sentence starts and ends, so the receiver never has to guess how many arguments an operator takes. Every sentence the message asserts is true; what each operator means, the receiver works out from many sentences that use it.</p>
-  <h4>Equal</h4>
-  <p>The first operator is <code>=</code>. In every sentence its two arguments are the same number, so the receiver can guess what it means: the two are equal. The numbers are the primes the receiver already knows from the beacon and the calibration, and then the smallest and the largest number a chunk can hold. Two or three sentences would not be enough to guess from, and one of them might arrive damaged, so the message gives more examples than seem necessary, here and in every later lesson.</p>
-  <pre><code>
-; each number equals itself: first the primes of the beacon
+<i>)</i>  00000001 00000001   <i>type 1, value 1: close</i>
+    </code></pre>
+    <p>
+        Such a group is a <dfn>sentence</dfn>: <code>(= 1 1)</code>. The operator comes right after
+        the opening bracket, and the rest are its <dfn>arguments</dfn>, in what's called Lisp style
+        (or S-expressions).
+        The brackets show where each sentence starts and ends, so the receiver never has to guess
+        how many arguments an operator takes. Every sentence the message asserts is true; what each
+        operator means, the receiver works out from many sentences that use it.
+    </p>
+    <h4>Equal</h4>
+    <p>
+        The first operator is <code>=</code>. In every sentence its two arguments are the same
+        number, so the receiver can guess what it means: the two are equal. The numbers are the
+        primes the receiver already knows from the beacon and the calibration, and then the smallest
+        and the largest number a chunk can hold. Two or three sentences would not be enough to guess
+        from, and one of them might arrive damaged, so the message gives more examples than seem
+        necessary, here and in every later lesson.
+    </p>
+    <pre><code>
+; each number equals itself: first (some of) the primes of the beacon
 (= 1 1)
 (= 2 2)
 (= 3 3)
@@ -33,17 +85,16 @@
 (= 13 13)
 (= 17 17)
 
-(= 19 19)
-(= 23 23)
-(= 29 29)
-(= 31 31)
-
 ; then the smallest and the largest number of a chunk
 (= 0 0)
 (= 255 255)</code></pre>
-  <h4>Not equal</h4>
-  <p>Then comes a second symbol, <code>≠</code>, always between two <em>different</em> numbers. Since <code>=</code> only ever joined a number to itself, <code>≠</code> must mean the opposite: the two are not equal. Sentences with both, side by side, show the contrast.</p>
-  <pre><code>
+    <h4>Not equal</h4>
+    <p>
+        Then comes a second symbol, <code>≠</code>, always between two <em>different</em> numbers.
+        Since <code>=</code> only ever joined a number to itself, <code>≠</code> must mean the
+        opposite: the two are not equal. Sentences with both, side by side, show the contrast.
+    </p>
+    <pre><code>
 ; two different numbers are not equal
 (≠ 0 1)
 (≠ 1 0)
@@ -61,7 +112,11 @@
 (= 3 3 3)
 (= 7 7 7 7)
 (= 0 0 0 0 0)</code></pre>
-  <p><code>=</code> takes two or more arguments and means that all of them are equal. <code>≠</code> takes exactly two: with more, it would be unclear whether it means "all different" or "not all equal".</p>
+    <p>
+        <code>=</code> takes two or more arguments and means that all of them are equal.
+        <code>≠</code> takes exactly two: with more, it would be unclear whether it means "all
+        different" or "not all equal".
+    </p>
 </article>
 </body>
 </html>

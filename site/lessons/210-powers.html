@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Powers · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Powers</title>
 </head>
 <body>
 <article class="lesson" data-topic="math">
-  <h3>powers</h3>
-  <p>New symbol: <code>^</code>, raising to a natural-number power. Like <code>−</code> and <code>÷</code> it takes exactly two arguments, and the lesson shows why: grouping matters.</p>
-  <pre><code>
+    <h3>powers</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        New symbol: <code>^</code>, raising to a natural-number power. Like <code>−</code> and
+        <code>÷</code> it takes exactly two arguments, and the lesson shows why: grouping matters.
+    </p>
+    <pre><code>
 ; the powers of 2
 (= (^ 2 1) 2)
 (= (^ 2 2) 4)
@@ -45,8 +49,12 @@
 (∀ u ℝ (∀ v ℕ (= (^ u (+ v 1)) (× u (^ u v)))))
 ; adding exponents multiplies the powers
 (∀ u ℝ (∀ v ℕ (∀ w ℕ (= (^ u (+ v w)) (× (^ u v) (^ u w))))))</code></pre>
-  <p>With <code>sequence</code> from the lesson on sequences, the powers of 2 are one infinite sequence. And <code>apply</code> can add up an infinite sequence: applying <code>+</code> to it means the value that the sums of the first items come ever closer to.</p>
-  <pre><code>
+    <p>
+        With <code>sequence</code> from the lesson on sequences, the powers of 2 are one infinite
+        sequence. And <code>apply</code> can add up an infinite sequence: applying <code>+</code> to
+        it means the value that the sums of the first items come ever closer to.
+    </p>
+    <pre><code>
 ; the powers of 2: the fourth item is 2³ = 8
 (= (item (sequence u ℕ (^ 2 u)) 4) 8)
 

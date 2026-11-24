@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Magnetic fields · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Magnetic fields</title>
 </head>
 <body>
 <article class="lesson" data-topic="physics">
-  <h3>magnetic fields</h3>
-  <p>A current going round in a ring makes a magnetic field. New: the domain <code>rings</code> (round loops of wire carrying a steady current), <code>radius</code>, <code>circulates</code> (the current goes round from one direction toward another), and <code>field-direction</code> and <code>field-strength</code>, the direction and strength of the magnetic field at the centre of the ring.</p>
-  <pre><code>
+    <h3>magnetic fields</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        A current going round in a ring makes a magnetic field. New: the domain <code>rings</code>
+        (round loops of wire carrying a steady current), <code>radius</code>,
+        <code>circulates</code> (the current goes round from one direction toward another), and
+        <code>field-direction</code> and <code>field-strength</code>, the direction and strength of
+        the magnetic field at the centre of the ring.
+    </p>
+    <pre><code>
 ; a ring has a radius, a length, and a current, a charge per time
 (∀ u rings (= (dim (radius u)) L))
 (∀ u rings (&gt; (radius u) 0))
@@ -27,8 +34,15 @@
 (∀ u rings (∀ v rings
   (implies (and (= (radius u) (radius v)) (= (abs (current u)) (× 2 (abs (current v)))))
            (= (field-strength u) (× 2 (field-strength v))))))</code></pre>
-  <p>The field points along the axis of the ring, and which way it points is given by <code>cross</code>, just as for spin. This is a second way to tie the hand of <code>cross</code> to something in the world. But it does not tell left from right by itself: in a mirror, the laws of magnetism come out the same. Only the decays in the lesson on spin do that, once the lesson on the kaon has shown the reader which of its particles are our electrons and neutrons.</p>
-  <pre><code>
+    <p>
+        The field points along the axis of the ring, and which way it points is given by
+        <code>cross</code>, just as for spin. This is a second way to tie the hand of
+        <code>cross</code> to something in the world. But it does not tell left from right by
+        itself: in a mirror, the laws of magnetism come out the same. Only the decays in the lesson
+        on spin do that, once the lesson on the kaon has shown the reader which of its particles are
+        our electrons and neutrons.
+    </p>
+    <pre><code>
 ; a current going round from v toward w makes a field along the
 ; cross of v and w
 (∀ u rings (∀ v directions (∀ w directions

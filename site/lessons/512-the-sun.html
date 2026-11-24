@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The Sun · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>The Sun</title>
 </head>
 <body>
 <article class="lesson" data-topic="astronomy" data-optional>
-  <h3>the Sun</h3>
-  <p>One particular star, and one body that goes round it. This lesson can be left out of a message, together with the optional lessons that build on it: the Sun in the Galaxy, pulsars and humans.</p>
-  <pre><code>
+    <h3>the Sun</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        One particular star, and one body that goes round it. This lesson can be left out of a
+        message, together with the optional lessons that build on it: the Sun in the Galaxy, pulsars
+        and humans.
+    </p>
+    <pre><code>
 ; the Sun is a star, and the Earth is a body
 (∃ u stars (= u sun))
 (∃ u bodies (= u earth))
@@ -29,8 +34,11 @@
 ; between 1/16 and 1/8 helium atom for every hydrogen atom, in
 ; the Sun as a whole and at its surface, where it is measured
 (observed (&lt; (÷ 1 (^ 2 4)) (÷ (count helium sun) (count hydrogen sun)) (÷ 1 (^ 2 3))))</code></pre>
-  <p>The Earth goes round the Sun. Its orbit and its mass are given in units that any reader has: Planck lengths, Planck times and proton masses.</p>
-  <pre><code>
+    <p>
+        The Earth goes round the Sun. Its orbit and its mass are given in units that any reader has:
+        Planck lengths, Planck times and proton masses.
+    </p>
+    <pre><code>
 ; the Earth orbits the Sun
 (observed (orbits earth sun))
 ; the size of its orbit: between 2¹⁵² and 2¹⁵³ Planck lengths
@@ -39,14 +47,21 @@
 (observed (&lt; (^ 2 168) (÷ (period earth sun) planck-time) (^ 2 169)))
 ; the Earth's mass: between 2¹⁷¹ and 2¹⁷² proton masses
 (observed (&lt; (^ 2 171) (÷ (mass earth) (mass proton)) (^ 2 172)))</code></pre>
-  <p>This is where we are. New: <code>at</code>, a party living on a body. Like everything we say about ourselves, it is <code>stated</code>: the Sun is our star.</p>
-  <pre><code>
+    <p>
+        This is where we are. New: <code>at</code>, a party living on a body. Like everything we say
+        about ourselves, it is <code>stated</code>: the Sun is our star.
+    </p>
+    <pre><code>
 ; we live on the Earth, which goes round the Sun
 (stated (at we earth))
 (stated (∃ u bodies (and (at we u) (orbits u sun))))
 ; we do not live on the star itself
 (stated (not (at we sun)))</code></pre>
-  <p><small>Sources: NASA Sun and Earth fact sheets (2024), CODATA 2022 (the Planck units and the proton mass), BIPM (water's triple point). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+    <p>
+        <small>Sources: NASA Sun and Earth fact sheets (2024), CODATA 2022 (the Planck units and the
+        proton mass), BIPM (water's triple point). Details in the
+        <a href="../specification.html#reference">specification, §8.4</a>.</small>
+    </p>
 </article>
 </body>
 </html>

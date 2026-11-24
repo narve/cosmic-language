@@ -1,18 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Good and bad · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Good and bad</title>
 </head>
 <body>
 <article class="lesson" data-topic="conversations">
-  <h3>good and bad</h3>
-  <p>The lesson on the prisoner's dilemma judged rounds of the game with <code>good</code> and <code>bad</code>. A party can judge a conversation in the same way: <code>(good <var>u</var> <var>z</var>)</code> then means that <var>u</var> finds the conversation <var>z</var> good, and <code>(bad <var>u</var> <var>z</var>)</code> that <var>u</var> finds it bad. A conversation is written as a list of messages, and a message as a list of sentences: a question in the first message, a reply in the second. The conversations judged here are examples, not ones that took place. Good and bad are always someone's judgement, and the judgements here are ours, so they are <code>stated</code>, like everything else we say about ourselves; the two rules about judgements in general belong to what good and bad mean, and are not marked.</p>
-  <pre><code>
+    <h3>good and bad</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        The lesson on the prisoner's dilemma judged rounds of the game with <code>good</code> and
+        <code>bad</code>. A party can judge a conversation in the same way:
+        <code>(good <var>u</var> <var>z</var>)</code> then means that <var>u</var> finds the
+        conversation <var>z</var> good, and <code>(bad <var>u</var> <var>z</var>)</code> that
+        <var>u</var> finds it bad. A conversation is written as a list of messages, and a message as
+        a list of sentences: a question in the first message, a reply in the second. The
+        conversations judged here are examples, not ones that took place. Good and bad are always
+        someone's judgement, and the judgements here are ours, so they are <code>stated</code>, like
+        everything else we say about ourselves; the two rules about judgements in general belong to
+        what good and bad mean, and are not marked.
+    </p>
+    <pre><code>
 ; to "what is 2 + 3?", we find the reply 5 good
 (stated (let w (quote (= (+ 2 3) ?))
           (let v (fill w 5)
@@ -30,8 +42,13 @@
 (stated (let w (quote (= (&lt; 2 3) ?))
           (let v (fill w false)
             (bad we (list (list w) (list v))))))</code></pre>
-  <p>Good is not the same as true. A right reply can be bad, because it does not do what the question asked. Hans Freudenthal's Lincos (1960) took the same step: there a speaker calls the reply 10/4 to a question bad, although it is right, because it is not written in lowest terms.</p>
-  <pre><code>
+    <p>
+        Good is not the same as true. A right reply can be bad, because it does not do what the
+        question asked. Hans Freudenthal's Lincos (1960) took the same step: there a speaker calls
+        the reply 10/4 to a question bad, although it is right, because it is not written in lowest
+        terms.
+    </p>
+    <pre><code>
 ; a reply can be right and still bad
 (stated (let w (quote (= (+ 2 3) ?))
           (∃ v expressions
@@ -63,8 +80,11 @@
 (stated (let w (quote (= (+ 2 3) ?))
           (let v (quote (= (+ 1 1) 2))
             (bad we (list (list w) (list v))))))</code></pre>
-  <p>A judgement belongs to the party that makes it. No party finds the same conversation both good and bad, but two parties can judge it differently.</p>
-  <pre><code>
+    <p>
+        A judgement belongs to the party that makes it. No party finds the same conversation both
+        good and bad, but two parties can judge it differently.
+    </p>
+    <pre><code>
 ; nothing is both good and bad to the same party
 (∀ u parties (∀ v expressions (not (and (good u v) (bad u v)))))
 ; but good and bad are not the same for everyone: there are parties
@@ -74,8 +94,15 @@
 ; and one thing we find bad whenever we meet it: a message that
 ; says something false
 (stated (∀ u expressions (implies (= (eval u) false) (bad we (list (list u))))))</code></pre>
-  <p>Parties do not only talk; they also act toward each other, again and again, like the players of the prisoner's dilemma. New: <code>strategy</code>. <code>(strategy <var>u</var> <var>v</var>)</code> is the strategy that party <var>u</var> plays toward party <var>v</var>: given what has happened between them, it gives <var>u</var>'s next move. Strategies are chosen, like judgements, and nothing makes them the same for every pair of parties.</p>
-  <pre><code>
+    <p>
+        Parties do not only talk; they also act toward each other, again and again, like the players
+        of the prisoner's dilemma. New: <code>strategy</code>.
+        <code>(strategy <var>u</var> <var>v</var>)</code> is the strategy that party <var>u</var>
+        plays toward party <var>v</var>: given what has happened between them, it gives
+        <var>u</var>'s next move. Strategies are chosen, like judgements, and nothing makes them the
+        same for every pair of parties.
+    </p>
+    <pre><code>
 ; two parties can play different strategies toward each other
 (∃ u parties (∃ v parties (≠ (strategy u v) (strategy v u))))
 ; and one party can play different strategies toward different

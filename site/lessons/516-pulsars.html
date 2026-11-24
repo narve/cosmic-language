@@ -1,25 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pulsars · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Pulsars</title>
 </head>
 <body>
 <article class="lesson" data-topic="astronomy" data-optional>
-  <h3>pulsars</h3>
-  <p>Some stars end as neutron stars: a ball of neutrons the width of a city, turning anywhere from about once a second to hundreds of times a second, and sending out a beam of radio light that sweeps past the Sun once each turn. These pulsars keep time better than almost anything, and each has its own period, so they serve as landmarks. New: the domain <code>pulsars</code>, <code>pulse-period</code> (the time of one turn), <code>slowing</code> (how much longer each turn gets per time: a plain number, time per time), and six pulsars by name. This lesson can be left out of a message.</p>
-  <pre><code>
+    <h3>pulsars</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        Some stars end as neutron stars: a ball of neutrons the width of a city, turning anywhere
+        from about once a second to hundreds of times a second, and sending out a beam of radio
+        light that sweeps past the Sun once each turn. These pulsars keep time better than almost
+        anything, and each has its own period, so they serve as landmarks. New: the domain
+        <code>pulsars</code>, <code>pulse-period</code> (the time of one turn), <code>slowing</code>
+        (how much longer each turn gets per time: a plain number, time per time), and six pulsars by
+        name. This lesson can be left out of a message.
+    </p>
+    <pre><code>
 ; a pulsar is a body; its period is a time, and the period grows
 ; a little all the time
 (∀ u pulsars (∃ v bodies (= u v)))
 (∀ u pulsars (= (dim (pulse-period u)) T))
 (observed (∀ u pulsars (&gt; (slowing u) 0)))</code></pre>
-  <p>Each pulsar is given by its period, by how fast it slows, and by its direction from the Sun in the three directions of the Galaxy. Seen from anywhere else, the same pulsars lie in other directions; from the directions of several of them, a reader can find the place they were seen from. The periods are given only to within a factor of 2: enough to tell which pulsars are meant, but not how long ago the message was sent.</p>
-  <pre><code>
+    <p>
+        Each pulsar is given by its period, by how fast it slows, and by its direction from the Sun
+        in the three directions of the Galaxy. Seen from anywhere else, the same pulsars lie in
+        other directions; from the directions of several of them, a reader can find the place they
+        were seen from. The periods are given only to within a factor of 2: enough to tell which
+        pulsars are meant, but not how long ago the message was sent.
+    </p>
+    <pre><code>
 ; the Crab pulsar, the remnant of a star seen to explode
 (∃ u pulsars (= u crab-pulsar))
 ; one turn takes between 2¹³⁸ and 2¹³⁹ Planck times
@@ -91,7 +106,11 @@
 (observed (&lt; (÷ 1 2) (dot (direction-from sun pulsar-j1921) toward-centre) (÷ 5 8)))
 (observed (&lt; (÷ 3 4) (dot (direction-from sun pulsar-j1921) along-rotation) (÷ 29 32)))
 (observed (&lt; 0 (dot (direction-from sun pulsar-j1921) galactic-pole) (÷ 1 8)))</code></pre>
-  <p><small>Sources: ATNF Pulsar Catalogue 2.6.1 (periods, slowing and directions of the six pulsars), CODATA 2022 (the Planck time). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+    <p>
+        <small>Sources: ATNF Pulsar Catalogue 2.6.1 (periods, slowing and directions of the six
+        pulsars), CODATA 2022 (the Planck time). Details in the
+        <a href="../specification.html#reference">specification, §8.4</a>.</small>
+    </p>
 </article>
 </body>
 </html>

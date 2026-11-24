@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Isotopes · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Isotopes</title>
 </head>
 <body>
 <article class="lesson" data-topic="physics">
-  <h3>isotopes</h3>
-  <p>Atoms of the same element can have different numbers of neutrons. <code>(isotope hydrogen 1)</code> is hydrogen with 1 neutron.</p>
-  <pre><code>
+    <h3>isotopes</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        Atoms of the same element can have different numbers of neutrons.
+        <code>(isotope hydrogen 1)</code> is hydrogen with 1 neutron.
+    </p>
+    <pre><code>
 ; hydrogen with 1 neutron still has 1 proton
 (= (count proton (isotope hydrogen 1)) 1)
 (= (count neutron (isotope hydrogen 1)) 1)
@@ -25,8 +29,10 @@
 (∀ u elements (∀ v ℕ (= (count neutron (isotope u v)) v)))
 ; … and the protons of its element
 (∀ u elements (∀ v ℕ (= (count proton (isotope u v)) (count proton u))))</code></pre>
-  <p>Some isotopes last for ever; others fall apart after a while. Here are some that last:</p>
-  <pre><code>
+    <p>
+        Some isotopes last for ever; others fall apart after a while. Here are some that last:
+    </p>
+    <pre><code>
 ; seven isotopes that last: hydrogen with 0 or 1 neutron,
 ; helium with 1 or 2, carbon with 6 or 7, oxygen with 8
 (observed (stable (isotope hydrogen 0) (isotope hydrogen 1)
@@ -40,7 +46,10 @@
 ; hydrogen with one neutron weighs almost twice as much as hydrogen
 ; without: between 2 − 1/2⁹ and 2 times
 (observed (&lt; (− 2 (÷ 1 (^ 2 9))) (÷ (mass (isotope hydrogen 1)) (mass (isotope hydrogen 0))) 2))</code></pre>
-  <p><small>Sources: AME2020 (masses), NUBASE2020 (which isotopes are stable). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+    <p>
+        <small>Sources: AME2020 (masses), NUBASE2020 (which isotopes are stable). Details in the
+        <a href="../specification.html#reference">specification, §8.4</a>.</small>
+    </p>
 </article>
 </body>
 </html>

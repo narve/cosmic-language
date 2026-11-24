@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Eval · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Eval</title>
 </head>
 <body>
 <article class="lesson" data-topic="logic">
-  <h3>eval</h3>
-  <p>New: <code>eval</code>, the value of a quoted expression, and the domain <code>expressions</code>: numbers, symbols, and lists of expressions. First examples, then the rules that give the value of every expression without variables.</p>
-  <pre><code>
+    <h3>eval</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        New: <code>eval</code>, the value of a quoted expression, and the domain
+        <code>expressions</code>: numbers, symbols, and lists of expressions. First examples, then
+        the rules that give the value of every expression without variables.
+    </p>
+    <pre><code>
 (= (eval (quote (+ 2 3))) 5)
 (= (eval (quote (× 2 (+ 1 2)))) 6)
 (= (eval 7) 7)
@@ -37,33 +42,53 @@
 (= (eval (quote (eval (quote (+ 1 2))))) 3)
 ; and the value of a let is the value of its body
 (= (eval (quote (let u 2 (× u u)))) 4)</code></pre>
-  <h4>Expressions</h4>
-  <p>The rules below speak of all <code>expressions</code>: everything a quoted sentence can be made of.</p>
-  <pre><code>
+    <h4>Expressions</h4>
+    <p>
+        The rules below speak of all <code>expressions</code>: everything a quoted sentence can be
+        made of.
+    </p>
+    <pre><code>
 ; numbers, symbols and quoted sentences are expressions
 (∃ u expressions (= u 5))
 (∃ u expressions (= u (quote +)))
 (∃ u expressions (= u (quote (+ 2 3))))
 ; a list of expressions is an expression
 (∀ u expressions (∀ v expressions (∃ w expressions (= w (list u v)))))</code></pre>
-  <h4>The rules</h4>
-  <p>A number is its own value, and so is an operator: it is passed on as it is, the way <code>apply</code> takes <code>+</code>.</p>
-  <pre><code>
+    <h4>The rules</h4>
+    <p>
+        A number is its own value, and so is an operator: it is passed on as it is, the way
+        <code>apply</code> takes <code>+</code>.
+    </p>
+    <pre><code>
 (∀ u expressions (implies (= (type u) number) (= (eval u) u)))
 (∀ u expressions (implies (= (type u) operator) (= (eval u) u)))</code></pre>
-  <p>An operation: apply the operator to the values of its arguments. Seven operators work differently and are left out here: <code>quote</code> and <code>if</code>, which do not compute all their arguments, and <code>∀</code>, <code>∃</code>, <code>sequence</code>, <code>average</code> and <code>let</code>, which bind a variable.</p>
-  <pre><code>
+    <p>
+        An operation: apply the operator to the values of its arguments. Seven operators work
+        differently and are left out here: <code>quote</code> and <code>if</code>, which do not
+        compute all their arguments, and <code>∀</code>, <code>∃</code>, <code>sequence</code>,
+        <code>average</code> and <code>let</code>, which bind a variable.
+    </p>
+    <pre><code>
 (∀ u expressions (implies (= (type u) brackets)
   (implies (&gt; (length u) 0)
   (implies (= (type (item u 1)) operator)
   (implies (= (count (item u 1) (quote (quote if ∀ ∃ sequence average let))) 0)
     (= (eval u) (apply (item u 1) (sequence v (rest u) (eval v)))))))))</code></pre>
-  <p>Quote gives its expression without computing it, and <code>if</code> computes only the branch it picks:</p>
-  <pre><code>
+    <p>
+        Quote gives its expression without computing it, and <code>if</code> computes only the
+        branch it picks:
+    </p>
+    <pre><code>
 (∀ u expressions (= (eval (list (quote quote) u)) u))
 (∀ u expressions (∀ v expressions (∀ w expressions
   (= (eval (list (quote if) u v w)) (if (eval u) (eval v) (eval w))))))</code></pre>
-  <p>A constant, a particle, an element or another named thing has the thing it names as its value, as in <code>(= (eval (quote π)) π)</code> above. With these few sentences, every expression without variables and without a binder has a value. The binders (<code>∀</code>, <code>∃</code>, <code>sequence</code>, <code>average</code> and <code>let</code>) get no rules here: their value is what the earlier lessons taught them to mean.</p>
+    <p>
+        A constant, a particle, an element or another named thing has the thing it names as its
+        value, as in <code>(= (eval (quote π)) π)</code> above. With these few sentences, every
+        expression without variables and without a binder has a value. The binders (<code>∀</code>,
+        <code>∃</code>, <code>sequence</code>, <code>average</code> and <code>let</code>) get no
+        rules here: their value is what the earlier lessons taught them to mean.
+    </p>
 </article>
 </body>
 </html>

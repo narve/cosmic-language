@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The energy levels of hydrogen · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>The energy levels of hydrogen</title>
 </head>
 <body>
 <article class="lesson" data-topic="physics">
-  <h3>the energy levels of hydrogen</h3>
-  <p>New: the function <code>level</code>, the energy of a hydrogen atom at its 1st, 2nd, 3rd, … energy level. Again only ratios are given. First the mathematics: if the levels go as −1/n² plus a constant, the steps between them have exact ratios.</p>
-  <pre><code>
+    <h3>the energy levels of hydrogen</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        New: the function <code>level</code>, the energy of a hydrogen atom at its 1st, 2nd, 3rd, …
+        energy level. Again only ratios are given. First the mathematics: if the levels go as −1/n²
+        plus a constant, the steps between them have exact ratios.
+    </p>
+    <pre><code>
 ; the steps between 1, 1/4 and 1/9 (that is 1/1², 1/2² and 1/3²)
 (= (− 1 (÷ 1 4)) (÷ 3 4))
 (= (− 1 (÷ 1 9)) (÷ 8 9))
@@ -24,8 +29,10 @@
 ; the step from 1 to 3, divided by the step from 1 to 2:
 ; 8/9 ÷ 3/4 = 32/27
 (= (÷ (− 1 (÷ 1 9)) (− 1 (÷ 1 4))) (÷ 32 27))</code></pre>
-  <p>Then the measurements, which agree with these ratios:</p>
-  <pre><code>
+    <p>
+        Then the measurements, which agree with these ratios:
+    </p>
+    <pre><code>
 ; each level lies above the one before
 (observed (&lt; (level hydrogen 1) (level hydrogen 2) (level hydrogen 3)))
 
@@ -40,8 +47,14 @@
               (÷ (− (level hydrogen 3) (level hydrogen 1))
                  (− (level hydrogen 2) (level hydrogen 1)))
               (+ (÷ 32 27) (÷ 1 (^ 2 7)))))</code></pre>
-  <p>Each range is written around the exact ratio: the measured value lies within 1/128 of it. These ratios are the pattern every spectroscopist finds first in the light from hydrogen.</p>
-  <p><small>Sources: CODATA 2022 (Rydberg constant). Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+    <p>
+        Each range is written around the exact ratio: the measured value lies within 1/128 of it.
+        These ratios are the pattern every spectroscopist finds first in the light from hydrogen.
+    </p>
+    <p>
+        <small>Sources: CODATA 2022 (Rydberg constant). Details in the
+        <a href="../specification.html#reference">specification, §8.4</a>.</small>
+    </p>
 </article>
 </body>
 </html>

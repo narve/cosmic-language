@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Common molecules · Cosmic Language</title>
-  <link rel="stylesheet" href="../assets/style.css">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script src="../assets/views.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <script src="../assets/views.js" defer></script>
+    <title>Common molecules</title>
 </head>
 <body>
 <article class="lesson" data-topic="chemistry">
-  <h3>common molecules</h3>
-  <p>Atoms other than the noble gases join into molecules. <code>count</code> tells how many atoms of an element a molecule contains, and counting goes on through the atoms to their particles:</p>
-  <pre><code>
+    <h3>common molecules</h3>
+    <p><small>AI generated</small></p>
+    <p>
+        Atoms other than the noble gases join into molecules. <code>count</code> tells how many
+        atoms of an element a molecule contains, and counting goes on through the atoms to their
+        particles:
+    </p>
+    <pre><code>
 ; hydrogen gas, the simplest molecule: two hydrogen atoms
 (= (count hydrogen dihydrogen) 2)
 ; counting through the atoms: 2 protons and 2 electrons
@@ -43,8 +48,12 @@
 ; carbon dioxide: one carbon and two oxygen
 (= (count carbon carbon-dioxide) 1)
 (= (count oxygen carbon-dioxide) 2)</code></pre>
-  <p><code>atoms</code> gives a molecule's atoms as a list. <code>bonds</code> gives its bonds: each bond is a list of the positions of two atoms and the number of electron pairs they share.</p>
-  <pre><code>
+    <p>
+        <code>atoms</code> gives a molecule's atoms as a list. <code>bonds</code> gives its bonds:
+        each bond is a list of the positions of two atoms and the number of electron pairs they
+        share.
+    </p>
+    <pre><code>
 ; hydrogen gas: its two atoms share one pair
 (= (atoms dihydrogen) (list hydrogen hydrogen))
 (= (bonds dihydrogen) (list (list 1 2 1)))
@@ -74,8 +83,15 @@
 
 ; a molecule is a token of a new type, molecule: 9
 (= (type (quote water)) molecule)</code></pre>
-  <p>All the molecules so far are made of hydrogen, carbon, nitrogen and oxygen, the most common elements that react. So are most of the molecules found between the stars, in the clouds where stars form. Here are six more of them, each given by its atoms and its bonds. Carbon monoxide is the most common molecule there after hydrogen gas. The others show that carbon can share two or three pairs with one neighbour, and can join other carbon atoms into chains.</p>
-  <pre><code>
+    <p>
+        All the molecules so far are made of hydrogen, carbon, nitrogen and oxygen, the most common
+        elements that react. So are most of the molecules found between the stars, in the clouds
+        where stars form. Here are six more of them, each given by its atoms and its bonds. Carbon
+        monoxide is the most common molecule there after hydrogen gas. The others show that carbon
+        can share two or three pairs with one neighbour, and can join other carbon atoms into
+        chains.
+    </p>
+    <pre><code>
 ; carbon monoxide: one carbon and one oxygen, sharing three pairs
 (= (count carbon carbon-monoxide) 1)
 (= (count oxygen carbon-monoxide) 1)
@@ -121,8 +137,12 @@
 ; counting through the atoms: carbon monoxide has 6 + 8 = 14
 ; electrons
 (= (count electron carbon-monoxide) 14)</code></pre>
-  <p>Heavier elements join in too. Silicon and sulfur are among the most common elements after those four, and molecules with them are found between the stars as well, as are hydrogen chloride and, around old stars, sodium chloride.</p>
-  <pre><code>
+    <p>
+        Heavier elements join in too. Silicon and sulfur are among the most common elements after
+        those four, and molecules with them are found between the stars as well, as are hydrogen
+        chloride and, around old stars, sodium chloride.
+    </p>
+    <pre><code>
 ; silicon monoxide: one silicon and one oxygen
 (= (count silicon silicon-monoxide) 1)
 (= (count oxygen silicon-monoxide) 1)
@@ -156,8 +176,16 @@
 (= (count sodium sodium-chloride) 1)
 (= (count chlorine sodium-chloride) 1)
 (= (atoms sodium-chloride) (list sodium chlorine))</code></pre>
-  <p>At one particular temperature and pressure, a substance exists as solid, liquid and gas together: its triple point. Melting and boiling happen at different temperatures under different pressures, but the three forms exist together at one temperature and one pressure only, and both are fixed by the substance. So a triple point needs no pressure to be named with it, and it is the same everywhere. Here are four, from hydrogen gas to water. The first three are given as a part of water's: a ratio of two temperatures is a plain number and needs no unit.</p>
-  <pre><code>
+    <p>
+        At one particular temperature and pressure, a substance exists as solid, liquid and gas
+        together: its triple point. Melting and boiling happen at different temperatures under
+        different pressures, but the three forms exist together at one temperature and one pressure
+        only, and both are fixed by the substance. So a triple point needs no pressure to be named
+        with it, and it is the same everywhere. Here are four, from hydrogen gas to water. The first
+        three are given as a part of water's: a ratio of two temperatures is a plain number and
+        needs no unit.
+    </p>
+    <pre><code>
 ; hydrogen gas, neon, argon and water, in the order of their triple
 ; points
 (observed (&lt; (triple-point dihydrogen) (triple-point neon) (triple-point argon) (triple-point water)))
@@ -183,8 +211,13 @@
 (observed (&lt; (÷ (big 4 232) (^ 2 12))
               (÷ (triple-point argon) (triple-point water))
               (÷ (big 4 233) (^ 2 12))))</code></pre>
-  <p>Water's own triple point is tied to quantities the message already has. Its thermal energy is compared with hydrogen's step from level 1 to level 2, and it is given in Planck temperatures. The ranges are narrow on purpose, about one part in 300 (roughly a kelvin wide): a wide range would also fit water's boiling, or any other temperature in between.</p>
-  <pre><code>
+    <p>
+        Water's own triple point is tied to quantities the message already has. Its thermal energy
+        is compared with hydrogen's step from level 1 to level 2, and it is given in Planck
+        temperatures. The ranges are narrow on purpose, about one part in 300 (roughly a kelvin
+        wide): a wide range would also fit water's boiling, or any other temperature in between.
+    </p>
+    <pre><code>
 ; kB × the triple point of water, divided by hydrogen's step from
 ; level 1 to level 2:
 ; between 302/2¹⁷ and 303/2¹⁷, which pins the temperature down to
@@ -198,8 +231,14 @@
 (observed (&lt; (÷ 156 (^ 2 106))
               (÷ (triple-point water) planck-temperature)
               (÷ 157 (^ 2 106))))</code></pre>
-  <p>New: <code>triple-pressure</code>, the pressure at a triple point. A pressure is a force per area: mass ÷ (length × time²). The Planck units give a unit for it, the Planck mass divided by the Planck length and the square of the Planck time, so the triple points also give the message fixed pressures that are the same everywhere. Water's is the lowest of the four; it is given in that unit, and the others as many times water's.</p>
-  <pre><code>
+    <p>
+        New: <code>triple-pressure</code>, the pressure at a triple point. A pressure is a force per
+        area: mass ÷ (length × time²). The Planck units give a unit for it, the Planck mass divided
+        by the Planck length and the square of the Planck time, so the triple points also give the
+        message fixed pressures that are the same everywhere. Water's is the lowest of the four; it
+        is given in that unit, and the others as many times water's.
+    </p>
+    <pre><code>
 ; the four triple points in the order of their pressures: water has
 ; the lowest
 (observed (&lt; (triple-pressure water) (triple-pressure dihydrogen) (triple-pressure neon) (triple-pressure argon)))
@@ -220,7 +259,12 @@
 (observed (&lt; (÷ 141 2) (÷ (triple-pressure neon) (triple-pressure water)) (÷ 143 2)))
 ; argon: between 112 and 113 times water's
 (observed (&lt; 112 (÷ (triple-pressure argon) (triple-pressure water)) 113))</code></pre>
-  <p><small>Sources: BIPM (water's triple point; the triple points and pressures of hydrogen, neon and argon), IAPWS G5-01 (water's triple-point pressure), NIST Chemistry WebBook (cross-check), CODATA 2022. Details in the <a href="../specification.html#reference">specification, §8.4</a>.</small></p>
+    <p>
+        <small>Sources: BIPM (water's triple point; the triple points and pressures of hydrogen,
+        neon and argon), IAPWS G5-01 (water's triple-point pressure), NIST Chemistry WebBook
+        (cross-check), CODATA 2022. Details in the
+        <a href="../specification.html#reference">specification, §8.4</a>.</small>
+    </p>
 </article>
 </body>
 </html>
