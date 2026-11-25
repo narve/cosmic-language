@@ -34,7 +34,8 @@
 ; apply &lt; says that the items are in increasing order
 (apply &lt; (list 1 5 9))
 (= (apply &lt; (list 1 5 9)) (&lt; 1 5 9) true)
-(= (apply &lt; (list 9 5 1)) false)</code></pre>
+(= (apply &lt; (list 9 5 1)) false)
+    </code></pre>
     <p>
         <code>sequence</code> has the same form as the quantifiers: a variable, the values it runs
         through, and a rule for each item. Over a list, it gives a list:
@@ -48,7 +49,8 @@
 ; the rule "u × u" gives the squares
 (= (sequence u (list 1 2 3 4) (× u u)) (list 1 4 9 16))
 ; a sequence is a list, so apply works on it
-(= (apply + (sequence u (list 1 2 3) u)) 6)</code></pre>
+(= (apply + (sequence u (list 1 2 3) u)) 6)
+    </code></pre>
     <p>
         Over ℕ it gives an infinite sequence, which continues without end by the same rule. Its
         first item is the one for 0:
@@ -61,7 +63,8 @@
 
 ; the squares: the first item is 0 × 0, the fourth 3 × 3
 (= (item (sequence u ℕ (× u u)) 1) 0)
-(= (item (sequence u ℕ (× u u)) 4) 9)</code></pre>
+(= (item (sequence u ℕ (× u u)) 4) 9)
+    </code></pre>
 </article>
 </body>
 </html>

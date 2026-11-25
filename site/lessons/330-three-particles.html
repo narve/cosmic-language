@@ -28,10 +28,10 @@
 (observed (&lt; (mass electron) (mass proton) (mass neutron)))
 
 ; proton ÷ electron: between 1836 and 1837
-; (1836 is written (big 7 44), because 7 × 256 + 44 = 1836)
-(observed (&lt; (big 7 44) (÷ (mass proton) (mass electron)) (big 7 45)))
+; (1836 is written (num 7 44), because 7 × 256 + 44 = 1836)
+(observed (&lt; (num 7 44) (÷ (mass proton) (mass electron)) (num 7 45)))
 ; neutron ÷ electron: between 1838 and 1839
-(observed (&lt; (big 7 46) (÷ (mass neutron) (mass electron)) (big 7 47)))
+(observed (&lt; (num 7 46) (÷ (mass neutron) (mass electron)) (num 7 47)))
 ; neutron ÷ proton: just above 1, so the neutron is slightly
 ; heavier: between 1 + 1/2¹¹ and 1 + 1/2⁹
 (observed (&lt; (+ 1 (÷ 1 (^ 2 11)))
@@ -47,7 +47,8 @@
 ; the three are tokens of a new type, particle: 5
 (= (type (quote electron)) particle)
 (= (type (quote proton)) particle)
-(= (type (quote neutron)) particle)</code></pre>
+(= (type (quote neutron)) particle)
+    </code></pre>
     <p>
         Three particles, two of them about 1836 and 1839 times heavier than the third, with charges
         that are opposite and zero. A receiver who knows physics will recognize them.

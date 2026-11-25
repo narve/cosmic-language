@@ -29,7 +29,8 @@
 
 ; or a list
 (let u (list 1 2 3) (= (length u) 3))
-(let u (list 1 2 3) (= (item u (length u)) 3))</code></pre>
+(let u (list 1 2 3) (= (item u (length u)) 3))
+    </code></pre>
     <p>
         A <code>let</code> can hold another, and a later value may use an earlier name. It says the
         same as <code>∀</code> over a list of one item.
@@ -46,7 +47,8 @@
 (= (let u 3 (&gt; u 5)) (∀ u (list 3) (&gt; u 5)))
 
 ; and it works inside laws: for every u, u + 1 is greater than u
-(∀ u ℕ (let v (+ u 1) (&gt; v u)))</code></pre>
+(∀ u ℕ (let v (+ u 1) (&gt; v u)))
+    </code></pre>
 </article>
 </body>
 </html>

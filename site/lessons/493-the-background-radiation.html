@@ -29,7 +29,8 @@
 
 ; its average over the sky: between 163/2¹⁴ and 164/2¹⁴ of
 ; water's triple point
-(observed (&lt; (÷ 163 (^ 2 14)) (÷ (average v directions (background v)) (triple-point water)) (÷ 164 (^ 2 14))))</code></pre>
+(observed (&lt; (÷ 163 (^ 2 14)) (÷ (average v directions (background v)) (triple-point water)) (÷ 164 (^ 2 14))))
+    </code></pre>
     <p>
         The small differences from direction to direction form a pattern that is the same for every
         observer in a very large region around us: the glow comes from so far away that moving even
@@ -64,7 +65,8 @@
 (= third-axis (cross first-axis second-axis))
 (= (dot third-axis third-axis) 1)
 (= (dot third-axis first-axis) 0)
-(= (dot third-axis second-axis) 0)</code></pre>
+(= (dot third-axis second-axis) 0)
+    </code></pre>
     <p>
         Each axis is a line, and the rule above cannot tell its two ends apart: (dot with the
         direction)² is the same at both. A second, odd measure can: the average of (temperature −
@@ -83,7 +85,8 @@
 (observed (let w (average v directions (background v))
   (&gt; (average u directions (× (− (background u) w)
        (− (^ (dot second-axis u) 3) (× (÷ 3 5) (dot second-axis u)))))
-     0)))</code></pre>
+     0)))
+    </code></pre>
     <p>
         The warmer-ahead, colder-behind pattern of a moving observer adds nothing, to first order in
         its speed, to the measure that defines the axes, since (dot with the direction)² is the same

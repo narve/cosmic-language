@@ -43,7 +43,7 @@ class Display {
       case "not": return { html: `¬${part(args[0], NEGATION)}`, strength: NEGATION };
       case "^": return { html: `${part(args[0], POWER + 1)}<sup>${this.show(args[1]).html}</sup>`, strength: POWER };
       case "abs": return { html: `|${this.show(args[0]).html}|`, strength: ATOM };
-      case "big": {
+      case "num": {
         const digits = args.map((a) => a.token?.type === 0 ? a.token.value : NaN);
         if (digits.every((d) => !Number.isNaN(d))) return { html: String(digits.reduce((s, d) => s * 256 + d, 0)), strength: ATOM };
         break;

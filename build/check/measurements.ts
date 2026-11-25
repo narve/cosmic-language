@@ -345,7 +345,7 @@ const exact = (n: Node): number | undefined => {
   if (v.some((x) => x === undefined)) return undefined;
   const a = v as number[];
   switch (op) {
-    case "big": return a.reduce((s, d) => s * 256 + d, 0);
+    case "num": return a.reduce((s, d) => s * 256 + d, 0);
     case "+": return a.reduce((s, x) => s + x, 0);
     case "×": return a.reduce((s, x) => s * x, 1);
     case "−": return a[0] - a[1];

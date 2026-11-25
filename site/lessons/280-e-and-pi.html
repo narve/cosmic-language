@@ -26,7 +26,8 @@
 ; closer: between 8/3 and 11/4
 (&lt; (÷ 8 3) e (÷ 11 4))
 ; exp of a natural number is a power of e
-(∀ u ℕ (= (exp u) (^ e u)))</code></pre>
+(∀ u ℕ (= (exp u) (^ e u)))
+    </code></pre>
     <p>
         As the previous lesson showed, exp of i × <var>u</var> goes round the circle of radius 1 as
         <var>u</var> grows. It starts at 1, when <var>u</var> is 0. Half way round, at the opposite
@@ -50,7 +51,8 @@
 ; π lies between 3 and 4
 (&lt; 3 π 4)
 ; closer: between 223/71 and 22/7, Archimedes' bounds
-(&lt; (÷ 223 71) π (÷ 22 7))</code></pre>
+(&lt; (÷ 223 71) π (÷ 22 7))
+    </code></pre>
     <p>
         Two infinite sums reach the same π in a completely different way, with only fractions: no
         <code>exp</code> and no <code>i</code>. The first adds and subtracts 1 over each odd number
@@ -63,7 +65,8 @@
 (= π (× 4 (apply + (sequence u ℕ (÷ (^ (neg 1) u) (+ (× 2 u) 1))))))
 
 ; 1 + 1/4 + 1/9 + 1/16 + … = π²/6
-(= (apply + (sequence u ℕ (÷ 1 (^ (+ u 1) 2)))) (÷ (^ π 2) 6))</code></pre>
+(= (apply + (sequence u ℕ (÷ 1 (^ (+ u 1) 2)))) (÷ (^ π 2) 6))
+    </code></pre>
 </article>
 </body>
 </html>

@@ -10,7 +10,7 @@
 </head>
 <body>
 <article class="lesson" data-topic="math logic minimal">
-    <h3>variables and quantifiers</h3>
+    <h3>variables, quantifiers, and domains</h3>
     <p><small>AI generated</small></p>
     <p>
         New: variables (<var>u</var>, <var>v</var>, <var>w</var>, <var>z</var>), the quantifiers
@@ -19,7 +19,7 @@
         <data value="implies">implies</data>.
     </p>
     <p>
-        A quantifier binds one variable to the values it runs through:
+        A <em>quantifier</em> binds one <em>variable</em> to one of a set of values:
         <code>(∀ <var>u</var> (list 1 2 3) …)</code> means "for every <var>u</var> among 1, 2 and 3,
         …". Every variable is bound in the sentence where it appears, and a variable in one sentence
         has nothing to do with the same variable in the next.
@@ -29,7 +29,8 @@
     <p>
         The lesson starts with short lists, where everything can be checked by hand. A sentence with
         <code>∀</code> says the same as all its instances together: it is the
-        <data value="and">and</data> of them.
+        <data value="and">and</data>
+        of them.
     </p>
     <pre><code>
 ; three instances: 1, 2 and 3 are each less than 4
@@ -39,8 +40,10 @@
 
 ; the same in one sentence: every u in the list is less than 4
 (∀ u (list 1 2 3) (&lt; u 4))
+
 ; u stands for each item in turn: it is 1, or 2, or 3
 (∀ u (list 1 2 3) (or (= u 1) (= u 2) (= u 3)))
+
 ; what it means: put each item in the place of u, and join the three
 ; results with and
 (= (∀ u (list 1 2 3) (&lt; u 4))
@@ -52,7 +55,8 @@
 (∀ u (list 2 4 6) (≠ u 5))
 
 ; a list of one item: just that one instance
-(= (∀ u (list 5) (&gt; u 4)) (&gt; 5 4))</code></pre>
+(= (∀ u (list 5) (&gt; u 4)) (&gt; 5 4))
+    </code></pre>
 
     <h4>There exists, over a list</h4>
     <p>
@@ -81,35 +85,42 @@
 (∃ u (list 1 2 3) (&lt; u 4))
 
 ; some item is 2: the same as "not every item differs from 2"
-(= (∃ u (list 1 2 3) (= u 2)) (not (∀ u (list 1 2 3) (≠ u 2))))</code></pre>
+(= (∃ u (list 1 2 3) (= u 2)) (not (∀ u (list 1 2 3) (≠ u 2))))
+    </code></pre>
 
     <h4>From a list to ℕ</h4>
     <p>
-        A list ends. The natural numbers do not: <code>ℕ</code> stands for 0, 1, 2, 3 and so on
-        without end. A law over ℕ cannot be checked instance by instance, but it reads the same way.
-        From here on, a law often comes with a few of its instances, although the law alone says
-        everything: the instances show how to read it.
+        So far we've used simple, finite lists. We can use the tools
+        we have created so far to name various <em>domains</em>,
+        e.g. the set of the <em>natural numbers</em> 0, 1, 2, 3 …
     </p>
     <pre><code>
-; four instances: adding 0 changes nothing
+; three instances: adding 0 changes nothing
 (= (+ 0 0) 0)
-(= (+ 3 0) 3)
 (= (+ 7 0) 7)
 (= (+ 255 0) 255)
 
-; the same over a list of those four numbers
-(∀ u (list 0 3 7 255) (= (+ u 0) u))
+; the same over a list of those three numbers
+(∀ u (list 0 7 255) (= (+ u 0) u))
+
 ; the law: for every natural number u, u + 0 = u
 (∀ u ℕ (= (+ u 0) u))
 
-; ℕ starts at 0 …
+; ℕ starts at 0: 0 is in it, and nothing in it is below 0
 (∃ u ℕ (= u 0))
-; … and never ends: every number has a next one
-(∀ u ℕ (∃ v ℕ (= v (+ u 1))))</code></pre>
+(∀ u ℕ (or (= u 0) (&gt; u 0)))
+; ℕ never ends: every number has a next one
+(∀ u ℕ (∃ v ℕ (= v (+ u 1))))
+
+; ℕ holds nothing else: every number is 0, or comes after another;
+; with nothing below 0, this separates ℕ from the integers (ℤ),
+; the rationals (ℚ) etc.
+(∀ u ℕ (or (= u 0) (∃ v ℕ (= u (+ v 1)))))
+    </code></pre>
 
     <h4>More laws over ℕ</h4>
     <pre><code>
-; three instances: times 1 changes nothing
+; first some instances: times 1 changes nothing
 (= (× 4 1) 4)
 (= (× 9 1) 9)
 (= (× 255 1) 255)
@@ -122,8 +133,7 @@
 
 ; every number is less than the next
 (∀ u ℕ (&lt; u (+ u 1)))
-; nothing in ℕ is below 0
-(∀ u ℕ (or (= u 0) (&gt; u 0)))</code></pre>
+    </code></pre>
 
     <h4>Two variables</h4>
     <p>
@@ -148,7 +158,8 @@
 (∀ u ℕ (∀ v ℕ (∀ w ℕ (∀ z ℕ (= (+ u v w z) (+ z w v u))))))
 ; and (u + v) × (w + z) = u × w + u × z + v × w + v × z
 (∀ u ℕ (∀ v ℕ (∀ w ℕ (∀ z ℕ
-  (= (× (+ u v) (+ w z)) (+ (× u w) (× u z) (× v w) (× v z)))))))</code></pre>
+  (= (× (+ u v) (+ w z)) (+ (× u w) (× u z) (× v w) (× v z)))))))
+    </code></pre>
 
     <h4>Laws about lists</h4>
     <p>
@@ -161,7 +172,8 @@
 (∀ u ℕ (∀ v ℕ (= (item (list u v) 1) u)))
 
 ; the last item is the one at the position of the length
-(∀ u ℕ (∀ v ℕ (= (item (list u v) (length (list u v))) v)))</code></pre>
+(∀ u ℕ (∀ v ℕ (= (item (list u v) (length (list u v))) v)))
+    </code></pre>
 
     <h4>The name does not matter</h4>
     <pre><code>
@@ -169,7 +181,8 @@
 (∀ u ℕ (= (+ u 0) u))
 (∀ v ℕ (= (+ v 0) v))
 (∀ w ℕ (= (+ w 0) w))
-(∀ z ℕ (= (+ z 0) z))</code></pre>
+(∀ z ℕ (= (+ z 0) z))
+    </code></pre>
 
     <h4>There exists, in ℕ</h4>
     <p>
@@ -186,7 +199,8 @@
 
 ; there is a number above 255: 256 is one
 (∃ u ℕ (&gt; u 255))
-(&gt; (big 1 0) 255)</code></pre>
+(&gt; (num 1 0) 255)
+    </code></pre>
 
     <h4>ℚ: the rational numbers</h4>
     <p>
@@ -208,14 +222,16 @@
 ; and nothing else is: every number in ℚ is such a quotient, or the
 ; neg of one
 (∀ w ℚ (∃ u ℕ (∃ v ℕ
-  (or (= w (÷ u (+ v 1))) (= w (neg (÷ u (+ v 1))))))))</code></pre>
+  (or (= w (÷ u (+ v 1))) (= w (neg (÷ u (+ v 1))))))))
+    </code></pre>
     <p>
         The same laws hold over ℚ:
     </p>
     <pre><code>
 ; adding 0 changes nothing, and the order of a sum does not matter
 (∀ u ℚ (= (+ u 0) u))
-(∀ u ℚ (∀ v ℚ (= (+ u v) (+ v u))))</code></pre>
+(∀ u ℚ (∀ v ℚ (= (+ u v) (+ v u))))
+    </code></pre>
     <p>
         But ℚ contains numbers that ℕ does not:
     </p>
@@ -234,9 +250,12 @@
 (∀ u ℕ (≠ (× u 3) 1))
 
 ; every number in ℚ has an opposite: the two add up to 0
-(∀ u ℚ (∃ v ℚ (= (+ u v) 0)))</code></pre>
+(∀ u ℚ (∃ v ℚ (= (+ u v) 0)))
+    </code></pre>
 
-    <h4><data value="implies">implies</data></h4>
+    <h4>
+        <data value="implies">implies</data>
+    </h4>
     <p>
         First its truth table, then its use: stating something only where a condition holds.
     </p>
@@ -254,7 +273,8 @@
 ; whatever is above 5 is above 2
 (∀ u ℕ (implies (&gt; u 5) (&gt; u 2)))
 ; only where u is not 0: u × (1 ÷ u) = 1
-(∀ u ℚ (implies (≠ u 0) (= (× u (÷ 1 u)) 1)))</code></pre>
+(∀ u ℚ (implies (≠ u 0) (= (× u (÷ 1 u)) 1)))
+    </code></pre>
     <p>
         Inside a quantifier, a relation such as <code>(&lt; <var>u</var> 2)</code> is an open
         statement: it holds for some values of <var>u</var> and not for others. This does not break

@@ -34,7 +34,8 @@
 
 ; the same law turned around, read as what temperature is:
 ; 2 × energy of motion ÷ (3 × kB)
-(observed (∀ u gases (= (temperature u) (÷ (× 2 (kinetic u)) (× 3 kB)))))</code></pre>
+(observed (∀ u gases (= (temperature u) (÷ (× 2 (kinetic u)) (× 3 kB)))))
+    </code></pre>
     <p>
         A black body radiates power that grows with the fourth power of its temperature. The factor
         in front is made only of constants the message has already introduced, and π²/60 is the
@@ -56,7 +57,8 @@
 ; twice the temperature gives 2⁴ = 16 times the power
 (observed (∀ u black-bodies (∀ v black-bodies
   (implies (= (temperature u) (× 2 (temperature v)))
-           (= (exitance u) (× 16 (exitance v)))))))</code></pre>
+           (= (exitance u) (× 16 (exitance v)))))))
+    </code></pre>
     <p>
         The Planck temperature completes the Planck units:
     </p>
@@ -68,7 +70,8 @@
 
 ; at the Planck temperature, the thermal energy (kB × temperature)
 ; is the energy of the Planck mass (mass × c²)
-(= (× kB planck-temperature) (× planck-mass (^ c 2)))</code></pre>
+(= (× kB planck-temperature) (× planck-mass (^ c 2)))
+    </code></pre>
 </article>
 </body>
 </html>

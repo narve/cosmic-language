@@ -25,7 +25,7 @@
 ; the kaon has no charge and weighs between 973 and 975
 ; electron masses
 (observed (= (charge kaon) 0))
-(observed (&lt; (big 3 205) (÷ (mass kaon) (mass electron)) (big 3 207)))
+(observed (&lt; (num 3 205) (÷ (mass kaon) (mass electron)) (num 3 207)))
 
 ; the kaon has no spin, so the electrons from its decays leave in
 ; no preferred direction against it; yet each electron still spins
@@ -40,7 +40,8 @@
 (observed (&gt; (yields positron kaon) (yields electron kaon)))
 (observed (&lt; (+ 1 (÷ 1 (^ 2 8)))
               (÷ (yields positron kaon) (yields electron kaon))
-              (+ 1 (÷ 1 (^ 2 7)))))</code></pre>
+              (+ 1 (÷ 1 (^ 2 7)))))
+    </code></pre>
     <p>
         So the kaon gives more often the kind of light particle that the atoms of this message do
         <em>not</em> hold. The atoms of this message are made of matter, and so is its sender: a

@@ -32,7 +32,8 @@
 (= (dim planck-mass) M)
 
 ; light travels one Planck length in one Planck time
-(= planck-length (× c planck-time))</code></pre>
+(= planck-length (× c planck-time))
+    </code></pre>
     <p>
         Now familiar things can be measured in these units. The ranges are deliberately rough,
         between two powers of 2: what matters is that the receiver recognizes them.
@@ -61,7 +62,8 @@
 ; Planck times (between 2¹¹³ and 2¹¹⁴)
 (observed (&lt; (^ 2 113) (÷ 1 (× (frequency hydrogen-line) planck-time)) (^ 2 114)))
 ; so its wavelength is as many Planck lengths: about 21 cm
-(observed (&lt; (^ 2 113) (÷ (wavelength hydrogen-line) planck-length) (^ 2 114)))</code></pre>
+(observed (&lt; (^ 2 113) (÷ (wavelength hydrogen-line) planck-length) (^ 2 114)))
+    </code></pre>
     <p>
         One more ratio is famous among physicists. The step from level 1 to level 2 of hydrogen,
         divided by the energy of the electron's mass (<var>m</var> × <code>c</code>²), is 3/8 of the
@@ -72,7 +74,8 @@
 ; (between 1/2¹⁶ and 1/2¹⁵)
 (observed (&lt; (÷ 1 (^ 2 16))
               (÷ (− (level hydrogen 2) (level hydrogen 1)) (× (mass electron) (^ c 2)))
-              (÷ 1 (^ 2 15))))</code></pre>
+              (÷ 1 (^ 2 15))))
+    </code></pre>
     <p>
         <small>Sources: CODATA 2022 (Planck units, masses), JPL Molecular Spectroscopy catalog (the
         21 cm line). Details in the <a href="../specification.html#reference">specification,

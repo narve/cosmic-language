@@ -32,7 +32,8 @@
 (∀ u expressions (∀ v expressions
   (implies (and (≠ (type u) brackets) (≠ u (quote ?))) (= (fill u v) u))))
 (∀ u expressions (∀ v expressions
-  (implies (= (type u) brackets) (= (fill u v) (sequence w u (fill w v))))))</code></pre>
+  (implies (= (type u) brackets) (= (fill u v) (sequence w u (fill w v))))))
+    </code></pre>
     <p>
         A message is sent by someone to someone. New: <code>sender</code> and <code>receiver</code>,
         the one who sends a message and the one it is sent to; <code>you</code>, its receiver; and
@@ -49,7 +50,8 @@
 
 ; you are a party: someone who can send and receive messages
 (∃ u parties (= u you))
-(∃ u parties (= u (receiver message)))</code></pre>
+(∃ u parties (= u (receiver message)))
+    </code></pre>
     <p>
         A reply is a message that goes back: its sender is the receiver of the message before it,
         and its receiver is that message's sender. New: the domain <code>conversations</code>:
@@ -77,7 +79,8 @@
 (∀ u conversations
   (implies (and (= (item u 1) message) (&gt; (length u) 1))
     (and (= (sender (item u 2)) you)
-         (= (receiver (item u 2)) we))))</code></pre>
+         (= (receiver (item u 2)) we))))
+    </code></pre>
     <p>
         Some things about us only we can say: you can neither prove nor measure them.
         <code>stated</code>, first used in the lesson on the prisoner's dilemma, marks such a
@@ -93,7 +96,8 @@
 ; this is not the only message we have sent
 (stated (∃ u expressions (and (≠ u message) (= (sender u) we))))
 ; we hold every sentence of this message to be true
-(stated (∀ u message (implies (= (type u) brackets) (= (eval u) true))))</code></pre>
+(stated (∀ u message (implies (= (type u) brackets) (= (eval u) true))))
+    </code></pre>
 </article>
 </body>
 </html>

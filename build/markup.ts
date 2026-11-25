@@ -16,7 +16,8 @@ const VARIABLE = 4;
 export function markupBlocks(article: Element, registry: Registry, where: string): void {
   messageCode(article).forEach((code, index) => {
     const block = readBlock(code, registry, `${where}, block ${index + 1}`);
-    code.innerHTML = block.lines.map((line) => markLine(line, registry)).join("\n");
+    // The edge lines stay, as in the source: style.css hides them.
+    code.innerHTML = `\n${block.lines.map((line) => markLine(line, registry)).join("\n")}\n`;
   });
 }
 

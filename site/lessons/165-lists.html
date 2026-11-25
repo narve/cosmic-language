@@ -11,10 +11,10 @@
 <body>
 <article class="lesson" data-topic="math minimal">
     <h3>lists</h3>
-    <p><small>AI generated</small></p>
     <p>
         A list is several values in a fixed order, written <code>(list 4 7 9)</code>. The items are
-        counted from 1.
+        counted from 1. We show <code>list</code>, <code>length</code> and <code>item</code> first, since they
+        explain each other:
     </p>
     <pre><code>
 ; a list equals a list with the same items in the same order
@@ -36,7 +36,8 @@
 ; lists can contain lists: this one has 2 items, and the second is
 ; the list whose only item is 3
 (= (length (list (list 1 2) (list 3))) 2)
-(= (item (list (list 1 2) (list 3)) 2) (list 3))</code></pre>
+(= (item (list (list 1 2) (list 3)) 2) (list 3))
+    </code></pre>
     <p>
         <code>count</code> tells how many times a value occurs:
     </p>
@@ -46,14 +47,9 @@
 (= (count 1 (list 3 1 3)) 1)
 (= (count 5 (list 3 1 3)) 0)
 
-(= (count 7 (list 7 7 7 7)) 4)</code></pre>
-    <p>
-        The primes of the beacon, as a list:
-    </p>
-    <pre><code>
-; there are 12 of them, and the fourth is 5
-(= (length (list 1 2 3 5 7 11 13 17 19 23 29 31)) 12)
-(= (item (list 1 2 3 5 7 11 13 17 19 23 29 31) 4) 5)</code></pre>
+(= (count 7 (list 7 7 7 7)) 4)
+    </code></pre>
+
 </article>
 </body>
 </html>

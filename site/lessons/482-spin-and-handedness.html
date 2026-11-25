@@ -24,7 +24,8 @@
 
 (observed (= (spin photon) ħ))
 ; spin has the dimension of ħ
-(∀ u (list electron proton neutron photon) (= (dim (spin u)) (dim ħ)))</code></pre>
+(∀ u (list electron proton neutron photon) (= (dim (spin u)) (dim ħ)))
+    </code></pre>
     <p>
         A turning has an axis and a sense. New: <code>turns</code>, a particle turning from one
         direction toward another at right angles, and <code>spin-axis</code>, the direction of its
@@ -45,7 +46,8 @@
 (∀ u (list electron proton neutron) (∀ v directions (∀ w directions
   (implies (turns u v w) (not (turns u w v))))))
 ; the spin axis is a direction
-(∀ u (list electron proton neutron) (∃ v directions (= v (spin-axis u))))</code></pre>
+(∀ u (list electron proton neutron) (∃ v directions (= v (spin-axis u))))
+    </code></pre>
     <p>
         Is the hand of <code>cross</code> only a convention? For gravity, electricity, magnetism and
         light it is: their laws stay true in a mirror. But one force does not: the weak force, which
@@ -78,7 +80,8 @@
 (observed (≤ (spin-along-motion antineutrino neutron) 1))
 ; it has no charge, and much less mass than the electron
 (observed (= (charge antineutrino) 0))
-(observed (&lt; (mass antineutrino) (mass electron)))</code></pre>
+(observed (&lt; (mass antineutrino) (mass electron)))
+    </code></pre>
     <p>
         In a mirror, each of these would come out the other way. So a reader who has used the other
         hand for <code>cross</code> finds out by watching neutrons decay: with its hand, the

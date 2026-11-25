@@ -74,11 +74,15 @@
       <li>The signal has no DC component (it is high as often as it is low).</li>
     </ul>
     <p>The cost is twice the bandwidth. It is used in, among other things, classic 10 Mbit Ethernet.</p>
-    <pre><code><i>bits  </i>  0    1    1    0
-<i>signal</i>  ‾|_  _|‾  _|‾  ‾|_</code></pre>
+    <pre><code>
+<i>bits  </i>  0    1    1    0
+<i>signal</i>  ‾|_  _|‾  _|‾  ‾|_
+    </code></pre>
   </aside>
   <h3>3.2 Structure</h3>
-  <pre><code>message = beacon calibration lessons</code></pre>
+  <pre><code>
+message = beacon calibration lessons
+  </code></pre>
   <dl>
     <dt>Beacon</dt>
     <dd>The primes 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 and 31, each written in unary as that many <code>1</code>s and followed by a single <code>0</code> (the last one too), after one leading <code>0</code>. So every run of <code>1</code>s has a <code>0</code> on both sides, even when the beacon follows the last token of a previous copy. In the message, 1 counts as a prime: the first run is the smallest possible count, a single <code>1</code>. The beacon is 174 bits long. There is no pause and no sync token after it.</dd>
@@ -89,7 +93,9 @@
   </dl>
   <p>There is no terminator. Sent once, the message ends when the signal stops. Sent repeatedly, every copy starts with the beacon, which then also separates one copy from the next.</p>
   <p>Example, the start of the beacon:</p>
-  <pre><code>0 1 0 11 0 111 0 11111 0 1111111 0 11111111111 0 …</code></pre>
+  <pre><code>
+0 1 0 11 0 111 0 11111 0 1111111 0 11111111111 0 …
+  </code></pre>
   <p>(The spaces are only for readability and are not part of the bitstream.)</p>
 </section>
 
@@ -105,11 +111,15 @@
 <section id="chunks">
   <h2>5. L2 Chunks</h2>
   <p>A <dfn>chunk</dfn> is <var>C</var> bits that form an unsigned integer, MSB-first. <var>C</var> is a single constant in the format. It may change, but for now:</p>
-  <pre><code>C = 8          <i>a chunk is 0–255</i></code></pre>
+  <pre><code>
+C = 8          <i>a chunk is 0–255</i>
+  </code></pre>
   <p>There is no continuation bit and no length field: every chunk is simply a number. Values that do not fit in one chunk are written as expressions (§8).</p>
   <p>Examples:</p>
-  <pre><code><i>5   </i> 00000101
-<i>255 </i> 11111111</code></pre>
+  <pre><code>
+<i>5   </i> 00000101
+<i>255 </i> 11111111
+  </code></pre>
   <p>The largest prime that fits in one chunk is <strong>251</strong> (<code>11111011</code>). The numbers above it are composite: 252 = 2²·3²·7, 253 = 11·23, 254 = 2·127, 255 = 3·5·17. There are 54 primes from 2 to 251, or 55 if 1 is counted as a prime, as it is in the beacon and the calibration.</p>
   <p>A chunk of 8 bits also holds every atomic number: 118 elements are known, and 2<sup><var>C</var></sup> must stay above about 120 so that the element type (type 6) can use the atomic number itself as its value. This is one reason not to make <var>C</var> smaller than 8.</p>
 </section>
@@ -117,7 +127,9 @@
 <section id="tokens">
   <h2>6. L3 Tokens</h2>
   <p>A token is a <dfn>type</dfn> chunk followed by a <dfn>value</dfn>. Each type decides the shape of its value. In the current format every value is exactly one chunk, so a token is always 2 chunks = 16 bits.</p>
-  <pre><code>token = type value</code></pre>
+  <pre><code>
+token = type value
+  </code></pre>
   <cl-types></cl-types>
   <p>Types 10–255 are reserved. They are introduced later as lessons, for example further symbol categories (§6.2). A later type may have a value of several chunks, e.g. a length chunk followed by that many chunks.</p>
   <h3>6.1 Brackets versus symbols</h3>
@@ -144,17 +156,21 @@
   <h3>6.3 Encoding</h3>
   <p>Types are numbered in order of first appearance, like symbol ids: numbers appear in calibration (type 0), then the first sentence <code>(= 1 1)</code> shows a bracket (type 1) before an operator (type 2).</p>
   <p>The type comes first because it decides how the value is read, and so that an unknown type is noticed before its value. Examples:</p>
-  <pre><code><i>number 3   </i> 00000000 00000011
+  <pre><code>
+<i>number 3   </i> 00000000 00000011
 <i>operator = </i> 00000010 00000001
 <i>OPEN  (    </i> 00000001 00000000
-<i>CLOSE )    </i> 00000001 00000001</code></pre>
+<i>CLOSE )    </i> 00000001 00000001
+  </code></pre>
 </section>
 
 <section id="syntax">
   <h2>7. L4 Syntax</h2>
   <p>Sentences are s-expressions (Lisp style):</p>
-  <pre><code>sentence   = expression
-expression = number | symbol | OPEN expression* CLOSE</code></pre>
+  <pre><code>
+sentence   = expression
+expression = number | symbol | OPEN expression* CLOSE
+  </code></pre>
   <ul>
     <li>A <dfn>sentence</dfn> is an outermost expression. In lessons it is always a group; only the calibration sends bare numbers.</li>
     <li>The first element of a group is the operator, and the rest are arguments. The number of arguments is shown by the brackets. No separate arity field is used.</li>
@@ -187,7 +203,8 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
     <li><strong><code>if</code></strong> computes only the branch it picks, so the other branch may be undefined (e.g. divide by zero) for that case.</li>
     <li><strong><code>eval</code></strong> gives the value of an expression. Numbers and operators are their own values; a named thing (constant, particle, element …) has the thing it names as its value. An operation applies its operator to the values of its arguments, except for the special forms <code>quote</code>, <code>if</code>, <code>∀</code>, <code>∃</code>, <code>sequence</code>, <code>average</code> and <code>let</code>, which have their own rules. <code>eval</code> gives the value of an expression; for a sentence, that is its truth value. The rules of the lesson on <code>eval</code> compute it for expressions without variables or binders; a sentence about infinitely many cases still has a value, but no finite computation need find it.</li>  </ul>
   <p>Example: <code>(= (+ 2 3) 5)</code> becomes 9 tokens:</p>
-  <pre><code><i>(  </i> 00000001 00000000
+  <pre><code>
+<i>(  </i> 00000001 00000000
 <i>=  </i> 00000010 00000001
 <i>(  </i> 00000001 00000000
 <i>+  </i> 00000010 00000111
@@ -195,7 +212,8 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
 <i>3  </i> 00000000 00000011
 <i>)  </i> 00000001 00000001
 <i>5  </i> 00000000 00000101
-<i>)  </i> 00000001 00000001</code></pre>
+<i>)  </i> 00000001 00000001
+  </code></pre>
 </section>
 
 <section id="values">
@@ -206,25 +224,27 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
     <tbody>
       <tr><td>−2</td><td><code>(neg 2)</code></td></tr>
       <tr><td>0</td><td><code>0</code> (never <code>(neg 0)</code>)</td></tr>
-      <tr><td>256</td><td><code>(big 1 0)</code></td></tr>
+      <tr><td>256</td><td><code>(num 1 0)</code></td></tr>
       <tr><td>1/3</td><td><code>(÷ 1 3)</code></td></tr>
       <tr><td>−1/3</td><td><code>(neg (÷ 1 3))</code></td></tr>
       <tr><td>1 + 2i</td><td><code>(+ 1 (× 2 i))</code></td></tr>
       <tr><td>−i</td><td><code>(neg i)</code></td></tr>
     </tbody>
   </table>
-  <p>A rational number that is not an integer has the canonical form <code>(÷ <var>p</var> <var>q</var>)</code> or <code>(neg (÷ <var>p</var> <var>q</var>))</code>, where <var>p</var> ≥ 1, <var>q</var> ≥ 2, and <var>p</var> and <var>q</var> have no common factor. <var>p</var> and <var>q</var> are natural numbers, written with <code>big</code> if needed. Division by zero <strong>must not</strong> appear in the message (see §8.2 for expressions with variables).</p>
+  <p>A rational number that is not an integer has the canonical form <code>(÷ <var>p</var> <var>q</var>)</code> or <code>(neg (÷ <var>p</var> <var>q</var>))</code>, where <var>p</var> ≥ 1, <var>q</var> ≥ 2, and <var>p</var> and <var>q</var> have no common factor. <var>p</var> and <var>q</var> are natural numbers, written with <code>num</code> if needed. Division by zero <strong>must not</strong> appear in the message (see §8.2 for expressions with variables).</p>
   <p>A complex number with rational parts and a non-zero imaginary part is written <code>(+ <var>r</var> <var>s</var>)</code>, or just <var>s</var> when the real part <var>r</var> is 0. <var>r</var> is a canonical rational. The imaginary term <var>s</var> is <code>i</code>, <code>(neg i)</code>, <code>(× <var>b</var> i)</code> or <code>(neg (× <var>b</var> i))</code>, where <var>b</var> is a positive canonical rational other than 1.</p>
   <p>Irrational numbers have no canonical form. They are named by constants (<code>e</code>, <code>π</code>) or described by statements, e.g. the positive square root of 2 by <code>(∃ <var>u</var> ℝ (<data value="and">and</data> (&gt; <var>u</var> 0) (= (× <var>u</var> <var>u</var>) 2)))</code>.</p>
   <p>The evaluator normalizes both sides of a statement before comparing them.</p>
-  <h3>8.1 Large numbers: <code>big</code></h3>
-  <p>A natural number larger than 2<sup><var>C</var></sup> − 1 is written <code>(big <var>d</var><sub><var>n</var></sub> … <var>d</var><sub>1</sub> <var>d</var><sub>0</sub>)</code>: positional notation in base 2<sup><var>C</var></sup>, <strong>most significant digit first</strong>. Each digit is an ordinary number token. The leading digit <strong>must not</strong> be 0, and <code>big</code> <strong>must not</strong> be used for values that fit in one number token.</p>
-  <pre><code><span data-comment>; = 1·256 + 0 = 256</span>
-(big 1 0)
+  <h3>8.1 Large numbers: <code>num</code></h3>
+  <p>A natural number larger than 2<sup><var>C</var></sup> − 1 is written <code>(num <var>d</var><sub><var>n</var></sub> … <var>d</var><sub>1</sub> <var>d</var><sub>0</sub>)</code>: positional notation in base 2<sup><var>C</var></sup>, <strong>most significant digit first</strong>. Each digit is an ordinary number token. The leading digit <strong>must not</strong> be 0, and <code>num</code> <strong>must not</strong> be used for values that fit in one number token.</p>
+  <pre><code>
+<span data-comment>; = 1·256 + 0 = 256</span>
+(num 1 0)
 <span data-comment>; = 2·256² + 0·256 + 5 = 131077</span>
-(big 2 0 5)</code></pre>
-  <p>Put the value chunks of the digits side by side and the bits form the number in binary. <code>big</code> is taught as a lesson after <code>+</code> and <code>×</code>, e.g. <code>(= (big 1 0) (+ 255 1))</code>.</p>
-  <p><em>Reason for most significant first:</em> later number forms that are refined digit by digit (π, measured constants) must have the most significant part first. <code>big</code> follows the same direction, so the message has one convention.</p>
+(num 2 0 5)
+  </code></pre>
+  <p>Put the value chunks of the digits side by side and the bits form the number in binary. <code>num</code> is taught as a lesson after <code>+</code> and <code>×</code>, e.g. <code>(= (num 1 0) (+ 255 1))</code>.</p>
+  <p><em>Reason for most significant first:</em> later number forms that are refined digit by digit (π, measured constants) must have the most significant part first. <code>num</code> follows the same direction, so the message has one convention.</p>
   <h3 id="truth">8.2 Truth values</h3>
   <p>Relations (<code>=</code>, <code>≠</code>, <code>&lt;</code>, <code>&gt;</code>, <code>≤</code>, <code>≥</code>), predicates (e.g. <code>stable</code>, <code>noble</code>) and the logical operations (<data value="not">not</data>, <data value="and">and</data>, <data value="or">or</data>, <data value="implies">implies</data>) have a truth value, <data value="true">true</data> or <data value="false">false</data>. A sentence asserts that its value is <data value="true">true</data>. Between truth values, <code>=</code> means "equivalent".</p>
   <p><strong>No false relations.</strong> No <em>closed</em> relation in the message (one without variables) is applied to arguments for which it does not hold: <code>(= 2 3)</code> never appears, not even inside another expression, except inside <code>quote</code>: a quoted sentence is mentioned, not asserted, e.g. <code>(= (eval (quote (= 2 3))) <data value="false">false</data>)</code>. <data value="false">false</data> appears only as a constant, as the value of <code>eval</code> of a quoted sentence (as in the example just given), or as the value of an expression built with <data value="not">not</data>, <data value="and">and</data>, <data value="or">or</data>, <data value="implies">implies</data>, a quantifier, <code>let</code> or <code>apply</code>, e.g. <code>(= (<data value="not">not</data> (= 2 2)) <data value="false">false</data>)</code> or <code>(= (apply &lt; (list 9 5 1)) <data value="false">false</data>)</code>. Relations that contain bound variables are open statements and are exempt, e.g. <code>(&lt; <var>u</var> 2)</code> in <code>(∀ <var>u</var> ℚ (<data value="implies">implies</data> (&lt; <var>u</var> 2) (&lt; <var>u</var> 3)))</code>. Likewise, division by zero must not occur in a closed expression; inside a quantifier it must be guarded, e.g. by <code>(<data value="implies">implies</data> (≠ <var>u</var> 0) …)</code>.</p>
@@ -432,7 +452,7 @@ expression = number | symbol | OPEN expression* CLOSE</code></pre>
   <h3>10.1 Checked by the build</h3>
   <dl>
     <dt>Encoding</dt>
-    <dd>Every symbol in a message block is in the registry (§9), and every number fits in a chunk (larger numbers are written with <code>big</code>). A bits block contains only 0s and 1s.</dd>
+    <dd>Every symbol in a message block is in the registry (§9), and every number fits in a chunk (larger numbers are written with <code>num</code>). A bits block contains only 0s and 1s.</dd>
     <dt>Brackets</dt>
     <dd>Every message block is a sequence of complete sentences or single tokens: no <code>)</code> without a matching <code>(</code>, none left open. A sentence never continues in the next block.</dd>
     <dt>Registry</dt>

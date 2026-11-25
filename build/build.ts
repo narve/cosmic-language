@@ -7,7 +7,7 @@ import { defineClVocabulary } from "./components/cl-vocabulary.ts";
 import { defineClFiles } from "./components/cl-files.ts";
 import { BuildError, createWindow, parse, serialize } from "./dom.ts";
 import { findArticle, loadArticles, loadTopics } from "./lessons.ts";
-import { binaryDump, messageBinary, messageBits, messageStream, messageCode, messageText, readBlock, type Message } from "./message.ts";
+import { binaryDump, checkCodeLayout, messageBinary, messageBits, messageStream, messageCode, messageText, readBlock, type Message } from "./message.ts";
 import { loadRegistry } from "./registry.ts";
 import { VIEWS } from "./views.ts";
 import { enrichArticle } from "./enrich.ts";
@@ -146,6 +146,7 @@ async function build(): Promise<void> {
   mkdirSync(join(docs, "lessons"));
   for (const article of all) {
     const document = parse(window, article.source);
+    checkCodeLayout(document, `site/lessons/${article.slug}.html`);
     enrichArticle(findArticle(document, article.slug), article, [...VIEWS], { registry, usage, base: "../" });
     writeFileSync(join(docs, "lessons", `${article.slug}.html`), serialize(document));
   }
@@ -170,6 +171,7 @@ async function build(): Promise<void> {
   const render = async (html: string, file: string) => {
     const page = createWindow();
     page.document.write(html);
+    checkCodeLayout(page.document as unknown as Document, file);
     const base = "../".repeat(file.split("/").length - 1);
     defineClLessons(page, { articles, versions, topics, registry, usage, base });
     defineClVocabulary(page, usage);

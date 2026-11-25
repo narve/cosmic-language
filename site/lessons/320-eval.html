@@ -41,7 +41,8 @@
 ; eval can be applied to itself
 (= (eval (quote (eval (quote (+ 1 2))))) 3)
 ; and the value of a let is the value of its body
-(= (eval (quote (let u 2 (× u u)))) 4)</code></pre>
+(= (eval (quote (let u 2 (× u u)))) 4)
+    </code></pre>
     <h4>Expressions</h4>
     <p>
         The rules below speak of all <code>expressions</code>: everything a quoted sentence can be
@@ -53,7 +54,8 @@
 (∃ u expressions (= u (quote +)))
 (∃ u expressions (= u (quote (+ 2 3))))
 ; a list of expressions is an expression
-(∀ u expressions (∀ v expressions (∃ w expressions (= w (list u v)))))</code></pre>
+(∀ u expressions (∀ v expressions (∃ w expressions (= w (list u v)))))
+    </code></pre>
     <h4>The rules</h4>
     <p>
         A number is its own value, and so is an operator: it is passed on as it is, the way
@@ -61,7 +63,8 @@
     </p>
     <pre><code>
 (∀ u expressions (implies (= (type u) number) (= (eval u) u)))
-(∀ u expressions (implies (= (type u) operator) (= (eval u) u)))</code></pre>
+(∀ u expressions (implies (= (type u) operator) (= (eval u) u)))
+    </code></pre>
     <p>
         An operation: apply the operator to the values of its arguments. Seven operators work
         differently and are left out here: <code>quote</code> and <code>if</code>, which do not
@@ -73,7 +76,8 @@
   (implies (&gt; (length u) 0)
   (implies (= (type (item u 1)) operator)
   (implies (= (count (item u 1) (quote (quote if ∀ ∃ sequence average let))) 0)
-    (= (eval u) (apply (item u 1) (sequence v (rest u) (eval v)))))))))</code></pre>
+    (= (eval u) (apply (item u 1) (sequence v (rest u) (eval v)))))))))
+    </code></pre>
     <p>
         Quote gives its expression without computing it, and <code>if</code> computes only the
         branch it picks:
@@ -81,7 +85,8 @@
     <pre><code>
 (∀ u expressions (= (eval (list (quote quote) u)) u))
 (∀ u expressions (∀ v expressions (∀ w expressions
-  (= (eval (list (quote if) u v w)) (if (eval u) (eval v) (eval w))))))</code></pre>
+  (= (eval (list (quote if) u v w)) (if (eval u) (eval v) (eval w))))))
+    </code></pre>
     <p>
         A constant, a particle, an element or another named thing has the thing it names as its
         value, as in <code>(= (eval (quote π)) π)</code> above. With these few sentences, every

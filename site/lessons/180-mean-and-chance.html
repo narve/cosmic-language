@@ -26,7 +26,8 @@
 
 ; what mean means: the sum divided by the length
 (= (mean (list 2 4 9))
-   (÷ (apply + (list 2 4 9)) (length (list 2 4 9))))</code></pre>
+   (÷ (apply + (list 2 4 9)) (length (list 2 4 9))))
+    </code></pre>
     <p>
         The chance of a value in a list is the part of the list that is that value: how many of the
         items are that value, divided by the number of items. It is a proportion, nothing more.
@@ -45,7 +46,8 @@
 (= (chance 3 (list 3 1 3))
    (÷ (count 3 (list 3 1 3)) (length (list 3 1 3))))
 ; the chances of all the different items add up to 1
-(= (+ (chance 1 (list 1 2 2)) (chance 2 (list 1 2 2))) 1)</code></pre>
+(= (+ (chance 1 (list 1 2 2)) (chance 2 (list 1 2 2))) 1)
+    </code></pre>
     <p>
         <code>pairs</code> makes every pair of an item from one list with an item from another. The
         chance of a pair is the product of the two chances:
@@ -68,7 +70,8 @@
 
 ; two picks from 1 to 6: the chance of two sixes is 1/36
 (= (chance (list 6 6) (pairs (list 1 2 3 4 5 6) (list 1 2 3 4 5 6)))
-   (÷ 1 36))</code></pre>
+   (÷ 1 36))
+    </code></pre>
 </article>
 </body>
 </html>

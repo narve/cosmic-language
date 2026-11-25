@@ -192,7 +192,7 @@ export class Interpreter {
         if (y.n === 0n) throw new Undefined(`division of ${show(x)} by zero`);
         return rational(x.n * y.d, x.d * y.n);
       }
-      case "big": return rational(a.map(q).reduce((s, digit) => s * 256n + digit.n, 0n));
+      case "num": return rational(a.map(q).reduce((s, digit) => s * 256n + digit.n, 0n));
       case "^": {
         const [x, e] = [q(a[0]), q(a[1])];
         if (e.d !== 1n || e.n < 0n) throw new Unknown(`^ with the exponent ${show(e)}`);

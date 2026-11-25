@@ -11,21 +11,15 @@
 <body>
 <article class="lesson" data-topic="math minimal">
     <h3>order</h3>
-    <p><small>AI generated</small></p>
+    <p>
+        We will now teach ordering - greater than <code>&gt;</code>, less than
+        <code>&lt;</code> etc.
+    </p>
     <pre><code>
 ; each number is less than the next …
 (&lt; 0 1)
 (&lt; 1 2)
-(&lt; 2 3)
-(&lt; 3 4)
 (&lt; 4 5)
-
-; … and the next is greater
-(&gt; 1 0)
-(&gt; 2 1)
-(&gt; 3 2)
-(&gt; 4 3)
-(&gt; 5 4)
 
 ; the numbers need not be neighbours
 (&lt; 1 3)
@@ -33,6 +27,7 @@
 (&lt; 0 9)
 (&lt; 3 255)
 
+; then greater than
 (&gt; 7 2)
 (&gt; 9 0)
 (&gt; 255 3)
@@ -46,7 +41,8 @@
 ; a chain: each number smaller (or larger) than the next
 (&lt; 1 2 3)
 (&lt; 0 5 9 255)
-(&gt; 9 4 1 0)</code></pre>
+(&gt; 9 4 1 0)
+    </code></pre>
     <p>
         Like <code>=</code>, <code>&lt;</code> and <code>&gt;</code> can take more than two
         arguments: <code>(&lt; 1 2 3)</code> means the numbers are strictly increasing.
@@ -73,9 +69,10 @@
 
 ; chains, like &lt; and &gt;
 (≤ 1 1 2 5)
-(≥ 5 2 1 1)</code></pre>
+(≥ 5 2 1 1)
+    </code></pre>
     <p>
-        Strictly, <code>≤</code> and <code>≥</code> are not needed: anything they say can be said
+        <code>≤</code> and <code>≥</code> are not strictly needed: anything they say can be said
         with <code>&lt;</code>, <code>&gt;</code> and <code>=</code>. They are included because they
         make later statements much easier to read.
     </p>

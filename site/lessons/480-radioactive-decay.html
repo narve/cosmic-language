@@ -35,7 +35,8 @@
 (observed (&lt; (^ 2 153) (÷ (lifetime neutron) planck-time) (^ 2 154)))
 ; a lifetime is a time, and so is every duration
 (= (dim (lifetime neutron)) T)
-(∀ u durations (= (dim u) T))</code></pre>
+(∀ u durations (= (dim u) T))
+    </code></pre>
     <p>
         The half-life is the duration after which the chance of survival is one half. That is
         exactly the chance of <data value="true">true</data> when picking from
@@ -46,7 +47,8 @@
 ; there is 1/2
 (= (survival neutron (half-life neutron)) (÷ 1 2))
 ; 1/2 is also the chance of true when picking from true and false
-(= (÷ 1 2) (chance true (list true false)))</code></pre>
+(= (÷ 1 2) (chance true (list true false)))
+    </code></pre>
     <p>
         A neutron has no memory: its chance of decaying does not depend on how long it has existed.
         So each half-life is a new, independent pick, and the chances multiply:
@@ -62,7 +64,8 @@
 ; chance is 1/2 to the power u
 (observed (∀ u ℕ
   (= (survival neutron (× u (half-life neutron)))
-     (^ (chance true (list true false)) u))))</code></pre>
+     (^ (chance true (list true false)) u))))
+    </code></pre>
     <p>
         The first law is the product rule that defined <code>exp</code>, so the chance for any
         duration is <code>exp</code> of that duration times a fixed factor. The mean lifetime sets
@@ -73,7 +76,8 @@
 ; the chance of surviving a duration u is exp(−u ÷ lifetime)
 (observed (∀ u durations
   (= (survival neutron u)
-     (exp (neg (÷ u (lifetime neutron)))))))</code></pre>
+     (exp (neg (÷ u (lifetime neutron)))))))
+    </code></pre>
     <p>
         These laws give the chance for a single neutron. In a real sample of many neutrons, the part
         that survives is close to this chance, but the message makes no claim about any particular
@@ -88,7 +92,8 @@
 ; hydrogen with 2 neutrons: between 2⁸ and 2⁹
 (observed (&lt; (^ 2 8)
               (÷ (half-life (isotope carbon 8)) (half-life (isotope hydrogen 2)))
-              (^ 2 9)))</code></pre>
+              (^ 2 9)))
+    </code></pre>
     <p>
         <small>Sources: NUBASE2020 (half-lives), CODATA 2022 (Planck time). Details in the
         <a href="../specification.html#reference">specification, §8.4</a>.</small>

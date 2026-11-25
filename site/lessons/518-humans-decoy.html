@@ -34,7 +34,8 @@
 ; we, the senders, are humans
 (stated (∃ u humans (= u we)))
 ; and all humans live on one body that goes round our planet
-(stated (∃ v bodies (and (orbits v earth) (∀ u humans (at u v)))))</code></pre>
+(stated (∃ v bodies (and (orbits v earth) (∀ u humans (at u v)))))
+    </code></pre>
     <p>
         How big we are, in the units of the message. Each value is an average over all of us.
     </p>
@@ -47,7 +48,8 @@
 ; between 2¹¹⁷ and 2¹¹⁸ Planck lengths, about 1.15 × 2¹¹⁷
 (observed (&lt; (^ 2 117) (÷ (average u humans (height u)) planck-length) (^ 2 118)))
 ; and no human is as tall as 2¹¹⁸ Planck lengths
-(observed (∀ u humans (&lt; (height u) (× (^ 2 118) planck-length))))</code></pre>
+(observed (∀ u humans (&lt; (height u) (× (^ 2 118) planck-length))))
+    </code></pre>
     <p>
         We are warm, warmer than water's triple point, so that the water inside us stays liquid, but
         less warm than bodies on a planet with more light would need to be.
@@ -57,7 +59,8 @@
 ; about 1.09
 (observed (&lt; (÷ 17 16) (÷ (average u humans (temperature u)) (triple-point water)) (÷ 9 8)))
 ; every living human is warmer than the triple point of water
-(observed (∀ u humans (&gt; (temperature u) (triple-point water))))</code></pre>
+(observed (∀ u humans (&gt; (temperature u) (triple-point water))))
+    </code></pre>
     <p>
         What we are made of. Most of our atoms are hydrogen, then oxygen, carbon and nitrogen, with
         smaller amounts of eight more elements. Water is the most common molecule in us by far, and
@@ -80,7 +83,8 @@
   (∀ v (list calcium phosphorus potassium sulfur sodium chlorine magnesium iron)
     (&gt; (count v u) 0))))
 ; and more than half of a human's mass is water, on average
-(observed (&gt; (average u humans (÷ (× (count water u) (mass water)) (mass u))) (÷ 1 2)))</code></pre>
+(observed (&gt; (average u humans (÷ (× (count water u) (mass water)) (mass u))) (÷ 1 2)))
+    </code></pre>
     <p>
         Our heredity is <code>xna</code>, the double helix of the lesson on the chemistry of life.
         <code>genome</code> gives one full set of these molecules in a cell; a cell of ours holds
@@ -95,7 +99,8 @@
 ; together between 2³³ and 2³⁴ base pairs, about 1.5 × 2³³
 (observed (&lt; (^ 2 33)
               (average u humans (apply + (sequence v (genome u) (length (item (strands v) 1)))))
-              (^ 2 34)))</code></pre>
+              (^ 2 34)))
+    </code></pre>
     <p>
         <small>Sources: none for the senders, who are invented; their values are in
         <code>build/check/measurements.ts</code> and on the <a href="../decoy.html">decoy</a> page.

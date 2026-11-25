@@ -41,7 +41,8 @@
 ; and no bad
 (stated (let w (quote (= (&lt; 2 3) ?))
           (let v (fill w false)
-            (bad we (list (list w) (list v))))))</code></pre>
+            (bad we (list (list w) (list v))))))
+    </code></pre>
     <p>
         Good is not the same as true. A right reply can be bad, because it does not do what the
         question asked. Hans Freudenthal's Lincos (1960) took the same step: there a speaker calls
@@ -79,7 +80,8 @@
 ; and bad after "what is 2 + 3?", which it does not answer
 (stated (let w (quote (= (+ 2 3) ?))
           (let v (quote (= (+ 1 1) 2))
-            (bad we (list (list w) (list v))))))</code></pre>
+            (bad we (list (list w) (list v))))))
+    </code></pre>
     <p>
         A judgement belongs to the party that makes it. No party finds the same conversation both
         good and bad, but two parties can judge it differently.
@@ -93,7 +95,8 @@
 
 ; and one thing we find bad whenever we meet it: a message that
 ; says something false
-(stated (∀ u expressions (implies (= (eval u) false) (bad we (list (list u))))))</code></pre>
+(stated (∀ u expressions (implies (= (eval u) false) (bad we (list (list u))))))
+    </code></pre>
     <p>
         Parties do not only talk; they also act toward each other, again and again, like the players
         of the prisoner's dilemma. New: <code>strategy</code>.
@@ -112,7 +115,8 @@
 
 ; a party that plays tit-for-tat toward another opens with peace
 (∀ u parties (∀ v parties (implies (= (strategy u v) tit-for-tat)
-  (= (move (strategy u v) (list)) (list cooperate)))))</code></pre>
+  (= (move (strategy u v) (list)) (list cooperate)))))
+    </code></pre>
 </article>
 </body>
 </html>

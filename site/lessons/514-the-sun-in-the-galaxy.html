@@ -37,7 +37,8 @@
 (observed (&lt; (^ 2 12)
   (÷ (× 4 (^ π 2) (^ (distance sun galaxy-centre) 3))
      (× G (mass galaxy-centre) (^ (period sun galaxy-centre) 2)))
-  (^ 2 16)))</code></pre>
+  (^ 2 16)))
+    </code></pre>
     <p>
         The centre's mass marks it out: no other body in the Galaxy is so heavy. But it is not what
         keeps the Sun on its orbit. That is the mass of the whole Galaxy inside the orbit, stars,
@@ -73,7 +74,8 @@
 (= galactic-pole (cross toward-centre along-rotation))
 (= (dot galactic-pole galactic-pole) 1)
 (= (dot galactic-pole toward-centre) 0)
-(= (dot galactic-pole along-rotation) 0)</code></pre>
+(= (dot galactic-pole along-rotation) 0)
+    </code></pre>
     <p>
         Relative to the centre, the Sun moves almost along <code>along-rotation</code>, as the stars
         around it do on average. New: <code>velocity</code>, the velocity of one body relative to
@@ -85,7 +87,8 @@
 (observed (&lt; (÷ 1 (^ 2 11)) (÷ (dot (velocity sun galaxy-centre) along-rotation) c) (÷ 1 (^ 2 10))))
 ; and a little toward the centre, and toward the pole
 (observed (&lt; 0 (÷ (dot (velocity sun galaxy-centre) toward-centre) c) (÷ 1 (^ 2 13))))
-(observed (&lt; 0 (÷ (dot (velocity sun galaxy-centre) galactic-pole) c) (÷ 1 (^ 2 14))))</code></pre>
+(observed (&lt; 0 (÷ (dot (velocity sun galaxy-centre) galactic-pole) c) (÷ 1 (^ 2 14))))
+    </code></pre>
     <p>
         So far the message says only that <code>along-rotation</code> is at right angles to
         <code>toward-centre</code>, which leaves a whole circle of directions. The axes of the
@@ -101,7 +104,8 @@
 ; the direction of rotation, in the same axes
 (observed (&lt; (÷ 1 2) (dot along-rotation first-axis) 1))
 (observed (&lt; (÷ 1 8) (dot along-rotation second-axis) (÷ 7 8)))
-(observed (&lt; (÷ 1 4) (dot along-rotation third-axis) (÷ 3 4)))</code></pre>
+(observed (&lt; (÷ 1 4) (dot along-rotation third-axis) (÷ 3 4)))
+    </code></pre>
     <p>
         <small>Sources: Particle Data Group 2024, table of astrophysical constants (the Sun's
         distance from the centre, 8.275 kpc, and the speed of circular orbits there, 233.4 km/s); R.

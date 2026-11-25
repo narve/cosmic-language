@@ -39,7 +39,8 @@
 ; a little all the time
 (∀ u pulsars (∃ v bodies (= u v)))
 (∀ u pulsars (= (dim (pulse-period u)) T))
-(observed (∀ u pulsars (&gt; (slowing u) 0)))</code></pre>
+(observed (∀ u pulsars (&gt; (slowing u) 0)))
+    </code></pre>
     <p>
         Each pulsar is given by its period, by how fast it slows, and by its direction from our star
         in the three directions of the Galaxy. Seen from anywhere else, the same pulsars lie in
@@ -118,7 +119,8 @@
 ; seen from our star, it lies in this direction (its part toward the
 ; centre depends on its distance, which is poorly known)
 (observed (&lt; (neg 1) (dot (direction-from sun pulsar-j1921) along-rotation) (neg (÷ 15 32))))
-(observed (&lt; (neg (÷ 11 32)) (dot (direction-from sun pulsar-j1921) galactic-pole) (÷ 1 16)))</code></pre>
+(observed (&lt; (neg (÷ 11 32)) (dot (direction-from sun pulsar-j1921) galactic-pole) (÷ 1 16)))
+    </code></pre>
     <p>
         <small>Sources: ATNF Pulsar Catalogue 2.6.1 (periods, slowing, directions and both distances
         of the six pulsars and of PSR B1951+32), the place of Kepler-1647 from the NASA Exoplanet

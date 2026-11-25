@@ -33,7 +33,8 @@
 ; the field
 (∀ u rings (∀ v rings
   (implies (and (= (radius u) (radius v)) (= (abs (current u)) (× 2 (abs (current v)))))
-           (= (field-strength u) (× 2 (field-strength v))))))</code></pre>
+           (= (field-strength u) (× 2 (field-strength v))))))
+    </code></pre>
     <p>
         The field points along the axis of the ring, and which way it points is given by
         <code>cross</code>, just as for spin. This is a second way to tie the hand of
@@ -59,7 +60,8 @@
 ; spin axis, or against it
 (observed (= (dot (field-direction proton) (spin-axis proton)) 1))
 (observed (= (dot (field-direction electron) (spin-axis electron)) (neg 1)))
-(observed (= (dot (field-direction neutron) (spin-axis neutron)) (neg 1)))</code></pre>
+(observed (= (dot (field-direction neutron) (spin-axis neutron)) (neg 1)))
+    </code></pre>
 </article>
 </body>
 </html>

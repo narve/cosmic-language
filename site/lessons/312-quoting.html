@@ -54,7 +54,8 @@
 
 ; quoted expressions can be nested
 (= (item (quote (= (+ 2 3) 5)) 2) (quote (+ 2 3)))
-(= (item (quote (quote 7)) 1) (quote quote))</code></pre>
+(= (item (quote (quote 7)) 1) (quote quote))
+    </code></pre>
     <p>
         Because a quoted sentence is only mentioned, it may be false. This is the first time a false
         relation is written out in the message, and it is never asserted:
@@ -64,7 +65,8 @@
 (= (length (quote (= 2 3))) 3)
 (= (item (quote (= 2 3)) 1) (quote =))
 (= (item (quote (= 2 3)) 3) 3)
-(≠ (quote (= 2 3)) (quote (= 3 3)))</code></pre>
+(≠ (quote (= 2 3)) (quote (= 3 3)))
+    </code></pre>
     <p>
         <code>type</code> tells what kind of thing a part of an expression is. Its values are the
         token types the message has used from the start, the first chunk of every token: 0 for a
@@ -89,7 +91,8 @@
 
 ; an operator in a quoted expression is a symbol like any other
 (= (type (item (quote (+ 2 3)) 1)) operator)
-(= (type (item (quote (+ 2 3)) 2)) number)</code></pre>
+(= (type (item (quote (+ 2 3)) 2)) number)
+    </code></pre>
     <p>
         Inside a quote, <var>u</var> is just a symbol of type 4 (<code>variable</code>), not a
         variable standing for a number.

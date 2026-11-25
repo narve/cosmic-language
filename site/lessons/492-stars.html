@@ -41,7 +41,8 @@
 ; so its luminosity follows from its radius and its temperature
 (∀ u stars (= (luminosity u)
               (× 4 π (^ (radius u) 2)
-                 (× (÷ (^ π 2) 60) (÷ (^ kB 4) (× (^ ħ 3) (^ c 2))) (^ (temperature u) 4)))))</code></pre>
+                 (× (÷ (^ π 2) 60) (÷ (^ kB 4) (× (^ ħ 3) (^ c 2))) (^ (temperature u) 4)))))
+    </code></pre>
     <p>
         These stars are made mostly of hydrogen, then helium. They shine by turning hydrogen into
         helium: four hydrogen atoms weigh more than one atom of helium with two neutrons, and the
@@ -59,7 +60,8 @@
 ; (about 0.7 % of the mass goes)
 (observed (&lt; (− 1 (÷ 1 (^ 2 7)))
               (÷ (mass (isotope helium 2)) (× 4 (mass (isotope hydrogen 0))))
-              (− 1 (÷ 1 (^ 2 8)))))</code></pre>
+              (− 1 (÷ 1 (^ 2 8)))))
+    </code></pre>
     <p>
         New: <code>orbits</code>, one body going round another under gravity, <code>period</code>,
         the time one round takes, and <code>axis</code>, the size of the orbit: half the sum of the
@@ -78,7 +80,8 @@
   (implies (orbits u v)
     (= (^ (period u v) 2)
        (÷ (× 4 (^ π 2) (^ (axis u v) 3))
-          (× G (+ (mass u) (mass v)))))))))</code></pre>
+          (× G (+ (mass u) (mass v)))))))))
+    </code></pre>
     <p>
         <small>Sources: AME2020 (masses of hydrogen and helium). Details in the
         <a href="../specification.html#reference">specification, §8.4</a>.</small>

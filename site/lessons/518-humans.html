@@ -23,7 +23,8 @@
 ; we, the senders, are humans
 (stated (∃ u humans (= u we)))
 ; and humans live on the Earth
-(stated (∀ u humans (at u earth)))</code></pre>
+(stated (∀ u humans (at u earth)))
+    </code></pre>
     <p>
         How big we are, in the units of the message. Each value is an average over all humans. The
         message cannot say "grown-up", so the ranges are wide enough to hold with children counted
@@ -38,7 +39,8 @@
 ; between 2¹¹⁶ and 2¹¹⁷ Planck lengths, about 1.24 × 2¹¹⁶
 (observed (&lt; (^ 2 116) (÷ (average u humans (height u)) planck-length) (^ 2 117)))
 ; and no human is as tall as 2¹¹⁸ Planck lengths
-(observed (∀ u humans (&lt; (height u) (× (^ 2 118) planck-length))))</code></pre>
+(observed (∀ u humans (&lt; (height u) (× (^ 2 118) planck-length))))
+    </code></pre>
     <p>
         We are warm: warmer than water's triple point, so that the water inside us stays liquid, and
         not much warmer.
@@ -48,7 +50,8 @@
 ; about 1.135
 (observed (&lt; (÷ 9 8) (÷ (average u humans (temperature u)) (triple-point water)) (÷ 73 64)))
 ; every living human is warmer than the triple point of water
-(observed (∀ u humans (&gt; (temperature u) (triple-point water))))</code></pre>
+(observed (∀ u humans (&gt; (temperature u) (triple-point water))))
+    </code></pre>
     <p>
         What we are made of. Most of our atoms are hydrogen, then oxygen, carbon and nitrogen, with
         smaller amounts of eight more elements. Water is the most common molecule in us by far, and
@@ -70,7 +73,8 @@
   (∀ v (list calcium phosphorus potassium sulfur sodium chlorine magnesium iron)
     (&gt; (count v u) 0))))
 ; and more than half of a human's mass is water, on average
-(observed (&gt; (average u humans (÷ (× (count water u) (mass water)) (mass u))) (÷ 1 2)))</code></pre>
+(observed (&gt; (average u humans (÷ (× (count water u) (mass water)) (mass u))) (÷ 1 2)))
+    </code></pre>
     <p>
         Our heredity is DNA. <code>genome</code> gives one full set of the DNA molecules in a cell;
         a cell of ours holds two such sets, one from each parent. A human set is 23 molecules,
@@ -84,7 +88,8 @@
 ; together between 2³¹ and 2³² base pairs, about 1.4 × 2³¹
 (observed (&lt; (^ 2 31)
               (average u humans (apply + (sequence v (genome u) (length (item (strands v) 1)))))
-              (^ 2 32)))</code></pre>
+              (^ 2 32)))
+    </code></pre>
     <p>
         <small>Sources: S. C. Walpole and others (2012) (average body mass), NCD Risk Factor
         Collaboration (2016) (height), M. Protsiv and others (2020) (body temperature), S. Nurk and

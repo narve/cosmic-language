@@ -11,34 +11,34 @@
 <body>
 <article class="lesson" data-topic="math minimal">
     <h3>large numbers</h3>
-    <p><small>AI generated</small></p>
     <p>
-        <code>big</code> writes a number with several digits in base 256, most significant digit
-        first: <code>(big 1 0)</code> means 1·256 + 0.
+        <code>num</code> writes a number with several digits in base 256, most significant digit
+        first: <code>(num 1 0)</code> means 1·256 + 0.
     </p>
     <pre><code>
-; (big 1 0) is 256, the number after 255; it is also 16 × 16
-(= (big 1 0) (+ 255 1))
-(= (big 1 1) (+ 255 2))
-(= (big 1 0) (× 16 16))
+; (num 1 0) is 256, the number after 255; it is also 16 × 16
+(= (num 1 0) (+ 255 1))
+(= (num 1 1) (+ 255 2))
+(= (num 1 0) (× 16 16))
 
 ; the first digit counts 256s, the second counts ones
-(= (big 2 0) (× 2 (big 1 0)))
-(= (big 1 5) (+ (big 1 0) 5))
+(= (num 2 0) (× 2 (num 1 0)))
+(= (num 1 5) (+ (num 1 0) 5))
 
-(&lt; 255 (big 1 0))
-(&gt; (big 2 0) (big 1 255))
+(&lt; 255 (num 1 0))
+(&gt; (num 2 0) (num 1 255))
 
 ; counting on past 255: 254, 255, 256, 257, 258
-(&lt; 254 255 (big 1 0) (big 1 1) (big 1 2))
+(&lt; 254 255 (num 1 0) (num 1 1) (num 1 2))
 ; when the last digit is full, the next digit goes up: 511 + 1 = 512
-(= (big 1 255) (+ (big 1 0) 255))
-(= (+ (big 1 255) 1) (big 2 0))
+(= (num 1 255) (+ (num 1 0) 255))
+(= (+ (num 1 255) 1) (num 2 0))
 
-; three digits: (big 1 0 0) is 256 × 256
-(= (big 1 0 0) (× (big 1 0) (big 1 0)))</code></pre>
+; three digits: (num 1 0 0) is 256 × 256
+(= (num 1 0 0) (× (num 1 0) (num 1 0)))
+    </code></pre>
     <p>
-        As bits, the two digits of <code>(big 1 0)</code> are the value chunks <code>00000001</code>
+        As bits, the two digits of <code>(num 1 0)</code> are the value chunks <code>00000001</code>
         and <code>00000000</code>, each after its own type chunk. Put the two digits side by side
         and you have 256 in binary.
     </p>

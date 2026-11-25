@@ -11,36 +11,39 @@
 <body>
 <article class="lesson" data-topic="math logic minimal">
     <h3>truth values</h3>
-    <p><small>AI generated</small></p>
     <p>
         Until now every sentence has been an assertion. This lesson shows that a relation also has a
         <em>value</em>: <data value="true">true</data> or <data value="false">false</data>.
     </p>
     <p>
         Nothing false is asserted. Every relation in the message still holds:
-        <data value="false">false</data> appears only as a constant and as the value of an
+        <data value="false">false</data>
+        appears only as a constant and as the value of an
         expression built with <data value="not">not</data>, <data value="and">and</data> or
         <data value="or">or</data>.
     </p>
 
-    <h4>Relations have the value <data value="true">true</data></h4>
+    <h4>Relations have the value
+        <data value="true">true</data>
+    </h4>
     <pre><code>
 ; two new constants: each equals itself, and they differ
 (= true true)
 (= false false)
 (≠ true false)
-(≠ false true)
 
 ; a relation that holds has the value true
 (= (= 2 2) true)
 (= (&lt; 1 2) true)
 (= (≠ 3 4) true)
-(= (&gt; 5 1 0) true)
 
 ; all three are equal: true, and two relations that hold
-(= true (= 7 7) (&lt; 0 255))</code></pre>
+(= true (= 7 7) (&lt; 0 255))
+    </code></pre>
 
-    <h4><data value="not">not</data></h4>
+    <h4>
+        <data value="not">not</data>
+    </h4>
     <pre><code>
 ; not turns true into false and false into true
 (= (not true) false)
@@ -51,25 +54,30 @@
 (= (not (&lt; 1 2)) false)
 
 ; applying it twice gives the original, like neg
-(= (not (not true)) true)</code></pre>
+(= (not (not true)) true)
+    </code></pre>
 
-    <h4><data value="and">and</data> and <data value="or">or</data></h4>
+    <h4>
+        <data value="and">and</data>
+        and
+        <data value="or">or</data>
+    </h4>
     <p>
         Both are associative, so they take two or more arguments.
     </p>
     <pre><code>
 ; and is true only when both are true
 (= (and true true) true)
-(= (and true false) false)
 
+(= (and true false) false)
 (= (and false true) false)
 (= (and false false) false)
 
 ; or is true when at least one is true
 (= (or true true) true)
 (= (or true false) true)
-
 (= (or false true) true)
+
 (= (or false false) false)
 
 ; with three arguments: all of them, or at least one of them
@@ -78,10 +86,13 @@
 
 ; a chain is an and of its steps
 (= (and (&lt; 1 2) (&lt; 2 3)) (&lt; 1 2 3))
-; a true part and a false part: together false
+
+; a true part and a false part
 (= (and (= 2 2) (not (= 3 3))) false)
+
 ; not of an and is the or of the nots
-(= (not (and true false)) (or (not true) (not false)))</code></pre>
+(= (not (and true false)) (or (not true) (not false)))
+    </code></pre>
     <p>
         Between truth values, <code>=</code> means "equivalent", so no separate symbol is needed for
         that.

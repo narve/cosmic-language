@@ -29,7 +29,8 @@
 (∀ u ℕ (∀ v ℕ (= (rest (list u v)) (list v))))
 ; the second item of the rest is the third item of the list
 (∀ u ℕ (∀ v ℕ (∀ w ℕ
-  (= (item (rest (list u v w)) 2) (item (list u v w) 3)))))</code></pre>
+  (= (item (rest (list u v w)) 2) (item (list u v w) 3)))))
+    </code></pre>
     <p>
         <code>rest</code> is never applied to an empty list.
     </p>
@@ -50,7 +51,8 @@
 ; only the value that is picked is computed: here (÷ 1 u) is never
 ; computed for u = 0
 (∀ u ℚ (= (if (= u 0) 0 (× u (÷ 1 u)))
-          (if (= u 0) 0 1)))</code></pre>
+          (if (= u 0) 0 1)))
+    </code></pre>
 </article>
 </body>
 </html>

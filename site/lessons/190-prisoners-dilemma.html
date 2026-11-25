@@ -24,7 +24,8 @@
 (= (length moves) 2)
 
 ; every move is one or the other
-(∀ u moves (or (= u cooperate) (= u defect)))</code></pre>
+(∀ u moves (or (= u cooperate) (= u defect)))
+    </code></pre>
     <p>
         Two players each pick a move, at the same moment, neither knowing what the other picks. New:
         <code>loss</code>, what the round costs a player. Its first argument is the player's own
@@ -54,7 +55,8 @@
 ; exploits the other, 10 when both defect
 (= (+ (loss cooperate cooperate) (loss cooperate cooperate)) 6)
 (= (+ (loss cooperate defect) (loss defect cooperate)) 9)
-(= (+ (loss defect defect) (loss defect defect)) 10)</code></pre>
+(= (+ (loss defect defect) (loss defect defect)) 10)
+    </code></pre>
     <p>
         This is the dilemma. Whatever the other player does, a player loses less by defecting. Yet
         if both reason that way, each ends up losing more than if both had cooperated.
@@ -71,7 +73,8 @@
 ; and cooperating together costs less than taking turns to exploit
 ; each other: 2 × 3 is less than 2 + 7
 (&lt; (× 2 (loss cooperate cooperate))
-    (+ (loss defect cooperate) (loss cooperate defect)))</code></pre>
+    (+ (loss defect cooperate) (loss cooperate defect)))
+    </code></pre>
     <p>
         The numbers alone do not say which outcome we want, so we say it. New: <code>we</code>, the
         senders of this message; <code>stated</code>, which marks something we say about ourselves,
@@ -97,7 +100,8 @@
   (= (bad we (list u v)) (or (= u defect) (= v defect))))))
 ; no round is both
 (stated (∀ u moves (∀ v moves
-  (not (and (good we (list u v)) (bad we (list u v)))))))</code></pre>
+  (not (and (good we (list u v)) (bad we (list u v)))))))
+    </code></pre>
 
     <h4>Strategies</h4>
     <p>
@@ -159,7 +163,8 @@
 
 ; random: whatever has happened, it picks one of the two moves by
 ; chance
-(∀ u histories (= (move random u) (list cooperate defect)))</code></pre>
+(∀ u histories (= (move random u) (list cooperate defect)))
+    </code></pre>
 
     <h4>The same strategies with <code>if</code></h4>
     <p>
@@ -196,7 +201,8 @@
       (if (= (item (item u (length u)) 1)
              (item (item u (length u)) 2))
           (list cooperate)
-          (list defect)))))</code></pre>
+          (list defect)))))
+    </code></pre>
 
     <h4>Playing a game</h4>
     <p>
@@ -236,7 +242,8 @@
 (∀ u tournament (∀ v tournament (∀ w ℕ
   (= (cost u v w)
      (apply + (sequence z (rounds u v w)
-                (loss (item z 1) (item z 2))))))))</code></pre>
+                (loss (item z 1) (item z 2))))))))
+    </code></pre>
     <p>
         An example, played out in full:
     </p>
@@ -246,7 +253,8 @@
 (= (rounds tit-for-tat always-defect 4)
    (list (list cooperate defect) (list defect defect)
          (list defect defect) (list defect defect)))
-(= (cost tit-for-tat always-defect 4) 22)</code></pre>
+(= (cost tit-for-tat always-defect 4) 22)
+    </code></pre>
 
     <h4>Chance in the game</h4>
     <p>
@@ -261,7 +269,8 @@
 ; against itself it never needs to forgive: after a round in which
 ; both cooperated, it cooperates
 (= (move generous-tit-for-tat (list (list cooperate cooperate)))
-   (list cooperate))</code></pre>
+   (list cooperate))
+    </code></pre>
     <p>
         Forgiving costs a little against a player who always defects. In return, a single defection
         between two forgiving players need not echo back and forth for ever, as it does between
@@ -281,7 +290,8 @@
 ; against random, cooperating costs 3 or 7: a mean of 5 per round
 (= (mean (sequence u (move random (list)) (loss cooperate u))) 5)
 ; against random, defecting costs 2 or 5: a mean of 7/2 per round
-(= (mean (sequence u (move random (list)) (loss defect u))) (÷ 7 2))</code></pre>
+(= (mean (sequence u (move random (list)) (loss defect u))) (÷ 7 2))
+    </code></pre>
 
     <h4>Results over 255 rounds</h4>
     <p>
@@ -291,30 +301,31 @@
     </p>
     <pre><code>
 ; two that cooperate lose 765 each; two that defect lose 1275 each
-(= (cost tit-for-tat tit-for-tat 255) (big 2 253))
-(= (cost always-defect always-defect 255) (big 4 251))
+(= (cost tit-for-tat tit-for-tat 255) (num 2 253))
+(= (cost always-defect always-defect 255) (num 4 251))
 
 ; tit-for-tat is exploited only in the first round by always-defect:
 ; 1277 against 1272
-(= (cost tit-for-tat always-defect 255) (big 4 253))
-(= (cost always-defect tit-for-tat 255) (big 4 248))
+(= (cost tit-for-tat always-defect 255) (num 4 253))
+(= (cost always-defect tit-for-tat 255) (num 4 248))
 
 ; always-cooperate is exploited in every round: 1785 against 510
-(= (cost always-cooperate always-defect 255) (big 6 249))
-(= (cost always-defect always-cooperate 255) (big 1 254))
+(= (cost always-cooperate always-defect 255) (num 6 249))
+(= (cost always-defect always-cooperate 255) (num 1 254))
 
 ; pavlov is exploited every second round: 1531 against 891
-(= (cost pavlov always-defect 255) (big 5 251))
-(= (cost always-defect pavlov 255) (big 3 123))
+(= (cost pavlov always-defect 255) (num 5 251))
+(= (cost always-defect pavlov 255) (num 3 123))
 
 ; tit-for-tat against its suspicious twin: the first defection
 ; echoes back and forth, 1150 and 1145 instead of 765 each
-(= (cost tit-for-tat suspicious-tit-for-tat 255) (big 4 126))
-(= (cost suspicious-tit-for-tat tit-for-tat 255) (big 4 121))
+(= (cost tit-for-tat suspicious-tit-for-tat 255) (num 4 126))
+(= (cost suspicious-tit-for-tat tit-for-tat 255) (num 4 121))
 
 ; grim never forgives that first defection: both lose 1274
-(= (cost grim suspicious-tit-for-tat 255) (big 4 250))
-(= (cost suspicious-tit-for-tat grim 255) (big 4 250))</code></pre>
+(= (cost grim suspicious-tit-for-tat 255) (num 4 250))
+(= (cost suspicious-tit-for-tat grim 255) (num 4 250))
+    </code></pre>
     <p>
         A tournament: each strategy plays all six, itself included. Always-defect never loses more
         than the player it meets, yet it ends up second to last. Last of all is the strategy that
@@ -324,13 +335,14 @@
     <pre><code>
 ; the total loss of each strategy over its six games: 5487, 5611,
 ; 5614, 5781, 6495, 6923
-(= (apply + (sequence u tournament (cost tit-for-tat u 255))) (big 21 111))
-(= (apply + (sequence u tournament (cost grim u 255))) (big 21 235))
-(= (apply + (sequence u tournament (cost always-cooperate u 255))) (big 21 238))
-(= (apply + (sequence u tournament (cost pavlov u 255))) (big 22 149))
-(= (apply + (sequence u tournament (cost always-defect u 255))) (big 25 95))
+(= (apply + (sequence u tournament (cost tit-for-tat u 255))) (num 21 111))
+(= (apply + (sequence u tournament (cost grim u 255))) (num 21 235))
+(= (apply + (sequence u tournament (cost always-cooperate u 255))) (num 21 238))
+(= (apply + (sequence u tournament (cost pavlov u 255))) (num 22 149))
+(= (apply + (sequence u tournament (cost always-defect u 255))) (num 25 95))
 (= (apply + (sequence u tournament (cost suspicious-tit-for-tat u 255)))
-   (big 27 11))</code></pre>
+   (num 27 11))
+    </code></pre>
 
 </article>
 </body>

@@ -26,7 +26,8 @@
 ; a little all the time
 (∀ u pulsars (∃ v bodies (= u v)))
 (∀ u pulsars (= (dim (pulse-period u)) T))
-(observed (∀ u pulsars (&gt; (slowing u) 0)))</code></pre>
+(observed (∀ u pulsars (&gt; (slowing u) 0)))
+    </code></pre>
     <p>
         Each pulsar is given by its period, by how fast it slows, and by its direction from the Sun
         in the three directions of the Galaxy. Seen from anywhere else, the same pulsars lie in
@@ -105,7 +106,8 @@
 ; seen from the Sun, it lies in this direction
 (observed (&lt; (÷ 1 2) (dot (direction-from sun pulsar-j1921) toward-centre) (÷ 5 8)))
 (observed (&lt; (÷ 3 4) (dot (direction-from sun pulsar-j1921) along-rotation) (÷ 29 32)))
-(observed (&lt; 0 (dot (direction-from sun pulsar-j1921) galactic-pole) (÷ 1 8)))</code></pre>
+(observed (&lt; 0 (dot (direction-from sun pulsar-j1921) galactic-pole) (÷ 1 8)))
+    </code></pre>
     <p>
         <small>Sources: ATNF Pulsar Catalogue 2.6.1 (periods, slowing and directions of the six
         pulsars), CODATA 2022 (the Planck time). Details in the

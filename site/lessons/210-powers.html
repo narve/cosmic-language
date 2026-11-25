@@ -36,11 +36,11 @@
 (= (^ 5 0) 1)
 
 ; 2⁸ is 256, the first number that needs two digits
-(= (^ 2 8) (big 1 0))
+(= (^ 2 8) (num 1 0))
 
 ; grouping matters: (2³)² is 64, but 2 to the power 3² is 512
 (= (^ (^ 2 3) 2) 64)
-(= (^ 2 (^ 3 2)) (big 2 0))
+(= (^ 2 (^ 3 2)) (num 2 0))
 (≠ (^ (^ 2 3) 2) (^ 2 (^ 3 2)))
 
 ; the laws: u² = u × u
@@ -48,7 +48,8 @@
 ; one more in the exponent is one more factor
 (∀ u ℝ (∀ v ℕ (= (^ u (+ v 1)) (× u (^ u v)))))
 ; adding exponents multiplies the powers
-(∀ u ℝ (∀ v ℕ (∀ w ℕ (= (^ u (+ v w)) (× (^ u v) (^ u w))))))</code></pre>
+(∀ u ℝ (∀ v ℕ (∀ w ℕ (= (^ u (+ v w)) (× (^ u v) (^ u w))))))
+    </code></pre>
     <p>
         With <code>sequence</code> from the lesson on sequences, the powers of 2 are one infinite
         sequence. And <code>apply</code> can add up an infinite sequence: applying <code>+</code> to
@@ -65,7 +66,8 @@
 (= (apply + (sequence u (list 0 1 2 3) (÷ 1 (^ 2 (+ u 1))))) (÷ 15 16))
 
 ; and all of them: 1/2 + 1/4 + 1/8 + … = 1
-(= (apply + (sequence u ℕ (÷ 1 (^ 2 (+ u 1))))) 1)</code></pre>
+(= (apply + (sequence u ℕ (÷ 1 (^ 2 (+ u 1))))) 1)
+    </code></pre>
 </article>
 </body>
 </html>

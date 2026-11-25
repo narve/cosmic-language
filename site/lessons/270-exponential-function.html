@@ -36,7 +36,8 @@
 (∀ u ℝ (≥ (exp u) (+ 1 u)))
 
 ; so exp of a negative number is 1 divided by exp of the positive
-(∀ u ℝ (= (× (exp u) (exp (neg u))) 1))</code></pre>
+(∀ u ℝ (= (× (exp u) (exp (neg u))) 1))
+    </code></pre>
     <p>
         Why these two properties are enough. The product rule ties all values to the one at 1: exp
         of 2 is exp of 1 times exp of 1, exp of 1/2 is the number whose square is exp of 1, and so
@@ -59,7 +60,8 @@
 ; close to 0, exp of u is close to 1 + u: where |u| ≤ 1, they differ
 ; by at most |u|²
 (∀ u ℂ (implies (≤ (abs u) 1)
-                   (≤ (abs (− (− (exp u) 1) u)) (^ (abs u) 2))))</code></pre>
+                   (≤ (abs (− (− (exp u) 1) u)) (^ (abs u) 2))))
+    </code></pre>
     <p>
         For a real <var>u</var>, exp of i × <var>u</var> is a complex number of absolute value
         exactly 1: it lies on the circle of radius 1 around 0. As <var>u</var> grows it does not
@@ -69,7 +71,8 @@
     <pre><code>
 ; exp of i times a real number has absolute value 1
 (∀ u ℝ (= (abs (exp (× i u))) 1))
-(= (abs (exp i)) 1)</code></pre>
+(= (abs (exp i)) 1)
+    </code></pre>
 </article>
 </body>
 </html>

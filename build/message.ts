@@ -31,6 +31,21 @@ export function messageCode(article: Element): Element[] {
   return Array.from(article.querySelectorAll("pre:not([data-illustration]) > code"));
 }
 
+// Every <pre><code> in the sources starts with a new line and ends with a new line (and the indentation of
+// </code></pre>). style.css relies on it: it hides that first and last line, which would show as empty lines.
+export function checkCodeLayout(root: ParentNode, where: string): void {
+  root.querySelectorAll("pre > code").forEach((code, index) => {
+    if (!/^\n[\s\S]*\n[ \t]*$/.test(code.textContent!)) {
+      throw new BuildError(`${where}, code block ${index + 1}: write <pre><code>, a new line, the lines, a new line, </code></pre>`);
+    }
+  });
+}
+
+// The lines of a code block, without the new line after <code> and the line of </code>.
+export function codeLines(code: Element): string[] {
+  return code.textContent!.replace(/^\n/, "").replace(/\n[ \t]*$/, "").split("\n");
+}
+
 export function readBlock(code: Element, registry: Registry, where: string): Block {
   // A comment runs from ";" to the end of its line and is not sent. In the lessons it is also marked up as
   // <span data-comment>, which only matters for how it looks: the spans are matched to the comments in order.
@@ -41,9 +56,9 @@ export function readBlock(code: Element, registry: Registry, where: string): Blo
   let depth = 0;
   const raw = code.parentElement!.hasAttribute("data-bits");
   let bits = "";
-  // A block may start on a new line after <code>, so that all its lines are aligned in the source: that first
-  // new line is not part of the block.
-  code.textContent!.replace(/^\n/, "").split("\n").forEach((text, index) => {
+  // A block starts on a new line after <code> and ends on a line of its own before </code> (checkCodeLayout), so
+  // that all its lines are aligned in the source: those two edges are not part of the block.
+  codeLines(code).forEach((text, index) => {
     const at = `${where}, line ${index + 1}`;
     const semicolon = text.indexOf(";");
     const line: Line = { text, code: semicolon < 0 ? text : text.slice(0, semicolon), tokens: [] };
@@ -75,7 +90,7 @@ function classify(text: string, start: number, registry: Registry, at: string): 
   if (text === "(" || text === ")") return { text, start, type: 1, value: text === "(" ? 0 : 1 };
   if (/^\d+$/.test(text)) {
     const value = Number(text);
-    if (value >= 2 ** CHUNK_BITS) throw new BuildError(`${at}: ${text} does not fit in a chunk; write it with big`);
+    if (value >= 2 ** CHUNK_BITS) throw new BuildError(`${at}: ${text} does not fit in a chunk; write it with num`);
     return { text, start, type: 0, value };
   }
   const symbol = registry.get(text);
